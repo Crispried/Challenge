@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,7 +43,12 @@
   <ItemGroup>
     <Compile Include="Abstract\IExampleService.cs" />
     <Compile Include="Concrete\ExampleService.cs" />
+    <Compile Include="Entities\ChallengeCase.cs" />
     <Compile Include="Entities\ExampleObject.cs" />
+    <Compile Include="Entities\GameInformation.cs" />
+    <Compile Include="Infrastructure\Archivator.cs" />
+    <Compile Include="Infrastructure\FileFormatter.cs" />
+    <Compile Include="Infrastructure\FileService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

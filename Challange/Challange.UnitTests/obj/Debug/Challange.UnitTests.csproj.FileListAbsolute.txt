@@ -1,1 +1,13 @@
 D:\Projects\C# Servocode\Challenge\Challange\Challange.UnitTests\obj\Debug\Challange.UnitTests.csprojResolveAssemblyReference.cache
+D:\Ruslan\Challenge\Challange\Challange.UnitTests\obj\Debug\Challange.UnitTests.csprojResolveAssemblyReference.cache
+D:\Ruslan\Challenge\Challange\Challange.UnitTests\bin\Debug\Challange.UnitTests.dll
+D:\Ruslan\Challenge\Challange\Challange.UnitTests\bin\Debug\Challange.UnitTests.pdb
+D:\Ruslan\Challenge\Challange\Challange.UnitTests\bin\Debug\Challange.Domain.dll
+D:\Ruslan\Challenge\Challange\Challange.UnitTests\bin\Debug\Challange.Presenter.dll
+D:\Ruslan\Challenge\Challange\Challange.UnitTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+D:\Ruslan\Challenge\Challange\Challange.UnitTests\bin\Debug\nunit.framework.dll
+D:\Ruslan\Challenge\Challange\Challange.UnitTests\bin\Debug\Challange.Domain.pdb
+D:\Ruslan\Challenge\Challange\Challange.UnitTests\bin\Debug\Challange.Presenter.pdb
+D:\Ruslan\Challenge\Challange\Challange.UnitTests\bin\Debug\nunit.framework.xml
+D:\Ruslan\Challenge\Challange\Challange.UnitTests\obj\Debug\Challange.UnitTests.dll
+D:\Ruslan\Challenge\Challange\Challange.UnitTests\obj\Debug\Challange.UnitTests.pdb

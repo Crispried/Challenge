@@ -11,5 +11,18 @@ namespace Challange.Presenter.Presenters
 {
     public class ExamplePresenter : BasePresenter<IExampleView, ExampleObject>
     {
+        private ExampleObject exampleObject;
+
+        public ExamplePresenter(IApplicationController controller,
+                                IExampleView exampleView) : base(controller, exampleView)
+        {
+            
+        }
+
+        public override void Run(ExampleObject argument)
+        {
+            exampleObject = argument;
+            View.Show();
+        }
     }
 }

@@ -71,16 +71,13 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ArchivatorTests.cs" />
+    <Compile Include="FileFormatterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Challange.Domain\Challange.Domain.csproj">
       <Project>{35d90601-427a-4c1c-a6ca-2b1ed6be749c}</Project>
       <Name>Challange.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Challange.Infrastructure\Challange.Infrastructure.csproj">
-      <Project>{86823342-96cc-4a76-90b7-ebee8043c425}</Project>
-      <Name>Challange.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\Challange.Presenter\Challange.Presenter.csproj">
       <Project>{59febcd1-63dd-4e6c-a801-2da258e49ee6}</Project>
