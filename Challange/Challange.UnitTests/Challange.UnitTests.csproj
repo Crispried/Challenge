@@ -43,8 +43,9 @@
       <HintPath>..\packages\NUnitTestAdapter.2.0.0\lib\nunit.core.interfaces.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\..\..\Perfect Tetris\Tetris\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="nunit.util, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnitTestAdapter.2.0.0\lib\nunit.util.dll</HintPath>
@@ -69,12 +70,17 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ArchivatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Challange.Domain\Challange.Domain.csproj">
       <Project>{35d90601-427a-4c1c-a6ca-2b1ed6be749c}</Project>
       <Name>Challange.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Challange.Infrastructure\Challange.Infrastructure.csproj">
+      <Project>{86823342-96cc-4a76-90b7-ebee8043c425}</Project>
+      <Name>Challange.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\Challange.Presenter\Challange.Presenter.csproj">
       <Project>{59febcd1-63dd-4e6c-a801-2da258e49ee6}</Project>

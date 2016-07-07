@@ -1,0 +1,5 @@
+D:\Projects\C# Servocode\Challenge\Challange\Challange.Infrastructure\bin\Debug\Challange.Infrastructure.dll
+D:\Projects\C# Servocode\Challenge\Challange\Challange.Infrastructure\bin\Debug\Challange.Infrastructure.pdb
+D:\Projects\C# Servocode\Challenge\Challange\Challange.Infrastructure\obj\Debug\Challange.Infrastructure.csprojResolveAssemblyReference.cache
+D:\Projects\C# Servocode\Challenge\Challange\Challange.Infrastructure\obj\Debug\Challange.Infrastructure.dll
+D:\Projects\C# Servocode\Challenge\Challange\Challange.Infrastructure\obj\Debug\Challange.Infrastructure.pdb
