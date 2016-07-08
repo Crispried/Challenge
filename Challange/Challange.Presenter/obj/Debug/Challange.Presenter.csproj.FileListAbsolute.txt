@@ -1,7 +1,0 @@
-D:\Projects\C# Servocode\Challenge\Challange\Challange.Presenter\bin\Debug\Challange.Presenter.dll
-D:\Projects\C# Servocode\Challenge\Challange\Challange.Presenter\bin\Debug\Challange.Presenter.pdb
-D:\Projects\C# Servocode\Challenge\Challange\Challange.Presenter\bin\Debug\Challange.Domain.dll
-D:\Projects\C# Servocode\Challenge\Challange\Challange.Presenter\bin\Debug\Challange.Domain.pdb
-D:\Projects\C# Servocode\Challenge\Challange\Challange.Presenter\obj\Debug\Challange.Presenter.csprojResolveAssemblyReference.cache
-D:\Projects\C# Servocode\Challenge\Challange\Challange.Presenter\obj\Debug\Challange.Presenter.dll
-D:\Projects\C# Servocode\Challenge\Challange\Challange.Presenter\obj\Debug\Challange.Presenter.pdb
