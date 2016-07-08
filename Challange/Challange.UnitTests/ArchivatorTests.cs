@@ -14,7 +14,7 @@ namespace Challange.UnitTests
         [TestFixture]
         public class UnitTest1
         {
-            // change on realtion path in future
+            // change to realtive path in the future
             private string correctInputDirectoryPath = @"test\ArchivatorTest";
             private string correctOutputFilePath = @"test\ArchivatorTestResult.zip";
 
@@ -30,10 +30,10 @@ namespace Challange.UnitTests
                 bool result = Archivate(incorrectInputDirectoryPath,
                                         incorrectOutputFilePath);
                 // Assert
-                Assert.IsFalse(File.Exists(incorrectOutputFilePath));
+                Assert.IsFalse(FileExists(incorrectOutputFilePath));
                 Assert.IsFalse(result);
             }
-
+            
             [Test]
             public void ArchivateMethodReturnsTrueAndCreatesArchive()
             {
@@ -43,15 +43,25 @@ namespace Challange.UnitTests
                                         correctOutputFilePath);
 
                 // Assert
-                Assert.IsTrue(File.Exists(correctOutputFilePath));
+                Assert.IsTrue(FileExists(correctInputDirectoryPath));
                 Assert.IsTrue(result);
-                // because of we don't want to leave archive which we created
-                FileService.DeleteFile(correctOutputFilePath);
+
+                DeleteFile(correctInputDirectoryPath);
             }
 
             private bool Archivate(string from, string to)
             {
                 return Archivator.Archivate(from, to);
+            }
+
+            private bool FileExists(string path)
+            {
+                return File.Exists(path);
+            }
+
+            private void DeleteFile(string path)
+            {
+                FileService.DeleteFile(path);
             }
         }
     }
