@@ -3,7 +3,3 @@ D:\Projects\C# Servocode\Challenge\Challange\Challange.Domain\bin\Debug\Challang
 D:\Projects\C# Servocode\Challenge\Challange\Challange.Domain\obj\Debug\Challange.Domain.csprojResolveAssemblyReference.cache
 D:\Projects\C# Servocode\Challenge\Challange\Challange.Domain\obj\Debug\Challange.Domain.dll
 D:\Projects\C# Servocode\Challenge\Challange\Challange.Domain\obj\Debug\Challange.Domain.pdb
-D:\Ruslan\Challenge\Challange\Challange.Domain\bin\Debug\Challange.Domain.dll
-D:\Ruslan\Challenge\Challange\Challange.Domain\bin\Debug\Challange.Domain.pdb
-D:\Ruslan\Challenge\Challange\Challange.Domain\obj\Debug\Challange.Domain.dll
-D:\Ruslan\Challenge\Challange\Challange.Domain\obj\Debug\Challange.Domain.pdb

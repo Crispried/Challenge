@@ -1,19 +1,15 @@
-D:\Ruslan\Challenge\Challange\Challange.Forms\obj\Debug\Challange.Forms.csprojResolveAssemblyReference.cache
-D:\Ruslan\Challenge\Challange\Challange.Forms\obj\Debug\Challange.Forms.Properties.Resources.resources
-D:\Ruslan\Challenge\Challange\Challange.Forms\obj\Debug\Challange.Forms.csproj.GenerateResource.Cache
-D:\Ruslan\Challenge\Challange\Challange.Forms\bin\Debug\Challange.Forms.exe.config
-D:\Ruslan\Challenge\Challange\Challange.Forms\bin\Debug\Challange.Forms.exe
-D:\Ruslan\Challenge\Challange\Challange.Forms\bin\Debug\Challange.Forms.pdb
-D:\Ruslan\Challenge\Challange\Challange.Forms\bin\Debug\Challange.Domain.dll
-D:\Ruslan\Challenge\Challange\Challange.Forms\bin\Debug\Challange.Presenter.dll
-D:\Ruslan\Challenge\Challange\Challange.Forms\bin\Debug\LightInject.dll
-D:\Ruslan\Challenge\Challange\Challange.Forms\bin\Debug\Challange.Domain.pdb
-D:\Ruslan\Challenge\Challange\Challange.Forms\bin\Debug\Challange.Presenter.pdb
-D:\Ruslan\Challenge\Challange\Challange.Forms\bin\Debug\LightInject.pdb
-D:\Ruslan\Challenge\Challange\Challange.Forms\bin\Debug\LightInject.xml
-D:\Ruslan\Challenge\Challange\Challange.Forms\obj\Debug\Challange.Forms.exe
-D:\Ruslan\Challenge\Challange\Challange.Forms\obj\Debug\Challange.Forms.pdb
 D:\Projects\C# Servocode\Challenge\Challange\Challange.Forms\bin\Debug\Challange.Forms.exe.config
+D:\Projects\C# Servocode\Challenge\Challange\Challange.Forms\bin\Debug\Challange.Forms.exe
+D:\Projects\C# Servocode\Challenge\Challange\Challange.Forms\bin\Debug\Challange.Forms.pdb
+D:\Projects\C# Servocode\Challenge\Challange\Challange.Forms\bin\Debug\Challange.Domain.dll
+D:\Projects\C# Servocode\Challenge\Challange\Challange.Forms\bin\Debug\Challange.Presenter.dll
+D:\Projects\C# Servocode\Challenge\Challange\Challange.Forms\bin\Debug\LightInject.dll
+D:\Projects\C# Servocode\Challenge\Challange\Challange.Forms\bin\Debug\Challange.Domain.pdb
+D:\Projects\C# Servocode\Challenge\Challange\Challange.Forms\bin\Debug\Challange.Presenter.pdb
+D:\Projects\C# Servocode\Challenge\Challange\Challange.Forms\bin\Debug\LightInject.pdb
+D:\Projects\C# Servocode\Challenge\Challange\Challange.Forms\bin\Debug\LightInject.xml
+D:\Projects\C# Servocode\Challenge\Challange\Challange.Forms\obj\Debug\Challange.Forms.csprojResolveAssemblyReference.cache
+D:\Projects\C# Servocode\Challenge\Challange\Challange.Forms\obj\Debug\Challange.Forms.Properties.Resources.resources
+D:\Projects\C# Servocode\Challenge\Challange\Challange.Forms\obj\Debug\Challange.Forms.csproj.GenerateResource.Cache
 D:\Projects\C# Servocode\Challenge\Challange\Challange.Forms\obj\Debug\Challange.Forms.exe
 D:\Projects\C# Servocode\Challenge\Challange\Challange.Forms\obj\Debug\Challange.Forms.pdb
-D:\Projects\C# Servocode\Challenge\Challange\Challange.Forms\obj\Debug\Challange.Forms.csprojResolveAssemblyReference.cache
