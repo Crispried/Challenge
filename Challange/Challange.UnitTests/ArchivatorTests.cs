@@ -43,11 +43,11 @@ namespace Challange.UnitTests
                                         correctOutputFilePath);
 
                 // Assert
-                Assert.IsTrue(FileExists(correctInputDirectoryPath));
+                Assert.IsTrue(FileExists(correctOutputFilePath));
                 Assert.IsTrue(result);
 
                 // Delete
-                DeleteFile(correctInputDirectoryPath);
+                DeleteFile(correctOutputFilePath);
             }
 
             private bool Archivate(string from, string to)
@@ -57,7 +57,7 @@ namespace Challange.UnitTests
 
             private bool FileExists(string path)
             {
-                return File.Exists(path);
+                return FileService.FileExists(path);
             }
 
             private void DeleteFile(string path)

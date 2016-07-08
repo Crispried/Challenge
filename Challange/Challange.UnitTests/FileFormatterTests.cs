@@ -49,6 +49,22 @@ namespace Challange.UnitTests
 
         private GameInformation GetGameInformation()
         {
+            GameInformation gameInformation = new GameInformation()
+            {
+                FirstTeam = "Red",
+                SecondTeam = "Blue",
+                FirstTeamScore = 10,
+                SecondTeamScore = 15,
+                WinnerTeam = "Blue",
+                GameStart = new DateTime(2016, 12, 3, 6, 35, 0),
+                GameEnd = new DateTime(2016, 12, 3, 7, 30, 0),
+                Challenges = GetChallenges()
+            };
+            return gameInformation;
+        }
+
+        private List<ChallengeCase> GetChallenges()
+        {
             List<ChallengeCase> challenges = new List<ChallengeCase>()
             {
                 new ChallengeCase()
@@ -62,20 +78,7 @@ namespace Challange.UnitTests
                     UrlToChallangeMovies = @"test\path\2"
                 }
             };
-
-            GameInformation gameInformation = new GameInformation()
-            {
-                FirstTeam = "Red",
-                SecondTeam = "Blue",
-                FirstTeamScore = 10,
-                SecondTeamScore = 15,
-                WinnerTeam = "Blue",
-                GameStart = new DateTime(2016, 12, 3, 6, 35, 0),
-                GameEnd = new DateTime(2016, 12, 3, 7, 30, 0),
-                Challenges = challenges
-            };
-
-            return gameInformation;
+            return challenges;
         }
 
         private void DeleteFile(string path)
@@ -88,9 +91,9 @@ namespace Challange.UnitTests
             return FileService.FileExists(path);
         }
 
-        private bool FormatXml(GameInformation gameInfroamtion, string correctOutputPathForXml)
+        private bool FormatXml(GameInformation gameInfroamtion, string outputPathForXml)
         {
-            return FileFormatter.FormatXml(gameInfroamtion, correctOutputPathForXml);
+            return FileFormatter.FormatXml(gameInfroamtion, outputPathForXml);
         }
     }
 }
