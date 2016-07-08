@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using System.IO;
-using Challange.Infrastructure.Archivator;
+using Challange.Domain.Infrastructure;
 
 namespace Challange.UnitTests
 {
@@ -14,77 +14,44 @@ namespace Challange.UnitTests
         [TestFixture]
         public class UnitTest1
         {
-            private string inputDirectoryPath = @"c:\example\start";
-
-            private string outputDirectoryPath = @"c:\example\result.zip";
-
-            [Test]
-            public void ArchivateMethodThrowsUnknownExceptionOne()
-            {
-                Assert.Throws<UnableToMakeArchiveException>(
-                    delegate
-                    {
-                        Archivate(null, null);
-                    }
-                );
-            }
+            // change on realtion path in future
+            private string correctInputDirectoryPath = @"test\ArchivatorTest";
+            private string correctOutputFilePath = @"test\ArchivatorTestResult.zip";
 
             [Test]
-            public void ArchivateMethodThrowsUnknownExceptionTwo()
+            public void ArchivateMethodReturnsFalse(
+                        [Values(null, "", @"c:\DirectoryNotFound")]
+                        string incorrectInputDirectoryPath, 
+                        [Values(null, "", @"c:\Archived\DirectoryNotFound")]
+                        string incorrectOutputFilePath)
             {
-                Assert.Throws<UnableToMakeArchiveException>(
-                    delegate
-                    {
-                        Archivate("", "");
-                    }
-                );
-            }
-
-            [Test]
-            public void ArchivateMethodThrowsUnknownExceptionIfDirectoryWasNotFound()
-            {
-                Assert.Throws<UnableToMakeArchiveException>(
-                    delegate
-                    {
-                        Archivate(@"c:\DirectoryNotFound", @"c:\Archived\DirectoryNotFound");
-                    }
-                );
+                // Arrange
+                // Act
+                bool result = Archivate(incorrectInputDirectoryPath,
+                                        incorrectOutputFilePath);
+                // Assert
+                Assert.IsFalse(File.Exists(incorrectOutputFilePath));
+                Assert.IsFalse(result);
             }
 
             [Test]
             public void ArchivateMethodReturnsTrueAndCreatesArchive()
             {
                 // Arrange
-
                 // Act
-                bool result = Archivate(GetInputDirectoryPath(),
-                                        GetOutputDirectoryPath());
+                bool result = Archivate(correctInputDirectoryPath,
+                                        correctOutputFilePath);
 
                 // Assert
-                Assert.IsTrue(File.Exists(GetOutputDirectoryPath()));
+                Assert.IsTrue(File.Exists(correctOutputFilePath));
                 Assert.IsTrue(result);
-
-                DeleteFile(GetOutputDirectoryPath());
-            }
-
-            private void DeleteFile(string path)
-            {
-                File.Delete(path);
+                // because of we don't want to leave archive which we created
+                FileService.DeleteFile(correctOutputFilePath);
             }
 
             private bool Archivate(string from, string to)
             {
                 return Archivator.Archivate(from, to);
-            }
-
-            private string GetInputDirectoryPath()
-            {
-                return this.inputDirectoryPath;
-            }
-
-            private string GetOutputDirectoryPath()
-            {
-                return this.outputDirectoryPath;
             }
         }
     }

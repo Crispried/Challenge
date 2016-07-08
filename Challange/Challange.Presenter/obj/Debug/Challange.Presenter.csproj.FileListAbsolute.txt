@@ -1,1 +1,8 @@
 D:\Projects\C# Servocode\Challenge\Challange\Challange.Presenter\obj\Debug\Challange.Presenter.csprojResolveAssemblyReference.cache
+D:\Ruslan\Challenge\Challange\Challange.Presenter\obj\Debug\Challange.Presenter.csprojResolveAssemblyReference.cache
+D:\Ruslan\Challenge\Challange\Challange.Presenter\bin\Debug\Challange.Presenter.dll
+D:\Ruslan\Challenge\Challange\Challange.Presenter\bin\Debug\Challange.Presenter.pdb
+D:\Ruslan\Challenge\Challange\Challange.Presenter\bin\Debug\Challange.Domain.dll
+D:\Ruslan\Challenge\Challange\Challange.Presenter\bin\Debug\Challange.Domain.pdb
+D:\Ruslan\Challenge\Challange\Challange.Presenter\obj\Debug\Challange.Presenter.dll
+D:\Ruslan\Challenge\Challange\Challange.Presenter\obj\Debug\Challange.Presenter.pdb
