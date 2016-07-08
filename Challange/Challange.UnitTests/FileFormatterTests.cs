@@ -23,10 +23,10 @@ namespace Challange.UnitTests
             var gameInfroamtion = GetGameInformation();
 
             // Act
-            bool result = FileFormatter.FormatXml(gameInfroamtion, incorrectOutputPath);
+            bool result = FormatXml(gameInfroamtion, incorrectOutputPath);
 
             // Assert
-            Assert.IsFalse(FileService.FileExists(incorrectOutputPath));
+            Assert.IsFalse(FileExists(incorrectOutputPath));
             Assert.IsFalse(result);
         }
 
@@ -37,13 +37,13 @@ namespace Challange.UnitTests
             var gameInfroamtion = GetGameInformation();
 
             // Act
-            bool result = FileFormatter.FormatXml(gameInfroamtion, correctOutputPathForXml);
+            bool result = FormatXml(gameInfroamtion, correctOutputPathForXml);
 
             // Assert
-            Assert.IsTrue(FileService.FileExists(correctOutputPathForXml));
+            Assert.IsTrue(FileExists(correctOutputPathForXml));
             Assert.IsTrue(result);
-            // because of we don't want to leave file which we created
-            FileService.DeleteFile(correctOutputPathForXml);
+
+            DeleteFile(correctOutputPathForXml);
         }
 
         private GameInformation GetGameInformation()
@@ -61,6 +61,7 @@ namespace Challange.UnitTests
                     UrlToChallangeMovies = @"test\path\2"
                 }
             };
+
             GameInformation gameInformation = new GameInformation()
             {
                 FirstTeam = "Red",
@@ -72,7 +73,23 @@ namespace Challange.UnitTests
                 GameEnd = new DateTime(2016, 12, 3, 7, 30, 0),
                 Challenges = challenges
             };
+
             return gameInformation;
+        }
+
+        private void DeleteFile(string path)
+        {
+            FileService.DeleteFile(path);
+        }
+
+        private bool FileExists(string path)
+        {
+            return FileService.FileExists(path);
+        }
+
+        private bool FormatXml(GameInformation gameInfroamtion, string correctOutputPathForXml)
+        {
+            return FileFormatter.FormatXml(gameInfroamtion, correctOutputPathForXml);
         }
     }
 }

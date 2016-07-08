@@ -11,3 +11,5 @@ D:\Ruslan\Challenge\Challange\Challange.UnitTests\bin\Debug\Challange.Presenter.
 D:\Ruslan\Challenge\Challange\Challange.UnitTests\bin\Debug\nunit.framework.xml
 D:\Ruslan\Challenge\Challange\Challange.UnitTests\obj\Debug\Challange.UnitTests.dll
 D:\Ruslan\Challenge\Challange\Challange.UnitTests\obj\Debug\Challange.UnitTests.pdb
+D:\Projects\C# Servocode\Challenge\Challange\Challange.UnitTests\obj\Debug\Challange.UnitTests.dll
+D:\Projects\C# Servocode\Challenge\Challange\Challange.UnitTests\obj\Debug\Challange.UnitTests.pdb
