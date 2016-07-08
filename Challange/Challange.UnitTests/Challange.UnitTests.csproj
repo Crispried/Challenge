@@ -78,6 +78,10 @@
       <Project>{35d90601-427a-4c1c-a6ca-2b1ed6be749c}</Project>
       <Name>Challange.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Challange.Forms\Challange.Forms.csproj">
+      <Project>{0cc7b668-0ab2-4c4c-ac0c-bcb2640fe101}</Project>
+      <Name>Challange.Forms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Challange.Infrastructure\Challange.Infrastructure.csproj">
       <Project>{86823342-96cc-4a76-90b7-ebee8043c425}</Project>
       <Name>Challange.Infrastructure</Name>

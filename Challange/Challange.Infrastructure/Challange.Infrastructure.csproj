@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Archivator\Archivator.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Concrete\FileService.cs" />
     <Compile Include="Exceptions\UnableToMakeArchiveException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
