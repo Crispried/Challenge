@@ -43,6 +43,7 @@ namespace Challange.UnitTests
             Assert.IsTrue(FileExists(correctOutputPathForXml));
             Assert.IsTrue(result);
 
+            // Delete
             DeleteFile(correctOutputPathForXml);
         }
 
