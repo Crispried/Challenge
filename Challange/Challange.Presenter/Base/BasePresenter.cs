@@ -9,16 +9,17 @@ namespace Challange.Presenter.Base
     public abstract class BasePresenter<TView> : IPresenter
             where TView : IView
     {
-        protected IView View { get; private set; }
+        protected TView View { get; private set; }
         protected IApplicationController Controller { get; private set; }
 
-        protected BasePresenter(IApplicationController controller, IView view)
+        protected BasePresenter(IApplicationController controller,
+                                TView view)
         {
-            View = view;
             Controller = controller;
+            View = view;
         }
 
-        public void Run()
+        public virtual void Run()
         {
             View.Show();
         }
@@ -27,13 +28,14 @@ namespace Challange.Presenter.Base
     public abstract class BasePresenter<TView, TArgument> : IPresenter<TArgument>
         where TView : IView
     {
-        protected IView View { get; private set; }
+        protected TView View { get; private set; }
         protected IApplicationController Controller { get; private set; }
 
-        protected BasePresenter(IApplicationController controller, IView view)
+        protected BasePresenter(IApplicationController controller,
+                                TView view)
         {
-            View = view;
             Controller = controller;
+            View = view;
         }
 
         public abstract void Run(TArgument argument);

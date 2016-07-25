@@ -10,8 +10,8 @@ namespace Challange.Presenter.Base
     {
         void Show();
 
-        void Hide();
-
         void Close();
+
+        void Refresh();
     }
 }

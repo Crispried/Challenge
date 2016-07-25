@@ -46,10 +46,15 @@
     <Compile Include="Entities\ChallengeCase.cs" />
     <Compile Include="Entities\ExampleObject.cs" />
     <Compile Include="Entities\GameInformation.cs" />
+    <Compile Include="SettingsService\SettingTypes\PlayerPanelSettings.cs" />
+    <Compile Include="SettingsService\SettingParser\PlayerPanelSettingsParser.cs" />
+    <Compile Include="SettingsService\SettingParser\ISettingsParser.cs" />
     <Compile Include="Infrastructure\Archivator.cs" />
-    <Compile Include="Infrastructure\FileFormatter.cs" />
+    <Compile Include="Infrastructure\FileWorker.cs" />
     <Compile Include="Infrastructure\FileService.cs" />
+    <Compile Include="SettingsService\SettingsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingsService\SettingTypes\Settings.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

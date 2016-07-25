@@ -10,9 +10,9 @@ using Challange.Domain.Infrastructure;
 namespace Challange.UnitTests
 {
     [TestFixture]
-    class FileFormatterTests
+    class FileWorkerTests
     {
-        private string correctOutputPathForXml = @"test\XmlFormatterResult";
+        private string correctOutputPathForXml = @"test\XmlFormatterResult.xml";
 
         [Test]
         public void FormatXmlMethodReturnsFalse(
@@ -44,7 +44,7 @@ namespace Challange.UnitTests
             Assert.IsTrue(result);
 
             // Delete
-            DeleteFile(correctOutputPathForXml);
+           // DeleteFile(correctOutputPathForXml);
         }
 
         private GameInformation GetGameInformation()
@@ -93,7 +93,7 @@ namespace Challange.UnitTests
 
         private bool FormatXml(GameInformation gameInfroamtion, string outputPathForXml)
         {
-            return FileFormatter.FormatXml(gameInfroamtion, outputPathForXml);
+            return FileWorker.SerializeXml(gameInfroamtion, outputPathForXml);
         }
     }
 }

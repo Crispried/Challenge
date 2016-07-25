@@ -9,6 +9,8 @@ using Challange.Presenter.Presenters;
 using Challange.Domain.Abstract;
 using Challange.Domain.Concrete;
 using Challange.Domain.Entities;
+using Challange.Domain.SettingsService.SettingTypes;
+using Challange.Domain.SettingsService;
 
 namespace Challange.Forms
 {
@@ -23,12 +25,12 @@ namespace Challange.Forms
             Application.SetCompatibleTextRenderingDefault(false);
 
             var controller = new ApplicationController(new LightInjectAdapter())
-                            .RegisterView<IExampleView, Form1>()
+                            .RegisterView<IMainView, MainForm>()
+                            .RegisterView<IPlayerPanelSettingsView, PlayerPanelSettingss>()
                             .RegisterService<IExampleService, ExampleService>()
                             .RegisterInstance(new ApplicationContext());
 
-            ExampleObject example = new ExampleObject();
-            controller.Run<ExamplePresenter, ExampleObject>(example);
+            controller.Run<MainPresenter>();
         }
     }
 }

@@ -71,7 +71,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ArchivatorTests.cs" />
-    <Compile Include="FileFormatterTests.cs" />
+    <Compile Include="FileWorkerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -10,11 +10,11 @@ using System.Xml.Serialization;
 
 namespace Challange.Domain.Infrastructure
 {
-    public static class FileFormatter
+    public static class FileWorker
     {
-        public static bool FormatXml(GameInformation gameInfo, string outputPath)
+        public static bool SerializeXml(object objectToSerialize, string outputPath)
         {
-            XmlSerializer xsSubmit = new XmlSerializer(typeof(GameInformation));
+            XmlSerializer xsSubmit = new XmlSerializer(objectToSerialize.GetType());
             try
             {
                 using (StreamWriter stringWriter = new StreamWriter(
@@ -24,7 +24,7 @@ namespace Challange.Domain.Infrastructure
                     {
                         try
                         {
-                            xsSubmit.Serialize(writer, gameInfo);
+                            xsSubmit.Serialize(writer, objectToSerialize);
                         }
                         catch
                         {
