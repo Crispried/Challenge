@@ -54,11 +54,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PlayerPanelSettingss.cs">
+    <Compile Include="PlayerPanelSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PlayerPanelSettingss.Designer.cs">
-      <DependentUpon>PlayerPanelSettingss.cs</DependentUpon>
+    <Compile Include="PlayerPanelSettingsForm.Designer.cs">
+      <DependentUpon>PlayerPanelSettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -78,8 +78,8 @@
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PlayerPanelSettingss.resx">
-      <DependentUpon>PlayerPanelSettingss.cs</DependentUpon>
+    <EmbeddedResource Include="PlayerPanelSettingsForm.resx">
+      <DependentUpon>PlayerPanelSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

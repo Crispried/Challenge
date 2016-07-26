@@ -16,7 +16,6 @@ namespace Challange.Forms
 {
     static class Program
     {
-        public static readonly ApplicationContext Context = new ApplicationContext();
 
         [STAThread]
         static void Main()
@@ -26,7 +25,7 @@ namespace Challange.Forms
 
             var controller = new ApplicationController(new LightInjectAdapter())
                             .RegisterView<IMainView, MainForm>()
-                            .RegisterView<IPlayerPanelSettingsView, PlayerPanelSettingss>()
+                            .RegisterView<IPlayerPanelSettingsView, PlayerPanelSettingsForm>()
                             .RegisterService<IExampleService, ExampleService>()
                             .RegisterInstance(new ApplicationContext());
 

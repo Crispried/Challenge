@@ -5,12 +5,12 @@ using System.Windows.Forms;
 
 namespace Challange.Forms
 {
-    public partial class PlayerPanelSettingss :
+    public partial class PlayerPanelSettingsForm :
                                 Form, IPlayerPanelSettingsView
     {
         private bool autosizeMode;
 
-        public PlayerPanelSettingss()
+        public PlayerPanelSettingsForm()
         {
             InitializeComponent();
             savePlayerPanelSettingsButton.Click += (sender, args)

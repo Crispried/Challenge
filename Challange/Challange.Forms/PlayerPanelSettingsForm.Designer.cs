@@ -1,6 +1,6 @@
 ﻿namespace Challange.Forms
 {
-    partial class PlayerPanelSettingss
+    partial class PlayerPanelSettingsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.playerPanelSettingsForm = new System.Windows.Forms.Panel();
+            this.playerPanelSettings = new System.Windows.Forms.Panel();
             this.savePlayerPanelSettingsButton = new System.Windows.Forms.Button();
             this.playerHeightLabel = new System.Windows.Forms.Label();
             this.playerHeightTextBox = new System.Windows.Forms.TextBox();
@@ -42,11 +42,11 @@
             // 
             // playerPanelSettingsForm
             // 
-            this.playerPanelSettingsForm.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.playerPanelSettingsForm.Location = new System.Drawing.Point(0, 0);
-            this.playerPanelSettingsForm.Name = "playerPanelSettingsForm";
-            this.playerPanelSettingsForm.Size = new System.Drawing.Size(334, 316);
-            this.playerPanelSettingsForm.TabIndex = 0;
+            this.playerPanelSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.playerPanelSettings.Location = new System.Drawing.Point(0, 0);
+            this.playerPanelSettings.Name = "playerPanelSettingsForm";
+            this.playerPanelSettings.Size = new System.Drawing.Size(334, 316);
+            this.playerPanelSettings.TabIndex = 0;
             // 
             // savePlayerPanelSettingsButton
             // 
@@ -158,7 +158,7 @@
 
         }
 
-        private System.Windows.Forms.Panel playerPanelSettingsForm;
+        private System.Windows.Forms.Panel playerPanelSettings;
         private System.Windows.Forms.Button savePlayerPanelSettingsButton;
         private System.Windows.Forms.Label playerHeightLabel;
         private System.Windows.Forms.TextBox playerHeightTextBox;
