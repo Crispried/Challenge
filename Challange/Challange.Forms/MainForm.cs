@@ -18,6 +18,7 @@ namespace Challange.Forms
         private int numberOfPlayers;
         private const int autosizeWidthCoefficient = 5;
         private const int autosizeHeightCoefficient = 3;
+        private Timer timer;
 
         public MainForm(ApplicationContext context)
         {
@@ -25,6 +26,26 @@ namespace Challange.Forms
             InitializeComponent();
             playerPanelSettings.Click += (sender, args) =>
                             Invoke(OpenPlayerPanelSettings);
+            InitializeTimer();
+        }
+
+        private void InitializeTimer()
+        {
+            timer = new Timer();
+            timer.Interval = 1000;
+            timer.Start();
+            timer.Tick += new EventHandler(Timer_Tick);
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            challangeTimeAxis.UpdateTimeAxis();
+            elapsedTimeFromStart.Text = challangeTimeAxis.ElapsedTimeFromStart;
+        }
+
+        private void addChallange_Click(object sender, EventArgs e)
+        {
+            challangeTimeAxis.CreateMarker();
         }
 
         public new void Show()
@@ -55,16 +76,16 @@ namespace Challange.Forms
                 newPanel.Controls.Add(new Label() { Text = i.ToString() });
                 newPanel.Click += new EventHandler(PlayerPanel_Click);
                 newPanel.Tag = "playerPanel";
-                if (i % 2 == 0)
-                {
-                    player = new MediaPlayer();
-                    player.LoadFile(@"C:\Users\Crispried\Downloads\1.avi", newPanel, playerWidth, playerHeight - 20);
-                }
-                else
-                {
-                    player = new MediaPlayer();
-                    player.LoadFile(@"C:\Users\Crispried\Downloads\2.avi", newPanel, playerWidth, playerHeight - 20);
-                }
+                //if (i % 2 == 0)
+                //{
+                //    player = new MediaPlayer();
+                //    player.LoadFile(@"C:\Users\Crispried\Downloads\1.avi", newPanel, playerWidth, playerHeight - 20);
+                //}
+                //else
+                //{
+                //    player = new MediaPlayer();
+                //    player.LoadFile(@"C:\Users\Crispried\Downloads\2.avi", newPanel, playerWidth, playerHeight - 20);
+                //}
                 playerPanel.Controls.Add(newPanel);
             }
             
@@ -82,7 +103,7 @@ namespace Challange.Forms
             {
                 tmp = clickedPanel;
                 firstPanelOnChangeIndex = playerPanel.Controls.GetChildIndex(clickedPanel);
-                this.Cursor = Cursors.NoMove2D;
+                Cursor = Cursors.NoMove2D;
                 draggedPanel = sender as Panel;
                 var allPlayers = playerPanel.Controls.OfType<Panel>();
                 for (int i = 0; i < numberOfPlayers; i++)
@@ -95,13 +116,12 @@ namespace Challange.Forms
                 secondPanelOnChangeIndex = playerPanel.Controls.GetChildIndex(clickedPanel);
                 playerPanel.Controls.SetChildIndex(tmp, secondPanelOnChangeIndex);
                 playerPanel.Controls.SetChildIndex(clickedPanel, firstPanelOnChangeIndex);
-                this.Cursor = Cursors.Default;
+                Cursor = Cursors.Default;
                 draggedPanel = sender as Panel;
                 var allPlayers = playerPanel.Controls.OfType<Panel>();
                 for (int i = 0; i < numberOfPlayers; i++)
                 {
                     allPlayers.ElementAt(i).BorderStyle = BorderStyle.None;
-
                 }
             }
             bordered = !bordered;

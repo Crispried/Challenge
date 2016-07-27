@@ -37,7 +37,11 @@
             this.playerPanelSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timeAxis = new System.Windows.Forms.Panel();
+            this.elapsedTimeFromStart = new System.Windows.Forms.Label();
+            this.addChallange = new System.Windows.Forms.Button();
+            this.challangeTimeAxis = new ChallangeTimeAxis.TimeAxis();
             this.menu.SuspendLayout();
+            this.timeAxis.SuspendLayout();
             this.SuspendLayout();
             // 
             // playerPanel
@@ -102,11 +106,45 @@
             // timeAxis
             // 
             this.timeAxis.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.timeAxis.Controls.Add(this.challangeTimeAxis);
+            this.timeAxis.Controls.Add(this.elapsedTimeFromStart);
+            this.timeAxis.Controls.Add(this.addChallange);
             this.timeAxis.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.timeAxis.Location = new System.Drawing.Point(0, 519);
+            this.timeAxis.Location = new System.Drawing.Point(0, 501);
             this.timeAxis.Name = "timeAxis";
-            this.timeAxis.Size = new System.Drawing.Size(784, 43);
+            this.timeAxis.Size = new System.Drawing.Size(784, 61);
             this.timeAxis.TabIndex = 3;
+            // 
+            // elapsedTimeFromStart
+            // 
+            this.elapsedTimeFromStart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.elapsedTimeFromStart.AutoSize = true;
+            this.elapsedTimeFromStart.Location = new System.Drawing.Point(12, 39);
+            this.elapsedTimeFromStart.Name = "elapsedTimeFromStart";
+            this.elapsedTimeFromStart.Size = new System.Drawing.Size(0, 13);
+            this.elapsedTimeFromStart.TabIndex = 0;
+            // 
+            // addChallange
+            // 
+            this.addChallange.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.addChallange.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.addChallange.Location = new System.Drawing.Point(644, 3);
+            this.addChallange.Name = "addChallange";
+            this.addChallange.Size = new System.Drawing.Size(128, 55);
+            this.addChallange.TabIndex = 1;
+            this.addChallange.Text = "Challange";
+            this.addChallange.UseVisualStyleBackColor = false;
+            this.addChallange.Click += new System.EventHandler(this.addChallange_Click);
+            // 
+            // challangeTimeAxis
+            // 
+            this.challangeTimeAxis.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.challangeTimeAxis.Location = new System.Drawing.Point(3, 13);
+            this.challangeTimeAxis.Name = "challangeTimeAxis";
+            this.challangeTimeAxis.Size = new System.Drawing.Size(635, 23);
+            this.challangeTimeAxis.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -122,6 +160,8 @@
             this.Text = "Challange";
             this.menu.ResumeLayout(false);
             this.menu.PerformLayout();
+            this.timeAxis.ResumeLayout(false);
+            this.timeAxis.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -137,6 +177,9 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.Panel timeAxis;
         private System.Windows.Forms.ToolStripMenuItem playerPanelSettings;
+        private System.Windows.Forms.Label elapsedTimeFromStart;
+        private System.Windows.Forms.Button addChallange;
+        private ChallangeTimeAxis.TimeAxis challangeTimeAxis;
     }
 }
 

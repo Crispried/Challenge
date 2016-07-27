@@ -52,6 +52,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="TimeAxis">
+      <HintPath>C:\Users\Crispried\Desktop\CustomTimeAxisTwo\TimeAxis\bin\Debug\TimeAxis.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PlayerPanelSettingsForm.cs">
