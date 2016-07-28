@@ -25,16 +25,9 @@ namespace Challange.Domain.SettingsService.SettingParser
 
         public PlayerPanelSettings GetSettings(string settingsFilePath)
         {
-            XmlSerializer serializer = new
-                    XmlSerializer(typeof(PlayerPanelSettings));
-            FileStream fs = new FileStream(settingsFilePath,
-                                            FileMode.Open);
-            XmlReader reader = XmlReader.Create(fs);
-            PlayerPanelSettings playerPanelSettings;
-            playerPanelSettings = (PlayerPanelSettings)serializer.
-                                            Deserialize(reader);
-            fs.Close();
-            return playerPanelSettings;
+            PlayerPanelSettings settings = FileWorker.
+                        DeserializeXml<PlayerPanelSettings>(settingsFilePath);
+            return settings;
         }
     }
 }
