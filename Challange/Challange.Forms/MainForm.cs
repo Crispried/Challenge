@@ -70,7 +70,7 @@ namespace Challange.Forms
             for (int i = 0; i < numberOfPlayers; i++)
             {
                 newPanel = new Panel();
-                newPanel.BackColor = Color.Red;
+                newPanel.BackColor = Color.LightPink;
                 newPanel.Height = playerWidth;
                 newPanel.Width = playerHeight;
                 newPanel.Controls.Add(new Label() { Text = i.ToString() });
