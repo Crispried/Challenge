@@ -33,8 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Interop_QuartzTypeLib">
-      <HintPath>C:\Users\Volodymyr\Desktop\Interop_QuartzTypeLib.dll</HintPath>
+    <Reference Include="Interop.QuartzTypeLib">
+      <HintPath>C:\Users\Crispried\Desktop\C#\MediaPlayer\bin\Debug\Interop.QuartzTypeLib.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="LightInject, Version=4.0.11.0, Culture=neutral, processorArchitecture=MSIL">
