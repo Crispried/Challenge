@@ -73,6 +73,7 @@
     <Compile Include="ArchivatorTests.cs" />
     <Compile Include="FileWorkerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestCase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Challange.Domain\Challange.Domain.csproj">
