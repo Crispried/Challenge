@@ -13,7 +13,8 @@ namespace Challange.UnitTests
     [TestFixture]
     class FileWorkerTests : TestCase
     {
-        private string correctOutputPathForXml = @"test\XmlFormatterResult.xml";
+        private string correctPathToGameInformation = @"test\XmlFormatterResult.xml";
+        private string correctPathToSettings = @"test\settings.xml";
 
         [Test]
         public void SerializeXmlMethodReturnsFalse(
@@ -38,31 +39,25 @@ namespace Challange.UnitTests
             var gameInformation = GetGameInformation();
 
             // Act
-            bool result = SerializeXml(gameInformation, correctOutputPathForXml);
+            bool result = SerializeXml(gameInformation, correctPathToGameInformation);
 
             // Assert
-            Assert.IsTrue(FileExists(correctOutputPathForXml));
+            Assert.IsTrue(FileExists(correctPathToGameInformation));
             Assert.IsTrue(result);
 
             // Delete
-            DeleteFile(correctOutputPathForXml);
+            DeleteFile(correctPathToGameInformation);
         }
-
+        
         [Test]
-        public void DeserializeXmlMethodReturnsTrue()
+        public void DeserializeXmlMethod()
         {
             // Arrange
-            var gameInformation = GetGameInformation();
-
             // Act
-            SerializeXml(gameInformation, correctOutputPathForXml);
-            PlayerPanelSettings result = DeserializeXml(correctOutputPathForXml);
+            PlayerPanelSettings result = DeserializeXml(correctPathToSettings);
 
             // Assert
             Assert.That(result, Is.TypeOf<PlayerPanelSettings>());
-
-            // Delete
-            DeleteFile(correctOutputPathForXml);
         }
 
 
