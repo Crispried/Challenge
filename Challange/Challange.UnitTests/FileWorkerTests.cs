@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Challange.Domain.Entities;
 using Challange.Domain.Infrastructure;
 using Challange.Domain.SettingsService.SettingTypes;
+using Moq;
 
 namespace Challange.UnitTests
 {
