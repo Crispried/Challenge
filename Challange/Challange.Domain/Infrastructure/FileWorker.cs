@@ -48,7 +48,7 @@ namespace Challange.Domain.Infrastructure
                                             FileMode.Open);
             XmlReader reader = XmlReader.Create(fs);
             ObjectType instance;
-            instance = (ObjectType)serializer.Deserialize(reader);
+            instance = (ObjectType)serializer.Deserialize(reader);           
             fs.Close();
             return instance;
         }
