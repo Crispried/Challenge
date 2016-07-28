@@ -71,21 +71,21 @@ namespace Challange.Forms
             {
                 newPanel = new Panel();
                 newPanel.BackColor = Color.LightPink;
-                newPanel.Height = playerWidth;
-                newPanel.Width = playerHeight;
+                newPanel.Height = playerHeight;
+                newPanel.Width = playerWidth;
                 newPanel.Controls.Add(new Label() { Text = i.ToString() });
                 newPanel.Click += new EventHandler(PlayerPanel_Click);
                 newPanel.Tag = "playerPanel";
-                //if (i % 2 == 0)
-                //{
-                //    player = new MediaPlayer();
-                //    player.LoadFile(@"C:\Users\Crispried\Downloads\1.avi", newPanel, playerWidth, playerHeight - 20);
-                //}
-                //else
-                //{
-                //    player = new MediaPlayer();
-                //    player.LoadFile(@"C:\Users\Crispried\Downloads\2.avi", newPanel, playerWidth, playerHeight - 20);
-                //}
+                if (i % 2 == 0)
+                {
+                    player = new MediaPlayer();
+                    player.LoadFile(@"C:\Users\Crispried\Downloads\1.avi", newPanel, playerWidth, playerHeight);
+                }
+                else
+                {
+                    player = new MediaPlayer();
+                    player.LoadFile(@"C:\Users\Crispried\Downloads\2.avi", newPanel, playerWidth, playerHeight);
+                }
                 playerPanel.Controls.Add(newPanel);
             }
             

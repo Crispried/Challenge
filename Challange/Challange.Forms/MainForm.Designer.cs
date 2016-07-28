@@ -37,9 +37,9 @@
             this.playerPanelSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timeAxis = new System.Windows.Forms.Panel();
+            this.challangeTimeAxis = new ChallangeTimeAxis.TimeAxis();
             this.elapsedTimeFromStart = new System.Windows.Forms.Label();
             this.addChallange = new System.Windows.Forms.Button();
-            this.challangeTimeAxis = new ChallangeTimeAxis.TimeAxis();
             this.menu.SuspendLayout();
             this.timeAxis.SuspendLayout();
             this.SuspendLayout();
@@ -115,6 +115,14 @@
             this.timeAxis.Size = new System.Drawing.Size(784, 61);
             this.timeAxis.TabIndex = 3;
             // 
+            // challangeTimeAxis
+            // 
+            this.challangeTimeAxis.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.challangeTimeAxis.Location = new System.Drawing.Point(3, 13);
+            this.challangeTimeAxis.Name = "challangeTimeAxis";
+            this.challangeTimeAxis.Size = new System.Drawing.Size(635, 23);
+            this.challangeTimeAxis.TabIndex = 0;
+            // 
             // elapsedTimeFromStart
             // 
             this.elapsedTimeFromStart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -137,14 +145,6 @@
             this.addChallange.Text = "Challange";
             this.addChallange.UseVisualStyleBackColor = false;
             this.addChallange.Click += new System.EventHandler(this.addChallange_Click);
-            // 
-            // challangeTimeAxis
-            // 
-            this.challangeTimeAxis.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.challangeTimeAxis.Location = new System.Drawing.Point(3, 13);
-            this.challangeTimeAxis.Name = "challangeTimeAxis";
-            this.challangeTimeAxis.Size = new System.Drawing.Size(635, 23);
-            this.challangeTimeAxis.TabIndex = 0;
             // 
             // MainForm
             // 
