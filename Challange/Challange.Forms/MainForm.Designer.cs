@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.playerPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menu = new System.Windows.Forms.MenuStrip();
@@ -40,8 +41,12 @@
             this.challangeTimeAxis = new ChallangeTimeAxis.TimeAxis();
             this.elapsedTimeFromStart = new System.Windows.Forms.Label();
             this.addChallange = new System.Windows.Forms.Button();
+            this.toolBox = new System.Windows.Forms.ToolStrip();
+            this.startStreamButton = new System.Windows.Forms.ToolStripButton();
+            this.stopStreamButton = new System.Windows.Forms.ToolStripButton();
             this.menu.SuspendLayout();
             this.timeAxis.SuspendLayout();
+            this.toolBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // playerPanel
@@ -50,10 +55,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.playerPanel.AutoScroll = true;
-            this.playerPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.playerPanel.Location = new System.Drawing.Point(0, 27);
+            this.playerPanel.BackColor = System.Drawing.Color.Black;
+            this.playerPanel.Location = new System.Drawing.Point(0, 44);
             this.playerPanel.Name = "playerPanel";
-            this.playerPanel.Size = new System.Drawing.Size(784, 494);
+            this.playerPanel.Size = new System.Drawing.Size(784, 458);
             this.playerPanel.TabIndex = 0;
             // 
             // contextMenuStrip1
@@ -105,7 +110,7 @@
             // 
             // timeAxis
             // 
-            this.timeAxis.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.timeAxis.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.timeAxis.Controls.Add(this.challangeTimeAxis);
             this.timeAxis.Controls.Add(this.elapsedTimeFromStart);
             this.timeAxis.Controls.Add(this.addChallange);
@@ -137,7 +142,7 @@
             // addChallange
             // 
             this.addChallange.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.addChallange.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.addChallange.BackColor = System.Drawing.Color.Yellow;
             this.addChallange.Location = new System.Drawing.Point(644, 3);
             this.addChallange.Name = "addChallange";
             this.addChallange.Size = new System.Drawing.Size(128, 55);
@@ -146,11 +151,42 @@
             this.addChallange.UseVisualStyleBackColor = false;
             this.addChallange.Click += new System.EventHandler(this.addChallange_Click);
             // 
+            // toolBox
+            // 
+            this.toolBox.BackColor = System.Drawing.Color.White;
+            this.toolBox.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.startStreamButton,
+            this.stopStreamButton});
+            this.toolBox.Location = new System.Drawing.Point(0, 24);
+            this.toolBox.Name = "toolBox";
+            this.toolBox.Size = new System.Drawing.Size(784, 25);
+            this.toolBox.TabIndex = 4;
+            this.toolBox.Text = "toolStrip1";
+            // 
+            // startStreamButton
+            // 
+            this.startStreamButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.startStreamButton.Image = ((System.Drawing.Image)(resources.GetObject("startStreamButton.Image")));
+            this.startStreamButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.startStreamButton.Name = "startStreamButton";
+            this.startStreamButton.Size = new System.Drawing.Size(23, 22);
+            this.startStreamButton.Click += new System.EventHandler(this.startStreamButton_Click);
+            // 
+            // stopStreamButton
+            // 
+            this.stopStreamButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.stopStreamButton.Image = ((System.Drawing.Image)(resources.GetObject("stopStreamButton.Image")));
+            this.stopStreamButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.stopStreamButton.Name = "stopStreamButton";
+            this.stopStreamButton.Size = new System.Drawing.Size(23, 22);
+            this.stopStreamButton.Click += new System.EventHandler(this.stopStreamButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 562);
+            this.Controls.Add(this.toolBox);
             this.Controls.Add(this.timeAxis);
             this.Controls.Add(this.menu);
             this.Controls.Add(this.playerPanel);
@@ -158,10 +194,13 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Challange";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.menu.ResumeLayout(false);
             this.menu.PerformLayout();
             this.timeAxis.ResumeLayout(false);
             this.timeAxis.PerformLayout();
+            this.toolBox.ResumeLayout(false);
+            this.toolBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -180,6 +219,9 @@
         private System.Windows.Forms.Label elapsedTimeFromStart;
         private System.Windows.Forms.Button addChallange;
         private ChallangeTimeAxis.TimeAxis challangeTimeAxis;
+        private System.Windows.Forms.ToolStrip toolBox;
+        private System.Windows.Forms.ToolStripButton startStreamButton;
+        private System.Windows.Forms.ToolStripButton stopStreamButton;
     }
 }
 

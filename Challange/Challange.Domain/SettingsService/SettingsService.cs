@@ -1,10 +1,5 @@
 ﻿using Challange.Domain.SettingsService.SettingParser;
 using Challange.Domain.SettingsService.SettingTypes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Challange.Domain.SettingsService
 {
