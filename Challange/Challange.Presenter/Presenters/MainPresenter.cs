@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Challange.Presenter.Base;
+﻿using Challange.Presenter.Base;
 using Challange.Presenter.Views;
-using Challange.Domain.Entities;
 using Challange.Domain.SettingsService.SettingTypes;
 using Challange.Domain.SettingsService;
 using Challange.Domain.SettingsService.SettingParser;

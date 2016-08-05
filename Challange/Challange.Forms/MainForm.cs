@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Challange.Presenter.Views;
 using Challange.Domain.SettingsService.SettingTypes;
+using AForge.Video.DirectShow;
+using AForge.Video;
 
 namespace Challange.Forms
 {
@@ -19,6 +17,17 @@ namespace Challange.Forms
         private const int autosizeWidthCoefficient = 5;
         private const int autosizeHeightCoefficient = 3;
         private Timer timer;
+        private List<PictureBox> allPlayers;
+
+        //
+        private PictureBox draggedPicturebox;
+        bool bordered = false;
+        int firstPanelOnChangeIndex, secondPanelOnChangeIndex;
+        PictureBox tmp;
+
+        // video streaming
+        private FilterInfoCollection VideoCaptureDevices;
+        private VideoCaptureDevice FinalVideo;
 
         public MainForm(ApplicationContext context)
         {
@@ -26,15 +35,20 @@ namespace Challange.Forms
             InitializeComponent();
             playerPanelSettings.Click += (sender, args) =>
                             Invoke(OpenPlayerPanelSettings);
-            InitializeTimer();
+            FinalVideo = new VideoCaptureDevice();
+            allPlayers = new List<PictureBox>();
         }
 
-        private void InitializeTimer()
+        #region events
+        private void startStreamButton_Click(object sender, EventArgs e)
         {
-            timer = new Timer();
-            timer.Interval = 1000;
-            timer.Start();
-            timer.Tick += new EventHandler(Timer_Tick);
+            InitializeTimer();
+            StartStream();
+        }
+
+        private void stopStreamButton_Click(object sender, EventArgs e)
+        {
+            StopStream();
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -48,64 +62,32 @@ namespace Challange.Forms
             challangeTimeAxis.CreateMarker();
         }
 
-        public new void Show()
+        private void FinalVideo_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
-            context.MainForm = this;
-            Application.Run(context);
+            Bitmap video = (Bitmap)eventArgs.Frame.Clone();
+            foreach (var player in allPlayers)
+            {
+                player.Image = video;
+            }
         }
 
-        public void DrawPlayers(PlayerPanelSettings setting)
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            playerPanel.Controls.Clear();
-            numberOfPlayers = setting.NumberOfPlayers;
-            int playerWidth = setting.PlayerWidth;
-            int playerHeight = setting.PlayerHeight;
-            if (setting.AutosizeMode)
+            if (FinalVideo.IsRunning)
             {
-                playerWidth = playerPanel.Width / autosizeWidthCoefficient;
-                playerHeight = playerPanel.Height / autosizeHeightCoefficient;
+                FinalVideo.Stop();
             }
-            Panel newPanel;
-            MediaPlayer player = null;
-            for (int i = 0; i < numberOfPlayers; i++)
-            {
-                newPanel = new Panel();
-                newPanel.BackColor = Color.LightPink;
-                newPanel.Height = playerWidth;
-                newPanel.Width = playerHeight;
-                newPanel.Controls.Add(new Label() { Text = i.ToString() });
-                newPanel.Click += new EventHandler(PlayerPanel_Click);
-                newPanel.Tag = "playerPanel";
-                //if (i % 2 == 0)
-                //{
-                //    player = new MediaPlayer();
-                //    player.LoadFile(@"C:\Users\Crispried\Downloads\1.avi", newPanel, playerWidth, playerHeight - 20);
-                //}
-                //else
-                //{
-                //    player = new MediaPlayer();
-                //    player.LoadFile(@"C:\Users\Crispried\Downloads\2.avi", newPanel, playerWidth, playerHeight - 20);
-                //}
-                playerPanel.Controls.Add(newPanel);
-            }
-            
         }
-
-        private Panel draggedPanel;
-        bool bordered = false;
-        int firstPanelOnChangeIndex, secondPanelOnChangeIndex;
-        Panel tmp;
 
         private void PlayerPanel_Click(object sender, EventArgs e)
         {
-            var clickedPanel = sender as Panel;
+            var clickedPictureBox = sender as PictureBox;
             if (!bordered)
             {
-                tmp = clickedPanel;
-                firstPanelOnChangeIndex = playerPanel.Controls.GetChildIndex(clickedPanel);
+                tmp = clickedPictureBox;
+                firstPanelOnChangeIndex = playerPanel.Controls.GetChildIndex(clickedPictureBox);
                 Cursor = Cursors.NoMove2D;
-                draggedPanel = sender as Panel;
-                var allPlayers = playerPanel.Controls.OfType<Panel>();
+                draggedPicturebox = sender as PictureBox;
                 for (int i = 0; i < numberOfPlayers; i++)
                 {
                     allPlayers.ElementAt(i).BorderStyle = BorderStyle.Fixed3D;
@@ -113,12 +95,12 @@ namespace Challange.Forms
             }
             else
             {
-                secondPanelOnChangeIndex = playerPanel.Controls.GetChildIndex(clickedPanel);
+                secondPanelOnChangeIndex = playerPanel.Controls.GetChildIndex(clickedPictureBox);
                 playerPanel.Controls.SetChildIndex(tmp, secondPanelOnChangeIndex);
-                playerPanel.Controls.SetChildIndex(clickedPanel, firstPanelOnChangeIndex);
+                playerPanel.Controls.SetChildIndex(clickedPictureBox, firstPanelOnChangeIndex);
                 Cursor = Cursors.Default;
-                draggedPanel = sender as Panel;
-                var allPlayers = playerPanel.Controls.OfType<Panel>();
+                draggedPicturebox = sender as PictureBox;
+                var allPlayers = playerPanel.Controls.OfType<PictureBox>();
                 for (int i = 0; i < numberOfPlayers; i++)
                 {
                     allPlayers.ElementAt(i).BorderStyle = BorderStyle.None;
@@ -128,5 +110,111 @@ namespace Challange.Forms
         }
 
         public event Action OpenPlayerPanelSettings;
+        #endregion
+
+        private void InitializeTimer()
+        {
+            timer = new Timer();
+            timer.Interval = 1000;
+            timer.Start();
+            timer.Tick += new EventHandler(Timer_Tick);
+        }     
+
+        private void ResetTimeAxis()
+        {
+            timer.Stop();
+            timer.Dispose();
+            challangeTimeAxis.Reset();
+            elapsedTimeFromStart.ResetText();
+        }
+
+        public new void Show()
+        {
+            context.MainForm = this;
+            Application.Run(context);
+        }
+
+        #region DrawPlayers
+        public void DrawPlayers(PlayerPanelSettings settings)
+        {
+            playerPanel.Controls.Clear();
+            numberOfPlayers = settings.NumberOfPlayers;
+            var playerSize = GetPlayerSize(settings);
+            var playerWidth = playerSize.Width;
+            var playerHeight = playerSize.Height;
+            for (int i = 0; i < numberOfPlayers; i++)
+            {
+                var player = InitializePlayer(playerWidth,
+                                    playerHeight, i.ToString());
+                DrawPlayer(player);
+                AddPlayerIntoPlayerList(player);
+            }        
+        }
+
+        private Size GetPlayerSize(PlayerPanelSettings settings)
+        {
+            Size size = new Size();
+            if (settings.AutosizeMode)
+            {
+                size.Width = playerPanel.Width / autosizeWidthCoefficient;
+                size.Height = playerPanel.Height / autosizeHeightCoefficient;
+            }
+            else
+            {
+                size.Width = settings.PlayerWidth;
+                size.Height = settings.PlayerHeight;
+            }
+            return size;
+        }
+
+        private void AddPlayerIntoPlayerList(PictureBox player)
+        {
+            allPlayers.Add(player);
+        }
+
+        private void DrawPlayer(PictureBox player)
+        {
+            playerPanel.Controls.Add(player);
+        }
+
+        private PictureBox InitializePlayer(int playerWidth, int playerHeight,
+                                string playerName)
+        {
+            PictureBox newPictureBox;
+            newPictureBox = new PictureBox();
+            newPictureBox.BackColor = Color.Red;
+            newPictureBox.Height = playerHeight;
+            newPictureBox.Width = playerWidth;
+            newPictureBox.Controls.Add(new Label() { Text = playerName });
+            newPictureBox.Click += new EventHandler(PlayerPanel_Click);
+            newPictureBox.Tag = "playerPanel";
+            return newPictureBox;
+        }
+        #endregion
+
+
+        private void StartStream()
+        {
+            VideoCaptureDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+            if (VideoCaptureDevices.Count > 0)
+            {
+                FinalVideo = new VideoCaptureDevice(VideoCaptureDevices[0].MonikerString);
+                FinalVideo.NewFrame += new NewFrameEventHandler(FinalVideo_NewFrame);
+                FinalVideo.Start();
+            }
+        }    
+        
+        private void StopStream()
+        {
+            if (FinalVideo.IsRunning)
+            {
+                FinalVideo.Stop();
+                foreach (var player in allPlayers)
+                {
+                    player.Image = null;
+                }
+                ResetTimeAxis();
+            }
+        }  
     }
 }
