@@ -78,6 +78,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ChallengeStructurerTests.cs" />
     <Compile Include="ArchivatorTests.cs" />
     <Compile Include="FileWorkerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
