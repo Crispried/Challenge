@@ -37,9 +37,10 @@
             this.playerPanelSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timeAxis = new System.Windows.Forms.Panel();
+            this.challangeTimeAxis = new ChallangeTimeAxis.TimeAxis();
             this.elapsedTimeFromStart = new System.Windows.Forms.Label();
             this.addChallange = new System.Windows.Forms.Button();
-            this.challangeTimeAxis = new ChallangeTimeAxis.TimeAxis();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.menu.SuspendLayout();
             this.timeAxis.SuspendLayout();
             this.SuspendLayout();
@@ -115,6 +116,14 @@
             this.timeAxis.Size = new System.Drawing.Size(784, 61);
             this.timeAxis.TabIndex = 3;
             // 
+            // challangeTimeAxis
+            // 
+            this.challangeTimeAxis.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.challangeTimeAxis.Location = new System.Drawing.Point(3, 13);
+            this.challangeTimeAxis.Name = "challangeTimeAxis";
+            this.challangeTimeAxis.Size = new System.Drawing.Size(635, 23);
+            this.challangeTimeAxis.TabIndex = 0;
+            // 
             // elapsedTimeFromStart
             // 
             this.elapsedTimeFromStart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -138,19 +147,20 @@
             this.addChallange.UseVisualStyleBackColor = false;
             this.addChallange.Click += new System.EventHandler(this.addChallange_Click);
             // 
-            // challangeTimeAxis
+            // comboBox1
             // 
-            this.challangeTimeAxis.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.challangeTimeAxis.Location = new System.Drawing.Point(3, 13);
-            this.challangeTimeAxis.Name = "challangeTimeAxis";
-            this.challangeTimeAxis.Size = new System.Drawing.Size(635, 23);
-            this.challangeTimeAxis.TabIndex = 0;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(661, 2);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 4;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 562);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.timeAxis);
             this.Controls.Add(this.menu);
             this.Controls.Add(this.playerPanel);
@@ -180,6 +190,7 @@
         private System.Windows.Forms.Label elapsedTimeFromStart;
         private System.Windows.Forms.Button addChallange;
         private ChallangeTimeAxis.TimeAxis challangeTimeAxis;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
 
