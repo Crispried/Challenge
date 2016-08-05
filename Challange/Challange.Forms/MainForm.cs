@@ -19,12 +19,6 @@ namespace Challange.Forms
         private Timer timer;
         private List<PictureBox> allPlayers;
 
-        //
-        private PictureBox draggedPicturebox;
-        bool bordered = false;
-        int firstPanelOnChangeIndex, secondPanelOnChangeIndex;
-        PictureBox tmp;
-
         // video streaming
         private FilterInfoCollection VideoCaptureDevices;
         private VideoCaptureDevice FinalVideo;
@@ -81,35 +75,70 @@ namespace Challange.Forms
 
         private void PlayerPanel_Click(object sender, EventArgs e)
         {
-            var clickedPictureBox = sender as PictureBox;
-            if (!bordered)
+            var clickedPlayer = sender as PictureBox;
+            if (!IsReplaceMode())
             {
-                tmp = clickedPictureBox;
-                firstPanelOnChangeIndex = playerPanel.Controls.GetChildIndex(clickedPictureBox);
-                Cursor = Cursors.NoMove2D;
-                draggedPicturebox = sender as PictureBox;
-                for (int i = 0; i < numberOfPlayers; i++)
-                {
-                    allPlayers.ElementAt(i).BorderStyle = BorderStyle.Fixed3D;
-                }
+                firstSelectedPlayer = clickedPlayer;
+                SetCursor(Cursors.NoMove2D);
+                SetBorderStyle(BorderStyle.Fixed3D);
             }
             else
             {
-                secondPanelOnChangeIndex = playerPanel.Controls.GetChildIndex(clickedPictureBox);
-                playerPanel.Controls.SetChildIndex(tmp, secondPanelOnChangeIndex);
-                playerPanel.Controls.SetChildIndex(clickedPictureBox, firstPanelOnChangeIndex);
-                Cursor = Cursors.Default;
-                draggedPicturebox = sender as PictureBox;
-                var allPlayers = playerPanel.Controls.OfType<PictureBox>();
-                for (int i = 0; i < numberOfPlayers; i++)
-                {
-                    allPlayers.ElementAt(i).BorderStyle = BorderStyle.None;
-                }
+                secondSelecterPlayer = clickedPlayer;
+                ReplacePlayers();
+                SetCursor(Cursors.Default);
+                SetBorderStyle(BorderStyle.None);
             }
-            bordered = !bordered;
+            ToggleReplaceMode();
         }
 
         public event Action OpenPlayerPanelSettings;
+        #endregion
+
+        #region replace players fields
+        bool replaceMode = false;
+        PictureBox firstSelectedPlayer, secondSelecterPlayer;
+        private void ReplacePlayers()
+        {
+            var firstPlayerIndex = GetPlayerIndex(firstSelectedPlayer);
+            var secondPlayerIndex = GetPlayerIndex(secondSelecterPlayer);
+            playerPanel.Controls.SetChildIndex(firstSelectedPlayer,
+                                            secondPlayerIndex);
+            playerPanel.Controls.SetChildIndex(secondSelecterPlayer,
+                                            firstPlayerIndex);
+        }
+
+        private int GetPlayerIndex(PictureBox player)
+        {
+            return playerPanel.Controls.GetChildIndex(player);
+        }
+
+        private void SetCursor(Cursor cursorType)
+        {
+            Cursor = cursorType;
+        }
+
+        private void SetBorderStyle(BorderStyle borderStyle)
+        {
+            for (int i = 0; i < numberOfPlayers; i++)
+            {
+                allPlayers.ElementAt(i).BorderStyle = borderStyle;
+            }
+        }
+
+        private bool IsReplaceMode()
+        {
+            if (replaceMode)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private void ToggleReplaceMode()
+        {
+            replaceMode = !replaceMode;
+        }
         #endregion
 
         private void InitializeTimer()

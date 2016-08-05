@@ -41,8 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Camera.cs" />
     <Compile Include="Entities\ChallengeCase.cs" />
     <Compile Include="Entities\GameInformation.cs" />
+    <Compile Include="Infrastructure\ChallengeStructurer.cs" />
     <Compile Include="SettingsService\SettingTypes\PlayerPanelSettings.cs" />
     <Compile Include="SettingsService\SettingParser\PlayerPanelSettingsParser.cs" />
     <Compile Include="SettingsService\SettingParser\ISettingsParser.cs" />
