@@ -40,7 +40,7 @@ namespace Challange.Domain.Infrastructure
 
         public string CreateMainDirectory(string firstTeamName, string secondTeamName)
         {
-            string folderPath = desktopPath + "\\" + firstTeamName + "-vs" + secondTeamName;
+            string folderPath = desktopPath + "\\" + firstTeamName + "-vs-" + secondTeamName;
             CreateDirectory(folderPath);
 
             return folderPath;
