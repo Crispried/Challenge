@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Challange.Domain.Entities;
 using Challange.Domain.Infrastructure;
-using Challange.Domain.SettingsService.SettingTypes;
+using Challange.Domain.Services.Settings.SettingTypes;
 
 namespace Challange.UnitTests
 {
@@ -67,32 +67,13 @@ namespace Challange.UnitTests
             {
                 FirstTeam = "Red",
                 SecondTeam = "Blue",
-                FirstTeamScore = 10,
-                SecondTeamScore = 15,
-                WinnerTeam = "Blue",
-                GameStart = new DateTime(2016, 12, 3, 6, 35, 0),
-                GameEnd = new DateTime(2016, 12, 3, 7, 30, 0),
-                Challenges = GetChallenges()
+                Date = "09.08.2016",               
+                GameStart = "18:36:00",
+                Country = "England",
+                City = "London",
+                Part = "2"
             };
             return gameInformation;
-        }
-
-        private List<ChallengeCase> GetChallenges()
-        {
-            List<ChallengeCase> challenges = new List<ChallengeCase>()
-            {
-                new ChallengeCase()
-                {
-                    ChallengeTime = DateTime.Now,
-                    UrlToChallangeMovies = @"test\path\1"
-                },
-                new ChallengeCase()
-                {
-                    ChallengeTime = DateTime.Now,
-                    UrlToChallangeMovies = @"test\path\2"
-                }
-            };
-            return challenges;
         }
 
         private bool SerializeXml(GameInformation gameInformation, string outputPathForXml)

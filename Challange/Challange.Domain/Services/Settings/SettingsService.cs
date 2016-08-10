@@ -1,9 +1,9 @@
-﻿using Challange.Domain.SettingsService.SettingParser;
-using Challange.Domain.SettingsService.SettingTypes;
+﻿using Challange.Domain.Services.Settings.SettingParser;
+using Challange.Domain.Services.Settings.SettingTypes;
 
-namespace Challange.Domain.SettingsService
+namespace Challange.Domain.Services.Settings
 {
-    public class SettingsService<T> where T : Settings
+    public class SettingsService<T> where T : Setting
     {
         private const string settingsFilePath = "settings.xml";
         private ISettingsParser<T> settingsParser;

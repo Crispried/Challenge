@@ -1,6 +1,7 @@
 ﻿using System;
 using Challange.Presenter.Base;
-using Challange.Domain.SettingsService.SettingTypes;
+using Challange.Domain.Services.Settings.SettingTypes;
+using AForge.Video.DirectShow;
 
 namespace Challange.Presenter.Views
 {
@@ -8,6 +9,24 @@ namespace Challange.Presenter.Views
     {
         event Action OpenPlayerPanelSettings;
 
+        event Action StartStream;
+
+        event Action StopStream;
+
+        event Action MainFormClosing;
+
+        event Action CreateChallange;
+
+        void SubscribeNewFrameEvent(VideoCaptureDevice FinalVideo);
+
         void DrawPlayers(PlayerPanelSettings settings);
+
+        void InitializeTimer();
+
+        void ResetTimeAxis();
+
+        void ClearPlayers();
+
+        void AddMarketOnTimeAxis();
     }
 }

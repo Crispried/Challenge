@@ -1,7 +1,7 @@
 ﻿using Challange.Domain.Infrastructure;
-using Challange.Domain.SettingsService.SettingTypes;
+using Challange.Domain.Services.Settings.SettingTypes;
 
-namespace Challange.Domain.SettingsService.SettingParser
+namespace Challange.Domain.Services.Settings.SettingParser
 {
     public class PlayerPanelSettingsParser : ISettingsParser<PlayerPanelSettings>
     {

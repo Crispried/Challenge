@@ -1,4 +1,4 @@
-﻿using Challange.Domain.SettingsService.SettingTypes;
+﻿using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Presenter.Base;
 using System;
 

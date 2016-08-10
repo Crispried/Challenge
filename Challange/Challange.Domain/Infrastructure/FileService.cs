@@ -13,5 +13,10 @@ namespace Challange.Domain.Infrastructure
         {
             File.Delete(path);
         }
+
+        public static void CreateDirectory(string path)
+        {
+            Directory.CreateDirectory(path);
+        }
     }
 }

@@ -1,6 +1,6 @@
-﻿using Challange.Domain.SettingsService;
-using Challange.Domain.SettingsService.SettingParser;
-using Challange.Domain.SettingsService.SettingTypes;
+﻿using Challange.Domain.Services.Settings;
+using Challange.Domain.Services.Settings.SettingParser;
+using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Presenter.Base;
 using Challange.Presenter.Views;
 

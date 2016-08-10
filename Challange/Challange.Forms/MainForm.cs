@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Challange.Presenter.Views;
-using Challange.Domain.SettingsService.SettingTypes;
+using Challange.Domain.Services.Settings.SettingTypes;
 using AForge.Video.DirectShow;
 using AForge.Video;
 
@@ -17,11 +17,11 @@ namespace Challange.Forms
         private const int autosizeWidthCoefficient = 5;
         private const int autosizeHeightCoefficient = 3;
         private Timer timer;
+        private Timer timeToRemoveOldFrames;
         private List<PictureBox> allPlayers;
 
-        // video streaming
-        private FilterInfoCollection VideoCaptureDevices;
-        private VideoCaptureDevice FinalVideo;
+        private List<Bitmap> pastFrames;
+        private List<Bitmap> futureFrames;
 
         public MainForm(ApplicationContext context)
         {
@@ -29,48 +29,39 @@ namespace Challange.Forms
             InitializeComponent();
             playerPanelSettings.Click += (sender, args) =>
                             Invoke(OpenPlayerPanelSettings);
-            FinalVideo = new VideoCaptureDevice();
+            gameSettings.Click += (sender, args) =>
+                            Invoke(OpenGameSettings);
+            startStreamButton.Click += (sender, args) =>
+                            Invoke(StartStream);
+            stopStreamButton.Click += (sender, args) =>
+                            Invoke(StopStream);
+            FormClosing += (sender, args) =>
+                            Invoke(MainFormClosing);
+            addChallange.Click += (sender, args) =>
+                            Invoke(CreateChallange);
             allPlayers = new List<PictureBox>();
+            pastFrames = new List<Bitmap>();
         }
 
         #region events
-        private void startStreamButton_Click(object sender, EventArgs e)
-        {
-            InitializeTimer();
-            StartStream();
-        }
-
-        private void stopStreamButton_Click(object sender, EventArgs e)
-        {
-            StopStream();
-        }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
             challangeTimeAxis.UpdateTimeAxis();
             elapsedTimeFromStart.Text = challangeTimeAxis.ElapsedTimeFromStart;
-        }
-
-        private void addChallange_Click(object sender, EventArgs e)
-        {
-            challangeTimeAxis.CreateMarker();
-        }
-
-        private void FinalVideo_NewFrame(object sender, NewFrameEventArgs eventArgs)
-        {
-            Bitmap video = (Bitmap)eventArgs.Frame.Clone();
-            foreach (var player in allPlayers)
+            temp.Text = pastFrames.Count.ToString();
+            if(elapsedTimeFromStart.Text == "00:00:10")
             {
-                player.Image = video;
+                timeToRemoveOldFrames = new Timer();
+                timeToRemoveOldFrames.Tick += new EventHandler(timeToRemoveOldFrames_Tick);
+                timeToRemoveOldFrames.Interval = 1000; // in miliseconds
+                timeToRemoveOldFrames.Start();
             }
         }
 
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        private void timeToRemoveOldFrames_Tick(object sender, EventArgs e)
         {
-            if (FinalVideo.IsRunning)
-            {
-                FinalVideo.Stop();
-            }
+            pastFrames.RemoveRange(0, 8);
         }
 
         private void PlayerPanel_Click(object sender, EventArgs e)
@@ -92,7 +83,27 @@ namespace Challange.Forms
             ToggleReplaceMode();
         }
 
+        private void FinalVideo_NewFrame(object sender, NewFrameEventArgs eventArgs)
+        {
+            Bitmap video = (Bitmap)eventArgs.Frame.Clone();
+            pastFrames.Add(video);
+            foreach (var player in allPlayers)
+            {
+                player.Image = video;
+            }
+        }
+
         public event Action OpenPlayerPanelSettings;
+
+        public event Action OpenGameSettings;
+
+        public event Action StartStream;
+
+        public event Action StopStream;
+
+        public event Action MainFormClosing;
+
+        public event Action CreateChallange;
         #endregion
 
         #region replace players fields
@@ -141,7 +152,8 @@ namespace Challange.Forms
         }
         #endregion
 
-        private void InitializeTimer()
+
+        public void InitializeTimer()
         {
             timer = new Timer();
             timer.Interval = 1000;
@@ -149,12 +161,17 @@ namespace Challange.Forms
             timer.Tick += new EventHandler(Timer_Tick);
         }     
 
-        private void ResetTimeAxis()
+        public void ResetTimeAxis()
         {
             timer.Stop();
             timer.Dispose();
             challangeTimeAxis.Reset();
             elapsedTimeFromStart.ResetText();
+        }
+
+        public void SubscribeNewFrameEvent(VideoCaptureDevice finalVideo)
+        {
+            finalVideo.NewFrame += FinalVideo_NewFrame;
         }
 
         public new void Show()
@@ -221,29 +238,17 @@ namespace Challange.Forms
         }
         #endregion
 
+        public void ClearPlayers()
+        {
+            foreach (var player in allPlayers)
+            {
+                player.Image = null;
+            }
+        }
 
-        private void StartStream()
+        public void AddMarketOnTimeAxis()
         {
-            VideoCaptureDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-            if (VideoCaptureDevices.Count > 0)
-            {
-                FinalVideo = new VideoCaptureDevice(VideoCaptureDevices[0].MonikerString);
-                FinalVideo.NewFrame += new NewFrameEventHandler(FinalVideo_NewFrame);
-                FinalVideo.Start();
-            }
-        }    
-        
-        private void StopStream()
-        {
-            if (FinalVideo.IsRunning)
-            {
-                FinalVideo.Stop();
-                foreach (var player in allPlayers)
-                {
-                    player.Image = null;
-                }
-                ResetTimeAxis();
-            }
-        }  
+            challangeTimeAxis.CreateMarker();
+        }
     }
 }

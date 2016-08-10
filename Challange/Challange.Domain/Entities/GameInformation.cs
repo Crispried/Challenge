@@ -9,16 +9,14 @@ namespace Challange.Domain.Entities
 
         public string SecondTeam { get; set; }
 
-        public int FirstTeamScore { get; set; }
+        public string Date { get; set; }
 
-        public int SecondTeamScore { get; set; }
+        public string GameStart { get; set; }
+        
+        public string Country { get; set; }
 
-        public string WinnerTeam { get; set; }
+        public string City { get; set; }
 
-        public DateTime GameStart { get; set; }
-
-        public DateTime GameEnd { get; set; }
-
-        public List<ChallengeCase> Challenges { get; set; }
+        public string Part { get; set; }
     }
 }
