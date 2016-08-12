@@ -2,6 +2,7 @@
 using Challange.Presenter.Base;
 using Challange.Domain.Services.Settings.SettingTypes;
 using AForge.Video.DirectShow;
+using System.Drawing;
 
 namespace Challange.Presenter.Views
 {
@@ -17,6 +18,10 @@ namespace Challange.Presenter.Views
 
         event Action CreateChallange;
 
+        event Action NewFrameCallback;
+
+        Bitmap CurrentFrame { get; }
+
         void SubscribeNewFrameEvent(VideoCaptureDevice FinalVideo);
 
         void DrawPlayers(PlayerPanelSettings settings);
@@ -27,6 +32,12 @@ namespace Challange.Presenter.Views
 
         void ClearPlayers();
 
-        void AddMarketOnTimeAxis();
+        void AddMarkerOnTimeAxis();
+
+        void MakeChallengeButtonInactiveOn(int seconds);
+
+        void MakeChallengeButtonActive();
+
+        void MakeChallengeButtonInactive();
     }
 }

@@ -35,7 +35,6 @@
             this.menu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gameSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.playerPanelSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timeAxis = new System.Windows.Forms.Panel();
@@ -45,7 +44,6 @@
             this.toolBox = new System.Windows.Forms.ToolStrip();
             this.startStreamButton = new System.Windows.Forms.ToolStripButton();
             this.stopStreamButton = new System.Windows.Forms.ToolStripButton();
-            this.temp = new System.Windows.Forms.Label();
             this.menu.SuspendLayout();
             this.timeAxis.SuspendLayout();
             this.toolBox.SuspendLayout();
@@ -92,18 +90,11 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.gameSettings,
             this.playerPanelSettings});
             this.settingsToolStripMenuItem.Font = new System.Drawing.Font("Georgia", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
             this.settingsToolStripMenuItem.Text = "Settings";
-            // 
-            // gameSettings
-            // 
-            this.gameSettings.Name = "gameSettings";
-            this.gameSettings.Size = new System.Drawing.Size(153, 22);
-            this.gameSettings.Text = "Game";
             // 
             // playerPanelSettings
             // 
@@ -121,7 +112,6 @@
             // timeAxis
             // 
             this.timeAxis.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.timeAxis.Controls.Add(this.temp);
             this.timeAxis.Controls.Add(this.challangeTimeAxis);
             this.timeAxis.Controls.Add(this.elapsedTimeFromStart);
             this.timeAxis.Controls.Add(this.addChallange);
@@ -154,6 +144,7 @@
             // 
             this.addChallange.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.addChallange.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.addChallange.Enabled = false;
             this.addChallange.Font = new System.Drawing.Font("Georgia", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.addChallange.Location = new System.Drawing.Point(644, 3);
             this.addChallange.Name = "addChallange";
@@ -189,14 +180,6 @@
             this.stopStreamButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.stopStreamButton.Name = "stopStreamButton";
             this.stopStreamButton.Size = new System.Drawing.Size(23, 22);
-            // 
-            // temp
-            // 
-            this.temp.AutoSize = true;
-            this.temp.Location = new System.Drawing.Point(279, 39);
-            this.temp.Name = "temp";
-            this.temp.Size = new System.Drawing.Size(0, 13);
-            this.temp.TabIndex = 2;
             // 
             // MainForm
             // 
@@ -238,8 +221,6 @@
         private System.Windows.Forms.ToolStrip toolBox;
         private System.Windows.Forms.ToolStripButton startStreamButton;
         private System.Windows.Forms.ToolStripButton stopStreamButton;
-        private System.Windows.Forms.ToolStripMenuItem gameSettings;
-        private System.Windows.Forms.Label temp;
     }
 }
 

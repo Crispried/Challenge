@@ -5,8 +5,12 @@ using System.Linq;
 using System.Windows.Forms;
 using Challange.Presenter.Views;
 using Challange.Domain.Services.Settings.SettingTypes;
-using AForge.Video.DirectShow;
+using Challange.Domain.Entities;
+using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Threading;
 using AForge.Video;
+using AForge.Video.DirectShow;
 
 namespace Challange.Forms
 {
@@ -16,12 +20,10 @@ namespace Challange.Forms
         private int numberOfPlayers;
         private const int autosizeWidthCoefficient = 5;
         private const int autosizeHeightCoefficient = 3;
-        private Timer timer;
-        private Timer timeToRemoveOldFrames;
+        private System.Windows.Forms.Timer timer;
         private List<PictureBox> allPlayers;
 
-        private List<Bitmap> pastFrames;
-        private List<Bitmap> futureFrames;
+        private Bitmap currentFrame;
 
         public MainForm(ApplicationContext context)
         {
@@ -29,8 +31,6 @@ namespace Challange.Forms
             InitializeComponent();
             playerPanelSettings.Click += (sender, args) =>
                             Invoke(OpenPlayerPanelSettings);
-            gameSettings.Click += (sender, args) =>
-                            Invoke(OpenGameSettings);
             startStreamButton.Click += (sender, args) =>
                             Invoke(StartStream);
             stopStreamButton.Click += (sender, args) =>
@@ -40,28 +40,27 @@ namespace Challange.Forms
             addChallange.Click += (sender, args) =>
                             Invoke(CreateChallange);
             allPlayers = new List<PictureBox>();
-            pastFrames = new List<Bitmap>();
         }
 
-        #region events
-
-        private void Timer_Tick(object sender, EventArgs e)
+        public Bitmap CurrentFrame
         {
-            challangeTimeAxis.UpdateTimeAxis();
-            elapsedTimeFromStart.Text = challangeTimeAxis.ElapsedTimeFromStart;
-            temp.Text = pastFrames.Count.ToString();
-            if(elapsedTimeFromStart.Text == "00:00:10")
+            get
             {
-                timeToRemoveOldFrames = new Timer();
-                timeToRemoveOldFrames.Tick += new EventHandler(timeToRemoveOldFrames_Tick);
-                timeToRemoveOldFrames.Interval = 1000; // in miliseconds
-                timeToRemoveOldFrames.Start();
+                return currentFrame;
             }
         }
 
-        private void timeToRemoveOldFrames_Tick(object sender, EventArgs e)
+        #region events
+        private void OnTimedEvent(Object source, EventArgs myEventArgs)
         {
-            pastFrames.RemoveRange(0, 8);
+            challangeTimeAxis.UpdateTimeAxis();
+            elapsedTimeFromStart.Text = challangeTimeAxis.ElapsedTimeFromStart;
+        }
+
+        private void TimerCallback(object state)
+        {
+            challangeTimeAxis.UpdateTimeAxis();
+            elapsedTimeFromStart.Text = challangeTimeAxis.ElapsedTimeFromStart;
         }
 
         private void PlayerPanel_Click(object sender, EventArgs e)
@@ -86,16 +85,15 @@ namespace Challange.Forms
         private void FinalVideo_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             Bitmap video = (Bitmap)eventArgs.Frame.Clone();
-            pastFrames.Add(video);
+            currentFrame = video;
             foreach (var player in allPlayers)
             {
                 player.Image = video;
             }
+            Invoke(NewFrameCallback);
         }
 
         public event Action OpenPlayerPanelSettings;
-
-        public event Action OpenGameSettings;
 
         public event Action StartStream;
 
@@ -104,6 +102,8 @@ namespace Challange.Forms
         public event Action MainFormClosing;
 
         public event Action CreateChallange;
+
+        public event Action NewFrameCallback;
         #endregion
 
         #region replace players fields
@@ -155,10 +155,11 @@ namespace Challange.Forms
 
         public void InitializeTimer()
         {
-            timer = new Timer();
+            timer = new System.Windows.Forms.Timer();
+            timer.Tick += new EventHandler(OnTimedEvent);
             timer.Interval = 1000;
+            Thread.Sleep(1000);
             timer.Start();
-            timer.Tick += new EventHandler(Timer_Tick);
         }     
 
         public void ResetTimeAxis()
@@ -246,9 +247,48 @@ namespace Challange.Forms
             }
         }
 
-        public void AddMarketOnTimeAxis()
+        public void AddMarkerOnTimeAxis()
         {
             challangeTimeAxis.CreateMarker();
+        }
+
+        public void MakeChallengeButtonInactiveOn(int seconds)
+        {
+            ToggleChallengeButton(false);
+            EnableChallangeAfter(seconds);
+        }
+
+        public async void EnableChallangeAfter(int seconds)
+        {
+            await Task.Delay(seconds*1000);
+            if (IsStreaming())
+            {
+                ToggleChallengeButton(true);
+            }
+        }
+
+        public void MakeChallengeButtonActive()
+        {
+            ToggleChallengeButton(true);
+        }
+
+        public void MakeChallengeButtonInactive()
+        {
+            ToggleChallengeButton(false);
+        }
+
+        private void ToggleChallengeButton(bool enabled)
+        {
+            addChallange.Enabled = enabled;
+        }
+
+        private bool IsStreaming()
+        {
+            if (timer.Enabled)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -7,6 +7,11 @@ using AForge.Video.DirectShow;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using Challange.Domain.Entities;
+using System.Timers;
+using System.Threading.Tasks;
+using AForge.Video.FFMPEG;
+using Challange.Domain.Services.Challange;
 
 namespace Challange.Presenter.Presenters
 {
@@ -16,8 +21,16 @@ namespace Challange.Presenter.Presenters
         private PlayerPanelSettings playerPanelSettings;
         // video streaming
         private FilterInfoCollection VideoCaptureDevices;
-        private VideoCaptureDevice FinalVideo;
+        private List<VideoCaptureDevice> Devices;
         private bool streaming;
+
+        private int numberOfChallangeFPS = 11;
+        private List<FPS> pastFrames;
+        private List<FPS> futureFrames;
+        private List<FPS> video;
+        private FPS tempFPS;
+        private Timer oneSecondTimer;
+        private ChallengeWriter challengeWriter;
 
         public MainPresenter(IApplicationController controller,
                              IMainView mainView) : 
@@ -29,8 +42,39 @@ namespace Challange.Presenter.Presenters
             View.StopStream += StopStream;
             View.MainFormClosing += StopCaptureDevice;
             View.CreateChallange += CreateChallange;
-            streaming = false;
-            FinalVideo = new VideoCaptureDevice();
+            View.NewFrameCallback += AddNewFrame;
+            Devices = new List<VideoCaptureDevice>();
+        }
+
+        private void AddNewFrame()
+        {
+            tempFPS.Frames.Add(View.CurrentFrame);
+        }
+
+        private void OnOneSecondTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            if (pastFrames.Count > numberOfChallangeFPS)
+            {
+                pastFrames.RemoveAt(0);
+            }
+            pastFrames.Add(tempFPS);
+            tempFPS = new FPS();
+        }
+
+        private void OnOneSecondTimedSecondEvent(Object source, ElapsedEventArgs e)
+        {
+            if (futureFrames.Count < numberOfChallangeFPS)
+            {
+                futureFrames.Add(tempFPS);
+                tempFPS = new FPS();
+            }
+            else
+            {
+                WriteChallangeAsVideo();
+                oneSecondTimer.Elapsed -= new ElapsedEventHandler(OnOneSecondTimedSecondEvent);
+                oneSecondTimer.Elapsed += new ElapsedEventHandler(OnOneSecondTimedEvent);
+            }
+
         }
 
         public override void Run()
@@ -39,7 +83,6 @@ namespace Challange.Presenter.Presenters
             DrawPlayers();
             Controller.Run<GameInformationPresenter>();
             View.Show();
-
         }
 
         private void ChangePlayerPanelSettings()
@@ -75,21 +118,64 @@ namespace Challange.Presenter.Presenters
         #region start stream
         /// <summary>
         /// initialize general stream process where we have to
-        /// 1. Initialize devices
+        /// 1. Initialize 2 buffers for past and future frames
         /// 2. Subscribe them onto frames change event
-        /// 3. Initialize timer
+        /// 3. Initialize devices
+        /// 4. Initialize frame change time on time axis
+        /// 5. Initialize one second timer to create FPS object every second
+        /// 6. Set streaming state as true
+        /// 7. Activate challenge button
         /// </summary>
         private void StartStream()
         {
+            InitializeBuffers();
+            InitializeDevices();
+            StartDevices();
+            InitializeFrameChangeTimer();
+            InitializeOneSecondTimer();
+            ChangeStreamingStatus(true);
+            View.MakeChallengeButtonActive();
+        }
+
+        private void InitializeBuffers()
+        {
+            pastFrames = new List<FPS>();
+            futureFrames = new List<FPS>();
+        }
+
+        private void InitializeOneSecondTimer()
+        {
+            tempFPS = new FPS();
+            oneSecondTimer = new Timer(1000);
+            oneSecondTimer.AutoReset = true;
+            oneSecondTimer.Elapsed += new ElapsedEventHandler(OnOneSecondTimedEvent);
+            oneSecondTimer.Start();
+        }
+
+        private void InitializeDevices()
+        {
             VideoCaptureDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-            if (VideoCaptureDevices.Count > 0)
+        }
+
+        private void StartDevices()
+        {
+            int numberOfDevices = VideoCaptureDevices.Count;
+            if (numberOfDevices > 0)
             {
-                FinalVideo = new VideoCaptureDevice(VideoCaptureDevices[0].MonikerString);
-                View.SubscribeNewFrameEvent(FinalVideo);                    
-                FinalVideo.Start();
+                Devices = new List<VideoCaptureDevice>(numberOfDevices);
+                for (int i = 0; i < VideoCaptureDevices.Count; i++)
+                {
+                    Devices.Add(
+                        new VideoCaptureDevice(VideoCaptureDevices[i].MonikerString));
+                    View.SubscribeNewFrameEvent(Devices[i]);
+                    Devices[i].Start();
+                }
             }
+        }
+
+        private void InitializeFrameChangeTimer()
+        {
             View.InitializeTimer();
-            streaming = true;
         }
         #endregion
 
@@ -105,7 +191,8 @@ namespace Challange.Presenter.Presenters
             StopCaptureDevice();
             View.ResetTimeAxis();
             View.ClearPlayers();
-            streaming = false;
+            ChangeStreamingStatus(false);
+            View.MakeChallengeButtonInactive();
         }
 
         /// <summary>
@@ -113,20 +200,46 @@ namespace Challange.Presenter.Presenters
         /// </summary>
         private void StopCaptureDevice()
         {
-            if (FinalVideo.IsRunning)
+            foreach (var device in Devices)
             {
-                FinalVideo.Stop();
+                if (device.IsRunning)
+                {
+                    device.Stop();
+                }
             }
         }
         #endregion
+
+        private void ChangeStreamingStatus(bool status)
+        {
+            streaming = status;
+        }
 
         #region create challange
         private void CreateChallange()
         {
             if (streaming)
             {
-                View.AddMarketOnTimeAxis();
+
+                ChangeOneSecondElapsedEvent();
+                View.MakeChallengeButtonInactiveOn(numberOfChallangeFPS);
+                View.AddMarkerOnTimeAxis();
             }
+        }
+
+        private void ChangeOneSecondElapsedEvent()
+        {
+            oneSecondTimer.Elapsed -= new ElapsedEventHandler(OnOneSecondTimedEvent);
+            oneSecondTimer.Elapsed += new ElapsedEventHandler(OnOneSecondTimedSecondEvent);
+        }
+
+        private void WriteChallangeAsVideo()
+        {
+            pastFrames.AddRange(futureFrames); // unite past and future frames lists
+            challengeWriter = new ChallengeWriter(pastFrames);
+            challengeWriter.WriteChallenge();
+            pastFrames.Clear();
+            futureFrames.Clear();
         }
         #endregion
     }
