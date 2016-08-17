@@ -6,16 +6,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Challange.Domain.Services.Challange
+namespace Challange.Domain.Services.Challenge
 {
     public class ChallengeWriter
     {
         private List<FPS> video;
         private int fps;
+        private string fullPathToFile;
 
-        public ChallengeWriter(List<FPS> video)
+        public ChallengeWriter(List<FPS> video, string fullPathToFile)
         {
             this.video = video;
+            this.fullPathToFile = fullPathToFile;
         }
 
         public void WriteChallenge()
@@ -38,7 +40,7 @@ namespace Challange.Domain.Services.Challange
         {
             using (VideoFileWriter writer = new VideoFileWriter())
             {
-                writer.Open("test.mp4", GetWidth(), GetHeight(), fps, VideoCodec.MPEG4);
+                writer.Open(fullPathToFile, GetWidth(), GetHeight(), fps, VideoCodec.MPEG4);
                 foreach (var fps in video)
                 {
                     foreach (var frame in fps.Frames)

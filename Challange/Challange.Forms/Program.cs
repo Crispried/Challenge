@@ -17,6 +17,7 @@ namespace Challange.Forms
             var controller = new ApplicationController(new LightInjectAdapter())
                             .RegisterView<IMainView, MainForm>()
                             .RegisterView<IPlayerPanelSettingsView, PlayerPanelSettingsForm>()
+                            .RegisterView<IChallengeSettingsView, ChallangeSettingsForm>()
                             .RegisterView<IGameInformationView, GameInformationForm>()
                             .RegisterInstance(new ApplicationContext());
 

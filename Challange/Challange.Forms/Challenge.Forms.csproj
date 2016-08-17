@@ -69,6 +69,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChallangeSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChallangeSettingsForm.Designer.cs">
+      <DependentUpon>ChallangeSettingsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="GameInformationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,6 +96,9 @@
     <Compile Include="LightInjectAdapter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ChallangeSettingsForm.resx">
+      <DependentUpon>ChallangeSettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GameInformationForm.resx">
       <DependentUpon>GameInformationForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -123,16 +132,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Challange.Domain\Challange.Domain.csproj">
+    <ProjectReference Include="..\Challange.Domain\Challenge.Domain.csproj">
       <Project>{35d90601-427a-4c1c-a6ca-2b1ed6be749c}</Project>
-      <Name>Challange.Domain</Name>
+      <Name>Challenge.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Challange.Presenter\Challange.Presenter.csproj">
+    <ProjectReference Include="..\Challange.Presenter\Challenge.Presenter.csproj">
       <Project>{59febcd1-63dd-4e6c-a801-2da258e49ee6}</Project>
-      <Name>Challange.Presenter</Name>
+      <Name>Challenge.Presenter</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\game_folder.png" />
     <Content Include="Images\start.png" />
     <Content Include="Images\stop.png" />
   </ItemGroup>

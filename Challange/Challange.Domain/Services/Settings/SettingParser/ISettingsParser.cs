@@ -4,8 +4,10 @@ namespace Challange.Domain.Services.Settings.SettingParser
 {
     public interface ISettingsParser<T> where T : Setting
     {
-        bool SaveSettings(T settings, string settingsFilePath);
+        bool SaveSettings(T settings);
 
-        T GetSettings(string settingsFilePath);
+        T GetSettings();
+
+        string SettingsFilePath { get; }
     }
 }

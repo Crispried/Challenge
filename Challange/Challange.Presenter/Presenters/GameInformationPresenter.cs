@@ -7,7 +7,7 @@ using Challange.Presenter.Views;
 namespace Challange.Presenter.Presenters
 {
     public class GameInformationPresenter :
-                    BasePresenter<IGameInformationView>
+                    BasePresenter<IGameInformationView, GameInformation>
     {
         private GameInformation gameInformation;
 
@@ -21,8 +21,9 @@ namespace Challange.Presenter.Presenters
                                     View.GameInformation);
         }
 
-        public override void Run()
+        public override void Run(GameInformation argument)
         {
+            gameInformation = argument;
             View.Show();
         }
 
@@ -35,34 +36,23 @@ namespace Challange.Presenter.Presenters
         private void PrepareApplication(
                         GameInformation gameInfo)
         {
-            gameInformation = InitializeGameInformation(gameInfo);
-            var directioryName = FormatDirectoryName(gameInfo.FirstTeam,
-                                 gameInfo.SecondTeam, gameInfo.Date);
-            CreateRootDirectory(directioryName);
-            var pathToFile = PathToFile(directioryName);
-            SaveGameInformation(gameInfo, pathToFile);
+            InitializeGameInformation(gameInfo);
+            var directoryName = gameInformation.DirectoryName;
+            CreateRootDirectory(directoryName);
+            var pathToFile = PathToFile(directoryName);
+            SaveGameInformation(gameInformation, pathToFile);
             View.Close();
         }
 
-        private GameInformation InitializeGameInformation(GameInformation gameInfo)
+        private void InitializeGameInformation(GameInformation gameInfo)
         {
-            var result = new GameInformation()
-            {
-                FirstTeam = gameInfo.FirstTeam,
-                SecondTeam = gameInfo.SecondTeam,
-                Date = gameInfo.Date,
-                GameStart = gameInfo.GameStart,
-                Country = gameInfo.Country,
-                City = gameInfo.City,
-                Part = gameInfo.Part
-            };
-            return result;
-        }
-
-        private string FormatDirectoryName(string firstTeam,
-                                            string secondTeam, string date)
-        {
-            return firstTeam + "_vs_" + secondTeam + "(" + date + ")";
+            gameInformation.FirstTeam = gameInfo.FirstTeam;
+            gameInformation.SecondTeam = gameInfo.SecondTeam;
+            gameInformation.Date = gameInfo.Date;
+            gameInformation.GameStart = gameInfo.GameStart;
+            gameInformation.Country = gameInfo.Country;
+            gameInformation.City = gameInfo.City;
+            gameInformation.Part = gameInfo.Part;
         }
 
         private string PathToFile(string directioryName)

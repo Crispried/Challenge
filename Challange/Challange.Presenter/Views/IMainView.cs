@@ -10,9 +10,13 @@ namespace Challange.Presenter.Views
     {
         event Action OpenPlayerPanelSettings;
 
+        event Action OpenChallengeSettings;
+
         event Action StartStream;
 
         event Action StopStream;
+
+        event Action OpenGameFolder;
 
         event Action MainFormClosing;
 
@@ -21,6 +25,8 @@ namespace Challange.Presenter.Views
         event Action NewFrameCallback;
 
         Bitmap CurrentFrame { get; }
+
+        string GetElapsedTime { get; }
 
         void SubscribeNewFrameEvent(VideoCaptureDevice FinalVideo);
 
@@ -34,10 +40,8 @@ namespace Challange.Presenter.Views
 
         void AddMarkerOnTimeAxis();
 
-        void MakeChallengeButtonInactiveOn(int seconds);
+        void ToggleChallengeButton(bool state);
 
-        void MakeChallengeButtonActive();
-
-        void MakeChallengeButtonInactive();
+        void ToggleChallengeButtonIn(bool state, int seconds);
     }
 }

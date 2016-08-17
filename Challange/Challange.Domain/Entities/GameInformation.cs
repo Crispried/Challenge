@@ -18,5 +18,18 @@ namespace Challange.Domain.Entities
         public string City { get; set; }
 
         public string Part { get; set; }
+
+        public string DirectoryName
+        {
+            get
+            {
+                return FormatDirectoryName();
+            }
+        }
+
+        private string FormatDirectoryName()
+        {
+            return FirstTeam + "_vs_" + SecondTeam + "(" + Date + ")";
+        }
     }
 }

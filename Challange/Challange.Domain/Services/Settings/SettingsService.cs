@@ -5,7 +5,6 @@ namespace Challange.Domain.Services.Settings
 {
     public class SettingsService<T> where T : Setting
     {
-        private const string settingsFilePath = "settings.xml";
         private ISettingsParser<T> settingsParser;
 
         public SettingsService(ISettingsParser<T> settingParser)
@@ -15,12 +14,12 @@ namespace Challange.Domain.Services.Settings
 
         public void SaveSetting(T setting)
         {
-            settingsParser.SaveSettings(setting, settingsFilePath);
+            settingsParser.SaveSettings(setting);
         }
 
         public T GetSetting()
         {
-            return settingsParser.GetSettings(settingsFilePath);
+            return settingsParser.GetSettings();
         }
     }
 }

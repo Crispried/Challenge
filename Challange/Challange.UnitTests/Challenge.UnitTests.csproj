@@ -76,17 +76,17 @@
     <Compile Include="TestCase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Challange.Domain\Challange.Domain.csproj">
+    <ProjectReference Include="..\Challange.Domain\Challenge.Domain.csproj">
       <Project>{35d90601-427a-4c1c-a6ca-2b1ed6be749c}</Project>
-      <Name>Challange.Domain</Name>
+      <Name>Challenge.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Challange.Forms\Challange.Forms.csproj">
+    <ProjectReference Include="..\Challange.Forms\Challenge.Forms.csproj">
       <Project>{0cc7b668-0ab2-4c4c-ac0c-bcb2640fe101}</Project>
-      <Name>Challange.Forms</Name>
+      <Name>Challenge.Forms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Challange.Presenter\Challange.Presenter.csproj">
+    <ProjectReference Include="..\Challange.Presenter\Challenge.Presenter.csproj">
       <Project>{59febcd1-63dd-4e6c-a801-2da258e49ee6}</Project>
-      <Name>Challange.Presenter</Name>
+      <Name>Challenge.Presenter</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

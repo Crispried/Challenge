@@ -5,9 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Challange.Presenter.Views;
 using Challange.Domain.Services.Settings.SettingTypes;
-using Challange.Domain.Entities;
 using System.Threading.Tasks;
-using System.ComponentModel;
 using System.Threading;
 using AForge.Video;
 using AForge.Video.DirectShow;
@@ -31,10 +29,14 @@ namespace Challange.Forms
             InitializeComponent();
             playerPanelSettings.Click += (sender, args) =>
                             Invoke(OpenPlayerPanelSettings);
+            challangeSettings.Click += (sender, args) =>
+                            Invoke(OpenChallengeSettings);
             startStreamButton.Click += (sender, args) =>
                             Invoke(StartStream);
             stopStreamButton.Click += (sender, args) =>
                             Invoke(StopStream);
+            openGameFolderButton.Click += (sender, args) =>
+                            Invoke(OpenGameFolder);
             FormClosing += (sender, args) =>
                             Invoke(MainFormClosing);
             addChallange.Click += (sender, args) =>
@@ -47,6 +49,14 @@ namespace Challange.Forms
             get
             {
                 return currentFrame;
+            }
+        }
+
+        public string GetElapsedTime
+        {
+            get
+            {
+                return elapsedTimeFromStart.Text;
             }
         }
 
@@ -95,9 +105,13 @@ namespace Challange.Forms
 
         public event Action OpenPlayerPanelSettings;
 
+        public event Action OpenChallengeSettings;
+
         public event Action StartStream;
 
         public event Action StopStream;
+
+        public event Action OpenGameFolder;
 
         public event Action MainFormClosing;
 
@@ -232,9 +246,13 @@ namespace Challange.Forms
             newPictureBox.BackColor = Color.Red;
             newPictureBox.Height = playerHeight;
             newPictureBox.Width = playerWidth;
-            newPictureBox.Controls.Add(new Label() { Text = playerName });
+            newPictureBox.Controls.Add(new TextBox
+            {
+                Text = playerName,
+                Width = playerWidth,
+                MaxLength = 30
+            });
             newPictureBox.Click += new EventHandler(PlayerPanel_Click);
-            newPictureBox.Tag = "playerPanel";
             return newPictureBox;
         }
         #endregion
@@ -252,34 +270,24 @@ namespace Challange.Forms
             challangeTimeAxis.CreateMarker();
         }
 
-        public void MakeChallengeButtonInactiveOn(int seconds)
+        public void ToggleChallengeButton(bool enabled)
+        {
+            addChallange.Enabled = enabled;
+        }
+
+        public void ToggleChallengeButtonIn(bool enabled, int seconds)
         {
             ToggleChallengeButton(false);
             EnableChallangeAfter(seconds);
         }
 
-        public async void EnableChallangeAfter(int seconds)
+        private async void EnableChallangeAfter(int seconds)
         {
-            await Task.Delay(seconds*1000);
+            await Task.Delay(seconds * 1000);
             if (IsStreaming())
             {
                 ToggleChallengeButton(true);
             }
-        }
-
-        public void MakeChallengeButtonActive()
-        {
-            ToggleChallengeButton(true);
-        }
-
-        public void MakeChallengeButtonInactive()
-        {
-            ToggleChallengeButton(false);
-        }
-
-        private void ToggleChallengeButton(bool enabled)
-        {
-            addChallange.Enabled = enabled;
         }
 
         private bool IsStreaming()
