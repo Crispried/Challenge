@@ -22,18 +22,26 @@ namespace Challange.Presenter.Presenters
                 base(controller, challengeSettingsView)
         {
             View.ChangeChallengeSettings += () =>
-                         ChangeChallengeSettings(
-                                    View.ChallengeSettings);
+                         ChangeChallengeSettings();
         }
 
-        private void ChangeChallengeSettings(ChallengeSettings newSettings)
+        private void ChangeChallengeSettings()
         {
-            SaveSettings(newSettings);
-            challengeSettings.NumberOfPastFPS =
-                            newSettings.NumberOfPastFPS;
-            challengeSettings.NumberOfFutureFPS =
-                            newSettings.NumberOfFutureFPS;
-            View.Close();
+            View.ValidateForm();
+            if (View.IsFormValid)
+            {
+                var newSettings = View.ChallengeSettings;
+                SaveSettings(newSettings);
+                challengeSettings.NumberOfPastFPS =
+                                newSettings.NumberOfPastFPS;
+                challengeSettings.NumberOfFutureFPS =
+                                newSettings.NumberOfFutureFPS;
+                View.Close();
+            }
+            else
+            {
+                View.ShowErrorMessage();
+            }
         }
 
         public override void Run(ChallengeSettings argument)

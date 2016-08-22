@@ -15,6 +15,8 @@ namespace Challange.Forms
     public partial class ChallangeSettingsForm : 
                                 Form, IChallengeSettingsView
     {
+        private bool isFormValid;
+
         public ChallangeSettingsForm()
         {
             InitializeComponent();
@@ -32,6 +34,14 @@ namespace Challange.Forms
             get
             {
                 return GetSettings();
+            }
+        }
+
+        public bool IsFormValid
+        {
+            get
+            {
+                return isFormValid;
             }
         }
 
@@ -55,6 +65,50 @@ namespace Challange.Forms
                 challengeSettings.NumberOfPastFPS.ToString();
             futureSecondsTextBox.Text = 
                 challengeSettings.NumberOfFutureFPS.ToString();
+        }
+
+        public void ValidateForm()
+        {
+            if (FormFieldsAreValid())
+            {
+                isFormValid = true;
+            }
+            else
+            {
+                isFormValid = false;
+            }
+        }
+
+        private bool FormFieldsAreValid()
+        {
+            return (!string.IsNullOrWhiteSpace(pastSecondsTextBox.Text)) &&
+                   (!string.IsNullOrWhiteSpace(futureSecondsTextBox.Text));
+        }
+
+        public void ShowErrorMessage()
+        {
+            string caption = "Form is not valid";
+            string text = "Please, fill all fields";
+            MessageBox.Show(text, caption,
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void pastSecondsTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!Char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+            base.OnKeyPress(e);
+        }
+
+        private void futureSecondsTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!Char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+            base.OnKeyPress(e);
         }
     }
 }

@@ -43,6 +43,7 @@
             this.futureSecondsTextBox.Name = "futureSecondsTextBox";
             this.futureSecondsTextBox.Size = new System.Drawing.Size(61, 29);
             this.futureSecondsTextBox.TabIndex = 10;
+            this.futureSecondsTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.futureSecondsTextBox_KeyPress);
             // 
             // pastSecondsLabel
             // 
@@ -72,6 +73,7 @@
             this.pastSecondsTextBox.Name = "pastSecondsTextBox";
             this.pastSecondsTextBox.Size = new System.Drawing.Size(60, 29);
             this.pastSecondsTextBox.TabIndex = 8;
+            this.pastSecondsTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.pastSecondsTextBox_KeyPress);
             // 
             // saveChallangeSettingsButton
             // 
