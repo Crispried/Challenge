@@ -41,6 +41,8 @@ namespace Challange.Forms
                             Invoke(MainFormClosing);
             addChallange.Click += (sender, args) =>
                             Invoke(CreateChallange);
+            openDevicesListButton.Click += (sender, args) =>
+                            Invoke(OpenDevicesList);
             allPlayers = new List<PictureBox>();
         }
 
@@ -106,6 +108,8 @@ namespace Challange.Forms
         public event Action OpenPlayerPanelSettings;
 
         public event Action OpenChallengeSettings;
+
+        public event Action OpenDevicesList;
 
         public event Action StartStream;
 
@@ -297,6 +301,15 @@ namespace Challange.Forms
                 return true;
             }
             return false;
+        }
+
+        public void DrawNewFrame(Bitmap frame)
+        {
+            foreach (var player in allPlayers)
+            {
+                player.Image = frame;
+            }
+            Invoke(NewFrameCallback);
         }
     }
 }

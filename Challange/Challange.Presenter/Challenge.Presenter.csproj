@@ -60,9 +60,11 @@
     <Compile Include="Base\IContainer.cs" />
     <Compile Include="Base\IPresenter.cs" />
     <Compile Include="Base\IView.cs" />
+    <Compile Include="Presenters\CamerasPresenter.cs" />
     <Compile Include="Presenters\ChallengeSettingsPresenter.cs" />
     <Compile Include="Presenters\GameInformationPresenter.cs" />
     <Compile Include="Presenters\PlayerPanelSettingsPresenter.cs" />
+    <Compile Include="Views\ICamerasView.cs" />
     <Compile Include="Views\IChallengeSettingsView.cs" />
     <Compile Include="Views\IGameInformationView.cs" />
     <Compile Include="Views\IMainView.cs" />

@@ -3,6 +3,7 @@ using Challange.Presenter.Base;
 using Challange.Domain.Services.Settings.SettingTypes;
 using AForge.Video.DirectShow;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace Challange.Presenter.Views
 {
@@ -11,6 +12,8 @@ namespace Challange.Presenter.Views
         event Action OpenPlayerPanelSettings;
 
         event Action OpenChallengeSettings;
+
+        event Action OpenDevicesList;
 
         event Action StartStream;
 
@@ -43,5 +46,7 @@ namespace Challange.Presenter.Views
         void ToggleChallengeButton(bool state);
 
         void ToggleChallengeButtonIn(bool state, int seconds);
+
+        void DrawNewFrame(Bitmap frame);
     }
 }

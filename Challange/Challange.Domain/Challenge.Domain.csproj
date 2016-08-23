@@ -42,6 +42,13 @@
     <Reference Include="AForge.Video.FFMPEG">
       <HintPath>..\packages\AForge.Video.FFMPEG\lib\AForge.Video.FFMPEG.dll</HintPath>
     </Reference>
+    <Reference Include="PylonC.NET, Version=4.1.0.0, Culture=neutral, PublicKeyToken=a77e8471c5919d5a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Pylon.5\lib\PylonC.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="PylonC.NETSupportLibrary">
+      <HintPath>..\packages\Pylon.5\lib\PylonC.NETSupportLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -58,6 +65,8 @@
     <Compile Include="Entities\FPS.cs" />
     <Compile Include="Entities\GameInformation.cs" />
     <Compile Include="Infrastructure\ChallengeStructurer.cs" />
+    <Compile Include="Services\StreamProcess\Abstract\ICamera.cs" />
+    <Compile Include="Services\StreamProcess\Abstract\ICameraProvider.cs" />
     <Compile Include="Services\Challenge\ChallengeWriter.cs" />
     <Compile Include="Services\Settings\SettingParser\ChallengeSettingsParser.cs" />
     <Compile Include="Services\Settings\SettingTypes\ChallengeSettings.cs" />
@@ -70,6 +79,8 @@
     <Compile Include="Services\Settings\SettingsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Settings\SettingTypes\Setting.cs" />
+    <Compile Include="Services\StreamProcess\Concrete\Pylon\PylonCamera.cs" />
+    <Compile Include="Services\StreamProcess\Concrete\Pylon\PylonCameraProvider.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -52,6 +52,14 @@
     <Reference Include="Marker">
       <HintPath>C:\Users\Volodymyr\Desktop\Marker.dll</HintPath>
     </Reference>
+    <Reference Include="PylonC.NET, Version=4.1.0.0, Culture=neutral, PublicKeyToken=a77e8471c5919d5a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Pylon.5\lib\PylonC.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="PylonC.NETSupportLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Pylon.5\lib\PylonC.NETSupportLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -69,6 +77,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CamerasForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CamerasForm.Designer.cs">
+      <DependentUpon>CamerasForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ChallangeSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,6 +110,9 @@
     <Compile Include="LightInjectAdapter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CamerasForm.resx">
+      <DependentUpon>CamerasForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ChallangeSettingsForm.resx">
       <DependentUpon>ChallangeSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -142,6 +159,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\camera.png" />
     <Content Include="Images\game_folder.png" />
     <Content Include="Images\start.png" />
     <Content Include="Images\stop.png" />

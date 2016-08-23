@@ -46,6 +46,7 @@
             this.startStreamButton = new System.Windows.Forms.ToolStripButton();
             this.stopStreamButton = new System.Windows.Forms.ToolStripButton();
             this.openGameFolderButton = new System.Windows.Forms.ToolStripButton();
+            this.openDevicesListButton = new System.Windows.Forms.ToolStripButton();
             this.menu.SuspendLayout();
             this.timeAxis.SuspendLayout();
             this.toolBox.SuspendLayout();
@@ -168,7 +169,8 @@
             this.toolBox.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.startStreamButton,
             this.stopStreamButton,
-            this.openGameFolderButton});
+            this.openGameFolderButton,
+            this.openDevicesListButton});
             this.toolBox.Location = new System.Drawing.Point(0, 24);
             this.toolBox.Name = "toolBox";
             this.toolBox.Size = new System.Drawing.Size(784, 25);
@@ -201,6 +203,15 @@
             this.openGameFolderButton.Name = "openGameFolderButton";
             this.openGameFolderButton.Size = new System.Drawing.Size(23, 22);
             this.openGameFolderButton.Text = "Open game folder";
+            // 
+            // openDevicesListButton
+            // 
+            this.openDevicesListButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openDevicesListButton.Image = ((System.Drawing.Image)(resources.GetObject("openDevicesListButton.Image")));
+            this.openDevicesListButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openDevicesListButton.Name = "openDevicesListButton";
+            this.openDevicesListButton.Size = new System.Drawing.Size(23, 22);
+            this.openDevicesListButton.Text = "Opens list with all conncected devices";
             // 
             // MainForm
             // 
@@ -244,6 +255,7 @@
         private System.Windows.Forms.ToolStripButton stopStreamButton;
         private System.Windows.Forms.ToolStripMenuItem challangeSettings;
         private System.Windows.Forms.ToolStripButton openGameFolderButton;
+        private System.Windows.Forms.ToolStripButton openDevicesListButton;
     }
 }
 

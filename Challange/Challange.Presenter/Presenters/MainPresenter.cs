@@ -10,6 +10,8 @@ using Challange.Domain.Entities;
 using System.Timers;
 using Challange.Domain.Services.Challenge;
 using Challange.Domain.Infrastructure;
+using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
+using System.Drawing;
 
 namespace Challange.Presenter.Presenters
 {
@@ -20,6 +22,9 @@ namespace Challange.Presenter.Presenters
         private ChallengeSettings challengeSettings;
         //
         private GameInformation gameInformation;
+        // Pylon 5
+        PylonCameraProvider pylonCameraProvider;
+        PylonCamera pylonCamera;
         // video streaming
         private FilterInfoCollection VideoCaptureDevices;
         private List<VideoCaptureDevice> Devices;
@@ -41,6 +46,7 @@ namespace Challange.Presenter.Presenters
                                     ChangePlayerPanelSettings;
             View.OpenChallengeSettings +=
                                     ChangeChallengeSettings;
+            View.OpenDevicesList += ShowDevicesList;
             View.StartStream += StartStream;
             View.StopStream += StopStream;
             View.OpenGameFolder += OpenGameFolder;
@@ -48,6 +54,21 @@ namespace Challange.Presenter.Presenters
             View.CreateChallange += CreateChallange;
             View.NewFrameCallback += AddNewFrame;
             Devices = new List<VideoCaptureDevice>();
+            pylonCamera = new PylonCamera();
+        }
+
+        private void PylonCamera_NewFrameEvent(Bitmap frame)
+        {
+            View.DrawNewFrame(frame);
+        }
+
+        private void ShowDevicesList()
+        {
+            pylonCameraProvider = new PylonCameraProvider();
+            var connectedCameras = 
+                pylonCameraProvider.GetConnectedCameras();
+            Controller.Run<CamerasPresenter,
+                List<string>>(connectedCameras);
         }
 
         /// <summary>
@@ -253,8 +274,9 @@ namespace Challange.Presenter.Presenters
         private void StartStream()
         {
             InitializeBuffers();
-            InitializeDevices();
-            StartDevices();
+            pylonCamera.NewFrameEvent += PylonCamera_NewFrameEvent;
+            // InitializeDevices();
+            //StartDevices();
             InitializeTempFPS();
             InitializeTimeAxisTimer();
             InitializeOneSecondTimer();
@@ -387,7 +409,8 @@ namespace Challange.Presenter.Presenters
         /// </summary>
         private void StopStream()
         {
-            StopCaptureDevice();
+            pylonCamera.NewFrameEvent -= PylonCamera_NewFrameEvent;
+            //StopCaptureDevice();
             ResetTimeAxis();
             ClearPlayers();
             ChangeStreamingStatus(false);
