@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using AForge.Video;
 using AForge.Video.DirectShow;
+using System.Reflection;
 
 namespace Challange.Forms
 {
@@ -20,6 +21,8 @@ namespace Challange.Forms
         private const int autosizeHeightCoefficient = 3;
         private System.Windows.Forms.Timer timer;
         private List<PictureBox> allPlayers;
+
+        
 
         private Bitmap currentFrame;
 
@@ -73,6 +76,34 @@ namespace Challange.Forms
         {
             challangeTimeAxis.UpdateTimeAxis();
             elapsedTimeFromStart.Text = challangeTimeAxis.ElapsedTimeFromStart;
+        }
+
+        private int controlIndex;
+        private PictureBox pictureBoxToShowFullscreen;
+
+        private void ShowFullScreen_Click(object sender, EventArgs e)
+        {
+            pictureBoxToShowFullscreen = (PictureBox)((Button)sender).Parent;
+            controlIndex = playerPanel.Controls.IndexOf(pictureBoxToShowFullscreen);
+
+            playerPanel.Controls.Remove(pictureBoxToShowFullscreen);
+            this.Controls.Add(pictureBoxToShowFullscreen);
+
+            pictureBoxToShowFullscreen.Dock = DockStyle.Fill;
+            pictureBoxToShowFullscreen.BringToFront();
+            pictureBoxToShowFullscreen.Select();
+            this.WindowState = FormWindowState.Maximized;
+
+            pictureBoxToShowFullscreen.KeyDown += new KeyEventHandler(FullScreenForm_KeyPress);
+        }
+
+        public void FullScreenForm_KeyPress(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Escape)
+            {
+                playerPanel.Controls.Add(pictureBoxToShowFullscreen);
+                playerPanel.Controls.SetChildIndex(pictureBoxToShowFullscreen, controlIndex);
+            }
         }
 
         private void PlayerPanel_Click(object sender, EventArgs e)
@@ -256,6 +287,13 @@ namespace Challange.Forms
                 Width = playerWidth,
                 MaxLength = 30
             });
+            Button showFullscreen = new Button
+            {
+                Text = "FSCRN",
+                Dock = DockStyle.Bottom
+            };
+            showFullscreen.Click += new EventHandler(ShowFullScreen_Click);
+            newPictureBox.Controls.Add(showFullscreen);
             newPictureBox.Click += new EventHandler(PlayerPanel_Click);
             return newPictureBox;
         }

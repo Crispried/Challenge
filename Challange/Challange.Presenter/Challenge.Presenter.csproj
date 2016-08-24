@@ -45,11 +45,10 @@
     </Reference>
     <Reference Include="PylonC.NET, Version=4.1.0.0, Culture=neutral, PublicKeyToken=a77e8471c5919d5a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Pylon.5\lib\PylonC.NET.dll</HintPath>
+      <HintPath>C:\Users\Volodymyr\Desktop\PylonC.NET.dll</HintPath>
     </Reference>
-    <Reference Include="PylonC.NETSupportLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Pylon.5\lib\PylonC.NETSupportLibrary.dll</HintPath>
+    <Reference Include="PylonC.NETSupportLibrary">
+      <HintPath>C:\Users\Volodymyr\Desktop\PylonC.NETSupportLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

@@ -56,8 +56,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Pylon.5\lib\PylonC.NET.dll</HintPath>
     </Reference>
-    <Reference Include="PylonC.NETSupportLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="PylonC.NETSupportLibrary">
       <HintPath>..\packages\Pylon.5\lib\PylonC.NETSupportLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
