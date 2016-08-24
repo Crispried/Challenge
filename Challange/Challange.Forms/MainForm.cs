@@ -221,7 +221,6 @@ namespace Challange.Forms
         }
         #endregion
 
-
         private void StartStream()
         {
             VideoCaptureDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
@@ -244,6 +243,6 @@ namespace Challange.Forms
                 }
                 ResetTimeAxis();
             }
-        }  
+        }
     }
 }
