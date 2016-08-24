@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static PylonC.NETSupportLibrary.DeviceEnumerator;
 
 namespace Challange.Presenter.Presenters
 {
     public class CamerasPresenter :
-                    BasePresenter<ICamerasView, List<string>>
+                    BasePresenter<ICamerasView, List<Device>>
     {
-        private List<string> connectedCameras;
+        private List<Device> connectedCameras;
 
         public CamerasPresenter(
                     IApplicationController controller,
@@ -20,11 +21,21 @@ namespace Challange.Presenter.Presenters
         {
         }
 
-        public override void Run(List<string> argument)
+        public override void Run(List<Device> argument)
         {
             connectedCameras = argument;
+            FillCamerasListView();
             View.Show();
-            View.FillCamerasListView(connectedCameras);
+        }
+
+        private void FillCamerasListView()
+        {
+            List<string> camerasFullNames = new List<string>();
+            foreach (var connectedCamera in connectedCameras)
+            {
+                camerasFullNames.Add(connectedCamera.FullName);
+            }
+            View.FillCamerasListView(camerasFullNames);
         }
     }
 }

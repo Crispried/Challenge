@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Challange.Domain.Infrastructure
 {
-    public class ChallengeStructurer
+  /*  public class ChallengeStructurer
     {
         private string desktopPath;
 
@@ -63,5 +63,5 @@ namespace Challange.Domain.Infrastructure
         {
             Directory.CreateDirectory(path);
         }
-    }
+    }*/
 }

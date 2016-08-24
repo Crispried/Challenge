@@ -11,9 +11,11 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
     public class PylonCamera : Camera
     {
         private ImageProvider imageProvider;
+        private uint cameraIndex;
 
-        public PylonCamera()
+        public PylonCamera(uint cameraIndex)
         {
+            this.cameraIndex = cameraIndex;
             imageProvider = new ImageProvider();
             imageProvider.ImageReadyEvent +=
                 new ImageProvider.ImageReadyEventHandler(
@@ -58,6 +60,7 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
         {
             try
             {
+                imageProvider.Open(cameraIndex);
                 imageProvider.ContinuousShot(); /* Start the grabbing of images until grabbing is stopped. */
             }
             catch (Exception e)
@@ -72,6 +75,7 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
             try
             {
                 imageProvider.Stop();
+                imageProvider.Close();
             }
             catch (Exception e)
             {

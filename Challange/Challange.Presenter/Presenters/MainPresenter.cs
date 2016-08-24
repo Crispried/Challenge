@@ -12,6 +12,9 @@ using Challange.Domain.Services.Challenge;
 using Challange.Domain.Infrastructure;
 using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 using System.Drawing;
+using static PylonC.NETSupportLibrary.DeviceEnumerator;
+using Challange.Domain.Services.StreamProcess.Concrete;
+using Challange.Domain.Services.StreamProcess.Abstract;
 
 namespace Challange.Presenter.Presenters
 {
@@ -23,8 +26,9 @@ namespace Challange.Presenter.Presenters
         //
         private GameInformation gameInformation;
         // Pylon 5
-        PylonCameraProvider pylonCameraProvider;
-        PylonCamera pylonCamera;
+        private CamerasContainer<Camera> camerasContainer;
+        private PylonCameraProvider pylonCameraProvider;
+        private List<Device> camerasInfo;
         // video streaming
         private FilterInfoCollection VideoCaptureDevices;
         private List<VideoCaptureDevice> Devices;
@@ -54,21 +58,14 @@ namespace Challange.Presenter.Presenters
             View.CreateChallange += CreateChallange;
             View.NewFrameCallback += AddNewFrame;
             Devices = new List<VideoCaptureDevice>();
-            pylonCamera = new PylonCamera();
-        }
-
-        private void PylonCamera_NewFrameEvent(Bitmap frame)
-        {
-            View.DrawNewFrame(frame);
+            pylonCameraProvider = new PylonCameraProvider();
         }
 
         private void ShowDevicesList()
         {
-            pylonCameraProvider = new PylonCameraProvider();
-            var connectedCameras = 
-                pylonCameraProvider.GetConnectedCameras();
+            InitializeDevicesList();
             Controller.Run<CamerasPresenter,
-                List<string>>(connectedCameras);
+                List<Device>>(camerasInfo);
         }
 
         /// <summary>
@@ -274,9 +271,8 @@ namespace Challange.Presenter.Presenters
         private void StartStream()
         {
             InitializeBuffers();
-            pylonCamera.NewFrameEvent += PylonCamera_NewFrameEvent;
-            // InitializeDevices();
-            //StartDevices();
+            InitializeDevices();
+            StartDevices();
             InitializeTempFPS();
             InitializeTimeAxisTimer();
             InitializeOneSecondTimer();
@@ -298,27 +294,48 @@ namespace Challange.Presenter.Presenters
         /// </summary>
         private void InitializeDevices()
         {
-            VideoCaptureDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+            InitializeDevicesList();
+            camerasContainer = new CamerasContainer<Camera>();
+            PylonCamera tmpCamera;
+            foreach (var cameraInfo in camerasInfo)
+            {
+                tmpCamera = new PylonCamera(cameraInfo.Index);
+                camerasContainer.AddCamera(tmpCamera);
+            }
+        }
+
+        private void StartDevices()
+        {
+            foreach (Camera camera in camerasContainer.GetCameras)
+            {
+                camera.NewFrameEvent += Camera_NewFrameEvent;
+                camera.Start();
+            }
+        }
+
+        private void Camera_NewFrameEvent(Bitmap frame)
+        {
+            View.DrawNewFrame(frame);
         }
 
         /// <summary>
         /// Subscribe them onto frames change event
         /// </summary>
-        private void StartDevices()
-        {
-            int numberOfDevices = GetNumberOfConnectedCameras();
-            if (numberOfDevices > 0)
-            {
-                InitializeDevicesList(numberOfDevices);
-                for (int i = 0; i < VideoCaptureDevices.Count; i++)
-                {
-                    AddDeviceIntoDevicesList(
-                        new VideoCaptureDevice(VideoCaptureDevices[i].MonikerString));
-                    SubscribeDeviceOnFrameChangeEvent(Devices[i]);
-                    StartDevice(Devices[i]);
-                }
-            }
-        }
+        /*   private void StartDevices()
+           {
+               int numberOfDevices = GetNumberOfConnectedCameras();
+               if (numberOfDevices > 0)
+               {
+                   InitializeDevicesList(numberOfDevices);
+                   for (int i = 0; i < VideoCaptureDevices.Count; i++)
+                   {
+                       AddDeviceIntoDevicesList(
+                           new VideoCaptureDevice(VideoCaptureDevices[i].MonikerString));
+                       SubscribeDeviceOnFrameChangeEvent(Devices[i]);
+                       StartDevice(Devices[i]);
+                   }
+               }
+           }*/
 
         /// <summary>
         /// Returns number of connected devices
@@ -332,10 +349,10 @@ namespace Challange.Presenter.Presenters
         /// <summary>
         /// Initializes devices list
         /// </summary>
-        /// <param name="capacity"></param>
-        private void InitializeDevicesList(int capacity)
+        private void InitializeDevicesList()
         {
-            Devices = new List<VideoCaptureDevice>(capacity);
+            //Devices = new List<VideoCaptureDevice>(capacity);
+            camerasInfo = pylonCameraProvider.GetConnectedCameras();
         }
         
         /// <summary>
@@ -409,8 +426,7 @@ namespace Challange.Presenter.Presenters
         /// </summary>
         private void StopStream()
         {
-            pylonCamera.NewFrameEvent -= PylonCamera_NewFrameEvent;
-            //StopCaptureDevice();
+            StopCaptureDevice();
             ResetTimeAxis();
             ClearPlayers();
             ChangeStreamingStatus(false);
@@ -422,11 +438,11 @@ namespace Challange.Presenter.Presenters
         /// </summary>
         private void StopCaptureDevice()
         {
-            foreach (var device in Devices)
+            if (camerasContainer != null)
             {
-                if (device.IsRunning)
+                foreach (var camera in camerasContainer.GetCameras)
                 {
-                    device.Stop();
+                    camera.Stop();
                 }
             }
         }

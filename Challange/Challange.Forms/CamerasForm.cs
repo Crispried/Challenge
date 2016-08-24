@@ -18,6 +18,11 @@ namespace Challange.Forms
             InitializeComponent();
         }
 
+        public new void Show()
+        {
+            ShowDialog();
+        }
+
         public void FillCamerasListView(List<string> camerasNames)
         {
             foreach (string cameraName in camerasNames)
