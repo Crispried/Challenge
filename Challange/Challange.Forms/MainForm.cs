@@ -305,6 +305,7 @@ namespace Challange.Forms
 
         public void DrawNewFrame(Bitmap frame)
         {
+            currentFrame = frame;
             foreach (var player in allPlayers)
             {
                 player.Image = frame;

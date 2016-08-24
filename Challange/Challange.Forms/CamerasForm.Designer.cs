@@ -40,17 +40,17 @@
             this.camerasListBox.ItemHeight = 18;
             this.camerasListBox.Location = new System.Drawing.Point(0, 0);
             this.camerasListBox.Name = "camerasListBox";
-            this.camerasListBox.Size = new System.Drawing.Size(684, 262);
+            this.camerasListBox.Size = new System.Drawing.Size(484, 262);
             this.camerasListBox.TabIndex = 0;
             // 
             // CamerasForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 262);
+            this.ClientSize = new System.Drawing.Size(484, 262);
             this.Controls.Add(this.camerasListBox);
-            this.MaximumSize = new System.Drawing.Size(700, 300);
-            this.MinimumSize = new System.Drawing.Size(700, 300);
+            this.MaximumSize = new System.Drawing.Size(500, 300);
+            this.MinimumSize = new System.Drawing.Size(500, 300);
             this.Name = "CamerasForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "CamerasForm";

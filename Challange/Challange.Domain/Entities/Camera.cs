@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Challange.Domain.Entities
 {
-    public class Camera
+  /*  public class Camera
     {
         private string name;
 
@@ -26,5 +26,5 @@ namespace Challange.Domain.Entities
                 name = value;
             }
         }
-    }
+    }*/
 }
