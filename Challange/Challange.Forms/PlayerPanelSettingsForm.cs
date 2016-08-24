@@ -1,4 +1,4 @@
-﻿using Challange.Domain.SettingsService.SettingTypes;
+﻿using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Presenter.Views;
 using System;
 using System.Windows.Forms;
@@ -8,8 +8,6 @@ namespace Challange.Forms
     public partial class PlayerPanelSettingsForm :
                                 Form, IPlayerPanelSettingsView
     {
-        private bool autosizeMode;
-
         public PlayerPanelSettingsForm()
         {
             InitializeComponent();
@@ -21,7 +19,6 @@ namespace Challange.Forms
 
         public new void Show()
         {
-
             ShowDialog();
         }
 
@@ -69,19 +66,19 @@ namespace Challange.Forms
         {
             if (autosizeCheckButton.Checked)
             {
-               // playerHeightLabel.Hide();
+                // playerHeightLabel.Hide();
                 // playerHeightTextBox.Hide();
                 playerHeightTextBox.Enabled = false;
-              //  playerWidthLabel.Hide();
+                //  playerWidthLabel.Hide();
                 playerWidthTextBox.Enabled = false;
                 // playerWidthTextBox.Hide();
             }
             else
             {
-              //  playerHeightLabel.Show();
+                //  playerHeightLabel.Show();
                 //playerHeightTextBox.Show();
                 playerHeightTextBox.Enabled = true;
-              //  playerWidthLabel.Show();
+                //  playerWidthLabel.Show();
                 //playerWidthTextBox.Show();
                 playerWidthTextBox.Enabled = true;
             }

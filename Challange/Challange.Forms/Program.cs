@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using Challange.Presenter.Base;
 using Challange.Presenter.Views;
 using Challange.Presenter.Presenters;
+using PylonC.NET;
 
 namespace Challange.Forms
 {
@@ -11,15 +12,28 @@ namespace Challange.Forms
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            Pylon.Initialize();
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
 
-            var controller = new ApplicationController(new LightInjectAdapter())
-                            .RegisterView<IMainView, MainForm>()
-                            .RegisterView<IPlayerPanelSettingsView, PlayerPanelSettingsForm>()
-                            .RegisterInstance(new ApplicationContext());
+                var controller = new ApplicationController(new LightInjectAdapter())
+                                .RegisterView<IMainView, MainForm>()
+                                .RegisterView<IPlayerPanelSettingsView, PlayerPanelSettingsForm>()
+                                .RegisterView<IChallengeSettingsView, ChallangeSettingsForm>()
+                                .RegisterView<IGameInformationView, GameInformationForm>()
+                                .RegisterView<ICamerasView, CamerasForm>()
+                                .RegisterInstance(new ApplicationContext());
 
-            controller.Run<MainPresenter>();
+                controller.Run<MainPresenter>();
+            }
+            catch
+            {
+                Pylon.Terminate();
+                throw;
+            }
+            Pylon.Terminate();
         }
     }
 }

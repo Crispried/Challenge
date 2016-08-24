@@ -1,6 +1,6 @@
-﻿using Challange.Domain.SettingsService;
-using Challange.Domain.SettingsService.SettingParser;
-using Challange.Domain.SettingsService.SettingTypes;
+﻿using Challange.Domain.Services.Settings;
+using Challange.Domain.Services.Settings.SettingParser;
+using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Presenter.Base;
 using Challange.Presenter.Views;
 
@@ -9,7 +9,7 @@ namespace Challange.Presenter.Presenters
     public class PlayerPanelSettingsPresenter :
              BasePresenter<IPlayerPanelSettingsView, PlayerPanelSettings>
     {
-        private PlayerPanelSettings playerPanelSetting;
+        private PlayerPanelSettings playerPanelSettings;
 
         public PlayerPanelSettingsPresenter(
                 IApplicationController controller,
@@ -23,7 +23,7 @@ namespace Challange.Presenter.Presenters
 
         public override void Run(PlayerPanelSettings argument)
         {
-            playerPanelSetting = argument;
+            playerPanelSettings = argument;
             SetPlayerPanelSettings();
             View.Show();
         }
@@ -40,13 +40,13 @@ namespace Challange.Presenter.Presenters
                         PlayerPanelSettings newSettings)
         {
             SaveSettings(newSettings);
-            playerPanelSetting.PlayerWidth = 
+            playerPanelSettings.PlayerWidth = 
                             newSettings.PlayerWidth;
-            playerPanelSetting.PlayerHeight = 
+            playerPanelSettings.PlayerHeight = 
                             newSettings.PlayerHeight;
-            playerPanelSetting.NumberOfPlayers = 
+            playerPanelSettings.NumberOfPlayers = 
                             newSettings.NumberOfPlayers;
-            playerPanelSetting.AutosizeMode = 
+            playerPanelSettings.AutosizeMode = 
                             newSettings.AutosizeMode;
             View.Close();
         }
@@ -56,7 +56,7 @@ namespace Challange.Presenter.Presenters
         /// </summary>
         private void SetPlayerPanelSettings()
         {
-            View.SetPlayerPanelSettings(playerPanelSetting);
+            View.SetPlayerPanelSettings(playerPanelSettings);
         }
 
         /// <summary>

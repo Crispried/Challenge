@@ -1,7 +1,7 @@
 ﻿
-namespace Challange.Domain.SettingsService.SettingTypes
+namespace Challange.Domain.Services.Settings.SettingTypes
 {
-    public class PlayerPanelSettings : Settings
+    public class PlayerPanelSettings : Setting
     {
         public int NumberOfPlayers { get; set; }        
 

@@ -34,16 +34,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="AForge.Video, Version=2.2.5.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AForge.Video.2.2.5\lib\AForge.Video.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="AForge.Video.DirectShow, Version=2.2.5.0, Culture=neutral, PublicKeyToken=61ea4348d43881b7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AForge.Video.DirectShow.2.2.5\lib\AForge.Video.DirectShow.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="LightInject, Version=4.0.11.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\LightInject.4.0.11\lib\net45\LightInject.dll</HintPath>
@@ -51,6 +51,14 @@
     </Reference>
     <Reference Include="Marker">
       <HintPath>C:\Users\Volodymyr\Desktop\Marker.dll</HintPath>
+    </Reference>
+    <Reference Include="PylonC.NET, Version=4.1.0.0, Culture=neutral, PublicKeyToken=a77e8471c5919d5a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Pylon.5\lib\PylonC.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="PylonC.NETSupportLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Pylon.5\lib\PylonC.NETSupportLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -68,6 +76,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CamerasForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CamerasForm.Designer.cs">
+      <DependentUpon>CamerasForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChallangeSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChallangeSettingsForm.Designer.cs">
+      <DependentUpon>ChallangeSettingsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GameInformationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GameInformationForm.Designer.cs">
+      <DependentUpon>GameInformationForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="PlayerPanelSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,6 +109,15 @@
     <Compile Include="LightInjectAdapter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CamerasForm.resx">
+      <DependentUpon>CamerasForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChallangeSettingsForm.resx">
+      <DependentUpon>ChallangeSettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GameInformationForm.resx">
+      <DependentUpon>GameInformationForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -113,16 +148,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Challange.Domain\Challange.Domain.csproj">
+    <ProjectReference Include="..\Challange.Domain\Challenge.Domain.csproj">
       <Project>{35d90601-427a-4c1c-a6ca-2b1ed6be749c}</Project>
-      <Name>Challange.Domain</Name>
+      <Name>Challenge.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Challange.Presenter\Challange.Presenter.csproj">
+    <ProjectReference Include="..\Challange.Presenter\Challenge.Presenter.csproj">
       <Project>{59febcd1-63dd-4e6c-a801-2da258e49ee6}</Project>
-      <Name>Challange.Presenter</Name>
+      <Name>Challenge.Presenter</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\camera.png" />
+    <Content Include="Images\game_folder.png" />
     <Content Include="Images\start.png" />
     <Content Include="Images\stop.png" />
   </ItemGroup>

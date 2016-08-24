@@ -36,6 +36,7 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.playerPanelSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.challangeSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timeAxis = new System.Windows.Forms.Panel();
             this.challangeTimeAxis = new ChallangeTimeAxis.TimeAxis();
@@ -44,6 +45,8 @@
             this.toolBox = new System.Windows.Forms.ToolStrip();
             this.startStreamButton = new System.Windows.Forms.ToolStripButton();
             this.stopStreamButton = new System.Windows.Forms.ToolStripButton();
+            this.openGameFolderButton = new System.Windows.Forms.ToolStripButton();
+            this.openDevicesListButton = new System.Windows.Forms.ToolStripButton();
             this.menu.SuspendLayout();
             this.timeAxis.SuspendLayout();
             this.toolBox.SuspendLayout();
@@ -69,6 +72,7 @@
             // menu
             // 
             this.menu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.menu.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.settingsToolStripMenuItem,
@@ -89,7 +93,8 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.playerPanelSettings});
+            this.playerPanelSettings,
+            this.challangeSettings});
             this.settingsToolStripMenuItem.Font = new System.Drawing.Font("Georgia", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
@@ -100,6 +105,12 @@
             this.playerPanelSettings.Name = "playerPanelSettings";
             this.playerPanelSettings.Size = new System.Drawing.Size(153, 22);
             this.playerPanelSettings.Text = "Player panel";
+            // 
+            // challangeSettings
+            // 
+            this.challangeSettings.Name = "challangeSettings";
+            this.challangeSettings.Size = new System.Drawing.Size(153, 22);
+            this.challangeSettings.Text = "Challange";
             // 
             // helpToolStripMenuItem
             // 
@@ -142,21 +153,24 @@
             // addChallange
             // 
             this.addChallange.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.addChallange.BackColor = System.Drawing.Color.Yellow;
+            this.addChallange.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.addChallange.Enabled = false;
+            this.addChallange.Font = new System.Drawing.Font("Georgia", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.addChallange.Location = new System.Drawing.Point(644, 3);
             this.addChallange.Name = "addChallange";
             this.addChallange.Size = new System.Drawing.Size(128, 55);
             this.addChallange.TabIndex = 1;
             this.addChallange.Text = "Challange";
             this.addChallange.UseVisualStyleBackColor = false;
-            this.addChallange.Click += new System.EventHandler(this.addChallange_Click);
             // 
             // toolBox
             // 
             this.toolBox.BackColor = System.Drawing.Color.White;
             this.toolBox.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.startStreamButton,
-            this.stopStreamButton});
+            this.stopStreamButton,
+            this.openGameFolderButton,
+            this.openDevicesListButton});
             this.toolBox.Location = new System.Drawing.Point(0, 24);
             this.toolBox.Name = "toolBox";
             this.toolBox.Size = new System.Drawing.Size(784, 25);
@@ -170,7 +184,7 @@
             this.startStreamButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.startStreamButton.Name = "startStreamButton";
             this.startStreamButton.Size = new System.Drawing.Size(23, 22);
-            this.startStreamButton.Click += new System.EventHandler(this.startStreamButton_Click);
+            this.startStreamButton.Text = "Start stream";
             // 
             // stopStreamButton
             // 
@@ -179,7 +193,25 @@
             this.stopStreamButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.stopStreamButton.Name = "stopStreamButton";
             this.stopStreamButton.Size = new System.Drawing.Size(23, 22);
-            this.stopStreamButton.Click += new System.EventHandler(this.stopStreamButton_Click);
+            this.stopStreamButton.Text = "Stop stream";
+            // 
+            // openGameFolderButton
+            // 
+            this.openGameFolderButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openGameFolderButton.Image = ((System.Drawing.Image)(resources.GetObject("openGameFolderButton.Image")));
+            this.openGameFolderButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openGameFolderButton.Name = "openGameFolderButton";
+            this.openGameFolderButton.Size = new System.Drawing.Size(23, 22);
+            this.openGameFolderButton.Text = "Open game folder";
+            // 
+            // openDevicesListButton
+            // 
+            this.openDevicesListButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openDevicesListButton.Image = ((System.Drawing.Image)(resources.GetObject("openDevicesListButton.Image")));
+            this.openDevicesListButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openDevicesListButton.Name = "openDevicesListButton";
+            this.openDevicesListButton.Size = new System.Drawing.Size(23, 22);
+            this.openDevicesListButton.Text = "Opens list with all conncected devices";
             // 
             // MainForm
             // 
@@ -194,7 +226,6 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Challange";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.menu.ResumeLayout(false);
             this.menu.PerformLayout();
             this.timeAxis.ResumeLayout(false);
@@ -222,6 +253,9 @@
         private System.Windows.Forms.ToolStrip toolBox;
         private System.Windows.Forms.ToolStripButton startStreamButton;
         private System.Windows.Forms.ToolStripButton stopStreamButton;
+        private System.Windows.Forms.ToolStripMenuItem challangeSettings;
+        private System.Windows.Forms.ToolStripButton openGameFolderButton;
+        private System.Windows.Forms.ToolStripButton openDevicesListButton;
     }
 }
 

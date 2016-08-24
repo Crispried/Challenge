@@ -4,9 +4,11 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Challange.Presenter.Views;
-using Challange.Domain.SettingsService.SettingTypes;
-using AForge.Video.DirectShow;
+using Challange.Domain.Services.Settings.SettingTypes;
+using System.Threading.Tasks;
+using System.Threading;
 using AForge.Video;
+using AForge.Video.DirectShow;
 
 namespace Challange.Forms
 {
@@ -16,12 +18,10 @@ namespace Challange.Forms
         private int numberOfPlayers;
         private const int autosizeWidthCoefficient = 5;
         private const int autosizeHeightCoefficient = 3;
-        private Timer timer;
+        private System.Windows.Forms.Timer timer;
         private List<PictureBox> allPlayers;
 
-        // video streaming
-        private FilterInfoCollection VideoCaptureDevices;
-        private VideoCaptureDevice FinalVideo;
+        private Bitmap currentFrame;
 
         public MainForm(ApplicationContext context)
         {
@@ -29,48 +29,50 @@ namespace Challange.Forms
             InitializeComponent();
             playerPanelSettings.Click += (sender, args) =>
                             Invoke(OpenPlayerPanelSettings);
-            FinalVideo = new VideoCaptureDevice();
+            challangeSettings.Click += (sender, args) =>
+                            Invoke(OpenChallengeSettings);
+            startStreamButton.Click += (sender, args) =>
+                            Invoke(StartStream);
+            stopStreamButton.Click += (sender, args) =>
+                            Invoke(StopStream);
+            openGameFolderButton.Click += (sender, args) =>
+                            Invoke(OpenGameFolder);
+            FormClosing += (sender, args) =>
+                            Invoke(MainFormClosing);
+            addChallange.Click += (sender, args) =>
+                            Invoke(CreateChallange);
+            openDevicesListButton.Click += (sender, args) =>
+                            Invoke(OpenDevicesList);
             allPlayers = new List<PictureBox>();
         }
 
+        public Bitmap CurrentFrame
+        {
+            get
+            {
+                return currentFrame;
+            }
+        }
+
+        public string GetElapsedTime
+        {
+            get
+            {
+                return elapsedTimeFromStart.Text;
+            }
+        }
+
         #region events
-        private void startStreamButton_Click(object sender, EventArgs e)
-        {
-            InitializeTimer();
-            StartStream();
-        }
-
-        private void stopStreamButton_Click(object sender, EventArgs e)
-        {
-            StopStream();
-        }
-
-        private void Timer_Tick(object sender, EventArgs e)
+        private void OnTimedEvent(Object source, EventArgs myEventArgs)
         {
             challangeTimeAxis.UpdateTimeAxis();
             elapsedTimeFromStart.Text = challangeTimeAxis.ElapsedTimeFromStart;
         }
 
-        private void addChallange_Click(object sender, EventArgs e)
+        private void TimerCallback(object state)
         {
-            challangeTimeAxis.CreateMarker();
-        }
-
-        private void FinalVideo_NewFrame(object sender, NewFrameEventArgs eventArgs)
-        {
-            Bitmap video = (Bitmap)eventArgs.Frame.Clone();
-            foreach (var player in allPlayers)
-            {
-                player.Image = video;
-            }
-        }
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (FinalVideo.IsRunning)
-            {
-                FinalVideo.Stop();
-            }
+            challangeTimeAxis.UpdateTimeAxis();
+            elapsedTimeFromStart.Text = challangeTimeAxis.ElapsedTimeFromStart;
         }
 
         private void PlayerPanel_Click(object sender, EventArgs e)
@@ -92,7 +94,34 @@ namespace Challange.Forms
             ToggleReplaceMode();
         }
 
+        private void FinalVideo_NewFrame(object sender, NewFrameEventArgs eventArgs)
+        {
+            Bitmap video = (Bitmap)eventArgs.Frame.Clone();
+            currentFrame = video;
+            foreach (var player in allPlayers)
+            {
+                player.Image = video;
+            }
+            Invoke(NewFrameCallback);
+        }
+
         public event Action OpenPlayerPanelSettings;
+
+        public event Action OpenChallengeSettings;
+
+        public event Action OpenDevicesList;
+
+        public event Action StartStream;
+
+        public event Action StopStream;
+
+        public event Action OpenGameFolder;
+
+        public event Action MainFormClosing;
+
+        public event Action CreateChallange;
+
+        public event Action NewFrameCallback;
         #endregion
 
         #region replace players fields
@@ -141,20 +170,27 @@ namespace Challange.Forms
         }
         #endregion
 
-        private void InitializeTimer()
+
+        public void InitializeTimer()
         {
-            timer = new Timer();
+            timer = new System.Windows.Forms.Timer();
+            timer.Tick += new EventHandler(OnTimedEvent);
             timer.Interval = 1000;
+            Thread.Sleep(1000);
             timer.Start();
-            timer.Tick += new EventHandler(Timer_Tick);
         }     
 
-        private void ResetTimeAxis()
+        public void ResetTimeAxis()
         {
             timer.Stop();
             timer.Dispose();
             challangeTimeAxis.Reset();
             elapsedTimeFromStart.ResetText();
+        }
+
+        public void SubscribeNewFrameEvent(VideoCaptureDevice finalVideo)
+        {
+            finalVideo.NewFrame += FinalVideo_NewFrame;
         }
 
         public new void Show()
@@ -214,35 +250,66 @@ namespace Challange.Forms
             newPictureBox.BackColor = Color.Red;
             newPictureBox.Height = playerHeight;
             newPictureBox.Width = playerWidth;
-            newPictureBox.Controls.Add(new Label() { Text = playerName });
+            newPictureBox.Controls.Add(new TextBox
+            {
+                Text = playerName,
+                Width = playerWidth,
+                MaxLength = 30
+            });
             newPictureBox.Click += new EventHandler(PlayerPanel_Click);
-            newPictureBox.Tag = "playerPanel";
             return newPictureBox;
         }
         #endregion
 
-        private void StartStream()
+        public void ClearPlayers()
         {
-            VideoCaptureDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-            if (VideoCaptureDevices.Count > 0)
+            foreach (var player in allPlayers)
             {
-                FinalVideo = new VideoCaptureDevice(VideoCaptureDevices[0].MonikerString);
-                FinalVideo.NewFrame += new NewFrameEventHandler(FinalVideo_NewFrame);
-                FinalVideo.Start();
+                player.Image = null;
             }
-        }    
-        
-        private void StopStream()
+        }
+
+        public void AddMarkerOnTimeAxis()
         {
-            if (FinalVideo.IsRunning)
+            challangeTimeAxis.CreateMarker();
+        }
+
+        public void ToggleChallengeButton(bool enabled)
+        {
+            addChallange.Enabled = enabled;
+        }
+
+        public void ToggleChallengeButtonIn(bool enabled, int seconds)
+        {
+            ToggleChallengeButton(false);
+            EnableChallangeAfter(seconds);
+        }
+
+        private async void EnableChallangeAfter(int seconds)
+        {
+            await Task.Delay(seconds * 1000);
+            if (IsStreaming())
             {
-                FinalVideo.Stop();
-                foreach (var player in allPlayers)
-                {
-                    player.Image = null;
-                }
-                ResetTimeAxis();
+                ToggleChallengeButton(true);
             }
+        }
+
+        private bool IsStreaming()
+        {
+            if (timer.Enabled)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public void DrawNewFrame(Bitmap frame)
+        {
+            foreach (var player in allPlayers)
+            {
+                player.Image = frame;
+            }
+            Invoke(NewFrameCallback);
         }
     }
 }

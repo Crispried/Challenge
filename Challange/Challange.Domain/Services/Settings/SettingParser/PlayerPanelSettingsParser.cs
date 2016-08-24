@@ -1,12 +1,21 @@
 ﻿using Challange.Domain.Infrastructure;
-using Challange.Domain.SettingsService.SettingTypes;
+using Challange.Domain.Services.Settings.SettingTypes;
 
-namespace Challange.Domain.SettingsService.SettingParser
+namespace Challange.Domain.Services.Settings.SettingParser
 {
     public class PlayerPanelSettingsParser : ISettingsParser<PlayerPanelSettings>
     {
-        public bool SaveSettings(PlayerPanelSettings settings,
-                                string settingsFilePath)
+        private const string settingsFilePath = @"Settings\player_panel.xml";
+
+        public string SettingsFilePath
+        {
+            get
+            {
+                return settingsFilePath;
+            }
+        }
+
+        public bool SaveSettings(PlayerPanelSettings settings)
         {
             if (FileWorker.SerializeXml(settings, settingsFilePath))
             {
@@ -15,7 +24,7 @@ namespace Challange.Domain.SettingsService.SettingParser
             return false;
         }
 
-        public PlayerPanelSettings GetSettings(string settingsFilePath)
+        public PlayerPanelSettings GetSettings()
         {
             PlayerPanelSettings settings = FileWorker.
                         DeserializeXml<PlayerPanelSettings>(settingsFilePath);
