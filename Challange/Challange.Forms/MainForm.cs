@@ -80,11 +80,12 @@ namespace Challange.Forms
 
         private int controlIndex;
         private PictureBox pictureBoxToShowFullscreen;
+        private bool fullScreenMode = false;
 
         private void ShowFullScreen_Click(object sender, EventArgs e)
         {
             pictureBoxToShowFullscreen = (PictureBox)((Button)sender).Parent;
-            controlIndex = playerPanel.Controls.IndexOf(pictureBoxToShowFullscreen);
+            controlIndex = playerPanel.Controls.GetChildIndex(pictureBoxToShowFullscreen);
 
             playerPanel.Controls.Remove(pictureBoxToShowFullscreen);
             this.Controls.Add(pictureBoxToShowFullscreen);
@@ -94,7 +95,23 @@ namespace Challange.Forms
             pictureBoxToShowFullscreen.Select();
             this.WindowState = FormWindowState.Maximized;
 
+            fullScreenMode = true;
             pictureBoxToShowFullscreen.KeyDown += new KeyEventHandler(FullScreenForm_KeyPress);
+
+            // Disable click event if fullscreen mode is entered
+            pictureBoxToShowFullscreen.Click -= new EventHandler(PlayerPanel_Click);
+
+            // Hide the button
+            foreach(var btn in pictureBoxToShowFullscreen.Controls.OfType<Button>())
+            {
+                btn.Hide();
+            }
+
+            // When you change camera name in textbox, we should be able to press esc and exit fullscreen mode also
+            foreach (var textBox in pictureBoxToShowFullscreen.Controls.OfType<TextBox>())
+            {
+                textBox.KeyDown += new KeyEventHandler(FullScreenForm_KeyPress);
+            }
         }
 
         public void FullScreenForm_KeyPress(object sender, KeyEventArgs e)
@@ -103,6 +120,15 @@ namespace Challange.Forms
             {
                 playerPanel.Controls.Add(pictureBoxToShowFullscreen);
                 playerPanel.Controls.SetChildIndex(pictureBoxToShowFullscreen, controlIndex);
+
+                // Show the button we hide in fullscreen mode
+                foreach (var btn in pictureBoxToShowFullscreen.Controls.OfType<Button>())
+                {
+                    btn.Show();
+                }
+
+                // Now controls are not being removed
+                pictureBoxToShowFullscreen.Dock = DockStyle.None;
             }
         }
 
