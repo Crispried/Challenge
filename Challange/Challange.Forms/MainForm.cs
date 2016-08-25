@@ -102,13 +102,13 @@ namespace Challange.Forms
             pictureBoxToShowFullscreen.Click -= new EventHandler(PlayerPanel_Click);
 
             // Hide the button
-            foreach(var btn in pictureBoxToShowFullscreen.Controls.OfType<Button>())
+            foreach(Button btn in pictureBoxToShowFullscreen.Controls.OfType<Button>())
             {
                 btn.Hide();
             }
 
             // When you change camera name in textbox, we should be able to press esc and exit fullscreen mode also
-            foreach (var textBox in pictureBoxToShowFullscreen.Controls.OfType<TextBox>())
+            foreach (TextBox textBox in pictureBoxToShowFullscreen.Controls.OfType<TextBox>())
             {
                 textBox.KeyDown += new KeyEventHandler(FullScreenForm_KeyPress);
             }
@@ -122,7 +122,7 @@ namespace Challange.Forms
                 playerPanel.Controls.SetChildIndex(pictureBoxToShowFullscreen, controlIndex);
 
                 // Show the button we hide in fullscreen mode
-                foreach (var btn in pictureBoxToShowFullscreen.Controls.OfType<Button>())
+                foreach (Button btn in pictureBoxToShowFullscreen.Controls.OfType<Button>())
                 {
                     btn.Show();
                 }
