@@ -11,6 +11,7 @@ using AForge.Video;
 using AForge.Video.DirectShow;
 using System.Reflection;
 using System.ComponentModel;
+using System.Windows;
 
 namespace Challange.Forms
 {
@@ -314,17 +315,35 @@ namespace Challange.Forms
                 Width = playerWidth,
                 MaxLength = 30
             });
-            Button showFullscreen = new Button
-            {
-                Text = "FSCRN",
-                Dock = DockStyle.Bottom
-            };
+
+            Button showFullscreen = CreateFullScreenButton(playerWidth, playerHeight);
+
             showFullscreen.Click += new EventHandler(ShowFullScreen_Click);
             newPictureBox.Controls.Add(showFullscreen);
             newPictureBox.Click += new EventHandler(PlayerPanel_Click);
             return newPictureBox;
         }
         #endregion
+
+        private Button CreateFullScreenButton(int playerWidth, int playerHeight)
+        {
+            int buttonWidth = 20;
+            int buttonHeight = 20;
+            // On autoscale works good, have to fix issue when using custom width and height
+            var positionPoint = new Point(playerWidth - buttonWidth, playerHeight - buttonHeight);
+
+            Button showFullscreen = new Button
+            {
+                Width = buttonWidth,
+                Height = buttonHeight,
+                Location = positionPoint,
+                BackgroundImage = Image.FromFile("../../Images/fullscreen.png"),
+                BackgroundImageLayout = ImageLayout.Stretch,
+                FlatStyle = FlatStyle.Flat
+            };
+            showFullscreen.FlatAppearance.BorderSize = 0;
+            return showFullscreen;
+        }
 
         public void AddMarkerOnTimeAxis()
         {
