@@ -23,7 +23,7 @@ namespace Challange.Domain.Services.Challenge
         public void WriteChallenge()
         {
             videosFps = CountFPS();
-            WriteVideo();
+         //   WriteVideo();
         }
 
         private Dictionary<string, int> CountFPS()
@@ -42,33 +42,33 @@ namespace Challange.Domain.Services.Challenge
             return result;
         }
 
-        private void WriteVideo()
-        {
-            using (VideoFileWriter writer = new VideoFileWriter())
-            {
-                foreach (var video in videos)
-                {
+        //private void WriteVideo()
+        //{
+        //    using (VideoFileWriter writer = new VideoFileWriter())
+        //    {
+        //        foreach (var video in videos)
+        //        {
                     
-                }
-                writer.Open(fullPathToFile, GetWidth(), GetHeight(), fps, VideoCodec.MPEG4);
-                foreach (var fps in video)
-                {
-                    foreach (var frame in fps.Frames)
-                    {
-                        writer.WriteVideoFrame(frame);
-                    }
-                }
-            }
-        }
+        //        }
+        //        writer.Open(fullPathToFile, GetWidth(), GetHeight(), fps, VideoCodec.MPEG4);
+        //        foreach (var fps in video)
+        //        {
+        //            foreach (var frame in fps.Frames)
+        //            {
+        //                writer.WriteVideoFrame(frame);
+        //            }
+        //        }
+        //    }
+        //}
 
-        private int GetWidth()
-        {
-            return video[0].Frames[0].Width;
-        }
+        //private int GetWidth()
+        //{
+        //    return video[0].Frames[0].Width;
+        //}
 
-        private int GetHeight()
-        {
-            return video[0].Frames[0].Height;
-        }
+        //private int GetHeight()
+        //{
+        //    return video[0].Frames[0].Height;
+        //}
     }
 }
