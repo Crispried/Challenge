@@ -70,8 +70,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="TimeAxis %281%29">
-      <HintPath>C:\Users\Volodymyr\Desktop\TimeAxis (1).dll</HintPath>
+    <Reference Include="TimeAxis, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\Crispried\Desktop\CustomTimeAxisTwo\TimeAxis\bin\Debug\TimeAxis.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\camera.png" />
+    <Content Include="Images\fullscreen.png" />
     <Content Include="Images\game_folder.png" />
     <Content Include="Images\start.png" />
     <Content Include="Images\stop.png" />

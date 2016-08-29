@@ -11,6 +11,7 @@ using System.Globalization;
 
 namespace Challange.UnitTests
 {
+    /*
     [TestFixture]
     class ChallengeStructurerTests : TestCase
     {
@@ -118,5 +119,5 @@ namespace Challange.UnitTests
         {
             Directory.Delete(desktopPath + "\\" + firstTeamName + "-vs-" + secondTeamName);
         }
-    }
+    }*/
 }

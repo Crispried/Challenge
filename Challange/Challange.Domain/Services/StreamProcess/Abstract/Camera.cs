@@ -10,6 +10,12 @@ namespace Challange.Domain.Services.StreamProcess.Abstract
     public abstract class Camera
     {
         protected Bitmap currentFrame;
+        protected string name;
+
+        public Camera(string name)
+        {
+            this.name = name;
+        }
 
         public Bitmap GetCurrentFrame
         {
@@ -19,14 +25,22 @@ namespace Challange.Domain.Services.StreamProcess.Abstract
             }
         }
 
-        public delegate void NewFrameEventHandler(Bitmap frame);
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+        }
+
+        public delegate void NewFrameEventHandler(Bitmap frame, string cameraName);
         public event NewFrameEventHandler NewFrameEvent;
 
-        protected void OnNewFrameEvent(Bitmap frame)
+        protected void OnNewFrameEvent(Bitmap frame, string cameraName)
         {
             if (NewFrameEvent != null)
             {
-                NewFrameEvent(frame);
+                NewFrameEvent(frame, cameraName);
             }
         }
 

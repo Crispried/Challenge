@@ -13,14 +13,13 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
         private ImageProvider imageProvider;
         private uint cameraIndex;
 
-        public PylonCamera(uint cameraIndex)
+        public PylonCamera(uint cameraIndex) : base(cameraIndex.ToString())
         {
             this.cameraIndex = cameraIndex;
             imageProvider = new ImageProvider();
             imageProvider.ImageReadyEvent +=
                 new ImageProvider.ImageReadyEventHandler(
                             OnImageReadyEventCallback);
-
         }
 
         private void OnImageReadyEventCallback()
@@ -48,7 +47,7 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
                     imageProvider.ReleaseImage();
                     /* The buffer can be used for the next image grabs. */
                 }
-                OnNewFrameEvent(currentFrame);
+                OnNewFrameEvent(currentFrame, name);
             }
             catch (Exception e)
             {
@@ -73,9 +72,9 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
         {
             /* Stop the grabbing. */
             try
-            {
-                imageProvider.Stop();
+            {               
                 imageProvider.Close();
+                imageProvider.Stop();
             }
             catch (Exception e)
             {

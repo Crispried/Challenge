@@ -10,6 +10,7 @@ using System.Threading;
 using AForge.Video;
 using AForge.Video.DirectShow;
 using System.Reflection;
+using System.ComponentModel;
 
 namespace Challange.Forms
 {
@@ -22,7 +23,8 @@ namespace Challange.Forms
         private System.Windows.Forms.Timer timer;
         private List<PictureBox> allPlayers;
 
-        
+        private ComponentResourceManager resources =
+                 new ComponentResourceManager(typeof(MainForm));
 
         private Bitmap currentFrame;
 
@@ -309,7 +311,6 @@ namespace Challange.Forms
             newPictureBox.Width = playerWidth;
             newPictureBox.Controls.Add(new TextBox
             {
-                Text = playerName,
                 Width = playerWidth,
                 MaxLength = 30
             });
@@ -324,14 +325,6 @@ namespace Challange.Forms
             return newPictureBox;
         }
         #endregion
-
-        public void ClearPlayers()
-        {
-            foreach (var player in allPlayers)
-            {
-                player.Image = null;
-            }
-        }
 
         public void AddMarkerOnTimeAxis()
         {
@@ -367,14 +360,30 @@ namespace Challange.Forms
             return false;
         }
 
-        public void DrawNewFrame(Bitmap frame)
+        public void DrawNewFrame(Bitmap frame, string cameraName)
         {
             currentFrame = frame;
+            allPlayers.Where(player =>
+                GetTextBoxOfPlayer(player).Text == cameraName).First().Image = frame;
+            Invoke(NewFrameCallback);
+        }
+
+        public void BindPlayersToCameras(Queue<string> camerasNames)
+        {
+            TextBox tmpCameraNameTextBox;
             foreach (var player in allPlayers)
             {
-                player.Image = frame;
+                if(camerasNames.Count > 0)
+                {
+                    tmpCameraNameTextBox = GetTextBoxOfPlayer(player);
+                    tmpCameraNameTextBox.Text = camerasNames.Dequeue();
+                }
             }
-            Invoke(NewFrameCallback);
+        }
+
+        private TextBox GetTextBoxOfPlayer(PictureBox player)
+        {
+            return player.Controls.Cast<TextBox>().FirstOrDefault();
         }
     }
 }

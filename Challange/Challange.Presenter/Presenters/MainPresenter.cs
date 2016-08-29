@@ -272,6 +272,7 @@ namespace Challange.Presenter.Presenters
         {
             InitializeBuffers();
             InitializeDevices();
+            BindPlayersToCameras();
             StartDevices();
             InitializeTempFPS();
             InitializeTimeAxisTimer();
@@ -290,7 +291,7 @@ namespace Challange.Presenter.Presenters
         }
 
         /// <summary>
-        /// Initialize devices
+        /// Initializes devices
         /// </summary>
         private void InitializeDevices()
         {
@@ -304,6 +305,19 @@ namespace Challange.Presenter.Presenters
             }
         }
 
+        /// <summary>
+        /// Initializes player for each camera
+        /// </summary>
+        private void BindPlayersToCameras()
+        {
+            Queue<string> camerasNames = new Queue<string>();
+            foreach (Camera camera in camerasContainer.GetCameras)
+            {
+                camerasNames.Enqueue(camera.Name);
+            }
+            View.BindPlayersToCameras(camerasNames);
+        }
+
         private void StartDevices()
         {
             foreach (Camera camera in camerasContainer.GetCameras)
@@ -313,9 +327,9 @@ namespace Challange.Presenter.Presenters
             }
         }
 
-        private void Camera_NewFrameEvent(Bitmap frame)
+        private void Camera_NewFrameEvent(Bitmap frame, string cameraName)
         {
-            View.DrawNewFrame(frame);
+            View.DrawNewFrame(frame, cameraName);
         }
 
         /// <summary>
@@ -428,7 +442,6 @@ namespace Challange.Presenter.Presenters
         {
             StopCaptureDevice();
             ResetTimeAxis();
-            ClearPlayers();
             ChangeStreamingStatus(false);
             ChangeStateOfChallengeButton(false);
         }
@@ -453,14 +466,6 @@ namespace Challange.Presenter.Presenters
         private void ResetTimeAxis()
         {
             View.ResetTimeAxis();
-        }
-
-        /// <summary>
-        /// Erase last frame from every player in player panel
-        /// </summary>
-        private void ClearPlayers()
-        {
-            View.ClearPlayers();
         }
         #endregion
 

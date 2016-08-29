@@ -39,14 +39,14 @@ namespace Challange.Presenter.Views
 
         void ResetTimeAxis();
 
-        void ClearPlayers();
-
         void AddMarkerOnTimeAxis();
 
         void ToggleChallengeButton(bool state);
 
         void ToggleChallengeButtonIn(bool state, int seconds);
 
-        void DrawNewFrame(Bitmap frame);
+        void DrawNewFrame(Bitmap frame, string cameraName);
+
+        void BindPlayersToCameras(Queue<string> camerasNames);
     }
 }
