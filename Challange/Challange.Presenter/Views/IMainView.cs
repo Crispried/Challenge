@@ -1,7 +1,6 @@
 ﻿using System;
 using Challange.Presenter.Base;
 using Challange.Domain.Services.Settings.SettingTypes;
-using AForge.Video.DirectShow;
 using System.Drawing;
 using System.Collections.Generic;
 
@@ -27,11 +26,9 @@ namespace Challange.Presenter.Views
 
         event Action NewFrameCallback;
 
-        Bitmap CurrentFrame { get; }
+        Tuple<string, Bitmap> CurrentFrameInfo { get; }
 
         string GetElapsedTime { get; }
-
-        void SubscribeNewFrameEvent(VideoCaptureDevice FinalVideo);
 
         void DrawPlayers(PlayerPanelSettings settings);
 

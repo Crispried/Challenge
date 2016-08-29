@@ -15,6 +15,7 @@ using System.Drawing;
 using static PylonC.NETSupportLibrary.DeviceEnumerator;
 using Challange.Domain.Services.StreamProcess.Concrete;
 using Challange.Domain.Services.StreamProcess.Abstract;
+using System.Linq;
 
 namespace Challange.Presenter.Presenters
 {
@@ -25,22 +26,16 @@ namespace Challange.Presenter.Presenters
         private ChallengeSettings challengeSettings;
         //
         private GameInformation gameInformation;
-        // Pylon 5
+        // video streaming
         private CamerasContainer<Camera> camerasContainer;
         private PylonCameraProvider pylonCameraProvider;
         private List<Device> camerasInfo;
-        // video streaming
-        private FilterInfoCollection VideoCaptureDevices;
-        private List<VideoCaptureDevice> Devices;
         private bool streaming;
 
         // challenge
-        // Dictionary<string, List<FPS>> where string is camera name
         private Dictionary<string, List<FPS>> pastCameraRecord;
         private Dictionary<string, List<FPS>> futureCameraRecord;
-        // private List<FPS> pastFrames;
-        // private List<FPS> futureFrames;
-        private FPS tempFPS;
+        private Dictionary<string, FPS> tempFpses;
         private Timer oneSecondTimer;
         private string challengeDirectoryPath;
 
@@ -59,7 +54,6 @@ namespace Challange.Presenter.Presenters
             View.MainFormClosing += StopCaptureDevice;
             View.CreateChallange += CreateChallange;
             View.NewFrameCallback += AddNewFrame;
-            Devices = new List<VideoCaptureDevice>();
             pylonCameraProvider = new PylonCameraProvider();
         }
 
@@ -75,7 +69,11 @@ namespace Challange.Presenter.Presenters
         /// </summary>
         private void AddNewFrame()
         {
-            tempFPS.Frames.Add(View.CurrentFrame);
+            string cameraName = View.CurrentFrameInfo.Item1;
+            Bitmap currentFrame = View.CurrentFrameInfo.Item2;
+            FPS tempFPS;
+            tempFpses.TryGetValue(cameraName, out tempFPS);
+            tempFPS.Frames.Add(currentFrame);
         }
 
         /// <summary>
@@ -86,12 +84,12 @@ namespace Challange.Presenter.Presenters
         /// <param name="e"></param>
         private void OnOneSecondTimedEventForPastFrames(Object source, ElapsedEventArgs e)
         {
-           // if (HaveToRemovePastFPS())
+            if (HaveToRemovePastFPS())
             {
                 RemoveFirstFPSFromPastBuffer();
             }
-           // AddPastFPS(tempFPS);
-            InitializeTempFPS();
+            AddPastFpses();
+            InitializeTempFpses();
         }
 
         /// <summary>
@@ -99,10 +97,9 @@ namespace Challange.Presenter.Presenters
         /// to necessary number of past FPS
         /// </summary>
         /// <returns></returns>
-        private bool HaveToRemovePastFPS(string cameraName)
+        private bool HaveToRemovePastFPS()
         {
-            List<FPS> pastFrames;
-            pastCameraRecord.TryGetValue(cameraName, out pastFrames);
+            var pastFrames = pastCameraRecord.Values.FirstOrDefault();
             return pastFrames.Count == challengeSettings.NumberOfPastFPS;
         }
 
@@ -119,35 +116,48 @@ namespace Challange.Presenter.Presenters
         }
 
         /// <summary>
-        /// adds past fps object into buffer for past frames
+        /// adds past fps objects into buffer for past frames
         /// </summary>
-        /// <param name="fps"></param>
-        private void AddPastFPS(FPS fps, string cameraName)
+        private void AddPastFpses()
         {
-            List<FPS> pastFrames;
-            if(pastCameraRecord.TryGetValue(cameraName, out pastFrames))
+            List<FPS> temp;
+            foreach (var tempFps in tempFpses)
             {
-                pastFrames.Add(fps);
+                if(pastCameraRecord.TryGetValue(tempFps.Key, out temp))
+                {
+                    temp.Add(tempFps.Value);
+                }
+                else
+                {
+                    temp = new List<FPS>();
+                    temp.Add(tempFps.Value);
+                    pastCameraRecord.Add(tempFps.Key, temp);
+                }
             }
         }
 
         /// <summary>
         /// this is temporary object which will keep fps objects
-        /// which we create every second
+        /// from all cameras which we create every second
         /// </summary>
-        private void InitializeTempFPS()
+        private void InitializeTempFpses()
         {
-            tempFPS = new FPS();
+            tempFpses = new Dictionary<string, FPS>();
+            foreach (Camera camera in camerasContainer.GetCameras)
+            {
+                tempFpses.Add(camera.Name, new FPS());
+            }
+
         }
 
         private void OnOneSecondTimedEventForFutureFrames(Object source, ElapsedEventArgs e)
         {
-           // if (HaveToAddFutureFPS())
+            if (HaveToAddFutureFPS())
             {
-              //  AddFutureFPS(tempFPS);
-                InitializeTempFPS();
+                AddFutureFpses();
+                InitializeTempFpses();
             }
-           // else
+            else
             {
                 WriteChallangeAsVideo();
                 ChangeActivityOfEventForFutureFrames(false);
@@ -160,23 +170,30 @@ namespace Challange.Presenter.Presenters
         /// to necessary number of future FPS
         /// </summary>
         /// <returns></returns>
-        private bool HaveToAddFutureFPS(string cameraName)
+        private bool HaveToAddFutureFPS()
         {
-            List<FPS> futureFrames;
-            futureCameraRecord.TryGetValue(cameraName, out futureFrames);
-            return futureFrames.Count < challengeSettings.NumberOfFutureFPS;
+            var futureFrames = futureCameraRecord.Values.First();
+            return futureFrames.Count == challengeSettings.NumberOfFutureFPS;
         }
 
         /// <summary>
-        /// adds future fps object into buffer for future frames
+        /// adds future fps objects into buffer for future frames
         /// </summary>
-        /// <param name="fps"></param>
-        private void AddFutureFPS(FPS fps, string cameraName)
+        private void AddFutureFpses()
         {
-            List<FPS> futureFrames;
-            if (futureCameraRecord.TryGetValue(cameraName, out futureFrames))
+            List<FPS> temp;
+            foreach (var tempFps in tempFpses)
             {
-                futureFrames.Add(fps);
+                if (futureCameraRecord.TryGetValue(tempFps.Key, out temp))
+                {
+                    temp.Add(tempFps.Value);
+                }
+                else
+                {
+                    temp = new List<FPS>();
+                    temp.Add(tempFps.Value);
+                    futureCameraRecord.Add(tempFps.Key, temp);
+                }
             }
         }
 
@@ -287,16 +304,15 @@ namespace Challange.Presenter.Presenters
         /// </summary>
         private void StartStream()
         {
-            InitializeBuffers();
             InitializeDevices();
+            InitializeBuffers();
             BindPlayersToCameras();
             StartDevices();
-            InitializeTempFPS();
+            InitializeTempFpses();
             InitializeTimeAxisTimer();
             InitializeOneSecondTimer();
             ChangeStreamingStatus(true);
             ChangeStateOfChallengeButton(true);
-            ChangeActivityOfEventForPastFrames(true);
         }
 
         /// <summary>
@@ -305,7 +321,15 @@ namespace Challange.Presenter.Presenters
         private void InitializeBuffers()
         {
             pastCameraRecord = new Dictionary<string, List<FPS>>();
+            foreach (Camera camera in camerasContainer.GetCameras)
+            {
+                pastCameraRecord.Add(camera.Name, new List<FPS>());
+            }
             futureCameraRecord = new Dictionary<string, List<FPS>>();
+            foreach (Camera camera in camerasContainer.GetCameras)
+            {
+                futureCameraRecord.Add(camera.Name, new List<FPS>());
+            }
         }
 
         /// <summary>
@@ -351,67 +375,12 @@ namespace Challange.Presenter.Presenters
         }
 
         /// <summary>
-        /// Subscribe them onto frames change event
-        /// </summary>
-        /*   private void StartDevices()
-           {
-               int numberOfDevices = GetNumberOfConnectedCameras();
-               if (numberOfDevices > 0)
-               {
-                   InitializeDevicesList(numberOfDevices);
-                   for (int i = 0; i < VideoCaptureDevices.Count; i++)
-                   {
-                       AddDeviceIntoDevicesList(
-                           new VideoCaptureDevice(VideoCaptureDevices[i].MonikerString));
-                       SubscribeDeviceOnFrameChangeEvent(Devices[i]);
-                       StartDevice(Devices[i]);
-                   }
-               }
-           }*/
-
-        /// <summary>
-        /// Returns number of connected devices
-        /// </summary>
-        /// <returns></returns>
-        private int GetNumberOfConnectedCameras()
-        {
-            return VideoCaptureDevices.Count;
-        }
-
-        /// <summary>
         /// Initializes devices list
         /// </summary>
         private void InitializeDevicesList()
         {
             //Devices = new List<VideoCaptureDevice>(capacity);
             camerasInfo = pylonCameraProvider.GetConnectedCameras();
-        }
-        
-        /// <summary>
-        /// Subscribes device on frame change event
-        /// </summary>
-        /// <param name="device"></param>
-        private void SubscribeDeviceOnFrameChangeEvent(VideoCaptureDevice device)
-        {
-            View.SubscribeNewFrameEvent(device);
-        }
-
-        /// <summary>
-        /// Starts device (turns it on)
-        /// </summary>
-        /// <param name="device"></param>
-        private void StartDevice(VideoCaptureDevice device)
-        {
-            device.Start();
-        }
-
-        /// <summary>
-        /// Adds device into Devices
-        /// </summary>
-        /// <param name="device"></param>
-        private void AddDeviceIntoDevicesList(VideoCaptureDevice device)
-        {
-            Devices.Add(device);
         }
 
         /// <summary>
@@ -539,16 +508,16 @@ namespace Challange.Presenter.Presenters
 
         private void WriteChallangeAsVideo()
         {
-            var video = UnitePastAndFutureFrames();
-            var pathToChallenge = FormatFullPathToChallenge();
-            var challengeWriter = new ChallengeWriter(video, pathToChallenge);
+            var videos = UnitePastAndFutureFrames();
+            var pathToChallenge = FormatPathToChallenge();
+            var challengeWriter = new ChallengeWriter(videos, pathToChallenge);
             challengeWriter.WriteChallenge();
             ClearPastAndFutureBuffers();
         }
 
-        private Dictionary<string, List<FPS>> UnitePastAndFutureFrames()
+        private List<Video> UnitePastAndFutureFrames()
         {
-            var video = new Dictionary<string, List<FPS>>();
+            var video = new List<Video>();
             List<FPS> tempVideoFrames;
             foreach (var pastFrames in pastCameraRecord)
             {
@@ -559,7 +528,8 @@ namespace Challange.Presenter.Presenters
                         tempVideoFrames = new List<FPS>();
                         tempVideoFrames.AddRange(pastFrames.Value);
                         tempVideoFrames.AddRange(futureFrames.Value);
-                        video.Add(pastFrames.Key, tempVideoFrames);
+                        video.Add(new Video(pastFrames.Key, tempVideoFrames));
+                        break;
                     }
                 }
             }
@@ -572,9 +542,9 @@ namespace Challange.Presenter.Presenters
             futureCameraRecord.Clear();
         }
 
-        private string FormatFullPathToChallenge()
+        private string FormatPathToChallenge()
         {
-            return challengeDirectoryPath + @"\" + "testtest.mp4";
+            return challengeDirectoryPath + @"\";
         }
         #endregion
     }

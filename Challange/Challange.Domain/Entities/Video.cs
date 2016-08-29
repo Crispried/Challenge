@@ -9,11 +9,48 @@ namespace Challange.Domain.Entities
     public class Video
     {
         private List<FPS> fpsList;
+        private string name;
         private int fpsValue;
 
-        public Video(List<FPS> fpsList)
+        public Video(string name, List<FPS> fpsList)
         {
+            this.name = name;
             this.fpsList = fpsList;
+            fpsValue = CountFps();
+        }
+
+        private int CountFps()
+        {
+            int sum = 0;
+            foreach (var fps in fpsList)
+            {
+                sum += fps.Frames.Count;
+            }
+            return sum/fpsList.Count;
+        }
+
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+        }
+
+        public List<FPS> FpsList
+        {
+            get
+            {
+                return FpsList;
+            }
+        }
+
+        public int FpsValue
+        {
+            get
+            {
+                return fpsValue;
+            }
         }
     }
 }

@@ -10,65 +10,47 @@ namespace Challange.Domain.Services.Challenge
 {
     public class ChallengeWriter
     {
-        private Dictionary<string, List<FPS>> videos;
-        private Dictionary<string, int> videosFps;
-        private string fullPathToFile;
+        private List<Video> videos;
+        private string pathToVideos;
 
-        public ChallengeWriter(Dictionary<string, List<FPS>> videos, string fullPathToFile)
+        public ChallengeWriter(List<Video> videos, string pathToVideos)
         {
             this.videos = videos;
-            this.fullPathToFile = fullPathToFile;
+            this.pathToVideos = pathToVideos;
         }
 
         public void WriteChallenge()
         {
-            videosFps = CountFPS();
-         //   WriteVideo();
+            WriteVideo();
         }
 
-        private Dictionary<string, int> CountFPS()
+        private void WriteVideo()
         {
-            var result = new Dictionary<string, int>();
-            int tmpSum = 0;
-            foreach (var video in videos)
+            using (VideoFileWriter writer = new VideoFileWriter())
             {
-                foreach (var fps in video.Value)
+                foreach (var video in videos)
                 {
-                    tmpSum += fps.Frames.Count;
-                }          
-                result.Add(video.Key, tmpSum / video.Value.Count);
-                tmpSum = 0;
+                    writer.Open(pathToVideos+video.Name+".mp4", GetWidth(video),
+                        GetHeight(video), video.FpsValue, VideoCodec.MPEG4);
+                    foreach (var fps in video.FpsList)
+                    {
+                        foreach (var frame in fps.Frames)
+                        {
+                            writer.WriteVideoFrame(frame);
+                        }
+                    }
+                }
             }
-            return result;
         }
 
-        //private void WriteVideo()
-        //{
-        //    using (VideoFileWriter writer = new VideoFileWriter())
-        //    {
-        //        foreach (var video in videos)
-        //        {
-                    
-        //        }
-        //        writer.Open(fullPathToFile, GetWidth(), GetHeight(), fps, VideoCodec.MPEG4);
-        //        foreach (var fps in video)
-        //        {
-        //            foreach (var frame in fps.Frames)
-        //            {
-        //                writer.WriteVideoFrame(frame);
-        //            }
-        //        }
-        //    }
-        //}
+        private int GetWidth(Video video)
+        {
+            return video.FpsList[0].Frames[0].Width;
+        }
 
-        //private int GetWidth()
-        //{
-        //    return video[0].Frames[0].Width;
-        //}
-
-        //private int GetHeight()
-        //{
-        //    return video[0].Frames[0].Height;
-        //}
+        private int GetHeight(Video video)
+        {
+            return video.FpsList[0].Frames[0].Height;
+        }
     }
 }

@@ -27,7 +27,7 @@ namespace Challange.Forms
         private ComponentResourceManager resources =
                  new ComponentResourceManager(typeof(MainForm));
 
-        private Bitmap currentFrame;
+        private Tuple<string, Bitmap> currentFrameInfo;
 
         public MainForm(ApplicationContext context)
         {
@@ -52,11 +52,11 @@ namespace Challange.Forms
             allPlayers = new List<PictureBox>();
         }
 
-        public Bitmap CurrentFrame
+        public Tuple<string, Bitmap> CurrentFrameInfo
         {
             get
             {
-                return currentFrame;
+                return currentFrameInfo;
             }
         }
 
@@ -154,17 +154,6 @@ namespace Challange.Forms
             ToggleReplaceMode();
         }
 
-        private void FinalVideo_NewFrame(object sender, NewFrameEventArgs eventArgs)
-        {
-            Bitmap video = (Bitmap)eventArgs.Frame.Clone();
-            currentFrame = video;
-            foreach (var player in allPlayers)
-            {
-                player.Image = video;
-            }
-            Invoke(NewFrameCallback);
-        }
-
         public event Action OpenPlayerPanelSettings;
 
         public event Action OpenChallengeSettings;
@@ -246,11 +235,6 @@ namespace Challange.Forms
             timer.Dispose();
             challangeTimeAxis.Reset();
             elapsedTimeFromStart.ResetText();
-        }
-
-        public void SubscribeNewFrameEvent(VideoCaptureDevice finalVideo)
-        {
-            finalVideo.NewFrame += FinalVideo_NewFrame;
         }
 
         public new void Show()
@@ -381,10 +365,13 @@ namespace Challange.Forms
 
         public void DrawNewFrame(Bitmap frame, string cameraName)
         {
-            currentFrame = frame;
-            allPlayers.Where(player =>
-                GetTextBoxOfPlayer(player).Text == cameraName).First().Image = frame;
-            Invoke(NewFrameCallback);
+            lock (frame)
+            {
+                currentFrameInfo = Tuple.Create(cameraName, frame);
+                allPlayers.Where(player =>
+                    GetTextBoxOfPlayer(player).Text == cameraName).First().Image = frame;
+                Invoke(NewFrameCallback);
+            }
         }
 
         public void BindPlayersToCameras(Queue<string> camerasNames)
