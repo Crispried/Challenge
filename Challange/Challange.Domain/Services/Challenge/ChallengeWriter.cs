@@ -10,36 +10,46 @@ namespace Challange.Domain.Services.Challenge
 {
     public class ChallengeWriter
     {
-        private List<FPS> video;
-        private int fps;
+        private Dictionary<string, List<FPS>> videos;
+        private Dictionary<string, int> videosFps;
         private string fullPathToFile;
 
-        public ChallengeWriter(List<FPS> video, string fullPathToFile)
+        public ChallengeWriter(Dictionary<string, List<FPS>> videos, string fullPathToFile)
         {
-            this.video = video;
+            this.videos = videos;
             this.fullPathToFile = fullPathToFile;
         }
 
         public void WriteChallenge()
         {
-            fps = CountFPS();
+            videosFps = CountFPS();
             WriteVideo();
         }
 
-        private int CountFPS()
+        private Dictionary<string, int> CountFPS()
         {
-            int sum = 0;
-            foreach (var fps in video)
+            var result = new Dictionary<string, int>();
+            int tmpSum = 0;
+            foreach (var video in videos)
             {
-                sum += fps.Frames.Count;
+                foreach (var fps in video.Value)
+                {
+                    tmpSum += fps.Frames.Count;
+                }          
+                result.Add(video.Key, tmpSum / video.Value.Count);
+                tmpSum = 0;
             }
-            return sum / video.Count;
+            return result;
         }
 
         private void WriteVideo()
         {
             using (VideoFileWriter writer = new VideoFileWriter())
             {
+                foreach (var video in videos)
+                {
+                    
+                }
                 writer.Open(fullPathToFile, GetWidth(), GetHeight(), fps, VideoCodec.MPEG4);
                 foreach (var fps in video)
                 {

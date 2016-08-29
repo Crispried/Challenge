@@ -36,8 +36,10 @@ namespace Challange.Presenter.Presenters
 
         // challenge
         // Dictionary<string, List<FPS>> where string is camera name
-        private List<FPS> pastFrames;
-        private List<FPS> futureFrames;
+        private Dictionary<string, List<FPS>> pastCameraRecord;
+        private Dictionary<string, List<FPS>> futureCameraRecord;
+        // private List<FPS> pastFrames;
+        // private List<FPS> futureFrames;
         private FPS tempFPS;
         private Timer oneSecondTimer;
         private string challengeDirectoryPath;
@@ -84,11 +86,11 @@ namespace Challange.Presenter.Presenters
         /// <param name="e"></param>
         private void OnOneSecondTimedEventForPastFrames(Object source, ElapsedEventArgs e)
         {
-            if (HaveToRemovePastFPS())
+           // if (HaveToRemovePastFPS())
             {
                 RemoveFirstFPSFromPastBuffer();
             }
-            AddPastFPS(tempFPS);
+           // AddPastFPS(tempFPS);
             InitializeTempFPS();
         }
 
@@ -97,8 +99,10 @@ namespace Challange.Presenter.Presenters
         /// to necessary number of past FPS
         /// </summary>
         /// <returns></returns>
-        private bool HaveToRemovePastFPS()
+        private bool HaveToRemovePastFPS(string cameraName)
         {
+            List<FPS> pastFrames;
+            pastCameraRecord.TryGetValue(cameraName, out pastFrames);
             return pastFrames.Count == challengeSettings.NumberOfPastFPS;
         }
 
@@ -108,16 +112,23 @@ namespace Challange.Presenter.Presenters
         /// </summary>
         private void RemoveFirstFPSFromPastBuffer()
         {
-            pastFrames.RemoveAt(0);
+            foreach (var pastFrames in pastCameraRecord.Values)
+            {
+                pastFrames.RemoveAt(0);
+            }
         }
 
         /// <summary>
         /// adds past fps object into buffer for past frames
         /// </summary>
         /// <param name="fps"></param>
-        private void AddPastFPS(FPS fps)
+        private void AddPastFPS(FPS fps, string cameraName)
         {
-            pastFrames.Add(fps);
+            List<FPS> pastFrames;
+            if(pastCameraRecord.TryGetValue(cameraName, out pastFrames))
+            {
+                pastFrames.Add(fps);
+            }
         }
 
         /// <summary>
@@ -131,12 +142,12 @@ namespace Challange.Presenter.Presenters
 
         private void OnOneSecondTimedEventForFutureFrames(Object source, ElapsedEventArgs e)
         {
-            if (HaveToAddFutureFPS())
+           // if (HaveToAddFutureFPS())
             {
-                AddFutureFPS(tempFPS);
+              //  AddFutureFPS(tempFPS);
                 InitializeTempFPS();
             }
-            else
+           // else
             {
                 WriteChallangeAsVideo();
                 ChangeActivityOfEventForFutureFrames(false);
@@ -149,8 +160,10 @@ namespace Challange.Presenter.Presenters
         /// to necessary number of future FPS
         /// </summary>
         /// <returns></returns>
-        private bool HaveToAddFutureFPS()
+        private bool HaveToAddFutureFPS(string cameraName)
         {
+            List<FPS> futureFrames;
+            futureCameraRecord.TryGetValue(cameraName, out futureFrames);
             return futureFrames.Count < challengeSettings.NumberOfFutureFPS;
         }
 
@@ -158,9 +171,13 @@ namespace Challange.Presenter.Presenters
         /// adds future fps object into buffer for future frames
         /// </summary>
         /// <param name="fps"></param>
-        private void AddFutureFPS(FPS fps)
+        private void AddFutureFPS(FPS fps, string cameraName)
         {
-            futureFrames.Add(fps);
+            List<FPS> futureFrames;
+            if (futureCameraRecord.TryGetValue(cameraName, out futureFrames))
+            {
+                futureFrames.Add(fps);
+            }
         }
 
         /// <summary>
@@ -279,6 +296,7 @@ namespace Challange.Presenter.Presenters
             InitializeOneSecondTimer();
             ChangeStreamingStatus(true);
             ChangeStateOfChallengeButton(true);
+            ChangeActivityOfEventForPastFrames(true);
         }
 
         /// <summary>
@@ -286,8 +304,8 @@ namespace Challange.Presenter.Presenters
         /// </summary>
         private void InitializeBuffers()
         {
-            pastFrames = new List<FPS>();
-            futureFrames = new List<FPS>();
+            pastCameraRecord = new Dictionary<string, List<FPS>>();
+            futureCameraRecord = new Dictionary<string, List<FPS>>();
         }
 
         /// <summary>
@@ -528,18 +546,30 @@ namespace Challange.Presenter.Presenters
             ClearPastAndFutureBuffers();
         }
 
-        private List<FPS> UnitePastAndFutureFrames()
+        private Dictionary<string, List<FPS>> UnitePastAndFutureFrames()
         {
-            List<FPS> video = new List<FPS>();
-            video.AddRange(pastFrames);
-            video.AddRange(futureFrames);
+            var video = new Dictionary<string, List<FPS>>();
+            List<FPS> tempVideoFrames;
+            foreach (var pastFrames in pastCameraRecord)
+            {
+                foreach (var futureFrames in futureCameraRecord)
+                {
+                    if(pastFrames.Key == futureFrames.Key)
+                    {
+                        tempVideoFrames = new List<FPS>();
+                        tempVideoFrames.AddRange(pastFrames.Value);
+                        tempVideoFrames.AddRange(futureFrames.Value);
+                        video.Add(pastFrames.Key, tempVideoFrames);
+                    }
+                }
+            }
             return video;
         }
 
         private void ClearPastAndFutureBuffers()
         {
-            pastFrames.Clear();
-            futureFrames.Clear();
+            pastCameraRecord.Clear();
+            futureCameraRecord.Clear();
         }
 
         private string FormatFullPathToChallenge()
