@@ -41,7 +41,7 @@ namespace Challange.Domain.Entities
         {
             get
             {
-                return FpsList;
+                return fpsList;
             }
         }
 

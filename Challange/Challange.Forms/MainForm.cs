@@ -367,7 +367,10 @@ namespace Challange.Forms
         {
             lock (frame)
             {
-                currentFrameInfo = Tuple.Create(cameraName, frame);
+                Bitmap frameClone = 
+                    frame.Clone(new Rectangle(0, 0, frame.Width, frame.Height),
+                    frame.PixelFormat);
+                currentFrameInfo = Tuple.Create(cameraName, frameClone);
                 allPlayers.Where(player =>
                     GetTextBoxOfPlayer(player).Text == cameraName).First().Image = frame;
                 Invoke(NewFrameCallback);
