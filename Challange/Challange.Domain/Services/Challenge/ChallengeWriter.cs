@@ -12,11 +12,15 @@ namespace Challange.Domain.Services.Challenge
     {
         private List<Video> videos;
         private string pathToVideos;
+        private int width;
+        private int height;
 
         public ChallengeWriter(List<Video> videos, string pathToVideos)
         {
             this.videos = videos;
             this.pathToVideos = pathToVideos;
+            this.width = GetWidth();
+            this.height = GetHeight();
         }
 
         public void WriteChallenge()
@@ -30,8 +34,8 @@ namespace Challange.Domain.Services.Challenge
             {
                 foreach (var video in videos)
                 {
-                    writer.Open(pathToVideos+video.Name+".mp4", GetWidth(video),
-                        GetHeight(video), video.FpsValue, VideoCodec.MPEG4);
+                    writer.Open(pathToVideos+video.Name+".mp4", width,
+                        height, video.FpsValue, VideoCodec.MPEG4);
                     foreach (var fps in video.FpsList)
                     {
                         foreach (var frame in fps.Frames)
@@ -43,14 +47,14 @@ namespace Challange.Domain.Services.Challenge
             }
         }
 
-        private int GetWidth(Video video)
+        private int GetWidth()
         {
-            return video.FpsList[0].Frames[0].Width;
+            return videos.First().FpsList[0].Frames[0].Width;
         }
 
-        private int GetHeight(Video video)
+        private int GetHeight()
         {
-            return video.FpsList[0].Frames[0].Height;
+            return videos.First().FpsList[0].Frames[0].Height;
         }
     }
 }
