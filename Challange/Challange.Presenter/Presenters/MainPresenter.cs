@@ -84,15 +84,12 @@ namespace Challange.Presenter.Presenters
         /// <param name="e"></param>
         private void OnOneSecondTimedEventForPastFrames(Object source, ElapsedEventArgs e)
         {
-            lock (tempFpses)
+            if (HaveToRemovePastFps())
             {
-                if (HaveToRemovePastFps())
-                {
-                    RemoveFirstFpsFromPastBuffer();
-                }
-                AddPastFpses();
-                InitializeTempFpses();
+                RemoveFirstFpsFromPastBuffer();
             }
+            AddPastFpses();
+            InitializeTempFpses();
         }
 
         /// <summary>
@@ -112,9 +109,18 @@ namespace Challange.Presenter.Presenters
         /// </summary>
         private void RemoveFirstFpsFromPastBuffer()
         {
-            foreach (var pastFrames in pastCameraRecords.Values)
+            var fpsesToRemove = new Dictionary<string, FPS>();
+            foreach (var pastFrames in pastCameraRecords)
             {
-                pastFrames.RemoveAt(0);
+                fpsesToRemove.Add(pastFrames.Key, pastFrames.Value[0]);
+                pastFrames.Value.RemoveAt(0);
+            }
+            foreach (var fpsToRemove in fpsesToRemove.Values)
+            {
+                foreach (var frame in fpsToRemove.Frames)
+                {
+                    frame.Dispose();
+                }
             }
         }
 
@@ -155,21 +161,18 @@ namespace Challange.Presenter.Presenters
 
         private void OnOneSecondTimedEventForFutureFrames(Object source, ElapsedEventArgs e)
         {
-            lock (tempFpses)
+            if (HaveToAddFutureFps())
             {
-                if (HaveToAddFutureFps())
-                {
-                    AddFutureFpses();
-                    InitializeTempFpses();
-                }
-                else
-                {
-                    ChangeActivityOfEventForFutureFrames(false);
-                    WriteChallangeAsVideo();
-                    InitializeTempFpses();
-                    InitializeBuffers();
-                    ChangeActivityOfEventForPastFrames(true);
-                }
+                AddFutureFpses();
+                InitializeTempFpses();
+            }
+            else
+            {
+                ChangeActivityOfEventForFutureFrames(false);
+                WriteChallangeAsVideo();
+                InitializeTempFpses();
+                InitializeBuffers();
+                ChangeActivityOfEventForPastFrames(true);
             }
         }
 

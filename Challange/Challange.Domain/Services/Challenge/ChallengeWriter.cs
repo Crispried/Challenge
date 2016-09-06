@@ -40,7 +40,18 @@ namespace Challange.Domain.Services.Challenge
                     {
                         foreach (var frame in fps.Frames)
                         {
-                            writer.WriteVideoFrame(frame);
+                            try
+                            {
+                                writer.WriteVideoFrame(frame);
+                            }
+                            catch
+                            {
+
+                            }
+                            finally
+                            {
+                                frame.Dispose();
+                            }
                         }
                     }
                 }

@@ -365,16 +365,13 @@ namespace Challange.Forms
 
         public void DrawNewFrame(Bitmap frame, string cameraName)
         {
-            lock (frame)
-            {
-                Bitmap frameClone = 
-                    frame.Clone(new Rectangle(0, 0, frame.Width, frame.Height),
-                    frame.PixelFormat);
-                currentFrameInfo = Tuple.Create(cameraName, frameClone);
-                allPlayers.Where(player =>
-                    GetTextBoxOfPlayer(player).Text == cameraName).First().Image = frame;
-                Invoke(NewFrameCallback);
-            }
+            Bitmap frameClone =
+                frame.Clone(new Rectangle(0, 0, frame.Width, frame.Height),
+                frame.PixelFormat);
+            allPlayers.Where(player =>
+            GetTextBoxOfPlayer(player).Text == cameraName).First().Image = frameClone;
+            currentFrameInfo = Tuple.Create(cameraName, frameClone);
+            Invoke(NewFrameCallback);
         }
 
         public void BindPlayersToCameras(Queue<string> camerasNames)
