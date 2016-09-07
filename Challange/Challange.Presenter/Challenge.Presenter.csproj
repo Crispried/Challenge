@@ -67,15 +67,17 @@
     <Compile Include="Base\IContainer.cs" />
     <Compile Include="Base\IPresenter.cs" />
     <Compile Include="Base\IView.cs" />
-    <Compile Include="Presenters\CamerasPresenter.cs" />
-    <Compile Include="Presenters\ChallengeSettingsPresenter.cs" />
-    <Compile Include="Presenters\GameInformationPresenter.cs" />
-    <Compile Include="Presenters\PlayerPanelSettingsPresenter.cs" />
+    <Compile Include="Presenters\Cameras\CamerasPresenter.cs" />
+    <Compile Include="Presenters\ChallengeSettings\ChallengeSettingsPresenter.cs" />
+    <Compile Include="Presenters\GameInformation\GameInformationPresenter.cs" />
+    <Compile Include="Presenters\Main\MainPresenterInternal.cs" />
+    <Compile Include="Presenters\Main\Presenters.cs" />
+    <Compile Include="Presenters\PlayerPanelSettings\PlayerPanelSettingsPresenter.cs" />
     <Compile Include="Views\ICamerasView.cs" />
     <Compile Include="Views\IChallengeSettingsView.cs" />
     <Compile Include="Views\IGameInformationView.cs" />
     <Compile Include="Views\IMainView.cs" />
-    <Compile Include="Presenters\MainPresenter.cs" />
+    <Compile Include="Presenters\Main\MainPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\IPlayerPanelSettingsView.cs" />
   </ItemGroup>

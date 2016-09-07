@@ -1,81 +1,24 @@
-﻿using Challange.Presenter.Base;
-using Challange.Presenter.Views;
-using Challange.Domain.Services.Settings.SettingTypes;
+﻿using Challange.Domain.Entities;
+using Challange.Domain.Infrastructure;
+using Challange.Domain.Services.Challenge;
 using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingParser;
-using AForge.Video.DirectShow;
+using Challange.Domain.Services.Settings.SettingTypes;
+using Challange.Domain.Services.StreamProcess.Abstract;
+using Challange.Domain.Services.StreamProcess.Concrete;
+using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 using System;
 using System.Collections.Generic;
-using Challange.Domain.Entities;
-using System.Timers;
-using Challange.Domain.Services.Challenge;
-using Challange.Domain.Infrastructure;
-using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 using System.Drawing;
-using static PylonC.NETSupportLibrary.DeviceEnumerator;
-using Challange.Domain.Services.StreamProcess.Concrete;
-using Challange.Domain.Services.StreamProcess.Abstract;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Timers;
 
-namespace Challange.Presenter.Presenters
+namespace Challange.Presenter.Presenters.Main
 {
-    public class MainPresenter : BasePresenter<IMainView>
+    public partial class MainPresenter
     {
-        // settings
-        private PlayerPanelSettings playerPanelSettings;
-        private ChallengeSettings challengeSettings;
-        //
-        private GameInformation gameInformation;
-        // video streaming
-        private CamerasContainer<Camera> camerasContainer;
-        private PylonCameraProvider pylonCameraProvider;
-        private List<Device> camerasInfo;
-        private bool streaming;
-
-        // challenge
-        private Dictionary<string, List<FPS>> pastCameraRecords;
-        private Dictionary<string, List<FPS>> futureCameraRecords;
-        private Dictionary<string, FPS> tempFpses;
-        private Timer oneSecondTimer;
-        private string challengeDirectoryPath;
-
-        public MainPresenter(IApplicationController controller,
-                             IMainView mainView) : 
-                             base(controller, mainView)
-        {
-            View.OpenPlayerPanelSettings +=
-                                    ChangePlayerPanelSettings;
-            View.OpenChallengeSettings +=
-                                    ChangeChallengeSettings;
-            View.OpenDevicesList += ShowDevicesList;
-            View.StartStream += StartStream;
-            View.StopStream += StopStream;
-            View.OpenGameFolder += OpenGameFolder;
-            View.MainFormClosing += StopCaptureDevice;
-            View.CreateChallange += CreateChallange;
-            View.NewFrameCallback += AddNewFrame;
-            pylonCameraProvider = new PylonCameraProvider();
-        }
-
-        private void ShowDevicesList()
-        {
-            InitializeDevicesList();
-            Controller.Run<CamerasPresenter,
-                List<Device>>(camerasInfo);
-        }
-
-        /// <summary>
-        /// add new frame into tempFPS Frames collection
-        /// </summary>
-        private void AddNewFrame()
-        {
-            string cameraName = View.CurrentFrameInfo.Item1;
-            Bitmap currentFrame = View.CurrentFrameInfo.Item2;
-            FPS tempFPS;
-            tempFpses.TryGetValue(cameraName, out tempFPS);
-            tempFPS.Frames.Add(currentFrame);
-        }
-
         /// <summary>
         /// event which adds and supply concrete number of FPS object
         /// in buffer for past frames
@@ -132,7 +75,7 @@ namespace Challange.Presenter.Presenters
             List<FPS> temp;
             foreach (var tempFps in tempFpses)
             {
-                if(pastCameraRecords.TryGetValue(tempFps.Key, out temp))
+                if (pastCameraRecords.TryGetValue(tempFps.Key, out temp))
                 {
                     temp.Add(tempFps.Value);
                 }
@@ -159,6 +102,11 @@ namespace Challange.Presenter.Presenters
 
         }
 
+        /// <summary>
+        /// Process frames for future collection
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="e"></param>
         private void OnOneSecondTimedEventForFutureFrames(Object source, ElapsedEventArgs e)
         {
             if (HaveToAddFutureFps())
@@ -242,36 +190,17 @@ namespace Challange.Presenter.Presenters
             }
         }
 
-        public override void Run()
-        {
-            playerPanelSettings = GetPlayerPanelSettings();
-            challengeSettings = GetChallengeSettings();
-            DrawPlayers();
-            // we need to keep game information 
-            InitializeGameInformation();
-            Controller.Run<GameInformationPresenter,
-                           GameInformation>(gameInformation);
-            View.Show();
-        }
-
+        /// <summary>
+        /// Just initialize GameInformation object
+        /// </summary>
         private void InitializeGameInformation()
         {
             gameInformation = new GameInformation();
         }
 
-        private void ChangePlayerPanelSettings()
-        {
-            Controller.Run<PlayerPanelSettingsPresenter,
-                           PlayerPanelSettings>(playerPanelSettings);
-            DrawPlayers();
-        }
-
-        private void ChangeChallengeSettings()
-        {
-            Controller.Run<ChallengeSettingsPresenter,
-                            ChallengeSettings>(challengeSettings);
-        }
-
+        /// <summary>
+        /// Draws player panel
+        /// </summary>
         private void DrawPlayers()
         {
             if (playerPanelSettings != null)
@@ -309,22 +238,7 @@ namespace Challange.Presenter.Presenters
         }
         #endregion
 
-        #region start stream
-        /// <summary>
-        /// initialize general stream process 
-        /// </summary>
-        private void StartStream()
-        {
-            InitializeDevices();
-            InitializeBuffers();
-            BindPlayersToCameras();
-            StartDevices();
-            InitializeTempFpses();
-            InitializeTimeAxisTimer();
-            InitializeOneSecondTimer();
-            ChangeStreamingStatus(true);
-            ChangeStateOfChallengeButton(true);
-        }
+
 
         /// <summary>
         /// Initializes devices
@@ -371,6 +285,9 @@ namespace Challange.Presenter.Presenters
             View.BindPlayersToCameras(camerasNames);
         }
 
+        /// <summary>
+        /// Starts all devices
+        /// </summary>
         private void StartDevices()
         {
             foreach (Camera camera in camerasContainer.GetCameras)
@@ -380,6 +297,11 @@ namespace Challange.Presenter.Presenters
             }
         }
 
+        /// <summary>
+        /// Process new frame from device cameraName
+        /// </summary>
+        /// <param name="frame"></param>
+        /// <param name="cameraName"></param>
         private void Camera_NewFrameEvent(Bitmap frame, string cameraName)
         {
             View.DrawNewFrame(frame, cameraName);
@@ -421,42 +343,17 @@ namespace Challange.Presenter.Presenters
             View.ToggleChallengeButton(isEnable);
         }
 
+        /// <summary>
+        /// Changes the state of challenge button in pointed seconds
+        /// if true - active
+        /// if false - not active
+        /// </summary>
+        /// <param name="isEnable"></param>
+        /// <param name="numberOfSeconds"></param>
         private void ChangeStateOfChallengeButtonIn(bool isEnable, int numberOfSeconds)
         {
             View.ToggleChallengeButtonIn(isEnable, numberOfSeconds);
-        }
-        #endregion
-
-        private void OpenGameFolder()
-        {
-            FileService.OpenFileOrFolder(gameInformation.DirectoryName);
-        }
-
-        #region stop stream
-        /// <summary>
-        /// Stop stream process:
-        /// </summary>
-        private void StopStream()
-        {
-            StopCaptureDevice();
-            ResetTimeAxis();
-            ChangeStreamingStatus(false);
-            ChangeStateOfChallengeButton(false);
-        }
-
-        /// <summary>
-        /// Stop streaming from devices
-        /// </summary>
-        private void StopCaptureDevice()
-        {
-            if (camerasContainer != null)
-            {
-                foreach (var camera in camerasContainer.GetCameras)
-                {
-                    camera.Stop();
-                }
-            }
-        }
+        }      
 
         /// <summary>
         /// Resets timer on time axis and clear it from markers
@@ -465,7 +362,6 @@ namespace Challange.Presenter.Presenters
         {
             View.ResetTimeAxis();
         }
-        #endregion
 
         /// <summary>
         /// set streaming state on "state"
@@ -476,26 +372,18 @@ namespace Challange.Presenter.Presenters
             streaming = state;
         }
 
-        #region create challange
-        private void CreateChallange()
-        {
-            if (streaming)
-            {
-                var challengeTime = GetChallengeTime();
-                challengeDirectoryPath = FormatChallengeDirectoryPath(challengeTime);
-                CreateDirectoryForChallenge(challengeDirectoryPath);
-                ChangeActivityOfEventForPastFrames(false);
-                ChangeActivityOfEventForFutureFrames(true);
-                ChangeStateOfChallengeButtonIn(false, challengeSettings.NumberOfFutureFPS);
-                AddMarkerOnTimeAxis();
-            }
-        }
-
+        /// <summary>
+        /// Draws marker on time axis
+        /// </summary>
         private void AddMarkerOnTimeAxis()
         {
             View.AddMarkerOnTimeAxis();
         }
 
+        /// <summary>
+        /// Gets elapsed time from start of streaming
+        /// </summary>
+        /// <returns></returns>
         private string GetChallengeTime()
         {
             return View.GetElapsedTime;
@@ -512,11 +400,18 @@ namespace Challange.Presenter.Presenters
                         FileService.FilterFolderName(folderName);
         }
 
+        /// <summary>
+        /// Creates directory in file system for current challenge
+        /// </summary>
+        /// <param name="name"></param>
         private void CreateDirectoryForChallenge(string name)
         {
             FileService.CreateDirectory(name);
         }
 
+        /// <summary>
+        /// Writes challenge videos in file system
+        /// </summary>
         private void WriteChallangeAsVideo()
         {
             var videos = UnitePastAndFutureFrames();
@@ -526,6 +421,10 @@ namespace Challange.Presenter.Presenters
             ClearPastAndFutureBuffers();
         }
 
+        /// <summary>
+        /// Unites past and future frames collection in one
+        /// </summary>
+        /// <returns></returns>
         private List<Video> UnitePastAndFutureFrames()
         {
             var video = new List<Video>();
@@ -534,7 +433,7 @@ namespace Challange.Presenter.Presenters
             {
                 foreach (var futureFrames in futureCameraRecords)
                 {
-                    if(pastFrames.Key == futureFrames.Key)
+                    if (pastFrames.Key == futureFrames.Key)
                     {
                         tempVideoFrames = new List<FPS>();
                         tempVideoFrames.AddRange(pastFrames.Value);
@@ -547,16 +446,36 @@ namespace Challange.Presenter.Presenters
             return video;
         }
 
+        /// <summary>
+        /// Clears buffers for past and future frames
+        /// </summary>
         private void ClearPastAndFutureBuffers()
         {
             pastCameraRecords.Clear();
             futureCameraRecords.Clear();
         }
 
+        /// <summary>
+        /// Formats path to challenge
+        /// </summary>
+        /// <returns></returns>
         private string FormatPathToChallenge()
         {
             return challengeDirectoryPath + @"\";
         }
-        #endregion
+
+        /// <summary>
+        /// Stops capturing of devices
+        /// </summary>
+        public void StopCaptureDevice()
+        {
+            if (camerasContainer != null)
+            {
+                foreach (var camera in camerasContainer.GetCameras)
+                {
+                    camera.Stop();
+                }
+            }
+        }
     }
 }
