@@ -23,6 +23,7 @@ namespace Challange.Forms
         private const int autosizeHeightCoefficient = 3;
         private System.Windows.Forms.Timer timer;
         private List<PictureBox> allPlayers;
+        private Dictionary<string, string> camerasNames;
 
         private ComponentResourceManager resources =
                  new ComponentResourceManager(typeof(MainForm));
@@ -65,6 +66,14 @@ namespace Challange.Forms
             get
             {
                 return elapsedTimeFromStart.Text;
+            }
+        }
+
+        public Dictionary<string, string> CamerasNames
+        {
+            get
+            {
+                return camerasNames;
             }
         }
 
@@ -369,22 +378,39 @@ namespace Challange.Forms
                 frame.Clone(new Rectangle(0, 0, frame.Width, frame.Height),
                 frame.PixelFormat);
             allPlayers.Where(player =>
-            GetTextBoxOfPlayer(player).Text == cameraName).First().Image = frameClone;
+            GetTextBoxOfPlayer(player).Tag.ToString() == cameraName).
+            First().Image = frameClone;
             currentFrameInfo = Tuple.Create(cameraName, frameClone);
             Invoke(NewFrameCallback);
         }
 
         public void BindPlayersToCameras(Queue<string> camerasNames)
         {
+            this.camerasNames = new Dictionary<string, string>();
             TextBox tmpCameraNameTextBox;
+            string currentCameraName;
             foreach (var player in allPlayers)
             {
                 if(camerasNames.Count > 0)
                 {
+                    currentCameraName = camerasNames.Dequeue();
+                    this.camerasNames.Add(currentCameraName, currentCameraName);
                     tmpCameraNameTextBox = GetTextBoxOfPlayer(player);
-                    tmpCameraNameTextBox.Text = camerasNames.Dequeue();
+                    // value of our cameras names dictionary
+                    tmpCameraNameTextBox.Text = currentCameraName;
+                    // key of our cameras names dictionary
+                    tmpCameraNameTextBox.Tag = currentCameraName; 
+                    tmpCameraNameTextBox.TextChanged +=
+                            TmpCameraNameTextBox_TextChanged;
                 }
             }
+        }
+
+        private void TmpCameraNameTextBox_TextChanged(object sender, EventArgs e)
+        {
+            TextBox currentTextBox = sender as TextBox;
+            string key = currentTextBox.Tag.ToString();
+            camerasNames[key] = currentTextBox.Text;
         }
 
         private TextBox GetTextBoxOfPlayer(PictureBox player)

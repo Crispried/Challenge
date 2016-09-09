@@ -28,6 +28,8 @@ namespace Challange.Presenter.Views
 
         Tuple<string, Bitmap> CurrentFrameInfo { get; }
 
+        Dictionary<string, string> CamerasNames { get; }
+
         string GetElapsedTime { get; }
 
         void DrawPlayers(PlayerPanelSettings settings);

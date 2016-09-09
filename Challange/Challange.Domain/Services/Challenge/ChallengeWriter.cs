@@ -32,9 +32,11 @@ namespace Challange.Domain.Services.Challenge
         {
             using (VideoFileWriter writer = new VideoFileWriter())
             {
+                string tmpFileName;
                 foreach (var video in videos)
                 {
-                    writer.Open(pathToVideos+video.Name+".mp4", width,
+                    tmpFileName = pathToVideos + video.Name + ".mp4";
+                    writer.Open(tmpFileName, width,
                         height, video.FpsValue, VideoCodec.MPEG4);
                     foreach (var fps in video.FpsList)
                     {

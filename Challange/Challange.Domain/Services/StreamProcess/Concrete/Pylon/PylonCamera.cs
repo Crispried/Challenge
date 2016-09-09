@@ -1,4 +1,5 @@
-﻿using Challange.Domain.Services.StreamProcess.Abstract;
+﻿using Challange.Domain.Entities;
+using Challange.Domain.Services.StreamProcess.Abstract;
 using PylonC.NETSupportLibrary;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,8 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
         private ImageProvider imageProvider;
         private uint cameraIndex;
 
-        public PylonCamera(uint cameraIndex) : base(cameraIndex.ToString())
+        public PylonCamera(uint cameraIndex, string fullName)
+             : base(cameraIndex.ToString(), FilterFullName(fullName))
         {
             this.cameraIndex = cameraIndex;
             imageProvider = new ImageProvider();
@@ -47,7 +49,7 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
                     imageProvider.ReleaseImage();
                     /* The buffer can be used for the next image grabs. */
                 }
-                OnNewFrameEvent(currentFrame, name);
+                OnNewFrameEvent(currentFrame, FilterFullName(fullName));
             }
             catch (Exception e)
             {
@@ -80,6 +82,11 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
             {
                 //ShowException(e, imageProvider.GetLastErrorMessage());
             }
+        }
+
+        public static string FilterFullName(string fullName)
+        {
+            return fullName.Replace(":", "_port_");
         }
     }
 }

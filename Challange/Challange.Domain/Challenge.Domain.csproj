@@ -62,12 +62,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Camera.cs" />
     <Compile Include="Entities\FPS.cs" />
     <Compile Include="Entities\GameInformation.cs" />
     <Compile Include="Entities\Video.cs" />
     <Compile Include="Infrastructure\ChallengeStructurer.cs" />
-    <Compile Include="Services\StreamProcess\Abstract\Camera.cs" />
+    <Compile Include="Entities\Camera.cs" />
     <Compile Include="Services\StreamProcess\Abstract\ICameraProvider.cs" />
     <Compile Include="Services\Challenge\ChallengeWriter.cs" />
     <Compile Include="Services\Settings\SettingParser\ChallengeSettingsParser.cs" />
@@ -84,9 +83,6 @@
     <Compile Include="Services\StreamProcess\Concrete\CamerasContainer.cs" />
     <Compile Include="Services\StreamProcess\Concrete\Pylon\PylonCamera.cs" />
     <Compile Include="Services\StreamProcess\Concrete\Pylon\PylonCameraProvider.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -97,7 +97,7 @@ namespace Challange.Presenter.Presenters.Main
             tempFpses = new Dictionary<string, FPS>();
             foreach (Camera camera in camerasContainer.GetCameras)
             {
-                tempFpses.Add(camera.Name, new FPS());
+                tempFpses.Add(camera.FullName, new FPS());
             }
 
         }
@@ -250,7 +250,7 @@ namespace Challange.Presenter.Presenters.Main
             PylonCamera tmpCamera;
             foreach (var cameraInfo in camerasInfo)
             {
-                tmpCamera = new PylonCamera(cameraInfo.Index);
+                tmpCamera = new PylonCamera(cameraInfo.Index, cameraInfo.FullName);
                 camerasContainer.AddCamera(tmpCamera);
             }
         }
@@ -263,12 +263,12 @@ namespace Challange.Presenter.Presenters.Main
             pastCameraRecords = new Dictionary<string, List<FPS>>();
             foreach (Camera camera in camerasContainer.GetCameras)
             {
-                pastCameraRecords.Add(camera.Name, new List<FPS>());
+                pastCameraRecords.Add(camera.FullName, new List<FPS>());
             }
             futureCameraRecords = new Dictionary<string, List<FPS>>();
             foreach (Camera camera in camerasContainer.GetCameras)
             {
-                futureCameraRecords.Add(camera.Name, new List<FPS>());
+                futureCameraRecords.Add(camera.FullName, new List<FPS>());
             }
         }
 
@@ -280,7 +280,7 @@ namespace Challange.Presenter.Presenters.Main
             Queue<string> camerasNames = new Queue<string>();
             foreach (Camera camera in camerasContainer.GetCameras)
             {
-                camerasNames.Enqueue(camera.Name);
+                camerasNames.Enqueue(camera.FullName);
             }
             View.BindPlayersToCameras(camerasNames);
         }
@@ -427,8 +427,9 @@ namespace Challange.Presenter.Presenters.Main
         /// <returns></returns>
         private List<Video> UnitePastAndFutureFrames()
         {
-            var video = new List<Video>();
+            var videos = new List<Video>();
             List<FPS> tempVideoFrames;
+            string currentVideoName;
             foreach (var pastFrames in pastCameraRecords)
             {
                 foreach (var futureFrames in futureCameraRecords)
@@ -438,12 +439,14 @@ namespace Challange.Presenter.Presenters.Main
                         tempVideoFrames = new List<FPS>();
                         tempVideoFrames.AddRange(pastFrames.Value);
                         tempVideoFrames.AddRange(futureFrames.Value);
-                        video.Add(new Video(pastFrames.Key, tempVideoFrames));
+                        View.CamerasNames.TryGetValue(
+                                pastFrames.Key, out currentVideoName);
+                        videos.Add(new Video(currentVideoName, tempVideoFrames));
                         break;
                     }
                 }
             }
-            return video;
+            return videos;
         }
 
         /// <summary>
