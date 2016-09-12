@@ -19,7 +19,7 @@ namespace Challange.Presenter.Presenters.GameInformationPresenter
         /// Prepares application (means folder structure)
         /// </summary>
         /// <param name="newSettings"></param>
-        private void PrepareApplication(
+        public void PrepareApplication(
                         GameInformation gameInfo)
         {
             InitializeGameInformation(gameInfo);
