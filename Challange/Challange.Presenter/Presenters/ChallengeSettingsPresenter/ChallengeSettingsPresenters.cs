@@ -19,7 +19,7 @@ namespace Challange.Presenter.Presenters.ChallengeSettingsPresenter
         /// <summary>
         /// Changes challenge settings (number of past and future FPSes)
         /// </summary>
-        private void ChangeChallengeSettings()
+        public void ChangeChallengeSettings()
         {
             View.ValidateForm();
             if (View.IsFormValid)

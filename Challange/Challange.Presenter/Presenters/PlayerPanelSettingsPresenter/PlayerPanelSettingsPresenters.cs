@@ -24,7 +24,7 @@ namespace Challange.Presenter.Presenters.PlayerPanelSettingsPresenter
         ///    without necessity read file with settings.
         /// </summary>
         /// <param name="newSettings"></param>
-        private void ChangePlayerPanelSettings(
+        public void ChangePlayerPanelSettings(
                         PlayerPanelSettings newSettings)
         {
             SaveSettings(newSettings);
