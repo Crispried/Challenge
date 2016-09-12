@@ -63,6 +63,14 @@
       <HintPath>..\packages\NUnitTestAdapter.2.0.0\lib\NUnit.VisualStudio.TestAdapter.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="PylonC.NET, Version=4.1.0.0, Culture=neutral, PublicKeyToken=a77e8471c5919d5a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Pylon.5\lib\PylonC.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="PylonC.NETSupportLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\Volodymyr\Desktop\PylonC.NETSupportLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -78,10 +86,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CamerasContainerTests.cs" />
     <Compile Include="ChallengeStructurerTests.cs" />
     <Compile Include="ArchivatorTests.cs" />
     <Compile Include="FileWorkerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PylonCameraProviderTests.cs" />
     <Compile Include="TestCase.cs" />
   </ItemGroup>
   <ItemGroup>

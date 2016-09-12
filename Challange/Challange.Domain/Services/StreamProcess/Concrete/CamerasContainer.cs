@@ -26,7 +26,6 @@ namespace Challange.Domain.Services.StreamProcess.Concrete
         }
 
         public void AddCamera(Camera camera)
-            
         {
             camerasContainer.Add(camera);
         }

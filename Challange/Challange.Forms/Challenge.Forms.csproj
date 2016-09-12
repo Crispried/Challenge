@@ -93,9 +93,8 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="TimeAxis, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\TimeAxis\lib\TimeAxis.dll</HintPath>
+    <Reference Include="TimeAxis %281%29">
+      <HintPath>C:\Users\Volodymyr\Desktop\TimeAxis (1).dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
