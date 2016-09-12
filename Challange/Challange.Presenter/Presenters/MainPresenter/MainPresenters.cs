@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static PylonC.NETSupportLibrary.DeviceEnumerator;
 
-namespace Challange.Presenter.Presenters.Main
+namespace Challange.Presenter.Presenters.MainPresenter
 {
     public partial class MainPresenter
     {
@@ -21,7 +21,7 @@ namespace Challange.Presenter.Presenters.Main
             DrawPlayers();
             // we need to keep game information 
             InitializeGameInformation();
-            Controller.Run<GameInformationPresenter,
+            Controller.Run<GameInformationPresenter.GameInformationPresenter,
                            GameInformation>(gameInformation);
             pylonCameraProvider = new PylonCameraProvider();
             View.Show();
@@ -33,7 +33,7 @@ namespace Challange.Presenter.Presenters.Main
         public void ShowDevicesList()
         {
             InitializeDevicesList();
-            Controller.Run<CamerasPresenter,
+            Controller.Run<CamerasPresenter.CamerasPresenter,
                 List<Device>>(camerasInfo);
         }
 
@@ -56,7 +56,7 @@ namespace Challange.Presenter.Presenters.Main
         /// </summary>
         public void ChangePlayerPanelSettings()
         {
-            Controller.Run<PlayerPanelSettingsPresenter,
+            Controller.Run<PlayerPanelSettingsPresenter.PlayerPanelSettingsPresenter,
                            PlayerPanelSettings>(playerPanelSettings);
             DrawPlayers();
         }
@@ -66,7 +66,7 @@ namespace Challange.Presenter.Presenters.Main
         /// </summary>
         public void ChangeChallengeSettings()
         {
-            Controller.Run<ChallengeSettingsPresenter,
+            Controller.Run<ChallengeSettingsPresenter.ChallengeSettingsPresenter,
                             ChallengeSettings>(challengeSettings);
         }
 

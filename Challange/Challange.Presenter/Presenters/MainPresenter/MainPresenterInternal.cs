@@ -15,7 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace Challange.Presenter.Presenters.Main
+namespace Challange.Presenter.Presenters.MainPresenter
 {
     public partial class MainPresenter
     {

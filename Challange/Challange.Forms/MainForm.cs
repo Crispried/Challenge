@@ -132,7 +132,8 @@ namespace Challange.Forms
             {
                 playerPanel.Controls.Add(pictureBoxToShowFullscreen);
                 playerPanel.Controls.SetChildIndex(pictureBoxToShowFullscreen, controlIndex);
-
+                // Enable click event if fullscreen mode is entered
+                pictureBoxToShowFullscreen.Click += new EventHandler(PlayerPanel_Click);
                 // Show the button we hide in fullscreen mode
                 foreach (Button btn in pictureBoxToShowFullscreen.Controls.OfType<Button>())
                 {
@@ -365,11 +366,7 @@ namespace Challange.Forms
 
         private bool IsStreaming()
         {
-            if (timer.Enabled)
-            {
-                return true;
-            }
-            return false;
+            return timer.Enabled;
         }
 
         public void DrawNewFrame(Bitmap frame, string cameraName)

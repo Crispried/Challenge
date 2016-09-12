@@ -17,7 +17,7 @@ using Challange.Domain.Services.StreamProcess.Concrete;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using System.Linq;
 
-namespace Challange.Presenter.Presenters.Main
+namespace Challange.Presenter.Presenters.MainPresenter
 {
     public partial class MainPresenter : BasePresenter<IMainView>
     {

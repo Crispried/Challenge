@@ -4,7 +4,7 @@ using Challange.Presenter.Base;
 using Challange.Presenter.Views;
 using Challange.Presenter.Presenters;
 using PylonC.NET;
-using Challange.Presenter.Presenters.Main;
+using Challange.Presenter.Presenters.MainPresenter;
 
 namespace Challange.Forms
 {
