@@ -23,5 +23,10 @@ namespace Challange.Domain.Entities
                 return frames;
             }
         }
+
+        public void AddFrame(Bitmap frame)
+        {
+            frames.Add(frame);
+        }
     }
 }

@@ -47,7 +47,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
             Bitmap currentFrame = View.CurrentFrameInfo.Item2;
             FPS tempFPS;
             tempFpses.TryGetValue(cameraName, out tempFPS);
-            tempFPS.Frames.Add(currentFrame);
+            tempFPS.AddFrame(currentFrame);
         }
 
         /// <summary>

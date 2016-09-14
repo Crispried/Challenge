@@ -321,6 +321,7 @@ namespace Challange.Forms
 
         private Button CreateFullScreenButton(int playerWidth, int playerHeight)
         {
+            var pathToFullScreenImage = "../../Images/fullscreen.png";
             int buttonWidth = 20;
             int buttonHeight = 20;
             // On autoscale works good, have to fix issue when using custom width and height
@@ -331,7 +332,7 @@ namespace Challange.Forms
                 Width = buttonWidth,
                 Height = buttonHeight,
                 Location = positionPoint,
-                BackgroundImage = Image.FromFile("../../Images/fullscreen.png"),
+                BackgroundImage = Image.FromFile(pathToFullScreenImage),
                 BackgroundImageLayout = ImageLayout.Stretch,
                 FlatStyle = FlatStyle.Flat
             };
