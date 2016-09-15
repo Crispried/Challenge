@@ -415,5 +415,15 @@ namespace Challange.Forms
         {
             return player.Controls.Cast<TextBox>().FirstOrDefault();
         }
+
+        #region Error messages
+        public void ShowSettingsFileParseProblemError()
+        {
+            string caption = "Problems with challenge settings file.";
+            string text = "Ooops it looks like something wrong with your challenge settings file or it wasn't found";
+            MessageBox.Show(text, caption,
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        #endregion 
     }
 }

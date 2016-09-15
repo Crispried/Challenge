@@ -229,7 +229,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         /// <returns></returns>
         private ChallengeSettings GetChallengeSettings()
-        {
+        {           
             var challengeSettingService =
                  new SettingsService<ChallengeSettings>(
                                 new ChallengeSettingsParser());
@@ -480,5 +480,12 @@ namespace Challange.Presenter.Presenters.MainPresenter
                 }
             }
         }
+
+        #region Show error messages
+        private void ShowSettingsFileParseProblemError()
+        {
+            View.ShowSettingsFileParseProblemError();
+        }
+        #endregion
     }
 }

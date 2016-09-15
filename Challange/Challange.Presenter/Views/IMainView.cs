@@ -47,5 +47,7 @@ namespace Challange.Presenter.Views
         void DrawNewFrame(Bitmap frame, string cameraName);
 
         void BindPlayersToCameras(Queue<string> camerasNames);
+
+        void ShowSettingsFileParseProblemError();
     }
 }

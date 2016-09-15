@@ -18,13 +18,21 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             playerPanelSettings = GetPlayerPanelSettings();
             challengeSettings = GetChallengeSettings();
-            DrawPlayers();
-            // we need to keep game information 
-            InitializeGameInformation();
-            Controller.Run<GameInformationPresenter.GameInformationPresenter,
-                           GameInformation>(gameInformation);
-            pylonCameraProvider = new PylonCameraProvider();
-            View.Show();
+            if(challengeSettings == null)
+            {
+                ChallengeSettingsAreNull = true;
+                ShowSettingsFileParseProblemError();
+            }
+            else
+            {
+                DrawPlayers();
+                // we need to keep game information 
+                InitializeGameInformation();
+                Controller.Run<GameInformationPresenter.GameInformationPresenter,
+                               GameInformation>(gameInformation);
+                pylonCameraProvider = new PylonCameraProvider();
+                View.Show();
+            }
         }
 
         /// <summary>

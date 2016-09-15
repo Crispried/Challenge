@@ -85,7 +85,7 @@ namespace Challange.Forms
                    (!string.IsNullOrWhiteSpace(futureSecondsTextBox.Text));
         }
 
-        public void ShowErrorMessage()
+        public void ShowValidationErrorMessage()
         {
             string caption = "Form is not valid";
             string text = "Please, fill all fields";

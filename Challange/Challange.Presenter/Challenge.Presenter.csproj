@@ -73,11 +73,13 @@
     <Compile Include="Presenters\ChallengeSettingsPresenter\ChallengeSettingsInternal.cs" />
     <Compile Include="Presenters\ChallengeSettingsPresenter\ChallengeSettings.cs" />
     <Compile Include="Presenters\ChallengeSettingsPresenter\ChallengeSettingsPresenters.cs" />
+    <Compile Include="Presenters\ChallengeSettingsPresenter\ChallengeSettingsState.cs" />
     <Compile Include="Presenters\GameInformationPresenter\GameInformationInternal.cs" />
     <Compile Include="Presenters\GameInformationPresenter\GameInformation.cs" />
     <Compile Include="Presenters\GameInformationPresenter\GameInformationPresenters.cs" />
     <Compile Include="Presenters\MainPresenter\MainPresenterInternal.cs" />
     <Compile Include="Presenters\MainPresenter\MainPresenters.cs" />
+    <Compile Include="Presenters\MainPresenter\MainPresenterStates.cs" />
     <Compile Include="Presenters\PlayerPanelSettingsPresenter\PlayerPanelSettingsInternal.cs" />
     <Compile Include="Presenters\PlayerPanelSettingsPresenter\PlayerPanelSettings.cs" />
     <Compile Include="Presenters\PlayerPanelSettingsPresenter\PlayerPanelSettingsPresenters.cs" />

@@ -34,7 +34,7 @@ namespace Challange.Presenter.Presenters.ChallengeSettingsPresenter
             }
             else
             {
-                View.ShowErrorMessage();
+                View.ShowValidationErrorMessage();
             }
         }
     }

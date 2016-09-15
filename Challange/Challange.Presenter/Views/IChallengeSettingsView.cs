@@ -21,6 +21,6 @@ namespace Challange.Presenter.Views
 
         void ValidateForm();
 
-        void ShowErrorMessage();
+        void ShowValidationErrorMessage();
     }
 }
