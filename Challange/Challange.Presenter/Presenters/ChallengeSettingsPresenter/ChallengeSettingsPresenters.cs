@@ -14,6 +14,7 @@ namespace Challange.Presenter.Presenters.ChallengeSettingsPresenter
             challengeSettings = argument;
             SetChallengeSettings();
             View.Show();
+            ChallengeSettingsAreOpened = true;
         }
 
         /// <summary>
@@ -24,6 +25,8 @@ namespace Challange.Presenter.Presenters.ChallengeSettingsPresenter
             View.ValidateForm();
             if (View.IsFormValid)
             {
+                ChallengeSettingsFormIsValid = true;
+
                 var newSettings = View.ChallengeSettings;
                 SaveSettings(newSettings);
                 challengeSettings.NumberOfPastFPS =
@@ -31,9 +34,12 @@ namespace Challange.Presenter.Presenters.ChallengeSettingsPresenter
                 challengeSettings.NumberOfFutureFPS =
                                 newSettings.NumberOfFutureFPS;
                 View.Close();
+
+                ChallengeSettingsAreSaved = true;
             }
             else
             {
+                ChallengeSettingsFormIsInvalid = true;
                 View.ShowValidationErrorMessage();
             }
         }

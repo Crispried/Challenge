@@ -14,6 +14,7 @@ namespace Challange.Presenter.Presenters.PlayerPanelSettingsPresenter
             playerPanelSettings = argument;
             SetPlayerPanelSettings();
             View.Show();
+            PlayerPanelSettingsAreOpened = true;
         }
 
         /// <summary>
@@ -28,6 +29,8 @@ namespace Challange.Presenter.Presenters.PlayerPanelSettingsPresenter
                         PlayerPanelSettings newSettings)
         {
             SaveSettings(newSettings);
+            PlayerPanelSettingsAreSaved = true;
+            
             playerPanelSettings.PlayerWidth =
                             newSettings.PlayerWidth;
             playerPanelSettings.PlayerHeight =
@@ -36,6 +39,7 @@ namespace Challange.Presenter.Presenters.PlayerPanelSettingsPresenter
                             newSettings.NumberOfPlayers;
             playerPanelSettings.AutosizeMode =
                             newSettings.AutosizeMode;
+
             View.Close();
         }
     }

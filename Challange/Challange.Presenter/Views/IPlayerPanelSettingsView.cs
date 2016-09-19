@@ -8,7 +8,7 @@ namespace Challange.Presenter.Views
     {
         event Action ChangePlayerPanelSettings;
 
-        PlayerPanelSettings PlayerPanelSettings { get; }
+        PlayerPanelSettings PlayerPanelSettings { get; set; }
 
         void SetPlayerPanelSettings(
                     PlayerPanelSettings playerPanelSettings);

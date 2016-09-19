@@ -28,6 +28,10 @@ namespace Challange.Forms
             {
                 return GetSettings();
             }
+            set
+            {
+                var playerPanelSettings = value;         
+            }
         }
 
         private PlayerPanelSettings GetSettings()
