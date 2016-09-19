@@ -75,6 +75,7 @@
       <HintPath>..\packages\Pylon.5\lib\PylonC.NETSupportLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -92,6 +93,7 @@
     <Compile Include="CamerasContainerTests.cs" />
     <Compile Include="ChallengeStructurerTests.cs" />
     <Compile Include="ArchivatorTests.cs" />
+    <Compile Include="Entities\ChallengeBuffersTest.cs" />
     <Compile Include="FileWorkerTests.cs" />
     <Compile Include="MainPresenterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
