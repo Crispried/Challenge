@@ -8,7 +8,7 @@ using Challange.Domain.Entities;
 using Challange.Domain.Infrastructure;
 using Challange.Domain.Services.Settings.SettingTypes;
 
-namespace Challange.UnitTests
+namespace Challange.UnitTests.Infrastructure
 {
     [TestFixture]
     class FileWorkerTests : TestCase

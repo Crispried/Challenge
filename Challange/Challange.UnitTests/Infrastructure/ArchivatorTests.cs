@@ -7,7 +7,7 @@ using NUnit.Framework;
 using System.IO;
 using Challange.Domain.Infrastructure;
 
-namespace Challange.UnitTests
+namespace Challange.UnitTests.Infrastructure
 {
     [TestFixture]
     class ArchivatorTests : TestCase

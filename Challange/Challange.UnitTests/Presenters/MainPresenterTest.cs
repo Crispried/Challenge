@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Challange.UnitTests
+namespace Challange.UnitTests.Presenters
 {
     [TestFixture]
     class MainPresenterTest
