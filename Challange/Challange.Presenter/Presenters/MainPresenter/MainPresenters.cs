@@ -21,7 +21,12 @@ namespace Challange.Presenter.Presenters.MainPresenter
             if(challengeSettings == null)
             {
                 ChallengeSettingsAreNull = true;
-                ShowSettingsFileParseProblemError();
+                ShowChallengeSettingsFileParseProblemError();
+            }
+            else if(playerPanelSettings == null)
+            {
+                PlayerPanelSettingsAreNull = true;
+                ShowPlayerPanelSettingsFileParseProblemError();
             }
             else
             {
@@ -83,15 +88,20 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         public void StartStream()
         {
-            InitializeDevices();
-            InitializeBuffers();
-            BindPlayersToCameras();
-            StartDevices();
-            InitializeTempFpses();
-            InitializeTimeAxisTimer();
-            InitializeOneSecondTimer();
-            ChangeStreamingStatus(true);
-            ChangeStateOfChallengeButton(true);
+            camerasContainer = InitializeDevices();
+            if (!camerasContainer.IsEmpty())
+            {
+                challengeBuffers = new ChallengeBuffers(camerasContainer);
+                BindPlayersToCameras();
+                InitializeTimeAxisTimer();
+                InitializeRecordingFPSTimer();
+                StartDevices();
+                ChangeStreamingStatus(true);
+            }
+            else
+            {
+                ShowEmptyDeviceContainerMessage();
+            }
         }
 
         /// <summary>
@@ -102,7 +112,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
             StopCaptureDevice();
             ResetTimeAxis();
             ChangeStreamingStatus(false);
-            ChangeStateOfChallengeButton(false);
         }
 
         /// <summary>

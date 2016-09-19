@@ -44,10 +44,18 @@ namespace Challange.Presenter.Views
 
         void ToggleChallengeButtonIn(bool state, int seconds);
 
+        void ToggleStartButton(bool state);
+
+        void ToggleStopButton(bool state);
+
         void DrawNewFrame(Bitmap frame, string cameraName);
 
         void BindPlayersToCameras(Queue<string> camerasNames);
 
-        void ShowSettingsFileParseProblemError();
+        void ShowEmptyDeviceContainerMessage();
+
+        void ShowChallengeSettingsFileParseProblemError();
+
+        void ShowPlayerPanelSettingsFileParseProblemError();
     }
 }

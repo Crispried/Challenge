@@ -365,6 +365,16 @@ namespace Challange.Forms
             }
         }
 
+        public void ToggleStartButton(bool enabled)
+        {
+            startStreamButton.Enabled = enabled;
+        }
+
+        public void ToggleStopButton(bool enabled)
+        {
+            stopStreamButton.Enabled = enabled;
+        }
+
         private bool IsStreaming()
         {
             return timer.Enabled;
@@ -416,13 +426,29 @@ namespace Challange.Forms
             return player.Controls.Cast<TextBox>().FirstOrDefault();
         }
 
-        #region Error messages
-        public void ShowSettingsFileParseProblemError()
+        #region Messages
+        public void ShowChallengeSettingsFileParseProblemError()
         {
             string caption = "Problems with challenge settings file.";
             string text = "Ooops it looks like something wrong with your challenge settings file or it wasn't found";
             MessageBox.Show(text, caption,
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        public void ShowPlayerPanelSettingsFileParseProblemError()
+        {
+            string caption = "Problems with player panel settings file.";
+            string text = "Ooops it looks like something wrong with your player panel settings file or it wasn't found";
+            MessageBox.Show(text, caption,
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        public void ShowEmptyDeviceContainerMessage()
+        {
+            string caption = "No connected devices.";
+            string text = "Ooops it looks like there are not any connected devices.";
+            MessageBox.Show(text, caption,
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
         #endregion 
     }

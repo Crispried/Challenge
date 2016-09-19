@@ -33,8 +33,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private bool streaming;
 
         // challenge
-        private Dictionary<string, List<FPS>> pastCameraRecords;
-        private Dictionary<string, List<FPS>> futureCameraRecords;
+        private ChallengeBuffers challengeBuffers;
         private Dictionary<string, FPS> tempFpses;
         private Timer oneSecondTimer;
         private string challengeDirectoryPath;

@@ -42,7 +42,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// <returns></returns>
         private bool HaveToRemovePastFps()
         {
-            var pastFrames = pastCameraRecords.Values.FirstOrDefault();
+            var pastFrames = challengeBuffers.GetFirstPastValue();
             return pastFrames.Count == challengeSettings.NumberOfPastFPS;
         }
 
@@ -53,7 +53,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void RemoveFirstFpsFromPastBuffer()
         {
             var fpsesToRemove = new Dictionary<string, FPS>();
-            foreach (var pastFrames in pastCameraRecords)
+            foreach (var pastFrames in challengeBuffers.PastCameraRecords)
             {
                 fpsesToRemove.Add(pastFrames.Key, pastFrames.Value[0]);
                 pastFrames.Value.RemoveAt(0);
@@ -75,7 +75,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
             List<FPS> temp;
             foreach (var tempFps in tempFpses)
             {
-                if (pastCameraRecords.TryGetValue(tempFps.Key, out temp))
+                temp = challengeBuffers.
+                    GetPastCameraRecordsValueByKey(tempFps.Key);
+                if (temp != null)
                 {
                     temp.Add(tempFps.Value);
                 }
@@ -83,7 +85,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
                 {
                     temp = new List<FPS>();
                     temp.Add(tempFps.Value);
-                    pastCameraRecords.Add(tempFps.Key, temp);
+                    challengeBuffers.AddNewPastCameraRecord(tempFps.Key, temp);
                 }
             }
         }
@@ -119,7 +121,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
                 ChangeActivityOfEventForFutureFrames(false);
                 WriteChallangeAsVideo();
                 InitializeTempFpses();
-                InitializeBuffers();
+                challengeBuffers = new ChallengeBuffers(camerasContainer);
                 ChangeActivityOfEventForPastFrames(true);
             }
         }
@@ -131,7 +133,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// <returns></returns>
         private bool HaveToAddFutureFps()
         {
-            var futureFrames = futureCameraRecords.Values.First();
+            var futureFrames = challengeBuffers.GetFirstFutureValue();
             return futureFrames.Count != challengeSettings.NumberOfFutureFPS;
         }
 
@@ -143,7 +145,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
             List<FPS> temp;
             foreach (var tempFps in tempFpses)
             {
-                if (futureCameraRecords.TryGetValue(tempFps.Key, out temp))
+                temp = challengeBuffers.
+                    GetFutureCameraRecordsValueByKey(tempFps.Key);
+                if(temp != null)
                 {
                     temp.Add(tempFps.Value);
                 }
@@ -151,7 +155,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
                 {
                     temp = new List<FPS>();
                     temp.Add(tempFps.Value);
-                    futureCameraRecords.Add(tempFps.Key, temp);
+                    challengeBuffers.AddNewFutureCameraRecord(tempFps.Key, temp);
                 }
             }
         }
@@ -243,33 +247,17 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// <summary>
         /// Initializes devices
         /// </summary>
-        private void InitializeDevices()
+        private CamerasContainer<Camera> InitializeDevices()
         {
             InitializeDevicesList();
-            camerasContainer = new CamerasContainer<Camera>();
+            var camerasContainer = new CamerasContainer<Camera>();
             PylonCamera tmpCamera;
             foreach (var cameraInfo in camerasInfo)
             {
                 tmpCamera = new PylonCamera(cameraInfo.Index, cameraInfo.FullName);
                 camerasContainer.AddCamera(tmpCamera);
             }
-        }
-
-        /// <summary>
-        /// Initialize 2 buffers for past and future frames
-        /// </summary>
-        private void InitializeBuffers()
-        {
-            pastCameraRecords = new Dictionary<string, List<FPS>>();
-            foreach (Camera camera in camerasContainer.GetCameras)
-            {
-                pastCameraRecords.Add(camera.FullName, new List<FPS>());
-            }
-            futureCameraRecords = new Dictionary<string, List<FPS>>();
-            foreach (Camera camera in camerasContainer.GetCameras)
-            {
-                futureCameraRecords.Add(camera.FullName, new List<FPS>());
-            }
+            return camerasContainer;
         }
 
         /// <summary>
@@ -327,8 +315,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// <summary>
         /// Initialize one second timer to create FPS object every second
         /// </summary>
-        private void InitializeOneSecondTimer()
+        private void InitializeRecordingFPSTimer()
         {
+            InitializeTempFpses();
             oneSecondTimer = new Timer(1000);
             oneSecondTimer.AutoReset = true;
             oneSecondTimer.Elapsed += new ElapsedEventHandler(OnOneSecondTimedEventForPastFrames);
@@ -341,6 +330,22 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void ChangeStateOfChallengeButton(bool isEnable)
         {
             View.ToggleChallengeButton(isEnable);
+        }
+
+        /// <summary>
+        /// makes start button enable
+        /// </summary>
+        private void ChangeStateOfStartButton(bool isEnable)
+        {
+            View.ToggleStartButton(isEnable);
+        }
+
+        /// <summary>
+        /// makes stop button enable
+        /// </summary>
+        private void ChangeStateOfStopButton(bool isEnable)
+        {
+            View.ToggleStopButton(isEnable);
         }
 
         /// <summary>
@@ -361,6 +366,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void ResetTimeAxis()
         {
             View.ResetTimeAxis();
+            IsTimeAxisResetted = true;
         }
 
         /// <summary>
@@ -370,6 +376,20 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void ChangeStreamingStatus(bool state)
         {
             streaming = state;
+            if (streaming)
+            {
+                ChangeStateOfChallengeButton(true);
+                ChangeStateOfStartButton(false);
+                ChangeStateOfStopButton(true);
+                IsStreamProcessOn = true;
+            }
+            else
+            {
+                ChangeStateOfChallengeButton(false);
+                ChangeStateOfStartButton(true);
+                ChangeStateOfStopButton(false);
+                IsStreamProcessOn = false;
+            }
         }
 
         /// <summary>
@@ -418,7 +438,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
             var pathToChallenge = FormatPathToChallenge();
             var challengeWriter = new ChallengeWriter(videos, pathToChallenge);
             challengeWriter.WriteChallenge();
-            ClearPastAndFutureBuffers();
+            ClearChallengeBuffers();
         }
 
         /// <summary>
@@ -430,9 +450,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
             var videos = new List<Video>();
             List<FPS> tempVideoFrames;
             string currentVideoName;
-            foreach (var pastFrames in pastCameraRecords)
+            foreach (var pastFrames in challengeBuffers.PastCameraRecords)
             {
-                foreach (var futureFrames in futureCameraRecords)
+                foreach (var futureFrames in challengeBuffers.FutureCameraRecords)
                 {
                     if (pastFrames.Key == futureFrames.Key)
                     {
@@ -452,10 +472,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// <summary>
         /// Clears buffers for past and future frames
         /// </summary>
-        private void ClearPastAndFutureBuffers()
+        private void ClearChallengeBuffers()
         {
-            pastCameraRecords.Clear();
-            futureCameraRecords.Clear();
+            challengeBuffers.ClearBuffers();
         }
 
         /// <summary>
@@ -479,12 +498,23 @@ namespace Challange.Presenter.Presenters.MainPresenter
                     camera.Stop();
                 }
             }
+            IsCaptureDevicesEnable = false;
         }
 
-        #region Show error messages
-        private void ShowSettingsFileParseProblemError()
+        #region Show messages
+        private void ShowChallengeSettingsFileParseProblemError()
         {
-            View.ShowSettingsFileParseProblemError();
+            View.ShowChallengeSettingsFileParseProblemError();
+        }
+
+        private void ShowPlayerPanelSettingsFileParseProblemError()
+        {
+            View.ShowPlayerPanelSettingsFileParseProblemError();
+        }
+
+        private void ShowEmptyDeviceContainerMessage()
+        {
+            View.ShowEmptyDeviceContainerMessage();
         }
         #endregion
     }

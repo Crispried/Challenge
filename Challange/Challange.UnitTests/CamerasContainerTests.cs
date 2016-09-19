@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using Challange.Domain.Services.StreamProcess.Concrete;
 using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
+using Challange.Domain.Entities;
 
 namespace Challange.UnitTests
 {

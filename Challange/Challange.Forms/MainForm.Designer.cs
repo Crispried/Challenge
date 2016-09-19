@@ -189,6 +189,7 @@
             // stopStreamButton
             // 
             this.stopStreamButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.stopStreamButton.Enabled = false;
             this.stopStreamButton.Image = ((System.Drawing.Image)(resources.GetObject("stopStreamButton.Image")));
             this.stopStreamButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.stopStreamButton.Name = "stopStreamButton";

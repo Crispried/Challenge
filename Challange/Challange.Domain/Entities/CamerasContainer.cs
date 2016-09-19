@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Challange.Domain.Services.StreamProcess.Concrete
+namespace Challange.Domain.Entities
 {
     public class CamerasContainer<Camera> 
     {
@@ -33,6 +33,11 @@ namespace Challange.Domain.Services.StreamProcess.Concrete
         public void RemoveCamera(Camera camera)
         {
             camerasContainer.Remove(camera);
+        }
+
+        public bool IsEmpty()
+        {
+            return camerasContainer.Count == 0;
         }
     }
 }

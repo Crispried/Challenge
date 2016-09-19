@@ -1,4 +1,5 @@
-﻿using Challange.Domain.Services.Settings.SettingTypes;
+﻿using Challange.Domain.Infrastructure;
+using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Presenter.Base;
 using Challange.Presenter.Presenters.ChallengeSettingsPresenter;
 using Challange.Presenter.Presenters.MainPresenter;
@@ -17,6 +18,8 @@ namespace Challange.UnitTests
     [TestFixture]
     class MainPresenterTest
     {
+        private const string pathToChallengeSettings = @"settings_test\challenge.xml";
+        private const string pathToPlayerPanelSettings = @"settings_test\player_panel.xml";
         private IApplicationController controller;
         private MainPresenter presenter;
         private IMainView view;
@@ -50,6 +53,9 @@ namespace Challange.UnitTests
             // Act
             view.StopStream += Raise.Event<Action>();
             // Assert
+            Assert.IsFalse(presenter.IsCaptureDevicesEnable);
+            Assert.IsTrue(presenter.IsTimeAxisResetted);
+            Assert.IsFalse(presenter.IsStreamProcessOn);
         }
 
         [Test]
