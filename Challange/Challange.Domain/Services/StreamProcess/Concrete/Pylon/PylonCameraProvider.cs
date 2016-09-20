@@ -13,7 +13,14 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
     {
         public List<Device> GetConnectedCameras()
         {
-            return EnumerateDevices();
+            try
+            {
+                return EnumerateDevices();
+            }
+            catch
+            {
+                return new List<Device>();
+            }
         }
     }
 }

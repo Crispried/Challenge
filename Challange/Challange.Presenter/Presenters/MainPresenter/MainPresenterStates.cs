@@ -9,7 +9,17 @@ namespace Challange.Presenter.Presenters.MainPresenter
     public partial class MainPresenter
     {
         #region General
+        public bool IsDeviceListEmpty { get; set; }
 
+        public bool IsStreamProcessOn { get; set; }
+
+        public bool IsCaptureDevicesEnable { get; set; }
+
+        public bool IsEventForPastFramesActive { get; set; }
+
+        public bool IsEventForFutureFramesActive { get; set; }
+
+        public bool IsChallengeButtonEnable { get; set; }
         #endregion
 
         #region Run
@@ -18,12 +28,26 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public bool PlayerPanelSettingsAreNull { get; set; }
         #endregion
 
+        #region Start stream
+        public bool AreCamerasBindedToPlayers { get; set; }
+
+        public bool WasTimeAxisTimerInitialized { get; set; }
+
+        public bool WasRecordingFpsTimerInitialized { get; set; }
+
+        public bool WasDeviceListEmptyMessageShowed { get; set; }
+        #endregion
+
         #region Stop stream
-        public bool IsCaptureDevicesEnable { get; set; }
+        public bool WasTimeAxisResetted { get; set; }
+        #endregion
 
-        public bool IsTimeAxisResetted { get; set; }
+        #region Create challange
+        public bool ElapsedTimeWasGot { get; set; }
 
-        public bool IsStreamProcessOn { get; set; }
+        public bool DirectoryForChallengeWasCreated { get; set; }
+
+        public bool MarkerWasAddedOntoTimeAxis { get; set; }
         #endregion
     }
 }

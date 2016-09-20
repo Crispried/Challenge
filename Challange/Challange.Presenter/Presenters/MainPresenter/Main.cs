@@ -30,13 +30,12 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private CamerasContainer<Camera> camerasContainer;
         private PylonCameraProvider pylonCameraProvider;
         private List<Device> camerasInfo;
-        private bool streaming;
 
         // challenge
         private ChallengeBuffers challengeBuffers;
         private Dictionary<string, FPS> tempFpses;
         private Timer oneSecondTimer;
-        private string challengeDirectoryPath;
+        private ChallengeObject challenge;
 
         public MainPresenter(IApplicationController controller,
                              IMainView mainView) : 
@@ -58,6 +57,30 @@ namespace Challange.Presenter.Presenters.MainPresenter
             View.MainFormClosing += FormClosing;
             View.CreateChallange += CreateChallange;
             View.NewFrameCallback += AddNewFrame;
-        }       
+        }    
+        
+        public GameInformation GameInformation
+        {
+            set
+            {
+                gameInformation = value;
+            }
+        }   
+
+        public Timer OneSecondTimer
+        {
+            set
+            {
+                oneSecondTimer = value;
+            }
+        }
+
+        public ChallengeSettings ChallengeSettings
+        {
+            set
+            {
+                challengeSettings = value;
+            }
+        }
     }
 }

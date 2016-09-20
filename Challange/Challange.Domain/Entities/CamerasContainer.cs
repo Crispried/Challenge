@@ -17,6 +17,14 @@ namespace Challange.Domain.Entities
             camerasContainer = new List<Camera>();
         }
 
+        public int Count
+        {
+            get
+            {
+                return camerasContainer.Count;
+            }
+        }
+
         public List<Camera> GetCameras
         {
             get

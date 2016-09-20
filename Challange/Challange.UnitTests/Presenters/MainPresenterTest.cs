@@ -1,4 +1,5 @@
-﻿using Challange.Domain.Infrastructure;
+﻿using Challange.Domain.Entities;
+using Challange.Domain.Infrastructure;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Presenter.Base;
 using Challange.Presenter.Presenters.ChallengeSettingsPresenter;
@@ -12,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace Challange.UnitTests.Presenters
 {
@@ -44,6 +46,18 @@ namespace Challange.UnitTests.Presenters
             // Act
             view.StartStream += Raise.Event<Action>();
             // Assert
+            if (!presenter.IsDeviceListEmpty)
+            {
+                Assert.IsTrue(presenter.AreCamerasBindedToPlayers);
+                Assert.IsTrue(presenter.WasTimeAxisTimerInitialized);
+                Assert.IsTrue(presenter.WasRecordingFpsTimerInitialized);
+                Assert.IsTrue(presenter.IsCaptureDevicesEnable);
+                Assert.IsTrue(presenter.IsStreamProcessOn);
+            }
+            else
+            {
+                Assert.IsTrue(presenter.WasDeviceListEmptyMessageShowed);
+            }
         }
 
         [Test]
@@ -54,7 +68,7 @@ namespace Challange.UnitTests.Presenters
             view.StopStream += Raise.Event<Action>();
             // Assert
             Assert.IsFalse(presenter.IsCaptureDevicesEnable);
-            Assert.IsTrue(presenter.IsTimeAxisResetted);
+            Assert.IsTrue(presenter.WasTimeAxisResetted);
             Assert.IsFalse(presenter.IsStreamProcessOn);
         }
 
@@ -103,8 +117,17 @@ namespace Challange.UnitTests.Presenters
         {
             // Arrange
             // Act
+            presenter.GameInformation = InitializeGameInformation();
+            presenter.OneSecondTimer = InitializeOneSecondTimer();
+            presenter.ChallengeSettings = InitializeChallengeSettings();
             view.CreateChallange += Raise.Event<Action>();
             // Assert
+            Assert.IsTrue(presenter.ElapsedTimeWasGot);
+            Assert.IsTrue(presenter.DirectoryForChallengeWasCreated);
+            Assert.IsFalse(presenter.IsEventForPastFramesActive);
+            Assert.IsTrue(presenter.IsEventForFutureFramesActive);
+            Assert.IsFalse(presenter.IsChallengeButtonEnable);
+            Assert.IsTrue(presenter.MarkerWasAddedOntoTimeAxis);
         }
 
         [Test]
@@ -143,6 +166,26 @@ namespace Challange.UnitTests.Presenters
                 NumberOfFutureFPS = 10,
                 NumberOfPastFPS = 15
             };
+        }
+
+        private GameInformation InitializeGameInformation()
+        {
+            GameInformation gameInformation = new GameInformation()
+            {
+                FirstTeam = "Red",
+                SecondTeam = "Blue",
+                Date = "09.08.2016",
+                GameStart = "18:36:00",
+                Country = "England",
+                City = "London",
+                Part = "2"
+            };
+            return gameInformation;
+        }
+
+        private Timer InitializeOneSecondTimer()
+        {
+            return new Timer();
         }
     }
 }
