@@ -75,6 +75,7 @@
       <HintPath>..\packages\Pylon.5\lib\PylonC.NETSupportLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <Choose>
@@ -90,6 +91,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Entity\FpsTest.cs" />
+    <Compile Include="Entity\GameInformationTest.cs" />
+    <Compile Include="Presenters\CamerasPresenterTest.cs" />
     <Compile Include="Presenters\ChallengeSettingsPresenterTest.cs" />
     <Compile Include="Presenters\PlayerPanelSettingsTest.cs" />
     <Compile Include="StreamProcess\CamerasContainerTests.cs" />

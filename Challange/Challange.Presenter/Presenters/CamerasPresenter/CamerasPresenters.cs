@@ -14,6 +14,8 @@ namespace Challange.Presenter.Presenters.CamerasPresenter
             connectedCameras = argument;
             FillCamerasListView();
             View.Show();
+
+            CamerasListWindowIsOpened = true;
         }
     }
 }

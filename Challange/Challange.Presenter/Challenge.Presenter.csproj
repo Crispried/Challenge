@@ -70,6 +70,7 @@
     <Compile Include="Presenters\CamerasPresenter\CamerasInternal.cs" />
     <Compile Include="Presenters\CamerasPresenter\Cameras.cs" />
     <Compile Include="Presenters\CamerasPresenter\CamerasPresenters.cs" />
+    <Compile Include="Presenters\CamerasPresenter\CamerasPresenterState.cs" />
     <Compile Include="Presenters\ChallengeSettingsPresenter\ChallengeSettingsInternal.cs" />
     <Compile Include="Presenters\ChallengeSettingsPresenter\ChallengeSettings.cs" />
     <Compile Include="Presenters\ChallengeSettingsPresenter\ChallengeSettingsPresenters.cs" />
