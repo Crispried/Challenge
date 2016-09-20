@@ -12,14 +12,12 @@ namespace Challange.Presenter.Views
     {
         event Action ChangeChallengeSettings;
 
-        ChallengeSettings ChallengeSettings { get; }
-
-        bool IsFormValid { get; }
+        ChallengeSettings ChallengeSettings { get; set; }
 
         void SetChallengeSettings(
                     ChallengeSettings challengeSettings);
-
-        void ValidateForm();
+        
+        bool ValidateForm();
 
         void ShowValidationErrorMessage();
     }

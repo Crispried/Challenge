@@ -15,8 +15,6 @@ namespace Challange.Forms
     public partial class ChallangeSettingsForm : 
                                 Form, IChallengeSettingsView
     {
-        private bool isFormValid;
-
         public ChallangeSettingsForm()
         {
             InitializeComponent();
@@ -35,16 +33,12 @@ namespace Challange.Forms
             {
                 return GetSettings();
             }
-        }
-
-        public bool IsFormValid
-        {
-            get
+            set
             {
-                return isFormValid;
+                var challengeSettings = value;
             }
         }
-
+                
         private ChallengeSettings GetSettings()
         {
             var challengeSettings = new ChallengeSettings()
@@ -67,15 +61,15 @@ namespace Challange.Forms
                 challengeSettings.NumberOfFutureFPS.ToString();
         }
 
-        public void ValidateForm()
+        public bool ValidateForm()
         {
             if (FormFieldsAreValid())
             {
-                isFormValid = true;
+                return true;
             }
             else
             {
-                isFormValid = false;
+                return false;
             }
         }
 

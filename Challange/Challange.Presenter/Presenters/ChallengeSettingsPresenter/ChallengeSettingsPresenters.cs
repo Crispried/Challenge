@@ -22,8 +22,7 @@ namespace Challange.Presenter.Presenters.ChallengeSettingsPresenter
         /// </summary>
         public void ChangeChallengeSettings()
         {
-            View.ValidateForm();
-            if (View.IsFormValid)
+            if (View.ValidateForm())
             {
                 ChallengeSettingsFormIsValid = true;
 
@@ -39,7 +38,7 @@ namespace Challange.Presenter.Presenters.ChallengeSettingsPresenter
             }
             else
             {
-                ChallengeSettingsFormIsInvalid = true;
+                ChallengeSettingsFormIsValid = false;
                 View.ShowValidationErrorMessage();
             }
         }

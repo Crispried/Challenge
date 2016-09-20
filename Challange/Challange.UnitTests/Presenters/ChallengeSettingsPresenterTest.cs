@@ -45,28 +45,50 @@ namespace Challange.UnitTests.Presenters
         }
 
         [Test]
-        public void ChangeChallengeSettingsInvalidForm()
-        {
-            // Arrange
-
-            // Act
-            view.ChangeChallengeSettings += Raise.Event<Action>();
-
-            // Assert
-            Assert.True(presenter.ChallengeSettingsFormIsInvalid);
-        }
-
-        [Test]
         public void ChangeChallengeSettingsValidForm()
         {
             // Arrange
-            view.IsFormValid = true;
+            view.ChallengeSettings = argument;
+            SetFormAsValid(true);
 
             // Act
             view.ChangeChallengeSettings += Raise.Event<Action>();
 
             // Assert
-            Assert.True(presenter.ChallengeSettingsFormIsInvalid);
+            Assert.True(presenter.ChallengeSettingsFormIsValid);
+        }
+
+        [Test]
+        public void ChangeChallengeSettingsInvalidForm()
+        {
+            // Arrange
+            view.ChallengeSettings = argument;
+            SetFormAsValid(false);
+
+            // Act
+            view.ChangeChallengeSettings += Raise.Event<Action>();
+
+            // Assert
+            Assert.False(presenter.ChallengeSettingsFormIsValid);
+        }
+
+        [Test]
+        public void ChangeChallengeSettingsSaveSettings()
+        {
+            // Arrange
+            view.ChallengeSettings = argument;
+            SetFormAsValid(true);
+
+            // Act
+            view.ChangeChallengeSettings += Raise.Event<Action>();
+
+            // Assert
+            Assert.True(presenter.ChallengeSettingsAreSaved);
+        }
+
+        private void SetFormAsValid(bool isValid)
+        {
+            view.ValidateForm().Returns(isValid);
         }
 
         private ChallengeSettings InitializeChallengeSettings()
