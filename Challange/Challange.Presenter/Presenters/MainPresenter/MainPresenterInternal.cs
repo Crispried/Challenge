@@ -170,10 +170,12 @@ namespace Challange.Presenter.Presenters.MainPresenter
             if (isActive)
             {
                 oneSecondTimer.Elapsed += new ElapsedEventHandler(OnOneSecondTimedEventForFutureFrames);
+                IsEventForFutureFramesActive = true;
             }
             else
             {
                 oneSecondTimer.Elapsed -= new ElapsedEventHandler(OnOneSecondTimedEventForFutureFrames);
+                IsEventForFutureFramesActive = false;
             }
         }
 
@@ -187,10 +189,12 @@ namespace Challange.Presenter.Presenters.MainPresenter
             if (isActive)
             {
                 oneSecondTimer.Elapsed += new ElapsedEventHandler(OnOneSecondTimedEventForPastFrames);
+                IsEventForPastFramesActive = true;
             }
             else
             {
                 oneSecondTimer.Elapsed -= new ElapsedEventHandler(OnOneSecondTimedEventForPastFrames);
+                IsEventForPastFramesActive = false;
             }
         }
 
@@ -257,6 +261,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
                 tmpCamera = new PylonCamera(cameraInfo.Index, cameraInfo.FullName);
                 camerasContainer.AddCamera(tmpCamera);
             }
+            IsDeviceListEmpty = camerasContainer.IsEmpty() ? true : false;
             return camerasContainer;
         }
 
@@ -300,7 +305,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void InitializeDevicesList()
         {
-            //Devices = new List<VideoCaptureDevice>(capacity);
+            pylonCameraProvider = new PylonCameraProvider();
             camerasInfo = pylonCameraProvider.GetConnectedCameras();
         }
 
@@ -315,7 +320,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// <summary>
         /// Initialize one second timer to create FPS object every second
         /// </summary>
-        private void InitializeRecordingFPSTimer()
+        private void InitializeRecordingFpsTimer()
         {
             InitializeTempFpses();
             oneSecondTimer = new Timer(1000);
@@ -349,7 +354,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         }
 
         /// <summary>
-        /// Changes the state of challenge button in pointed seconds
+        /// Changes the state of challenge button on pointed number of seconds
         /// if true - active
         /// if false - not active
         /// </summary>
@@ -358,6 +363,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void ChangeStateOfChallengeButtonIn(bool isEnable, int numberOfSeconds)
         {
             View.ToggleChallengeButtonIn(isEnable, numberOfSeconds);
+            IsChallengeButtonEnable = isEnable;
         }      
 
         /// <summary>
@@ -366,7 +372,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void ResetTimeAxis()
         {
             View.ResetTimeAxis();
-            IsTimeAxisResetted = true;
+            WasTimeAxisResetted = true;
         }
 
         /// <summary>
@@ -375,20 +381,18 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// <param name="state"></param>
         private void ChangeStreamingStatus(bool state)
         {
-            streaming = state;
-            if (streaming)
+            IsStreamProcessOn = state;
+            if (IsStreamProcessOn)
             {
                 ChangeStateOfChallengeButton(true);
                 ChangeStateOfStartButton(false);
                 ChangeStateOfStopButton(true);
-                IsStreamProcessOn = true;
             }
             else
             {
                 ChangeStateOfChallengeButton(false);
                 ChangeStateOfStartButton(true);
                 ChangeStateOfStopButton(false);
-                IsStreamProcessOn = false;
             }
         }
 
@@ -398,6 +402,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void AddMarkerOnTimeAxis()
         {
             View.AddMarkerOnTimeAxis();
+            MarkerWasAddedOntoTimeAxis = true;
         }
 
         /// <summary>
@@ -406,18 +411,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// <returns></returns>
         private string GetChallengeTime()
         {
-            return View.GetElapsedTime;
-        }
-
-        /// <summary>
-        /// Replace ':' on '_'
-        /// </summary>
-        /// <param name="folderName"></param>
-        /// <returns></returns>
-        private string FormatChallengeDirectoryPath(string folderName)
-        {
-            return gameInformation.DirectoryName + @"\" +
-                        FileService.FilterFolderName(folderName);
+            var elapsedTime = View.GetElapsedTime;
+            ElapsedTimeWasGot = true;
+            return elapsedTime;
         }
 
         /// <summary>
@@ -427,6 +423,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void CreateDirectoryForChallenge(string name)
         {
             FileService.CreateDirectory(name);
+            DirectoryForChallengeWasCreated = true;
         }
 
         /// <summary>
@@ -435,7 +432,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void WriteChallangeAsVideo()
         {
             var videos = UnitePastAndFutureFrames();
-            var pathToChallenge = FormatPathToChallenge();
+            var pathToChallenge = challenge.GetChallengeDirectoryPath;
             var challengeWriter = new ChallengeWriter(videos, pathToChallenge);
             challengeWriter.WriteChallenge();
             ClearChallengeBuffers();
@@ -478,15 +475,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
         }
 
         /// <summary>
-        /// Formats path to challenge
-        /// </summary>
-        /// <returns></returns>
-        private string FormatPathToChallenge()
-        {
-            return challengeDirectoryPath + @"\";
-        }
-
-        /// <summary>
         /// Stops capturing of devices
         /// </summary>
         public void StopCaptureDevice()
@@ -515,6 +503,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void ShowEmptyDeviceContainerMessage()
         {
             View.ShowEmptyDeviceContainerMessage();
+            WasDeviceListEmptyMessageShowed = true;
         }
         #endregion
     }

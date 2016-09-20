@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\ChallengeObject.cs" />
     <Compile Include="Entities\ChallengeBuffers.cs" />
     <Compile Include="Entities\FPS.cs" />
     <Compile Include="Entities\GameInformation.cs" />

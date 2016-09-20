@@ -89,12 +89,12 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void StartStream()
         {
             camerasContainer = InitializeDevices();
-            if (!camerasContainer.IsEmpty())
+            if (!IsDeviceListEmpty)
             {
                 challengeBuffers = new ChallengeBuffers(camerasContainer);
                 BindPlayersToCameras();
                 InitializeTimeAxisTimer();
-                InitializeRecordingFPSTimer();
+                InitializeRecordingFpsTimer();
                 StartDevices();
                 ChangeStreamingStatus(true);
             }
@@ -119,16 +119,14 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         public void CreateChallange()
         {
-            if (streaming)
-            {
-                var challengeTime = GetChallengeTime();
-                challengeDirectoryPath = FormatChallengeDirectoryPath(challengeTime);
-                CreateDirectoryForChallenge(challengeDirectoryPath);
-                ChangeActivityOfEventForPastFrames(false);
-                ChangeActivityOfEventForFutureFrames(true);
-                ChangeStateOfChallengeButtonIn(false, challengeSettings.NumberOfFutureFPS);
-                AddMarkerOnTimeAxis();
-            }
+            var challengeTime = GetChallengeTime();
+            challenge = new ChallengeObject(
+                gameInformation.DirectoryName, challengeTime);
+            CreateDirectoryForChallenge(challenge.GetChallengeDirectoryPath);
+            ChangeActivityOfEventForPastFrames(false);
+            ChangeActivityOfEventForFutureFrames(true);
+            ChangeStateOfChallengeButtonIn(false, challengeSettings.NumberOfFutureFPS);
+            AddMarkerOnTimeAxis();
         }
 
         /// <summary>
