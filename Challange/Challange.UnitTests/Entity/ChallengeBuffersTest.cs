@@ -8,7 +8,7 @@ using Challange.Domain.Entities;
 using System.Drawing;
 using System.Collections.Generic;
 
-namespace Challange.UnitTests.Entities
+namespace Challange.UnitTests.Entity
 {
     class ChallengeBuffersTest
     {

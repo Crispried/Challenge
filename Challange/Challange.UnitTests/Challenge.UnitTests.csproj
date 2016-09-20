@@ -91,6 +91,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Entity\ChallengeBuffersTest.cs" />
     <Compile Include="Entity\FpsTest.cs" />
     <Compile Include="Entity\GameInformationTest.cs" />
     <Compile Include="Presenters\CamerasPresenterTest.cs" />
