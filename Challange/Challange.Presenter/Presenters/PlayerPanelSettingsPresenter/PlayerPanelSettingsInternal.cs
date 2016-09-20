@@ -29,6 +29,7 @@ namespace Challange.Presenter.Presenters.PlayerPanelSettingsPresenter
                     new SettingsService<PlayerPanelSettings>(
                     new PlayerPanelSettingsParser());
             playerPanelSettingsService.SaveSetting(newSettings);
+            PlayerPanelSettingsAreSaved = true;
         }
     }
 }

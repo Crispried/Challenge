@@ -243,7 +243,7 @@ namespace Challange.Forms
         {
             timer.Stop();
             timer.Dispose();
-            challangeTimeAxis.Reset();
+            // challangeTimeAxis.Reset();
             elapsedTimeFromStart.ResetText();
         }
 
