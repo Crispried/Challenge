@@ -105,6 +105,9 @@
     <Compile Include="Presenters\CamerasPresenterTest.cs" />
     <Compile Include="Presenters\ChallengeSettingsPresenterTest.cs" />
     <Compile Include="Presenters\PlayerPanelSettingsTest.cs" />
+    <Compile Include="Services\SettingParsers\PlayerPanelSettingsParserTest.cs" />
+    <Compile Include="Services\SettingParsers\ChallengeSettingsParserTest.cs" />
+    <Compile Include="Services\SettingsServiceTest.cs" />
     <Compile Include="StreamProcess\CamerasContainerTests.cs" />
     <Compile Include="Infrastructure\ArchivatorTests.cs" />
     <Compile Include="Infrastructure\FileWorkerTests.cs" />

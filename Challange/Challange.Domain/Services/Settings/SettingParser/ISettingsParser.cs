@@ -8,6 +8,6 @@ namespace Challange.Domain.Services.Settings.SettingParser
 
         T GetSettings();
 
-        string SettingsFilePath { get; }
+        string SettingsFilePath { get; set; }
     }
 }

@@ -5,13 +5,17 @@ namespace Challange.Domain.Services.Settings.SettingParser
 {
     public class PlayerPanelSettingsParser : ISettingsParser<PlayerPanelSettings>
     {
-        private const string settingsFilePath = @"Settings\player_panel.xml";
+        private string settingsFilePath = @"Settings\player_panel.xml";
 
         public string SettingsFilePath
         {
             get
             {
                 return settingsFilePath;
+            }
+            set
+            {
+                settingsFilePath = value;
             }
         }
 
