@@ -66,7 +66,7 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
             }
             catch (Exception e)
             {
-                //ShowException(e, imageProvider.GetLastErrorMessage());
+                // ShowException(e, imageProvider.GetLastErrorMessage());
             }
         }
 
