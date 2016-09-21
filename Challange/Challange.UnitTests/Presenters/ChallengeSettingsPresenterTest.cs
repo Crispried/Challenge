@@ -15,7 +15,7 @@ using Moq;
 namespace Challange.UnitTests.Presenters
 {
     [TestFixture]
-    class ChallengeSettingsPresenterTest
+    class ChallengeSettingsPresenterTest : TestCase
     {
         private IApplicationController controller;
         private ChallengeSettingsPresenter presenter;
@@ -89,15 +89,6 @@ namespace Challange.UnitTests.Presenters
         private void SetFormAsValid(bool isValid)
         {
             view.ValidateForm().Returns(isValid);
-        }
-
-        private ChallengeSettings InitializeChallengeSettings()
-        {
-            return new ChallengeSettings()
-            {
-                NumberOfFutureFPS = 10,
-                NumberOfPastFPS = 15
-            };
         }
     }
 }

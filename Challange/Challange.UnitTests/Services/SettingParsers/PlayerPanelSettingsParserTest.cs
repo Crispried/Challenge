@@ -12,7 +12,7 @@ using Challange.Domain.Services.Settings.SettingParser;
 namespace Challange.UnitTests.Services.SettingParsers
 {
     [TestFixture]
-    class PlayerPanelSettingsParserTest
+    class PlayerPanelSettingsParserTest : TestCase
     {
         private PlayerPanelSettingsParser parser;
         private PlayerPanelSettings settings;
@@ -59,17 +59,6 @@ namespace Challange.UnitTests.Services.SettingParsers
 
             // Assert
             Assert.Null(settings);
-        }
-
-        private PlayerPanelSettings InitializePlayerPanelSettings()
-        {
-            return new PlayerPanelSettings()
-            {
-                AutosizeMode = false,
-                NumberOfPlayers = 5,
-                PlayerHeight = 480,
-                PlayerWidth = 640
-            };
         }
     }
 }

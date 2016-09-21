@@ -12,7 +12,7 @@ using Challange.Domain.Services.Settings.SettingParser;
 namespace Challange.UnitTests.Services
 {
     [TestFixture]
-    class SettingsServiceTest
+    class SettingsServiceTest : TestCase
     {
         private ISettingsParser<ChallengeSettings> settingParser;
         private SettingsService<ChallengeSettings> settingService;
@@ -46,15 +46,6 @@ namespace Challange.UnitTests.Services
             // Act
             // Assert
             settingParser.Received().GetSettings();
-        }
-
-        private ChallengeSettings InitializeChallengeSettings()
-        {
-            return new ChallengeSettings()
-            {
-                NumberOfFutureFPS = 10,
-                NumberOfPastFPS = 10
-            };
         }
     }
 }

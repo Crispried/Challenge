@@ -14,7 +14,7 @@ using Challange.Domain.Services.Settings.SettingTypes;
 namespace Challange.UnitTests.Presenters
 {
     [TestFixture]
-    class PlayerPanelSettingsTest
+    class PlayerPanelSettingsTest : TestCase
     {
         private IApplicationController controller;
         private PlayerPanelSettingsPresenter presenter;
@@ -54,17 +54,6 @@ namespace Challange.UnitTests.Presenters
 
             // Assert
             Assert.True(presenter.PlayerPanelSettingsAreOpened);
-        }
-
-        private PlayerPanelSettings InitializePlayerPanelSettings()
-        {
-            return new PlayerPanelSettings()
-            {
-                AutosizeMode = false,
-                NumberOfPlayers = 5,
-                PlayerHeight = 480,
-                PlayerWidth = 640
-            };
         }
     }
 }

@@ -18,7 +18,7 @@ using System.Timers;
 namespace Challange.UnitTests.Presenters
 {
     [TestFixture]
-    class MainPresenterTest
+    class MainPresenterTest : TestCase
     {
         private const string pathToChallengeSettings = @"settings_test\challenge.xml";
         private const string pathToPlayerPanelSettings = @"settings_test\player_panel.xml";
@@ -146,26 +146,6 @@ namespace Challange.UnitTests.Presenters
             // Act
             view.MainFormClosing += Raise.Event<Action>();
             // Assert
-        }
-
-        private PlayerPanelSettings InitializePlayerPanelSettings()
-        {
-            return new PlayerPanelSettings()
-            {
-                AutosizeMode = false,
-                NumberOfPlayers = 5,
-                PlayerHeight = 480,
-                PlayerWidth = 640
-            };
-        }
-
-        private ChallengeSettings InitializeChallengeSettings()
-        {
-            return new ChallengeSettings()
-            {
-                NumberOfFutureFPS = 10,
-                NumberOfPastFPS = 15
-            };
         }
 
         private GameInformation InitializeGameInformation()

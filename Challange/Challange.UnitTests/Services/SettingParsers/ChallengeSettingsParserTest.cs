@@ -12,7 +12,7 @@ using Challange.Domain.Services.Settings.SettingParser;
 namespace Challange.UnitTests.Services.SettingParsers
 {
     [TestFixture]
-    class ChallengeSettingsParserTest
+    class ChallengeSettingsParserTest : TestCase
     {
         private ChallengeSettingsParser parser;
         private ChallengeSettings settings;
@@ -59,15 +59,6 @@ namespace Challange.UnitTests.Services.SettingParsers
 
             // Assert
             Assert.Null(settings);
-        }
-
-        private ChallengeSettings InitializeChallengeSettings()
-        {
-            return new ChallengeSettings()
-            {
-                NumberOfFutureFPS = 10,
-                NumberOfPastFPS = 10
-            };
         }
     }
 }
