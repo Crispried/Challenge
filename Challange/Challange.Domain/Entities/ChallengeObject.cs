@@ -30,7 +30,7 @@ namespace Challange.Domain.Entities
         private string FormatChallengeDirectoryPath()
         {
             return pathToRootDirectory + @"\" +
-            FileService.FilterFolderName(challengeFolderName) + @"\";
+                FileService.FilterFolderName(challengeFolderName) + @"\";
         }
 
     }

@@ -100,8 +100,11 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Entity\ChallengeBuffersTest.cs" />
+    <Compile Include="Entity\ChallengeObjectTest.cs" />
+    <Compile Include="Entity\VideoTest.cs" />
     <Compile Include="Entity\FpsTest.cs" />
     <Compile Include="Entity\GameInformationTest.cs" />
+    <Compile Include="Infrastructure\FileServiceTest.cs" />
     <Compile Include="Presenters\CamerasPresenterTest.cs" />
     <Compile Include="Presenters\ChallengeSettingsPresenterTest.cs" />
     <Compile Include="Presenters\PlayerPanelSettingsTest.cs" />
