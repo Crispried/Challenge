@@ -60,7 +60,6 @@ namespace Challange.UnitTests.Infrastructure
             Assert.That(result, Is.TypeOf<PlayerPanelSettings>());
         }
 
-
         private GameInformation GetGameInformation()
         {
             GameInformation gameInformation = new GameInformation()
