@@ -9,12 +9,7 @@ namespace Challange.Domain.Entities
 {
     public class EventSubscriber
     {
-        public void SubscribeToEvent(object subscriber, EventHandler eventToSubscribe)
-        {
-
-        }
-
-        public void UnsubscribeFromEvent(object subscriber, EventHandler eventToUnsubscribe)
+        public void ToggleSubscribe(object eventToSubscribe, string eventName, bool subscribe)
         {
 
         }
