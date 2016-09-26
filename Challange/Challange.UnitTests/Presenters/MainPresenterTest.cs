@@ -118,7 +118,7 @@ namespace Challange.UnitTests.Presenters
             // Arrange
             // Act
             presenter.GameInformation = InitializeGameInformation();
-            presenter.OneSecondTimer = InitializeOneSecondTimer();
+            presenter.InternalChallengeTimer = InitializeInternalChallengeTimer();
             presenter.ChallengeSettings = InitializeChallengeSettings();
             view.CreateChallange += Raise.Event<Action>();
             // Assert
@@ -163,9 +163,9 @@ namespace Challange.UnitTests.Presenters
             return gameInformation;
         }
 
-        private Timer InitializeOneSecondTimer()
+        private InternalChallengeTimer InitializeInternalChallengeTimer()
         {
-            return new Timer();
+            return new InternalChallengeTimer(1000, true);
         }
     }
 }

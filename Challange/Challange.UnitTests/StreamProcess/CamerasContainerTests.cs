@@ -14,13 +14,13 @@ namespace Challange.UnitTests.StreamProcess
     {
         private PylonCamera camera;
 
-        private CamerasContainer<PylonCamera> container;
+        private CamerasContainer container;
 
         [SetUp]
         public void SetUp()
         {
             camera = new PylonCamera(1, "Pylon Camera");
-            container = new CamerasContainer<PylonCamera>();
+            container = new CamerasContainer();
         }
 
         [Test]
@@ -72,12 +72,12 @@ namespace Challange.UnitTests.StreamProcess
             Assert.AreEqual(0, container.GetCameras.Count);
         }
 
-        private void AddCamera(CamerasContainer<PylonCamera> container, PylonCamera camera)
+        private void AddCamera(CamerasContainer container, PylonCamera camera)
         {
             container.AddCamera(camera);
         }
 
-        private void RemoveCamera(CamerasContainer<PylonCamera> container, PylonCamera camera)
+        private void RemoveCamera(CamerasContainer container, PylonCamera camera)
         {
             container.RemoveCamera(camera);
         }

@@ -14,37 +14,57 @@ namespace Challange.UnitTests.Entity
     class EventSubscriberTest
     {
         private Timer timer;
-        private EventInfo eventInfo;
-        private bool eventWasRaised = false;
+        private bool eventWasRaised;
+        private Delegate timerEventHandler;
 
         [SetUp]
         public void SetUp()
         {
-            timer = new Timer();
-            eventInfo = typeof(Timer).GetEvent("Elapsed");
+            timer = new Timer(1);
+            timer.Start();
         }
 
         [Test]
-        public void SubscribeToEventSubscribes()
+        public void SubscribeToEvent()
         {
             // Arrange
-
+            eventWasRaised = false;
             // Act
             AddEventHandler();
-
             // Assert
+            while (true)
+            {
+                if (eventWasRaised)
+                {
+                    break;
+                }
+            }
             Assert.True(eventWasRaised);
         }
 
         [Test]
-        public void RemoveEventHandlerUnsubscribes()
+        public void UnsubscribeFromEvent()
         {
             // Arrange
-
+            eventWasRaised = false;
             // Act
+            AddEventHandler();
+            while (true)
+            {
+                if (eventWasRaised)
+                {
+                    break;
+                }
+            }
             RemoveEventHandler();
-
             // Assert
+            while (true)
+            {
+                if (!eventWasRaised)
+                {
+                    break;
+                }
+            }
             Assert.False(eventWasRaised);
         }
 
@@ -55,12 +75,13 @@ namespace Challange.UnitTests.Entity
 
         private void AddEventHandler()
         {
-            EventSubscriber.AddEventHandler(eventInfo, timer, TimerElapsed);
+            timerEventHandler = EventSubscriber.AddEventHandler(timer,
+                                "Elapsed", TimerElapsed);
         }
 
         private void RemoveEventHandler()
         {
-            EventSubscriber.RemoveEventHandler(eventInfo, timer, TimerElapsed);
+            EventSubscriber.RemoveEventHandler(timer, "Elapsed", timerEventHandler);
         }
     }
 }

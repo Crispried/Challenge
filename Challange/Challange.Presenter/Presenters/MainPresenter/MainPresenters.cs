@@ -58,8 +58,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             string cameraName = View.CurrentFrameInfo.Item1;
             Bitmap currentFrame = View.CurrentFrameInfo.Item2;
-            FPS tempFPS;
-            tempFpses.TryGetValue(cameraName, out tempFPS);
+            Fps tempFPS = fpsContainer.GetFpsByKey(cameraName);
             tempFPS.AddFrame(currentFrame);
         }
 
@@ -94,7 +93,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
                 challengeBuffers = new ChallengeBuffers(camerasContainer);
                 BindPlayersToCameras();
                 InitializeTimeAxisTimer();
-                InitializeRecordingFpsTimer();
+                InitializeInternalTimer();
                 StartDevices();
                 ChangeStreamingStatus(true);
             }

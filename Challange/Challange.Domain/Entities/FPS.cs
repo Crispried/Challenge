@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Challange.Domain.Entities
 {
-    public class FPS
+    public class Fps
     {
         private List<Bitmap> frames;
 
-        public FPS()
+        public Fps()
         {
             frames = new List<Bitmap>();
         }

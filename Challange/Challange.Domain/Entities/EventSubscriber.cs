@@ -11,27 +11,37 @@ namespace Challange.Domain.Entities
 {
     public static class EventSubscriber
     {
-        public static void AddEventHandler(EventInfo eventInfo, object item, Action action)
+        public static Delegate AddEventHandler(object item, 
+                            string eventName, Action action)
         {
+            var eventInfo = GetEventInfo(item.GetType(), eventName);
             var parameters = GetParameters(eventInfo);
             var handler = GetHandler(eventInfo, action, parameters);
             eventInfo.AddEventHandler(item, handler);
+            return handler;
         }
 
-        public static void AddEventHandler(EventInfo eventInfo, object item, Action<object, EventArgs> action)
+        public static Delegate AddEventHandler(object item,
+                    string eventName, Action<object, EventArgs> action)
         {
+            var eventInfo = GetEventInfo(item.GetType(), eventName);
             var parameters = GetParameters(eventInfo);
             var invoke = GetMethod(action);
             var handler = GetHandler(eventInfo, action, invoke, parameters);
             eventInfo.AddEventHandler(item, handler);
+            return handler;
         }
 
-        public static void RemoveEventHandler(EventInfo eventInfo,
-                            object item, Action action)
+        public static void RemoveEventHandler(object item, string eventName,
+                                        Delegate handler)
         {
-            var parameters = GetParameters(eventInfo);
-            var handler = GetHandler(eventInfo, action, parameters);
+            var eventInfo = GetEventInfo(item.GetType(), eventName);
             eventInfo.RemoveEventHandler(item, handler);
+        }
+
+        private static EventInfo GetEventInfo(Type type, string eventName)
+        {
+            return type.GetEvent("Elapsed");
         }
 
         private static ParameterExpression[] GetParameters(EventInfo eventInfo)

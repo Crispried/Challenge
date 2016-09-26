@@ -12,7 +12,7 @@ namespace Challange.UnitTests.Entity
     [TestFixture]
     class VideoTest
     {
-        private List<FPS> fpsList;
+        private List<Fps> fpsList;
         private string bitmapPath;
 
         [SetUp]
@@ -34,13 +34,13 @@ namespace Challange.UnitTests.Entity
             Assert.AreEqual(1, video.FpsValue);
         }
 
-        private List<FPS> InitializeFpsList()
+        private List<Fps> InitializeFpsList()
         {
-            FPS frame = new FPS();
+            Fps frame = new Fps();
             Bitmap bitmap = new Bitmap(bitmapPath);
             frame.AddFrame(bitmap);
 
-            List<FPS> fpsList = new List<FPS>();
+            List<Fps> fpsList = new List<Fps>();
             fpsList.Add(frame);
 
             return fpsList;

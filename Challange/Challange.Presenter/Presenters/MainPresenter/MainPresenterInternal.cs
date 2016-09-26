@@ -25,14 +25,14 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         /// <param name="source"></param>
         /// <param name="e"></param>
-        private void OnOneSecondTimedEventForPastFrames(Object source, ElapsedEventArgs e)
+        private void InternalTimerEventForPastFrames()
         {
             if (HaveToRemovePastFps())
             {
                 RemoveFirstFpsFromPastBuffer();
             }
             AddPastFpses();
-            InitializeTempFpses();
+            InitializeFpsContainer();
         }
 
         /// <summary>
@@ -52,19 +52,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void RemoveFirstFpsFromPastBuffer()
         {
-            var fpsesToRemove = new Dictionary<string, FPS>();
-            foreach (var pastFrames in challengeBuffers.PastCameraRecords)
-            {
-                fpsesToRemove.Add(pastFrames.Key, pastFrames.Value[0]);
-                pastFrames.Value.RemoveAt(0);
-            }
-            foreach (var fpsToRemove in fpsesToRemove.Values)
-            {
-                foreach (var frame in fpsToRemove.Frames)
-                {
-                    frame.Dispose();
-                }
-            }
+            challengeBuffers.RemoveFirstFpsFromPastBuffer();
         }
 
         /// <summary>
@@ -72,20 +60,20 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void AddPastFpses()
         {
-            List<FPS> temp;
-            foreach (var tempFps in tempFpses)
+            List<Fps> temp;
+            foreach (var fps in fpsContainer.Fpses)
             {
                 temp = challengeBuffers.
-                    GetPastCameraRecordsValueByKey(tempFps.Key);
+                    GetPastCameraRecordsValueByKey(fps.Key);
                 if (temp != null)
                 {
-                    temp.Add(tempFps.Value);
+                    temp.Add(fps.Value);
                 }
                 else
                 {
-                    temp = new List<FPS>();
-                    temp.Add(tempFps.Value);
-                    challengeBuffers.AddNewPastCameraRecord(tempFps.Key, temp);
+                    temp = new List<Fps>();
+                    temp.Add(fps.Value);
+                    challengeBuffers.AddNewPastCameraRecord(fps.Key, temp);
                 }
             }
         }
@@ -94,14 +82,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// this is temporary object which will keep fps objects
         /// from all cameras which we create every second
         /// </summary>
-        private void InitializeTempFpses()
+        private void InitializeFpsContainer()
         {
-            tempFpses = new Dictionary<string, FPS>();
-            foreach (Camera camera in camerasContainer.GetCameras)
-            {
-                tempFpses.Add(camera.FullName, new FPS());
-            }
-
+            fpsContainer = new FpsContainer(camerasContainer.GetCamerasFullNames);
         }
 
         /// <summary>
@@ -109,18 +92,18 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         /// <param name="source"></param>
         /// <param name="e"></param>
-        private void OnOneSecondTimedEventForFutureFrames(Object source, ElapsedEventArgs e)
+        private void InternalTimerEventForFutureFrames()
         {
             if (HaveToAddFutureFps())
             {
                 AddFutureFpses();
-                InitializeTempFpses();
+                InitializeFpsContainer();
             }
             else
             {
                 ChangeActivityOfEventForFutureFrames(false);
                 WriteChallangeAsVideo();
-                InitializeTempFpses();
+                InitializeFpsContainer();
                 challengeBuffers = new ChallengeBuffers(camerasContainer);
                 ChangeActivityOfEventForPastFrames(true);
             }
@@ -142,20 +125,20 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void AddFutureFpses()
         {
-            List<FPS> temp;
-            foreach (var tempFps in tempFpses)
+            List<Fps> temp;
+            foreach (var fps in fpsContainer.Fpses)
             {
                 temp = challengeBuffers.
-                    GetFutureCameraRecordsValueByKey(tempFps.Key);
+                    GetFutureCameraRecordsValueByKey(fps.Key);
                 if(temp != null)
                 {
-                    temp.Add(tempFps.Value);
+                    temp.Add(fps.Value);
                 }
                 else
                 {
-                    temp = new List<FPS>();
-                    temp.Add(tempFps.Value);
-                    challengeBuffers.AddNewFutureCameraRecord(tempFps.Key, temp);
+                    temp = new List<Fps>();
+                    temp.Add(fps.Value);
+                    challengeBuffers.AddNewFutureCameraRecord(fps.Key, temp);
                 }
             }
         }
@@ -169,12 +152,12 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             if (isActive)
             {
-                oneSecondTimer.Elapsed += new ElapsedEventHandler(OnOneSecondTimedEventForFutureFrames);
+                internalChallengeTimer.EnableTimerEvent(InternalTimerEventForFutureFrames);
                 IsEventForFutureFramesActive = true;
             }
             else
             {
-                oneSecondTimer.Elapsed -= new ElapsedEventHandler(OnOneSecondTimedEventForFutureFrames);
+                internalChallengeTimer.DisableTimerEvent();
                 IsEventForFutureFramesActive = false;
             }
         }
@@ -188,12 +171,12 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             if (isActive)
             {
-                oneSecondTimer.Elapsed += new ElapsedEventHandler(OnOneSecondTimedEventForPastFrames);
+                internalChallengeTimer.EnableTimerEvent(InternalTimerEventForPastFrames);
                 IsEventForPastFramesActive = true;
             }
             else
             {
-                oneSecondTimer.Elapsed -= new ElapsedEventHandler(OnOneSecondTimedEventForPastFrames);
+                internalChallengeTimer.DisableTimerEvent();
                 IsEventForPastFramesActive = false;
             }
         }
@@ -251,10 +234,10 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// <summary>
         /// Initializes devices
         /// </summary>
-        private CamerasContainer<Camera> InitializeDevices()
+        private CamerasContainer InitializeDevices()
         {
             InitializeDevicesList();
-            var camerasContainer = new CamerasContainer<Camera>();
+            var camerasContainer = new CamerasContainer();
             PylonCamera tmpCamera;
             foreach (var cameraInfo in camerasInfo)
             {
@@ -318,15 +301,14 @@ namespace Challange.Presenter.Presenters.MainPresenter
         }
 
         /// <summary>
-        /// Initialize one second timer to create FPS object every second
+        /// Initialize internal timer to create FPS object every second
         /// </summary>
-        private void InitializeRecordingFpsTimer()
+        private void InitializeInternalTimer()
         {
-            InitializeTempFpses();
-            oneSecondTimer = new Timer(1000);
-            oneSecondTimer.AutoReset = true;
-            oneSecondTimer.Elapsed += new ElapsedEventHandler(OnOneSecondTimedEventForPastFrames);
-            oneSecondTimer.Start();
+            InitializeFpsContainer();
+            internalChallengeTimer = new InternalChallengeTimer(1000, true);
+            internalChallengeTimer.Start();
+            internalChallengeTimer.EnableTimerEvent(InternalTimerEventForPastFrames);
         }
 
         /// <summary>
@@ -445,7 +427,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private List<Video> UnitePastAndFutureFrames()
         {
             var videos = new List<Video>();
-            List<FPS> tempVideoFrames;
+            List<Fps> tempVideoFrames;
             string currentVideoName;
             foreach (var pastFrames in challengeBuffers.PastCameraRecords)
             {
@@ -453,7 +435,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
                 {
                     if (pastFrames.Key == futureFrames.Key)
                     {
-                        tempVideoFrames = new List<FPS>();
+                        tempVideoFrames = new List<Fps>();
                         tempVideoFrames.AddRange(pastFrames.Value);
                         tempVideoFrames.AddRange(futureFrames.Value);
                         View.CamerasNames.TryGetValue(

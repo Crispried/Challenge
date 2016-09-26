@@ -27,14 +27,14 @@ namespace Challange.Presenter.Presenters.MainPresenter
         //
         private GameInformation gameInformation;
         // video streaming
-        private CamerasContainer<Camera> camerasContainer;
+        private CamerasContainer camerasContainer;
         private PylonCameraProvider pylonCameraProvider;
         private List<Device> camerasInfo;
 
         // challenge
         private ChallengeBuffers challengeBuffers;
-        private Dictionary<string, FPS> tempFpses;
-        private Timer oneSecondTimer;
+        private FpsContainer fpsContainer;
+        private InternalChallengeTimer internalChallengeTimer;
         private ChallengeObject challenge;
 
         public MainPresenter(IApplicationController controller,
@@ -67,11 +67,11 @@ namespace Challange.Presenter.Presenters.MainPresenter
             }
         }   
 
-        public Timer OneSecondTimer
+        public InternalChallengeTimer InternalChallengeTimer
         {
             set
             {
-                oneSecondTimer = value;
+                internalChallengeTimer = value;
             }
         }
 

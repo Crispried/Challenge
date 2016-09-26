@@ -73,8 +73,10 @@
     <Compile Include="Entities\ChallengeObject.cs" />
     <Compile Include="Entities\ChallengeBuffers.cs" />
     <Compile Include="Entities\EventSubscriber.cs" />
-    <Compile Include="Entities\FPS.cs" />
+    <Compile Include="Entities\Fps.cs" />
+    <Compile Include="Entities\FpsContainer.cs" />
     <Compile Include="Entities\GameInformation.cs" />
+    <Compile Include="Entities\InternalChallengeTimer.cs" />
     <Compile Include="Entities\Video.cs" />
     <Compile Include="Infrastructure\ChallengeStructurer.cs" />
     <Compile Include="Entities\Camera.cs" />

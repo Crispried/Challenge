@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Challange.Domain.Entities
 {
-    public class CamerasContainer<Camera> 
+    public class CamerasContainer
     {
         private List<Camera> camerasContainer;
 
@@ -30,6 +30,19 @@ namespace Challange.Domain.Entities
             get
             {
                 return camerasContainer;
+            }
+        }
+
+        public List<string> GetCamerasFullNames
+        {
+            get
+            {
+                List<string> camerasFullNames = new List<string>();
+                foreach (Camera camera in camerasContainer)
+                {
+                    camerasFullNames.Add(camera.FullName);
+                }
+                return camerasFullNames;
             }
         }
 

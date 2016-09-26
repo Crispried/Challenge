@@ -8,11 +8,11 @@ namespace Challange.Domain.Entities
 {
     public class Video
     {
-        private List<FPS> fpsList;
+        private List<Fps> fpsList;
         private string name;
         private int fpsValue;
 
-        public Video(string name, List<FPS> fpsList)
+        public Video(string name, List<Fps> fpsList)
         {
             this.name = name;
             this.fpsList = fpsList;
@@ -37,7 +37,7 @@ namespace Challange.Domain.Entities
             }
         }
 
-        public List<FPS> FpsList
+        public List<Fps> FpsList
         {
             get
             {
