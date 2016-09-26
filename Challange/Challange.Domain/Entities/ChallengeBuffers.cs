@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Challange.Domain.Abstract;
+using Challange.Domain.Services.Settings.SettingTypes;
 
 namespace Challange.Domain.Entities
 {
@@ -12,6 +13,8 @@ namespace Challange.Domain.Entities
     {
         private Dictionary<string, List<Fps>> pastCameraRecords;
         private Dictionary<string, List<Fps>> futureCameraRecords;
+
+        private IChallengeSettings challengeSettings;
 
         public ChallengeBuffers(CamerasContainer camerasContainer)
         {
@@ -100,6 +103,73 @@ namespace Challange.Domain.Entities
                 foreach (var frame in fpsToRemove.Frames)
                 {
                     frame.Dispose();
+                }
+            }
+        }
+
+        /// <summary>
+        /// check is past frame buffer count equals
+        /// to necessary number of past FPS
+        /// </summary>
+        /// <returns></returns>
+        public bool HaveToRemovePastFps()
+        {
+            var pastFrames = GetFirstPastValue();
+            return pastFrames.Count == challengeSettings.NumberOfPastFPS;
+        }
+
+        /// <summary>
+        /// check is future frame buffer count equals
+        /// to necessary number of future FPS
+        /// </summary>
+        /// <returns></returns>
+        public bool HaveToAddFutureFps()
+        {
+            var futureFrames = GetFirstFutureValue();
+            return futureFrames.Count != challengeSettings.NumberOfFutureFPS;
+        }
+
+
+        /// <summary>
+        /// adds past fps objects into buffer for past frames
+        /// </summary>
+        public void AddPastFpses(FpsContainer fpsContainer)
+        {
+            List<Fps> temp;
+            foreach (var fps in fpsContainer.Fpses)
+            {
+                temp = GetPastCameraRecordsValueByKey(fps.Key);
+                if (temp != null)
+                {
+                    temp.Add(fps.Value);
+                }
+                else
+                {
+                    temp = new List<Fps>();
+                    temp.Add(fps.Value);
+                    AddNewPastCameraRecord(fps.Key, temp);
+                }
+            }
+        }
+
+        /// <summary>
+        /// adds future fps objects into buffer for future frames
+        /// </summary>
+        public void AddFutureFpses(FpsContainer fpsContainer)
+        {
+            List<Fps> temp;
+            foreach (var fps in fpsContainer.Fpses)
+            {
+                temp = GetFutureCameraRecordsValueByKey(fps.Key);
+                if (temp != null)
+                {
+                    temp.Add(fps.Value);
+                }
+                else
+                {
+                    temp = new List<Fps>();
+                    temp.Add(fps.Value);
+                    AddNewFutureCameraRecord(fps.Key, temp);
                 }
             }
         }

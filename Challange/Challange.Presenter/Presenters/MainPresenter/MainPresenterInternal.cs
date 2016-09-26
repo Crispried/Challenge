@@ -27,23 +27,12 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// <param name="e"></param>
         private void InternalTimerEventForPastFrames()
         {
-            if (HaveToRemovePastFps())
+            if (challengeBuffers.HaveToRemovePastFps())
             {
                 RemoveFirstFpsFromPastBuffer();
             }
-            AddPastFpses();
+            challengeBuffers.AddPastFpses(fpsContainer);
             InitializeFpsContainer();
-        }
-
-        /// <summary>
-        /// check is past frame buffer count equals
-        /// to necessary number of past FPS
-        /// </summary>
-        /// <returns></returns>
-        private bool HaveToRemovePastFps()
-        {
-            var pastFrames = challengeBuffers.GetFirstPastValue();
-            return pastFrames.Count == challengeSettings.NumberOfPastFPS;
         }
 
         /// <summary>
@@ -53,29 +42,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void RemoveFirstFpsFromPastBuffer()
         {
             challengeBuffers.RemoveFirstFpsFromPastBuffer();
-        }
-
-        /// <summary>
-        /// adds past fps objects into buffer for past frames
-        /// </summary>
-        private void AddPastFpses()
-        {
-            List<Fps> temp;
-            foreach (var fps in fpsContainer.Fpses)
-            {
-                temp = challengeBuffers.
-                    GetPastCameraRecordsValueByKey(fps.Key);
-                if (temp != null)
-                {
-                    temp.Add(fps.Value);
-                }
-                else
-                {
-                    temp = new List<Fps>();
-                    temp.Add(fps.Value);
-                    challengeBuffers.AddNewPastCameraRecord(fps.Key, temp);
-                }
-            }
         }
 
         /// <summary>
@@ -94,9 +60,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// <param name="e"></param>
         private void InternalTimerEventForFutureFrames()
         {
-            if (HaveToAddFutureFps())
+            if (challengeBuffers.HaveToAddFutureFps())
             {
-                AddFutureFpses();
+                challengeBuffers.AddFutureFpses(fpsContainer);
                 InitializeFpsContainer();
             }
             else
@@ -106,40 +72,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
                 InitializeFpsContainer();
                 challengeBuffers = new ChallengeBuffers(camerasContainer);
                 ChangeActivityOfEventForPastFrames(true);
-            }
-        }
-
-        /// <summary>
-        /// check is future frame buffer count equals
-        /// to necessary number of future FPS
-        /// </summary>
-        /// <returns></returns>
-        private bool HaveToAddFutureFps()
-        {
-            var futureFrames = challengeBuffers.GetFirstFutureValue();
-            return futureFrames.Count != challengeSettings.NumberOfFutureFPS;
-        }
-
-        /// <summary>
-        /// adds future fps objects into buffer for future frames
-        /// </summary>
-        private void AddFutureFpses()
-        {
-            List<Fps> temp;
-            foreach (var fps in fpsContainer.Fpses)
-            {
-                temp = challengeBuffers.
-                    GetFutureCameraRecordsValueByKey(fps.Key);
-                if(temp != null)
-                {
-                    temp.Add(fps.Value);
-                }
-                else
-                {
-                    temp = new List<Fps>();
-                    temp.Add(fps.Value);
-                    challengeBuffers.AddNewFutureCameraRecord(fps.Key, temp);
-                }
             }
         }
 
