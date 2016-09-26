@@ -399,60 +399,13 @@ namespace Challange.Presenter.Presenters.MainPresenter
         }
 
         /// <summary>
-        /// Creates directory in file system for current challenge
-        /// </summary>
-        /// <param name="name"></param>
-        private void CreateDirectoryForChallenge(string name)
-        {
-            FileService.CreateDirectory(name);
-            DirectoryForChallengeWasCreated = true;
-        }
-
-        /// <summary>
         /// Writes challenge videos in file system
         /// </summary>
         private void WriteChallangeAsVideo()
         {
-            var videos = UnitePastAndFutureFrames();
             var pathToChallenge = challenge.GetChallengeDirectoryPath;
-            var challengeWriter = new ChallengeWriter(videos, pathToChallenge);
+            var challengeWriter = new ChallengeWriter(camerasNames, pathToChallenge);
             challengeWriter.WriteChallenge();
-            ClearChallengeBuffers();
-        }
-
-        /// <summary>
-        /// Unites past and future frames collection in one
-        /// </summary>
-        /// <returns></returns>
-        private List<Video> UnitePastAndFutureFrames()
-        {
-            var videos = new List<Video>();
-            List<Fps> tempVideoFrames;
-            string currentVideoName;
-            foreach (var pastFrames in challengeBuffers.PastCameraRecords)
-            {
-                foreach (var futureFrames in challengeBuffers.FutureCameraRecords)
-                {
-                    if (pastFrames.Key == futureFrames.Key)
-                    {
-                        tempVideoFrames = new List<Fps>();
-                        tempVideoFrames.AddRange(pastFrames.Value);
-                        tempVideoFrames.AddRange(futureFrames.Value);
-                        View.CamerasNames.TryGetValue(
-                                pastFrames.Key, out currentVideoName);
-                        videos.Add(new Video(currentVideoName, tempVideoFrames));
-                        break;
-                    }
-                }
-            }
-            return videos;
-        }
-
-        /// <summary>
-        /// Clears buffers for past and future frames
-        /// </summary>
-        private void ClearChallengeBuffers()
-        {
             challengeBuffers.ClearBuffers();
         }
 

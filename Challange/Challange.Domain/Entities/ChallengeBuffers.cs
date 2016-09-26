@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Challange.Domain.Abstract;
 
 namespace Challange.Domain.Entities
 {
-    public class ChallengeBuffers
+    public class ChallengeBuffers : IChallengeBuffer
     {
         private Dictionary<string, List<Fps>> pastCameraRecords;
         private Dictionary<string, List<Fps>> futureCameraRecords;

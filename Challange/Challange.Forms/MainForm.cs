@@ -181,6 +181,8 @@ namespace Challange.Forms
         public event Action CreateChallange;
 
         public event Action NewFrameCallback;
+
+        public event Action<Dictionary<string, string>> PassCamerasNamesToPresenterCallback;
         #endregion
 
         #region replace players fields
@@ -419,6 +421,7 @@ namespace Challange.Forms
             TextBox currentTextBox = sender as TextBox;
             string key = currentTextBox.Tag.ToString();
             camerasNames[key] = currentTextBox.Text;
+            Invoke(PassCamerasNamesToPresenterCallback, camerasNames);
         }
 
         private TextBox GetTextBoxOfPlayer(PictureBox player)
