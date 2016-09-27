@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Challange.Domain.Services.Challenge
+namespace Challange.Domain.Entities
 {
     public class ChallengeWriter
     {
