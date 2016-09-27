@@ -10,9 +10,9 @@ using static PylonC.NETSupportLibrary.DeviceEnumerator;
 namespace Challange.Presenter.Presenters.CamerasPresenter
 {
     public partial class CamerasPresenter :
-                    BasePresenter<ICamerasView, List<Device>>
+                    BasePresenter<ICamerasView, List<string>>
     {
-        private List<Device> connectedCameras;
+        private List<string> connectedCameras;
 
         public CamerasPresenter(
                     IApplicationController controller,

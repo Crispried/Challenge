@@ -5,16 +5,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static PylonC.NETSupportLibrary.DeviceEnumerator;
 
 namespace Challange.Domain.Entities
 {
     public class CamerasContainer
     {
         private List<Camera> camerasContainer;
+        private List<Device> camerasInfo;
 
-        public CamerasContainer()
+        public CamerasContainer(List<Device> camerasInfo)
         {
+            this.camerasInfo = camerasInfo;
             camerasContainer = new List<Camera>();
+            InitializeCameras();
+        }
+
+        private void InitializeCameras()
+        {
+            PylonCamera tmpCamera;
+            foreach (var cameraInfo in camerasInfo)
+            {
+                tmpCamera = new PylonCamera(cameraInfo.Index, cameraInfo.FullName);
+                AddCamera(tmpCamera);
+            }
         }
 
         public int Count
