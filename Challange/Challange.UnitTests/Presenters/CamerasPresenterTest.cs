@@ -19,7 +19,7 @@ namespace Challange.UnitTests.Presenters
         private IApplicationController controller;
         private CamerasPresenter presenter;
         private ICamerasView view;
-        private List<Device> argument;
+        private List<string> argument;
 
         [SetUp]
         public void SetUp()
@@ -43,12 +43,12 @@ namespace Challange.UnitTests.Presenters
             Assert.True(presenter.CamerasListWindowIsOpened);
         }
 
-        private List<Device> InitializeDevicesList()
+        private List<string> InitializeDevicesList()
         {
-            List<Device> devicesList = new List<Device>();
+            List<string> devicesList = new List<string>();
             Device device = new Device();
 
-            devicesList.Add(device);
+            devicesList.Add(device.Name);
 
             return devicesList;
         }

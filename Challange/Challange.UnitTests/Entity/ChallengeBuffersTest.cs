@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using Challange.Domain.Entities;
 using System.Drawing;
-using System.Collections.Generic;
+using static PylonC.NETSupportLibrary.DeviceEnumerator;
 
 namespace Challange.UnitTests.Entity
 {
@@ -18,16 +18,29 @@ namespace Challange.UnitTests.Entity
         private CamerasContainer camera;
         private ChallengeBuffers buffer;
         private List<Fps> outputFpsList;
+        private List<Device> camerasInfo;
 
         [SetUp]
         public void SetUp()
         {
+            camerasInfo = InitializeCamerasInfo();
             fps = new Fps();
             fpsList = new List<Fps>();
             bitmap = new Bitmap(@"bitmap\bitmap.jpg");
-            camera = new CamerasContainer();
+            camera = new CamerasContainer(camerasInfo);
             buffer = new ChallengeBuffers(camera);
             outputFpsList = new List<Fps>();
+        }
+
+        private List<Device> InitializeCamerasInfo()
+        {
+            List<Device> camerasInfo = new List<Device>();
+            Device item = new Device();
+            item.FullName = "FullName:port";
+            item.Name = "Name";
+            camerasInfo.Add(item);
+
+            return camerasInfo;
         }
 
         [Test]
@@ -134,7 +147,7 @@ namespace Challange.UnitTests.Entity
         }
 
         [Test]
-        public void GetFirstPastValueReturnsNullAsDefaultValue()
+        public void GetFirstPastValueReturnsEmptyListAsDefaultValue()
         {
             // Arrange
             AddFpsToList();
@@ -144,7 +157,7 @@ namespace Challange.UnitTests.Entity
             List<Fps> outputFpsList = buffer.GetFirstPastValue();
 
             // Assert
-            Assert.Null(outputFpsList);
+            Assert.IsEmpty(outputFpsList);
         }
 
         [Test]
@@ -163,7 +176,7 @@ namespace Challange.UnitTests.Entity
         }
 
         [Test]
-        public void GetFirstFutureValueReturnsNullAsDefaultValue()
+        public void GetFirstFutureValueReturnsEmptyListAsDefaultValue()
         {
             // Arrange
             AddFpsToList();
@@ -173,7 +186,7 @@ namespace Challange.UnitTests.Entity
             List<Fps> outputFpsList = buffer.GetFirstFutureValue();
 
             // Assert
-            Assert.Null(outputFpsList);
+            Assert.IsEmpty(outputFpsList);
         }
 
         private void AddFrame()

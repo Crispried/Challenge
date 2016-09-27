@@ -7,20 +7,33 @@ using NUnit.Framework;
 using Challange.Domain.Services.StreamProcess.Concrete;
 using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 using Challange.Domain.Entities;
+using static PylonC.NETSupportLibrary.DeviceEnumerator;
 
 namespace Challange.UnitTests.StreamProcess
 {
     class CamerasContainerTests
     {
         private PylonCamera camera;
-
         private CamerasContainer container;
+        private List<Device> camerasInfo;
 
         [SetUp]
         public void SetUp()
         {
+            camerasInfo = InitializeCamerasInfo();
             camera = new PylonCamera(1, "Pylon Camera");
-            container = new CamerasContainer();
+            container = new CamerasContainer(camerasInfo);
+        }
+
+        private List<Device> InitializeCamerasInfo()
+        {
+            List<Device> camerasInfo = new List<Device>();
+            Device item = new Device();
+            item.FullName = "FullName:port";
+            item.Name = "Name";
+            camerasInfo.Add(item);
+
+            return camerasInfo;
         }
 
         [Test]
@@ -31,7 +44,7 @@ namespace Challange.UnitTests.StreamProcess
             // Act
 
             // Assert
-            Assert.AreEqual(0, container.GetCameras.Count);
+            Assert.AreEqual(1, container.GetCameras.Count);
         }
 
         [Test]
@@ -44,7 +57,7 @@ namespace Challange.UnitTests.StreamProcess
             AddCamera(container, camera);
 
             // Assert
-            Assert.AreEqual(2, container.GetCameras.Count);
+            Assert.AreEqual(3, container.GetCameras.Count);
         }
 
         [Test]
@@ -56,7 +69,7 @@ namespace Challange.UnitTests.StreamProcess
             AddCamera(container, camera);
 
             // Assert
-            Assert.AreEqual(1, container.GetCameras.Count);
+            Assert.AreEqual(2, container.GetCameras.Count);
         }
 
         [Test]
@@ -69,7 +82,7 @@ namespace Challange.UnitTests.StreamProcess
             RemoveCamera(container, camera);
 
             // Assert
-            Assert.AreEqual(0, container.GetCameras.Count);
+            Assert.AreEqual(1, container.GetCameras.Count);
         }
 
         private void AddCamera(CamerasContainer container, PylonCamera camera)
