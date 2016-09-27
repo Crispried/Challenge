@@ -168,14 +168,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private CamerasContainer InitializeDevices()
         {
-            InitializeDevicesList();
-            var camerasContainer = new CamerasContainer();
-            PylonCamera tmpCamera;
-            foreach (var cameraInfo in camerasInfo)
-            {
-                tmpCamera = new PylonCamera(cameraInfo.Index, cameraInfo.FullName);
-                camerasContainer.AddCamera(tmpCamera);
-            }
+            pylonCameraProvider = new PylonCameraProvider();
+            var camerasInfo = pylonCameraProvider.GetConnectedCameras();
+            camerasContainer = new CamerasContainer(camerasInfo);
             IsDeviceListEmpty = camerasContainer.IsEmpty() ? true : false;
             return camerasContainer;
         }
@@ -213,15 +208,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void Camera_NewFrameEvent(Bitmap frame, string cameraName)
         {
             View.DrawNewFrame(frame, cameraName);
-        }
-
-        /// <summary>
-        /// Initializes devices list
-        /// </summary>
-        private void InitializeDevicesList()
-        {
-            pylonCameraProvider = new PylonCameraProvider();
-            camerasInfo = pylonCameraProvider.GetConnectedCameras();
         }
 
         /// <summary>

@@ -9,7 +9,7 @@ namespace Challange.Presenter.Presenters.CamerasPresenter
 {
     public partial class CamerasPresenter
     {
-        public override void Run(List<Device> argument)
+        public override void Run(List<string> argument)
         {
             connectedCameras = argument;
             FillCamerasListView();

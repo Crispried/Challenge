@@ -13,12 +13,7 @@ namespace Challange.Presenter.Presenters.CamerasPresenter
         /// </summary>
         private void FillCamerasListView()
         {
-            List<string> camerasFullNames = new List<string>();
-            foreach (var connectedCamera in connectedCameras)
-            {
-                camerasFullNames.Add(connectedCamera.FullName);
-            }
-            View.FillCamerasListView(camerasFullNames);
+            View.FillCamerasListView(connectedCameras);
         }
     }
 }

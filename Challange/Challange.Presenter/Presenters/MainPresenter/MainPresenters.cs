@@ -35,7 +35,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
                 InitializeGameInformation();
                 Controller.Run<GameInformationPresenter.GameInformationPresenter,
                                GameInformation>(gameInformation);
-                pylonCameraProvider = new PylonCameraProvider();
+                InitializeDevices();
                 View.Show();
             }
         }
@@ -45,9 +45,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         public void ShowDevicesList()
         {
-            InitializeDevicesList();
             Controller.Run<CamerasPresenter.CamerasPresenter,
-                List<Device>>(camerasInfo);
+                List<string>>(camerasContainer.GetCamerasFullNames);
         }
 
         /// <summary>
@@ -96,7 +95,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         public void StartStream()
         {
-            camerasContainer = InitializeDevices();
+            // camerasContainer = InitializeDevices();
             if (!IsDeviceListEmpty)
             {
                 challengeBuffers = new ChallengeBuffers(camerasContainer);

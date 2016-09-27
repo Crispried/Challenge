@@ -29,7 +29,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
         // video streaming
         private CamerasContainer camerasContainer;
         private PylonCameraProvider pylonCameraProvider;
-        private List<Device> camerasInfo;
 
         // challenge
         private ChallengeBuffers challengeBuffers;
