@@ -8,8 +8,9 @@ using Challange.Domain.Services.StreamProcess.Concrete;
 using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 using Challange.Domain.Entities;
 
-namespace Challange.UnitTests.StreamProcess
+namespace Challange.UnitTests.Entity
 {
+    [TestFixture]
     class CamerasContainerTests
     {
         private PylonCamera camera;

@@ -101,7 +101,10 @@
   <ItemGroup>
     <Compile Include="Entity\ChallengeBuffersTest.cs" />
     <Compile Include="Entity\ChallengeObjectTest.cs" />
+    <Compile Include="Entity\ChallengeWriterTest.cs" />
     <Compile Include="Entity\EventSubscriberTest.cs" />
+    <Compile Include="Entity\FpsContainerTest.cs" />
+    <Compile Include="Entity\InternalChallengeTimerTest.cs" />
     <Compile Include="Entity\VideoTest.cs" />
     <Compile Include="Entity\FpsTest.cs" />
     <Compile Include="Entity\GameInformationTest.cs" />
@@ -112,7 +115,7 @@
     <Compile Include="Services\SettingParsers\PlayerPanelSettingsParserTest.cs" />
     <Compile Include="Services\SettingParsers\ChallengeSettingsParserTest.cs" />
     <Compile Include="Services\SettingsServiceTest.cs" />
-    <Compile Include="StreamProcess\CamerasContainerTests.cs" />
+    <Compile Include="Entity\CamerasContainerTests.cs" />
     <Compile Include="Infrastructure\ArchivatorTests.cs" />
     <Compile Include="Infrastructure\FileWorkerTests.cs" />
     <Compile Include="Presenters\MainPresenterTest.cs" />
