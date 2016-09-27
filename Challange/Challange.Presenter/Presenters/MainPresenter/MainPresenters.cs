@@ -63,6 +63,15 @@ namespace Challange.Presenter.Presenters.MainPresenter
         }
 
         /// <summary>
+        /// Get cameras names from view
+        /// In order to pass them to ChallengeWriter
+        /// </summary>
+        public void PassCamerasNamesToPresenter(Dictionary<string, string> camerasNames)
+        {
+            this.camerasNames = camerasNames;
+        }
+
+        /// <summary>
         /// Shows the form which allows to change player panel settings
         /// after that it redraws player panel with new settings
         /// </summary>
@@ -121,7 +130,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
             var challengeTime = GetChallengeTime();
             challenge = new ChallengeObject(
                 gameInformation.DirectoryName, challengeTime);
-            CreateDirectoryForChallenge(challenge.GetChallengeDirectoryPath);
+            challenge.CreateDirectoryForChallenge();
             ChangeActivityOfEventForPastFrames(false);
             ChangeActivityOfEventForFutureFrames(true);
             ChangeStateOfChallengeButtonIn(false, challengeSettings.NumberOfFutureFPS);

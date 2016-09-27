@@ -27,6 +27,11 @@ namespace Challange.Domain.Entities
             }
         }
 
+        public void CreateDirectoryForChallenge()
+        {
+            FileService.CreateDirectory(GetChallengeDirectoryPath);
+        }
+
         private string FormatChallengeDirectoryPath()
         {
             return pathToRootDirectory + @"\" +

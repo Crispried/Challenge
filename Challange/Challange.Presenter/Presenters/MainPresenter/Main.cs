@@ -36,13 +36,15 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private InternalChallengeTimer internalChallengeTimer;
         private ChallengeObject challenge;
 
+        private Dictionary<string, string> camerasNames;
+
         public MainPresenter(IApplicationController controller,
                              IMainView mainView) : 
                              base(controller, mainView)
         {
             SubscribePresenters();
         }
-        
+
         private void SubscribePresenters()
         {
             View.OpenPlayerPanelSettings +=
@@ -56,7 +58,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
             View.MainFormClosing += FormClosing;
             View.CreateChallange += CreateChallange;
             View.NewFrameCallback += AddNewFrame;
-        }    
+            View.PassCamerasNamesToPresenterCallback += PassCamerasNamesToPresenter;
+        }
         
         public GameInformation GameInformation
         {
