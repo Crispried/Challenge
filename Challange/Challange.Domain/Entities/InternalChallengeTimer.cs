@@ -31,6 +31,14 @@ namespace Challange.Domain.Entities
             }
         }
 
+        public Timer Timer
+        {
+            get
+            {
+                return timer;
+            }
+        }
+
         public void Start()
         {
             timer.AutoReset = autoReset;

@@ -9,8 +9,9 @@ using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 using Challange.Domain.Entities;
 using static PylonC.NETSupportLibrary.DeviceEnumerator;
 
-namespace Challange.UnitTests.StreamProcess
+namespace Challange.UnitTests.Entity
 {
+    [TestFixture]
     class CamerasContainerTests
     {
         private PylonCamera camera;

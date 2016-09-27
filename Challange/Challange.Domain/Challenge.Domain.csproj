@@ -88,7 +88,7 @@
     </Compile>
     <Compile Include="Services\Settings\SettingTypes\IChallengeSettings.cs" />
     <Compile Include="Services\StreamProcess\Abstract\ICameraProvider.cs" />
-    <Compile Include="Services\Challenge\ChallengeWriter.cs" />
+    <Compile Include="Entities\ChallengeWriter.cs" />
     <Compile Include="Services\Settings\SettingParser\ChallengeSettingsParser.cs" />
     <Compile Include="Services\Settings\SettingTypes\ChallengeSettings.cs" />
     <Compile Include="Services\Settings\SettingTypes\PlayerPanelSettings.cs" />

@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using Challange.Domain.Entities;
 using System.Timers;
-using Challange.Domain.Services.Challenge;
 using Challange.Domain.Infrastructure;
 using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 using System.Drawing;

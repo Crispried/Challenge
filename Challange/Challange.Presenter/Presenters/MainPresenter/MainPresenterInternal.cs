@@ -1,6 +1,5 @@
 ﻿using Challange.Domain.Entities;
 using Challange.Domain.Infrastructure;
-using Challange.Domain.Services.Challenge;
 using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingParser;
 using Challange.Domain.Services.Settings.SettingTypes;
@@ -56,8 +55,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// <summary>
         /// Process frames for future collection
         /// </summary>
-        /// <param name="source"></param>
-        /// <param name="e"></param>
         private void InternalTimerEventForFutureFrames()
         {
             if (challengeBuffers.HaveToAddFutureFps())
