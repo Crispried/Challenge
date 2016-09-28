@@ -12,7 +12,7 @@ using static PylonC.NETSupportLibrary.DeviceEnumerator;
 namespace Challange.UnitTests.Entity
 {
     [TestFixture]
-    class CamerasContainerTests
+    class CamerasContainerTests : TestCase
     {
         private PylonCamera camera;
         private CamerasContainer container;
@@ -26,19 +26,8 @@ namespace Challange.UnitTests.Entity
             container = new CamerasContainer(camerasInfo);
         }
 
-        private List<Device> InitializeCamerasInfo()
-        {
-            List<Device> camerasInfo = new List<Device>();
-            Device item = new Device();
-            item.FullName = "FullName:port";
-            item.Name = "Name";
-            camerasInfo.Add(item);
-
-            return camerasInfo;
-        }
-
         [Test]
-        public void GetCamerasReturnsZeroIfNoCamerasPresented()
+        public void GetCamerasReturnsOneIfNoCamerasPresented()
         {
             // Arrange
 

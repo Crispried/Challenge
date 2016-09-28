@@ -10,7 +10,7 @@ using static PylonC.NETSupportLibrary.DeviceEnumerator;
 
 namespace Challange.UnitTests.Entity
 {
-    class ChallengeBuffersTest
+    class ChallengeBuffersTest : TestCase
     {
         private Fps fps;
         private List<Fps> fpsList;
@@ -19,6 +19,7 @@ namespace Challange.UnitTests.Entity
         private ChallengeBuffers buffer;
         private List<Fps> outputFpsList;
         private List<Device> camerasInfo;
+        private string bitmapImagePath = @"bitmap\bitmap.jpg";
 
         [SetUp]
         public void SetUp()
@@ -26,21 +27,10 @@ namespace Challange.UnitTests.Entity
             camerasInfo = InitializeCamerasInfo();
             fps = new Fps();
             fpsList = new List<Fps>();
-            bitmap = new Bitmap(@"bitmap\bitmap.jpg");
+            bitmap = new Bitmap(bitmapImagePath);
             camera = new CamerasContainer(camerasInfo);
             buffer = new ChallengeBuffers(camera);
             outputFpsList = new List<Fps>();
-        }
-
-        private List<Device> InitializeCamerasInfo()
-        {
-            List<Device> camerasInfo = new List<Device>();
-            Device item = new Device();
-            item.FullName = "FullName:port";
-            item.Name = "Name";
-            camerasInfo.Add(item);
-
-            return camerasInfo;
         }
 
         [Test]

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Challange.Domain.Infrastructure;
 using Challange.Domain.Services.Settings.SettingTypes;
+using static PylonC.NETSupportLibrary.DeviceEnumerator;
 
 namespace Challange.UnitTests
 {
@@ -39,6 +40,17 @@ namespace Challange.UnitTests
                 NumberOfFutureFPS = 10,
                 NumberOfPastFPS = 15
             };
+        }
+
+        protected List<Device> InitializeCamerasInfo()
+        {
+            List<Device> camerasInfo = new List<Device>();
+            Device item = new Device();
+            item.FullName = "FullName:port";
+            item.Name = "Name";
+            camerasInfo.Add(item);
+
+            return camerasInfo;
         }
     }
 }

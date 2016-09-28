@@ -19,7 +19,8 @@ namespace Challange.Domain.Entities
 
         private IChallengeBuffer challengeBuffers;
 
-        public ChallengeWriter(Dictionary<string, string> camerasNames, string pathToVideos)
+        public ChallengeWriter(Dictionary<string, string> camerasNames, 
+                                                        string pathToVideos)
         {
             this.videos = UnitePastAndFutureFrames();
             this.pathToVideos = pathToVideos;
