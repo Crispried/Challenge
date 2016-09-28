@@ -48,6 +48,7 @@ namespace Challange.UnitTests
             Device item = new Device();
             item.FullName = "FullName:port";
             item.Name = "Name";
+            item.Index = 1;
             camerasInfo.Add(item);
 
             return camerasInfo;

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static PylonC.NETSupportLibrary.DeviceEnumerator;
+using System.Drawing;
 
 namespace Challange.UnitTests.Entity
 {
@@ -13,7 +14,7 @@ namespace Challange.UnitTests.Entity
     class ChallengeWriterTest : TestCase
     {
         private List<Device> camerasInfo;
-        private Dictionary<string, List<Fps>> pastCameraRecords;
+        // private Dictionary<string, List<Fps>> pastCameraRecords;
         private CamerasContainer camerasContainer;
         private ChallengeBuffers challengeBuffers;
         private int maxElementsInPastCollection = 10;
@@ -21,15 +22,29 @@ namespace Challange.UnitTests.Entity
         private Dictionary<string, string> camerasNames;
         private ChallengeWriter challengeWriter;
         string pathToVideos = "test";
+        List<Fps> fpsList;
+        Fps fpsItem;
+        Bitmap bitmap;
 
         [SetUp]
         public void SetUp()
         {
             camerasInfo = InitializeCamerasInfo();
-            pastCameraRecords = InitializePastCameraRecords();
+            // pastCameraRecords = InitializePastCameraRecords();
             camerasContainer = new CamerasContainer(camerasInfo);
             challengeBuffers = new ChallengeBuffers(camerasContainer, maxElementsInPastCollection,
                                                                         maxElementsInFutureCollection);
+
+            fpsList = new List<Fps>();
+            fpsItem = new Fps();
+            bitmap = new Bitmap(@"bitmap/bitmap.jpg");
+
+            fpsItem.AddFrame(bitmap);
+            fpsList.Add(fpsItem);
+
+            challengeBuffers.AddNewPastCameraRecord("pastKey", fpsList);
+            challengeBuffers.AddNewFutureCameraRecord("futureKey", fpsList);
+
             camerasNames = InitializeCamerasNames();
             challengeWriter = new ChallengeWriter(challengeBuffers, camerasNames, pathToVideos);
         }
@@ -56,10 +71,7 @@ namespace Challange.UnitTests.Entity
         private Dictionary<string, List<Fps>> InitializePastCameraRecords()
         {
             Dictionary<string, List<Fps>> records = new Dictionary<string, List<Fps>>();
-            List<Fps> fpsList = new List<Fps>();
-            Fps fpsItem = new Fps();
-            fpsList.Add(fpsItem);
-
+            
             records.Add("CameraOne", fpsList);
 
             return records;
