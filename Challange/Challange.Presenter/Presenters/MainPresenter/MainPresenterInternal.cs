@@ -67,9 +67,16 @@ namespace Challange.Presenter.Presenters.MainPresenter
                 ChangeActivityOfEventForFutureFrames(false);
                 WriteChallangeAsVideo();
                 InitializeFpsContainer();
-                challengeBuffers = new ChallengeBuffers(camerasContainer);
+                InitializeChallengeBuffers();
                 ChangeActivityOfEventForPastFrames(true);
             }
+        }
+        
+        private void InitializeChallengeBuffers()
+        {
+            challengeBuffers = new ChallengeBuffers(camerasContainer,
+                        challengeSettings.NumberOfPastFPS,
+                        challengeSettings.NumberOfFutureFPS);
         }
 
         /// <summary>
@@ -319,7 +326,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void WriteChallangeAsVideo()
         {
             var pathToChallenge = challenge.GetChallengeDirectoryPath;
-            var challengeWriter = new ChallengeWriter(camerasNames, pathToChallenge);
+            var challengeWriter = new ChallengeWriter(challengeBuffers, camerasNames, pathToChallenge);
             challengeWriter.WriteChallenge();
             challengeBuffers.ClearBuffers();
         }

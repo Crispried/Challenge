@@ -19,14 +19,15 @@ namespace Challange.Domain.Entities
 
         private IChallengeBuffer challengeBuffers;
 
-        public ChallengeWriter(Dictionary<string, string> camerasNames, 
+        public ChallengeWriter(IChallengeBuffer challengeBuffers, Dictionary<string, string> camerasNames, 
                                                         string pathToVideos)
         {
-            this.videos = UnitePastAndFutureFrames();
+            this.challengeBuffers = challengeBuffers;
+            this.camerasNames = camerasNames;
             this.pathToVideos = pathToVideos;
+            this.videos = UnitePastAndFutureFrames();
             this.width = GetWidth();
             this.height = GetHeight();
-            this.camerasNames = camerasNames;
         }
 
         public void WriteChallenge()

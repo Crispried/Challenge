@@ -20,7 +20,7 @@ namespace Challange.UnitTests.Entity
         [SetUp]
         public void SetUp()
         {
-            timer = new Timer(1);
+            timer = new Timer(10);
             timer.Start();
         }
 
@@ -46,31 +46,34 @@ namespace Challange.UnitTests.Entity
         public void UnsubscribeFromEvent()
         {
             // Arrange
-            eventWasRaised = false;
+            timer = new Timer(1);
+            timer.Start();
             // Act
-            AddEventHandler();
-            while (true)
+            var timerEventHandler = EventSubscriber.AddEventHandler(timer,
+                    "Elapsed", TimerElapsed);
+            for (int i = 0; i < 10000000; i++)
             {
                 if (eventWasRaised)
                 {
                     break;
                 }
             }
-            RemoveEventHandler();
-            // Assert
-            while (true)
+            EventSubscriber.RemoveEventHandler(timer, "Elapsed", timerEventHandler);
+            eventWasRaised = false;
+            for (int i = 0; i < 100000; i++)
             {
-                if (!eventWasRaised)
+                if (eventWasRaised)
                 {
                     break;
                 }
             }
+            // Assert
             Assert.False(eventWasRaised);
         }
 
         private void TimerElapsed()
         {
-            eventWasRaised = !eventWasRaised;
+            eventWasRaised = true;
         }
 
         private void AddEventHandler()
