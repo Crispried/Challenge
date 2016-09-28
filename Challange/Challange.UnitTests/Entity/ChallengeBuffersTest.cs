@@ -19,6 +19,8 @@ namespace Challange.UnitTests.Entity
         private ChallengeBuffers buffer;
         private List<Fps> outputFpsList;
         private List<Device> camerasInfo;
+        private int maxElementsInPastCollection;
+        private int maxElementsInFutureCollection;
 
         [SetUp]
         public void SetUp()
@@ -28,7 +30,11 @@ namespace Challange.UnitTests.Entity
             fpsList = new List<Fps>();
             bitmap = new Bitmap(@"bitmap\bitmap.jpg");
             camera = new CamerasContainer(camerasInfo);
-            buffer = new ChallengeBuffers(camera);
+            maxElementsInPastCollection = 10;
+            maxElementsInFutureCollection = 10;
+            buffer = new ChallengeBuffers(camera,
+                        maxElementsInPastCollection,
+                        maxElementsInFutureCollection);
             outputFpsList = new List<Fps>();
         }
 

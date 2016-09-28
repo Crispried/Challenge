@@ -13,11 +13,16 @@ namespace Challange.Domain.Entities
     {
         private Dictionary<string, List<Fps>> pastCameraRecords;
         private Dictionary<string, List<Fps>> futureCameraRecords;
+        private int maxElementsInPastCollection;
+        private int maxElementsInFutureCollection;
 
-        private IChallengeSettings challengeSettings;
+       // private IChallengeSettings challengeSettings;
 
-        public ChallengeBuffers(CamerasContainer camerasContainer)
+        public ChallengeBuffers(CamerasContainer camerasContainer,
+            int maxElementsInPastCollection, int maxElementsInFutureCollection)
         {
+            this.maxElementsInPastCollection = maxElementsInPastCollection;
+            this.maxElementsInFutureCollection = maxElementsInFutureCollection;
             InitializeBuffers(camerasContainer);
         }
 
@@ -115,7 +120,7 @@ namespace Challange.Domain.Entities
         public bool HaveToRemovePastFps()
         {
             var pastFrames = GetFirstPastValue();
-            return pastFrames.Count == challengeSettings.NumberOfPastFPS;
+            return pastFrames.Count == maxElementsInPastCollection;
         }
 
         /// <summary>
@@ -126,7 +131,7 @@ namespace Challange.Domain.Entities
         public bool HaveToAddFutureFps()
         {
             var futureFrames = GetFirstFutureValue();
-            return futureFrames.Count != challengeSettings.NumberOfFutureFPS;
+            return futureFrames.Count != maxElementsInFutureCollection;
         }
 
 

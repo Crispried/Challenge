@@ -98,7 +98,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
             // camerasContainer = InitializeDevices();
             if (!IsDeviceListEmpty)
             {
-                challengeBuffers = new ChallengeBuffers(camerasContainer);
+                InitializeChallengeBuffers();
                 BindPlayersToCameras();
                 InitializeTimeAxisTimer();
                 InitializeInternalTimer();
