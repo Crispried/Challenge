@@ -11,15 +11,17 @@ namespace Challange.UnitTests.Entity
 {
     [TestFixture]
     class FpsTest
-    {
+    { 
         private Fps fps;
+        private string imagePath;
         private Bitmap frame;
 
         [SetUp]
         public void SetUp()
         {
             fps = new Fps();
-            frame = new Bitmap(@"bitmap\bitmap.jpg");
+            imagePath = @"bitmap\bitmap.jpg";
+            frame = new Bitmap(imagePath);
         }
 
         [Test]

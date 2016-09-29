@@ -12,9 +12,9 @@ namespace Challange.Domain.Abstract
         int CamerasNumber { get; }
         List<Camera> GetCameras { get; }
         List<string> GetCamerasKeys { get; }
-        List<string> GetCamerasFullNames { get; }
-        void SetCameraFullName(string key, string cameraFullName);
-        string GetCameraFullNameByKey(string key);
+        List<string> GetCamerasNames { get; }
+        void SetCameraName(string key, string cameraFullName);
+        string GetCameraNameByKey(string key);
         void AddCamera(Camera camera);
         void RemoveCamera(Camera camera);
         bool IsEmpty();

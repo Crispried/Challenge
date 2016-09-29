@@ -13,7 +13,9 @@ namespace Challange.Domain.Entities
         /// <summary>
         /// Full name is the name which you can get
         /// using your camera API, so it's the real name
-        /// of camera, which you can get through API
+        /// of camera, which you can get through API.
+        /// Use this field as key value to get access
+        /// to the camera
         /// </summary>
         protected string fullName; 
         /// <summary>
@@ -50,6 +52,10 @@ namespace Challange.Domain.Entities
             {
                 return name;
             }
+            set
+            {
+                name = value;
+            }
         }
 
         public delegate void NewFrameEventHandler(Bitmap frame, string cameraName);
@@ -72,5 +78,38 @@ namespace Challange.Domain.Entities
         /// Stops stream process
         /// </summary>
         public abstract void Stop();
+
+        public override bool Equals(object obj)
+        {
+            // If parameter is null return false.
+            if (obj == null)
+            {
+                return false;
+            }
+
+            // If parameter cannot be cast to Point return false.
+            Camera camera = obj as Camera;
+            if (camera == null)
+            {
+                return false;
+            }
+
+            // Return true if the fields match:
+            return (name == camera.name) && (fullName == camera.fullName);
+        }
+
+        public bool Equals(Camera camera)
+        {
+            if (camera == null)
+            {
+                return false;
+            }
+            return (name == camera.name) && (fullName == camera.fullName);
+        }
+
+        public override int GetHashCode()
+        {
+            return name.GetHashCode() ^ fullName.GetHashCode();
+        }
     }
 }

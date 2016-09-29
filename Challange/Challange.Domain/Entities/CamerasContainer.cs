@@ -14,14 +14,12 @@ namespace Challange.Domain.Entities
     {
         private List<Camera> camerasContainer;
         private List<Device> deviceList;
-        private Dictionary<string, string> camerasInfo;
 
         public CamerasContainer(List<Device> deviceList)
         {
             this.deviceList = deviceList;
             camerasContainer = new List<Camera>();
             InitializeCameras();
-            InitializeCamerasInfo();
         }
 
         private void InitializeCameras()
@@ -31,15 +29,6 @@ namespace Challange.Domain.Entities
             {
                 tmpCamera = new PylonCamera(cameraInfo.Index, cameraInfo.FullName);
                 AddCamera(tmpCamera);
-            }
-        }
-
-        private void InitializeCamerasInfo()
-        {
-            camerasInfo = new Dictionary<string, string>();
-            foreach (Camera camera in camerasContainer)
-            {
-                camerasInfo.Add(camera.FullName, camera.FullName);
             }
         }
 
@@ -64,39 +53,40 @@ namespace Challange.Domain.Entities
             get
             {
                 List<string> camerasKeys = new List<string>();
-                foreach (var key in camerasInfo.Keys)
+                foreach (var camera in camerasContainer)
                 {
-                    camerasKeys.Add(key);
+                    camerasKeys.Add(camera.FullName);
                 }
                 return camerasKeys;
             }
         }
 
-        public List<string> GetCamerasFullNames
+        public List<string> GetCamerasNames
         {
             get
             {
                 List<string> camerasNames = new List<string>();
-                foreach (var value in camerasInfo.Values)
+                foreach (var camera in camerasContainer)
                 {
-                    camerasNames.Add(value);
+                    camerasNames.Add(camera.Name);
                 }
                 return camerasNames;
             }
         }
 
-        public void SetCameraFullName(string key, string cameraFullName)
+        public void SetCameraName(string fullName, string cameraName)
         {
-            string value;
-            camerasInfo.TryGetValue(key, out value);
-            value = cameraFullName;
+            var camera = camerasContainer.Find(cam => cam.FullName == fullName);
+            if(camera != null)
+            {
+                camera.Name = cameraName;
+            }
         }
 
-        public string GetCameraFullNameByKey(string key)
+        public string GetCameraNameByKey(string fullName)
         {
-            string cameraFullName;
-            camerasInfo.TryGetValue(key, out cameraFullName);
-            return cameraFullName;
+            var camera = camerasContainer.Find(cam => cam.FullName == fullName);
+            return camera.Name;
         }
 
         public void AddCamera(Camera camera)

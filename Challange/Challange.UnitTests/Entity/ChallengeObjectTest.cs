@@ -28,11 +28,10 @@ namespace Challange.UnitTests.Entity
             // Arrange
 
             // Act
-            string outputPath = GetChallengeDirectoryPath();
             string expectedPath = "challengeRoot\\challengeFolder_folder\\";
 
             // Assert
-            Assert.AreEqual(expectedPath, outputPath);
+            Assert.AreEqual(expectedPath, GetChallengeDirectoryPath());
         }
 
         private string GetChallengeDirectoryPath()

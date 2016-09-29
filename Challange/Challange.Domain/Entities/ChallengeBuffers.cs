@@ -40,22 +40,6 @@ namespace Challange.Domain.Entities
             }
         }
 
-        private void AddNewPastCameraRecord(string key, List<Fps> value)
-        {
-            AddNewRecord(key, value, pastCameraRecords);
-        }
-
-        private void AddNewFutureCameraRecord(string key, List<Fps> value)
-        {
-            AddNewRecord(key, value, futureCameraRecords);
-        }
-
-        private void AddNewRecord(string key, List<Fps> value,
-                            Dictionary<string, List<Fps>> dictionary)
-        {
-            dictionary.Add(key, value);
-        }
-
         public List<Fps> GetPastCameraRecordsValueByKey(string key)
         {
             return GetByValue(key, pastCameraRecords);
@@ -76,23 +60,16 @@ namespace Challange.Domain.Entities
             return futureCameraRecords.Values.FirstOrDefault();
         }
 
-        private List<Fps> GetByValue(string key,
-                        Dictionary<string, List<Fps>> dictionary)
-        {
-            List<Fps> value;
-            if (dictionary.TryGetValue(key, out value))
-            {
-                return value;
-            }
-            return null;
-        }
-
         public void ClearBuffers()
         {
             pastCameraRecords.Clear();
             futureCameraRecords.Clear();
         }
 
+        /// <summary>
+        /// for example our past buffer is only for 20 FPS objects
+        /// so on 21 second we have to remove the first object from this buffer
+        /// </summary>
         public void RemoveFirstFpsFromPastBuffer()
         {
             var fpsesToRemove = new Dictionary<string, Fps>();
@@ -175,6 +152,33 @@ namespace Challange.Domain.Entities
                     AddNewFutureCameraRecord(fps.Key, temp);
                 }
             }
+        }
+
+        private void AddNewPastCameraRecord(string key, List<Fps> value)
+        {
+            AddNewRecord(key, value, pastCameraRecords);
+        }
+
+        private void AddNewFutureCameraRecord(string key, List<Fps> value)
+        {
+            AddNewRecord(key, value, futureCameraRecords);
+        }
+
+        private void AddNewRecord(string key, List<Fps> value,
+                            Dictionary<string, List<Fps>> dictionary)
+        {
+            dictionary.Add(key, value);
+        }
+
+        private List<Fps> GetByValue(string key,
+                        Dictionary<string, List<Fps>> dictionary)
+        {
+            List<Fps> value;
+            if (dictionary.TryGetValue(key, out value))
+            {
+                return value;
+            }
+            return null;
         }
 
         /// <summary>

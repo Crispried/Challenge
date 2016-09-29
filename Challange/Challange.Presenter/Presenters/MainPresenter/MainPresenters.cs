@@ -32,7 +32,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
             {
                 DrawPlayers();
                 // we need to keep game information 
-                InitializeGameInformation();
+                gameInformation = new GameInformation();
                 Controller.Run<GameInformationPresenter.GameInformationPresenter,
                                GameInformation>(gameInformation);
                 InitializeDevices();
@@ -46,7 +46,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void ShowDevicesList()
         {
             Controller.Run<CamerasPresenter.CamerasPresenter,
-                List<string>>(camerasContainer.GetCamerasFullNames);
+                List<string>>(camerasContainer.GetCamerasNames);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         public void PassCamerasNamesToPresenter(string key, string cameraName)
         {
-            camerasContainer.SetCameraFullName(key, cameraName);
+            camerasContainer.SetCameraName(key, cameraName);
         }
 
         /// <summary>

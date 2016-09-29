@@ -10,117 +10,115 @@ using static PylonC.NETSupportLibrary.DeviceEnumerator;
 
 namespace Challange.UnitTests.Entity
 {
-    class ChallengeBuffersTest
+    class ChallengeBuffersTest : TestCase
     {
         private Fps fps;
-        private List<Fps> fpsList;
+        private FpsContainer fpsContainer;
         private Bitmap bitmap;
-        private CamerasContainer camera;
-        private ChallengeBuffers buffer;
-        private List<Fps> outputFpsList;
+        private CamerasContainer camerasContainer;
+        private ChallengeBuffers buffers;
         private List<Device> camerasInfo;
         private int maxElementsInPastCollection;
         private int maxElementsInFutureCollection;
+        private string imagePath = @"bitmap\bitmap.jpg";
+        private string key1 = "FullName1";
+        private string key2 = "FullName2";
+        private string incorrectKey1 = "key1";
+        private string incorrectKey2 = "key2";
 
         [SetUp]
         public void SetUp()
         {
             camerasInfo = InitializeCamerasInfo();
-            fps = new Fps();
-            fpsList = new List<Fps>();
-            bitmap = new Bitmap(@"bitmap\bitmap.jpg");
-            camera = new CamerasContainer(camerasInfo);
+            bitmap = new Bitmap(imagePath);
+            camerasContainer = new CamerasContainer(camerasInfo);
+            fpsContainer = new FpsContainer(camerasContainer.GetCamerasKeys);
+            fps = fpsContainer.GetFpsByKey(key1);
+            fps.AddFrame(bitmap);
+            fps = fpsContainer.GetFpsByKey(key2);
+            fps.AddFrame(bitmap);
             maxElementsInPastCollection = 10;
             maxElementsInFutureCollection = 10;
-            buffer = new ChallengeBuffers(camera,
+            buffers = new ChallengeBuffers(camerasContainer,
                         maxElementsInPastCollection,
                         maxElementsInFutureCollection);
-            outputFpsList = new List<Fps>();
+            buffers.AddFutureFpses(fpsContainer);
+            buffers.AddPastFpses(fpsContainer);
         }
 
-        private List<Device> InitializeCamerasInfo()
+        [Test]
+        public void GetPastCameraRecordsValueByKeyReturnProperValue()
         {
-            List<Device> camerasInfo = new List<Device>();
-            Device item = new Device();
-            item.FullName = "FullName:port";
-            item.Name = "Name";
-            camerasInfo.Add(item);
-
-            return camerasInfo;
+            // Arrange
+            // Act
+            List<Fps> outputFpsList1 = buffers.GetPastCameraRecordsValueByKey(key1);
+            List<Fps> outputFpsList2 = buffers.GetPastCameraRecordsValueByKey(key1);
+            // Assert
+            Assert.NotNull(outputFpsList1);
+            Assert.NotNull(outputFpsList2);
         }
 
         [Test]
         public void GetPastCameraRecordsValueByKeyReturnNull()
         {
             // Arrange
-            AddFpsToList();
-            var pastCameraRecords = buffer.PastCameraRecords;
-
             // Act
-            List<Fps> outputFpsList = buffer.GetPastCameraRecordsValueByKey("key");
-
+            List<Fps> outputFpsList1 =
+                buffers.GetPastCameraRecordsValueByKey(incorrectKey1);
+            List<Fps> outputFpsList2 =
+                buffers.GetPastCameraRecordsValueByKey(incorrectKey2);
             // Assert
-            Assert.Null(outputFpsList);
+            Assert.Null(outputFpsList1);
+            Assert.Null(outputFpsList2);
+        }
+
+        [Test]
+        public void GetFutureCameraRecordsValueByKeyReturnProperValue()
+        {
+            // Arrange
+            // Act
+            List<Fps> outputFpsList1 = buffers.GetFutureCameraRecordsValueByKey(key1);
+            List<Fps> outputFpsList2 = buffers.GetFutureCameraRecordsValueByKey(key2);
+            // Assert
+            Assert.NotNull(outputFpsList1);
+            Assert.NotNull(outputFpsList2);
         }
 
         [Test]
         public void GetFutureCameraRecordsValueByKeyReturnNull()
         {
             // Arrange
-            AddFpsToList();
-            var futureCameraRecords = buffer.FutureCameraRecords;
-
             // Act
-            List<Fps> outputFpsList = buffer.GetFutureCameraRecordsValueByKey("key");
-
+            List<Fps> outputFpsList1 =
+                buffers.GetFutureCameraRecordsValueByKey(incorrectKey1);
+            List<Fps> outputFpsList2 =
+                buffers.GetFutureCameraRecordsValueByKey(incorrectKey2);
             // Assert
-            Assert.Null(outputFpsList);
+            Assert.Null(outputFpsList1);
+            Assert.Null(outputFpsList2);
         }
 
         [Test]
-        public void GetFirstPastValueReturnsEmptyListAsDefaultValue()
+        public void GetFirstPastValueReturnsFirstValue()
         {
             // Arrange
-            AddFpsToList();
-            var pastCameraRecords = buffer.PastCameraRecords;
-
             // Act
-            List<Fps> outputFpsList = buffer.GetFirstPastValue();
-
+            List<Fps> outputFpsList = buffers.GetFirstPastValue();
             // Assert
-            Assert.IsEmpty(outputFpsList);
+            Assert.True(outputFpsList ==
+                buffers.PastCameraRecords.Values.ElementAt(0));
         }
 
         [Test]
-        public void GetFirstFutureValueReturnsEmptyListAsDefaultValue()
+        public void GetFirstFutureValueReturnsFirstValue()
         {
             // Arrange
-            AddFpsToList();
-            var futureCameraRecords = buffer.FutureCameraRecords;
-
             // Act
-            List<Fps> outputFpsList = buffer.GetFirstFutureValue();
+            List <Fps> outputFpsList = buffers.GetFirstFutureValue();
 
             // Assert
-            Assert.IsEmpty(outputFpsList);
-        }
-
-        private void AddFrame()
-        {
-            fps.AddFrame(bitmap);
-        }
-
-        private void AddFpsToList()
-        {
-            AddFrame();
-            fpsList.Add(fps);
-        }
-
-        private List<Fps> GetValueFromDictionary(string key, Dictionary<string, List<Fps>> dictionary)
-        {
-            dictionary.TryGetValue(key, out outputFpsList);
-
-            return outputFpsList;
+            Assert.True(outputFpsList ==
+                buffers.FutureCameraRecords.Values.ElementAt(0));
         }
     }
 }

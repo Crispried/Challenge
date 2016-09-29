@@ -15,7 +15,6 @@ namespace Challange.UnitTests.Entity
     class ChallengeWriterTest : TestCase
     {
         private List<Device> camerasInfo;
-        // private Dictionary<string, List<Fps>> pastCameraRecords;
         private CamerasContainer camerasContainer;
         private ChallengeBuffers challengeBuffers;
         private FpsContainer fpsContainer;
@@ -23,35 +22,22 @@ namespace Challange.UnitTests.Entity
         private int maxElementsInFutureCollection = 10;
         private Dictionary<string, string> camerasNames;
         private ChallengeWriter challengeWriter;
-        string pathToVideos = "test";
-        Fps fpsItem;
-        Bitmap bitmap;
+        private string pathToVideos = "test";
+        private Fps fpsItem;
+        private Bitmap bitmap;
 
         [SetUp]
         public void SetUp()
         {
-            camerasInfo = new List<Device>()
-            {
-                new Device()
-                {
-                    FullName = "camera1"
-                },
-                new Device()
-                {
-                    FullName = "camera2"
-                }
-            };
-            // pastCameraRecords = InitializePastCameraRecords();
+            camerasInfo = InitializeCamerasInfo();
             camerasContainer = new CamerasContainer(camerasInfo);
             challengeBuffers = new ChallengeBuffers(camerasContainer, maxElementsInPastCollection,
                                                                         maxElementsInFutureCollection);
-            fpsContainer = new FpsContainer(camerasContainer.GetCamerasFullNames);
-
-
+            fpsContainer = new FpsContainer(camerasContainer.GetCamerasKeys);
             bitmap = new Bitmap(@"bitmap/bitmap.jpg");
-            fpsItem = fpsContainer.GetFpsByKey("camera1");
+            fpsItem = fpsContainer.GetFpsByKey("fullName1");
             fpsItem.AddFrame(bitmap);
-            fpsItem = fpsContainer.GetFpsByKey("camera2");
+            fpsItem = fpsContainer.GetFpsByKey("fullName2");
             fpsItem.AddFrame(bitmap);
 
             challengeBuffers.AddPastFpses(fpsContainer);

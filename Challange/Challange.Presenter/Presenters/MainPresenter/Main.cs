@@ -31,6 +31,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
 
         // challenge
         private ChallengeBuffers challengeBuffers;
+        // this is temporary object which will keep fps objects
+        // from all cameras which we create every second
         private FpsContainer fpsContainer;
         private InternalChallengeTimer internalChallengeTimer;
         private ChallengeObject challenge;
