@@ -65,9 +65,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// Get cameras names from view
         /// In order to pass them to ChallengeWriter
         /// </summary>
-        public void PassCamerasNamesToPresenter(Dictionary<string, string> camerasNames)
+        public void PassCamerasNamesToPresenter(string key, string cameraName)
         {
-            this.camerasNames = camerasNames;
+            camerasContainer.SetCameraFullName(key, cameraName);
         }
 
         /// <summary>

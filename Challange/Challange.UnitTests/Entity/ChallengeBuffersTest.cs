@@ -50,51 +50,6 @@ namespace Challange.UnitTests.Entity
         }
 
         [Test]
-        public void AddNewPastCameraRecordAddsFpsToPastBuffer()
-        {
-            // Arrange
-            AddFpsToList();
-            var pastCameraRecords = buffer.PastCameraRecords;
-
-            // Act
-            AddNewPastCameraRecord("key");
-            List<Fps> outputFpsList = GetValueFromDictionary("key", pastCameraRecords);
-
-            // Assert
-            Assert.NotNull(outputFpsList);
-        }
-
-        [Test]
-        public void AddNewFutureCameraRecordAddsFpsToFutureBuffer()
-        {
-            // Arrange
-            AddFpsToList();
-            var futureCameraRecords = buffer.FutureCameraRecords;
-
-            // Act
-            AddNewFutureCameraRecord("key");
-            List<Fps> outputFpsList = GetValueFromDictionary("key", futureCameraRecords);
-
-            // Assert
-            Assert.NotNull(outputFpsList);
-        }
-
-        [Test]
-        public void GetPastCameraRecordsValueByKeyReturnProperValue()
-        {
-            // Arrange
-            AddFpsToList();
-            var pastCameraRecords = buffer.PastCameraRecords;
-
-            // Act
-            AddNewPastCameraRecord("key");
-            List<Fps> outputFpsList = buffer.GetPastCameraRecordsValueByKey("key");
-
-            // Assert
-            Assert.NotNull(outputFpsList);
-        }
-
-        [Test]
         public void GetPastCameraRecordsValueByKeyReturnNull()
         {
             // Arrange
@@ -106,21 +61,6 @@ namespace Challange.UnitTests.Entity
 
             // Assert
             Assert.Null(outputFpsList);
-        }
-
-        [Test]
-        public void GetFutureCameraRecordsValueByKeyReturnProperValue()
-        {
-            // Arrange
-            AddFpsToList();
-            var futureCameraRecords = buffer.FutureCameraRecords;
-
-            // Act
-            AddNewFutureCameraRecord("key");
-            List<Fps> outputFpsList = buffer.GetFutureCameraRecordsValueByKey("key");
-
-            // Assert
-            Assert.NotNull(outputFpsList);
         }
 
         [Test]
@@ -138,21 +78,6 @@ namespace Challange.UnitTests.Entity
         }
 
         [Test]
-        public void GetFirstPastValueReturnsFirstValue()
-        {
-            // Arrange
-            AddFpsToList();
-            var pastCameraRecords = buffer.PastCameraRecords;
-
-            // Act
-            AddNewPastCameraRecord("key");
-            List<Fps> outputFpsList = buffer.GetFirstPastValue();
-
-            // Assert
-            Assert.NotNull(outputFpsList);
-        }
-
-        [Test]
         public void GetFirstPastValueReturnsEmptyListAsDefaultValue()
         {
             // Arrange
@@ -164,21 +89,6 @@ namespace Challange.UnitTests.Entity
 
             // Assert
             Assert.IsEmpty(outputFpsList);
-        }
-
-        [Test]
-        public void GetFirstFutureValueReturnsFirstValue()
-        {
-            // Arrange
-            AddFpsToList();
-            var futureCameraRecords = buffer.FutureCameraRecords;
-
-            // Act
-            AddNewFutureCameraRecord("key");
-            List<Fps> outputFpsList = buffer.GetFirstFutureValue();
-
-            // Assert
-            Assert.NotNull(outputFpsList);
         }
 
         [Test]
@@ -204,16 +114,6 @@ namespace Challange.UnitTests.Entity
         {
             AddFrame();
             fpsList.Add(fps);
-        }
-
-        private void AddNewPastCameraRecord(string key)
-        {
-            buffer.AddNewPastCameraRecord(key, fpsList);
-        }
-
-        private void AddNewFutureCameraRecord(string key)
-        {
-            buffer.AddNewFutureCameraRecord(key, fpsList);
         }
 
         private List<Fps> GetValueFromDictionary(string key, Dictionary<string, List<Fps>> dictionary)

@@ -35,8 +35,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private InternalChallengeTimer internalChallengeTimer;
         private ChallengeObject challenge;
 
-        private Dictionary<string, string> camerasNames;
-
         public MainPresenter(IApplicationController controller,
                              IMainView mainView) : 
                              base(controller, mainView)

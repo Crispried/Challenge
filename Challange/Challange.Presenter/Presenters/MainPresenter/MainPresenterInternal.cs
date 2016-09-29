@@ -185,9 +185,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void BindPlayersToCameras()
         {
             Queue<string> camerasNames = new Queue<string>();
-            foreach (Camera camera in camerasContainer.GetCameras)
+            foreach (string cameraName in camerasContainer.GetCamerasFullNames)
             {
-                camerasNames.Enqueue(camera.FullName);
+                camerasNames.Enqueue(cameraName);
             }
             View.BindPlayersToCameras(camerasNames);
         }
@@ -326,7 +326,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void WriteChallangeAsVideo()
         {
             var pathToChallenge = challenge.GetChallengeDirectoryPath;
-            var challengeWriter = new ChallengeWriter(challengeBuffers, camerasNames, pathToChallenge);
+            var challengeWriter = new ChallengeWriter(challengeBuffers,
+                                 camerasContainer, pathToChallenge);
             challengeWriter.WriteChallenge();
             challengeBuffers.ClearBuffers();
         }

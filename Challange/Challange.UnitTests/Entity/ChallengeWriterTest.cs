@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static PylonC.NETSupportLibrary.DeviceEnumerator;
 using System.Drawing;
+using PylonC.NET;
 
 namespace Challange.UnitTests.Entity
 {
@@ -17,36 +18,47 @@ namespace Challange.UnitTests.Entity
         // private Dictionary<string, List<Fps>> pastCameraRecords;
         private CamerasContainer camerasContainer;
         private ChallengeBuffers challengeBuffers;
+        private FpsContainer fpsContainer;
         private int maxElementsInPastCollection = 10;
         private int maxElementsInFutureCollection = 10;
         private Dictionary<string, string> camerasNames;
         private ChallengeWriter challengeWriter;
         string pathToVideos = "test";
-        List<Fps> fpsList;
         Fps fpsItem;
         Bitmap bitmap;
 
         [SetUp]
         public void SetUp()
         {
-            camerasInfo = InitializeCamerasInfo();
+            camerasInfo = new List<Device>()
+            {
+                new Device()
+                {
+                    FullName = "camera1"
+                },
+                new Device()
+                {
+                    FullName = "camera2"
+                }
+            };
             // pastCameraRecords = InitializePastCameraRecords();
             camerasContainer = new CamerasContainer(camerasInfo);
             challengeBuffers = new ChallengeBuffers(camerasContainer, maxElementsInPastCollection,
                                                                         maxElementsInFutureCollection);
+            fpsContainer = new FpsContainer(camerasContainer.GetCamerasFullNames);
 
-            fpsList = new List<Fps>();
-            fpsItem = new Fps();
+
             bitmap = new Bitmap(@"bitmap/bitmap.jpg");
-
+            fpsItem = fpsContainer.GetFpsByKey("camera1");
             fpsItem.AddFrame(bitmap);
-            fpsList.Add(fpsItem);
+            fpsItem = fpsContainer.GetFpsByKey("camera2");
+            fpsItem.AddFrame(bitmap);
 
-            challengeBuffers.AddNewPastCameraRecord("pastKey", fpsList);
-            challengeBuffers.AddNewFutureCameraRecord("futureKey", fpsList);
+            challengeBuffers.AddPastFpses(fpsContainer);
+            challengeBuffers.AddFutureFpses(fpsContainer);
 
             camerasNames = InitializeCamerasNames();
-            challengeWriter = new ChallengeWriter(challengeBuffers, camerasNames, pathToVideos);
+            challengeWriter = new ChallengeWriter(challengeBuffers, camerasContainer, pathToVideos);
         }
 
         [Test]
@@ -66,15 +78,6 @@ namespace Challange.UnitTests.Entity
             camerasNames.Add("cameraOne", "valueOne");
 
             return camerasNames;
-        }
-
-        private Dictionary<string, List<Fps>> InitializePastCameraRecords()
-        {
-            Dictionary<string, List<Fps>> records = new Dictionary<string, List<Fps>>();
-            
-            records.Add("CameraOne", fpsList);
-
-            return records;
         }
     }
 }

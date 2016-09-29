@@ -70,6 +70,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\ICamerasContainer.cs" />
     <Compile Include="Abstract\IChallengeBuffer.cs" />
     <Compile Include="Entities\ChallengeObject.cs" />
     <Compile Include="Entities\ChallengeBuffers.cs" />

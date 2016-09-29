@@ -13,10 +13,6 @@ namespace Challange.Domain.Abstract
 
         Dictionary<string, List<Fps>> FutureCameraRecords { get; }
 
-        void AddNewPastCameraRecord(string key, List<Fps> value);
-
-        void AddNewFutureCameraRecord(string key, List<Fps> value);
-
         List<Fps> GetPastCameraRecordsValueByKey(string key);
 
         List<Fps> GetFutureCameraRecordsValueByKey(string key);

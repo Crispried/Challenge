@@ -16,8 +16,6 @@ namespace Challange.Domain.Entities
         private int maxElementsInPastCollection;
         private int maxElementsInFutureCollection;
 
-       // private IChallengeSettings challengeSettings;
-
         public ChallengeBuffers(CamerasContainer camerasContainer,
             int maxElementsInPastCollection, int maxElementsInFutureCollection)
         {
@@ -42,12 +40,12 @@ namespace Challange.Domain.Entities
             }
         }
 
-        public void AddNewPastCameraRecord(string key, List<Fps> value)
+        private void AddNewPastCameraRecord(string key, List<Fps> value)
         {
             AddNewRecord(key, value, pastCameraRecords);
         }
 
-        public void AddNewFutureCameraRecord(string key, List<Fps> value)
+        private void AddNewFutureCameraRecord(string key, List<Fps> value)
         {
             AddNewRecord(key, value, futureCameraRecords);
         }
@@ -185,14 +183,14 @@ namespace Challange.Domain.Entities
         private void InitializeBuffers(CamerasContainer camerasContainer)
         {
             pastCameraRecords = new Dictionary<string, List<Fps>>();
-            foreach (Camera camera in camerasContainer.GetCameras)
+            foreach (string key in camerasContainer.GetCamerasKeys)
             {
-                pastCameraRecords.Add(camera.FullName, new List<Fps>());
+                pastCameraRecords.Add(key, new List<Fps>());
             }
             futureCameraRecords = new Dictionary<string, List<Fps>>();
-            foreach (Camera camera in camerasContainer.GetCameras)
+            foreach (string key in camerasContainer.GetCamerasKeys)
             {
-                futureCameraRecords.Add(camera.FullName, new List<Fps>());
+                futureCameraRecords.Add(key, new List<Fps>());
             }
         }
     }
