@@ -10,7 +10,7 @@ using static PylonC.NETSupportLibrary.DeviceEnumerator;
 
 namespace Challange.UnitTests.Entity
 {
-    class ChallengeBuffersTest
+    class ChallengeBuffersTest : TestCase
     {
         private Fps fps;
         private List<Fps> fpsList;
@@ -21,6 +21,8 @@ namespace Challange.UnitTests.Entity
         private List<Device> camerasInfo;
         private int maxElementsInPastCollection;
         private int maxElementsInFutureCollection;
+        private string imagePath = @"bitmap\bitmap.jpg";
+        private string key = "key";
 
         [SetUp]
         public void SetUp()
@@ -28,7 +30,7 @@ namespace Challange.UnitTests.Entity
             camerasInfo = InitializeCamerasInfo();
             fps = new Fps();
             fpsList = new List<Fps>();
-            bitmap = new Bitmap(@"bitmap\bitmap.jpg");
+            bitmap = new Bitmap(imagePath);
             camera = new CamerasContainer(camerasInfo);
             maxElementsInPastCollection = 10;
             maxElementsInFutureCollection = 10;
@@ -36,17 +38,6 @@ namespace Challange.UnitTests.Entity
                         maxElementsInPastCollection,
                         maxElementsInFutureCollection);
             outputFpsList = new List<Fps>();
-        }
-
-        private List<Device> InitializeCamerasInfo()
-        {
-            List<Device> camerasInfo = new List<Device>();
-            Device item = new Device();
-            item.FullName = "FullName:port";
-            item.Name = "Name";
-            camerasInfo.Add(item);
-
-            return camerasInfo;
         }
 
         [Test]
@@ -57,8 +48,8 @@ namespace Challange.UnitTests.Entity
             var pastCameraRecords = buffer.PastCameraRecords;
 
             // Act
-            AddNewPastCameraRecord("key");
-            List<Fps> outputFpsList = GetValueFromDictionary("key", pastCameraRecords);
+            AddNewPastCameraRecord(key);
+            List<Fps> outputFpsList = GetValueFromDictionary(key, pastCameraRecords);
 
             // Assert
             Assert.NotNull(outputFpsList);
@@ -72,8 +63,8 @@ namespace Challange.UnitTests.Entity
             var futureCameraRecords = buffer.FutureCameraRecords;
 
             // Act
-            AddNewFutureCameraRecord("key");
-            List<Fps> outputFpsList = GetValueFromDictionary("key", futureCameraRecords);
+            AddNewFutureCameraRecord(key);
+            List<Fps> outputFpsList = GetValueFromDictionary(key, futureCameraRecords);
 
             // Assert
             Assert.NotNull(outputFpsList);
@@ -87,8 +78,8 @@ namespace Challange.UnitTests.Entity
             var pastCameraRecords = buffer.PastCameraRecords;
 
             // Act
-            AddNewPastCameraRecord("key");
-            List<Fps> outputFpsList = buffer.GetPastCameraRecordsValueByKey("key");
+            AddNewPastCameraRecord(key);
+            List<Fps> outputFpsList = buffer.GetPastCameraRecordsValueByKey(key);
 
             // Assert
             Assert.NotNull(outputFpsList);
@@ -102,7 +93,7 @@ namespace Challange.UnitTests.Entity
             var pastCameraRecords = buffer.PastCameraRecords;
 
             // Act
-            List<Fps> outputFpsList = buffer.GetPastCameraRecordsValueByKey("key");
+            List<Fps> outputFpsList = buffer.GetPastCameraRecordsValueByKey(key);
 
             // Assert
             Assert.Null(outputFpsList);
@@ -116,8 +107,8 @@ namespace Challange.UnitTests.Entity
             var futureCameraRecords = buffer.FutureCameraRecords;
 
             // Act
-            AddNewFutureCameraRecord("key");
-            List<Fps> outputFpsList = buffer.GetFutureCameraRecordsValueByKey("key");
+            AddNewFutureCameraRecord(key);
+            List<Fps> outputFpsList = buffer.GetFutureCameraRecordsValueByKey(key);
 
             // Assert
             Assert.NotNull(outputFpsList);
@@ -131,7 +122,7 @@ namespace Challange.UnitTests.Entity
             var futureCameraRecords = buffer.FutureCameraRecords;
 
             // Act
-            List<Fps> outputFpsList = buffer.GetFutureCameraRecordsValueByKey("key");
+            List<Fps> outputFpsList = buffer.GetFutureCameraRecordsValueByKey(key);
 
             // Assert
             Assert.Null(outputFpsList);
@@ -145,7 +136,7 @@ namespace Challange.UnitTests.Entity
             var pastCameraRecords = buffer.PastCameraRecords;
 
             // Act
-            AddNewPastCameraRecord("key");
+            AddNewPastCameraRecord(key);
             List<Fps> outputFpsList = buffer.GetFirstPastValue();
 
             // Assert
@@ -174,8 +165,8 @@ namespace Challange.UnitTests.Entity
             var futureCameraRecords = buffer.FutureCameraRecords;
 
             // Act
-            AddNewFutureCameraRecord("key");
-            List<Fps> outputFpsList = buffer.GetFirstFutureValue();
+            AddNewFutureCameraRecord(key);
+            List <Fps> outputFpsList = buffer.GetFirstFutureValue();
 
             // Assert
             Assert.NotNull(outputFpsList);

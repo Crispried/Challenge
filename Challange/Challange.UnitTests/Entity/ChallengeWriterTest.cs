@@ -21,7 +21,7 @@ namespace Challange.UnitTests.Entity
         private int maxElementsInFutureCollection = 10;
         private Dictionary<string, string> camerasNames;
         private ChallengeWriter challengeWriter;
-        string pathToVideos = "test";
+        private string pathToVideos = "test";
         List<Fps> fpsList;
         Fps fpsItem;
         Bitmap bitmap;

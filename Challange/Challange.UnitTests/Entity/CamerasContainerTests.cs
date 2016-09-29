@@ -17,12 +17,13 @@ namespace Challange.UnitTests.Entity
         private PylonCamera camera;
         private CamerasContainer container;
         private List<Device> camerasInfo;
+        private string pylonCameraName = "Pylon Camera";
 
         [SetUp]
         public void SetUp()
         {
             camerasInfo = InitializeCamerasInfo();
-            camera = new PylonCamera(1, "Pylon Camera");
+            camera = new PylonCamera(1, pylonCameraName);
             container = new CamerasContainer(camerasInfo);
         }
 

@@ -33,7 +33,8 @@ namespace Challange.UnitTests.Entity
             SetUpDate();
 
             // Act
-            string expectedDirectoryName = firstTeamName + "_vs_" + secondTeamName + "(" + date + ")";
+            string expectedDirectoryName = firstTeamName + "_vs_" + 
+                                                secondTeamName + "(" + date + ")";
 
             // Assert
             Assert.AreEqual(expectedDirectoryName, GetFormattedDirectoryName());

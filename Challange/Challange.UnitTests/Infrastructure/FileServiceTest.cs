@@ -14,23 +14,25 @@ namespace Challange.UnitTests.Infrastructure
     [TestFixture]
     class FileServiceTest : TestCase
     {
+        private string folderName;
+
         [SetUp]
         public void SetUp()
         {
-
+            folderName = "folder:name";
         }
 
         [Test]
         public void FilterFolderNameReplacement()
         {
             // Arrange
-            string name = "folder:name";
 
             // Act
-            string filtered = FilterFolderName(name);
+            string filtered = FilterFolderName(folderName);
+            string expected = "folder_name";
 
             // Assert
-            Assert.AreEqual("folder_name", filtered);
+            Assert.AreEqual(expected, filtered);
         }
 
         private string FilterFolderName(string name)

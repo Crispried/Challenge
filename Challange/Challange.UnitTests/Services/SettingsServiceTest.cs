@@ -30,7 +30,7 @@ namespace Challange.UnitTests.Services
         public void SaveSettingInvokesMethodFromParser()
         {
             // Arrange
-            settingService.SaveSetting(settings);
+            SaveSettings();
 
             // Act
             // Assert
@@ -41,11 +41,21 @@ namespace Challange.UnitTests.Services
         public void GetSettingInvokesMethodFromParser()
         {
             // Arrange
-            settingService.GetSetting();
+            GetSettings();
 
             // Act
             // Assert
             settingParser.Received().GetSettings();
+        }
+
+        private void SaveSettings()
+        {
+            settingService.SaveSetting(settings);
+        }
+
+        private void GetSettings()
+        {
+            settingService.GetSetting();
         }
     }
 }
