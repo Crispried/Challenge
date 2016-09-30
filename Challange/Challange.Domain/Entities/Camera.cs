@@ -4,10 +4,11 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Challange.Domain.Abstract;
 
 namespace Challange.Domain.Entities
 {
-    public abstract class Camera
+    public abstract class Camera : ICamera
     {
         protected Bitmap currentFrame;
         /// <summary>

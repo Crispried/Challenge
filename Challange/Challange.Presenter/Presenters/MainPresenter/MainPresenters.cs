@@ -1,4 +1,5 @@
-﻿using Challange.Domain.Entities;
+﻿using Challange.Domain.Abstract;
+using Challange.Domain.Entities;
 using Challange.Domain.Infrastructure;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
@@ -57,7 +58,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             string cameraName = View.CurrentFrameInfo.Item1;
             Bitmap currentFrame = View.CurrentFrameInfo.Item2;
-            Fps tempFPS = fpsContainer.GetFpsByKey(cameraName);
+            IFps tempFPS = fpsContainer.GetFpsByKey(cameraName);
             tempFPS.AddFrame(currentFrame);
         }
 

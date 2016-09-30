@@ -7,12 +7,13 @@ using NUnit.Framework;
 using Challange.Domain.Entities;
 using System.Drawing;
 using static PylonC.NETSupportLibrary.DeviceEnumerator;
+using Challange.Domain.Abstract;
 
 namespace Challange.UnitTests.Entity
 {
     class ChallengeBuffersTest : TestCase
     {
-        private Fps fps;
+        private IFps fps;
         private FpsContainer fpsContainer;
         private Bitmap bitmap;
         private CamerasContainer camerasContainer;
@@ -51,8 +52,8 @@ namespace Challange.UnitTests.Entity
         {
             // Arrange
             // Act
-            List<Fps> outputFpsList1 = buffers.GetPastCameraRecordsValueByKey(key1);
-            List<Fps> outputFpsList2 = buffers.GetPastCameraRecordsValueByKey(key1);
+            List<IFps> outputFpsList1 = buffers.GetPastCameraRecordsValueByKey(key1);
+            List<IFps> outputFpsList2 = buffers.GetPastCameraRecordsValueByKey(key1);
             // Assert
             Assert.NotNull(outputFpsList1);
             Assert.NotNull(outputFpsList2);
@@ -63,9 +64,9 @@ namespace Challange.UnitTests.Entity
         {
             // Arrange
             // Act
-            List<Fps> outputFpsList1 =
+            List<IFps> outputFpsList1 =
                 buffers.GetPastCameraRecordsValueByKey(incorrectKey1);
-            List<Fps> outputFpsList2 =
+            List<IFps> outputFpsList2 =
                 buffers.GetPastCameraRecordsValueByKey(incorrectKey2);
             // Assert
             Assert.Null(outputFpsList1);
@@ -77,8 +78,8 @@ namespace Challange.UnitTests.Entity
         {
             // Arrange
             // Act
-            List<Fps> outputFpsList1 = buffers.GetFutureCameraRecordsValueByKey(key1);
-            List<Fps> outputFpsList2 = buffers.GetFutureCameraRecordsValueByKey(key2);
+            List<IFps> outputFpsList1 = buffers.GetFutureCameraRecordsValueByKey(key1);
+            List<IFps> outputFpsList2 = buffers.GetFutureCameraRecordsValueByKey(key2);
             // Assert
             Assert.NotNull(outputFpsList1);
             Assert.NotNull(outputFpsList2);
@@ -89,9 +90,9 @@ namespace Challange.UnitTests.Entity
         {
             // Arrange
             // Act
-            List<Fps> outputFpsList1 =
+            List<IFps> outputFpsList1 =
                 buffers.GetFutureCameraRecordsValueByKey(incorrectKey1);
-            List<Fps> outputFpsList2 =
+            List<IFps> outputFpsList2 =
                 buffers.GetFutureCameraRecordsValueByKey(incorrectKey2);
             // Assert
             Assert.Null(outputFpsList1);
@@ -103,7 +104,7 @@ namespace Challange.UnitTests.Entity
         {
             // Arrange
             // Act
-            List<Fps> outputFpsList = buffers.GetFirstPastValue();
+            List<IFps> outputFpsList = buffers.GetFirstPastValue();
             // Assert
             Assert.True(outputFpsList ==
                 buffers.PastCameraRecords.Values.ElementAt(0));
@@ -114,7 +115,7 @@ namespace Challange.UnitTests.Entity
         {
             // Arrange
             // Act
-            List <Fps> outputFpsList = buffers.GetFirstFutureValue();
+            List <IFps> outputFpsList = buffers.GetFirstFutureValue();
 
             // Assert
             Assert.True(outputFpsList ==

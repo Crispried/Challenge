@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using Challange.Domain.Entities;
 using System.Drawing;
+using Challange.Domain.Abstract;
 
 namespace Challange.UnitTests.Entity
 {
     [TestFixture]
     class VideoTest
     {
-        private List<Fps> fpsList;
+        private List<IFps> fpsList;
         private string bitmapPath;
 
         [SetUp]
@@ -34,13 +35,13 @@ namespace Challange.UnitTests.Entity
             Assert.AreEqual(1, video.FpsValue);
         }
 
-        private List<Fps> InitializeFpsList()
+        private List<IFps> InitializeFpsList()
         {
             Fps frame = new Fps();
             Bitmap bitmap = new Bitmap(bitmapPath);
             frame.AddFrame(bitmap);
 
-            List<Fps> fpsList = new List<Fps>();
+            List<IFps> fpsList = new List<IFps>();
             fpsList.Add(frame);
 
             return fpsList;

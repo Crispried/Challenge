@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using static PylonC.NETSupportLibrary.DeviceEnumerator;
 using System.Drawing;
 using PylonC.NET;
+using Challange.Domain.Abstract;
 
 namespace Challange.UnitTests.Entity
 {
@@ -23,7 +24,7 @@ namespace Challange.UnitTests.Entity
         private Dictionary<string, string> camerasNames;
         private ChallengeWriter challengeWriter;
         private string pathToVideos = "test";
-        private Fps fpsItem;
+        private IFps fpsItem;
         private Bitmap bitmap;
 
         [SetUp]
@@ -35,9 +36,9 @@ namespace Challange.UnitTests.Entity
                                                                         maxElementsInFutureCollection);
             fpsContainer = new FpsContainer(camerasContainer.GetCamerasKeys);
             bitmap = new Bitmap(@"bitmap/bitmap.jpg");
-            fpsItem = fpsContainer.GetFpsByKey("fullName1");
+            fpsItem = fpsContainer.GetFpsByKey("FullName1");
             fpsItem.AddFrame(bitmap);
-            fpsItem = fpsContainer.GetFpsByKey("fullName2");
+            fpsItem = fpsContainer.GetFpsByKey("FullName2");
             fpsItem.AddFrame(bitmap);
 
             challengeBuffers.AddPastFpses(fpsContainer);

@@ -74,7 +74,7 @@ namespace Challange.Domain.Entities
         private List<Video> UnitePastAndFutureFrames()
         {
             var videos = new List<Video>();
-            List<Fps> tempVideoFrames;
+            List<IFps> tempVideoFrames;
             string currentVideoName;
             foreach (var pastFrames in challengeBuffers.PastCameraRecords)
             {
@@ -82,7 +82,7 @@ namespace Challange.Domain.Entities
                 {
                     if (pastFrames.Key == futureFrames.Key)
                     {
-                        tempVideoFrames = new List<Fps>();
+                        tempVideoFrames = new List<IFps>();
                         tempVideoFrames.AddRange(pastFrames.Value);
                         tempVideoFrames.AddRange(futureFrames.Value);
                         currentVideoName = 
