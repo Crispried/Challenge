@@ -28,14 +28,12 @@ namespace Challange.UnitTests.Entity
         }
 
         [Test]
-        public void GetCamerasReturnsOneIfNoCamerasPresented()
+        public void GetCamerasReturnsProperNumber()
         {
             // Arrange
-
             // Act
-
             // Assert
-            Assert.AreEqual(1, container.GetCameras.Count);
+            Assert.AreEqual(2, container.CamerasNumber);
         }
 
         [Test]
@@ -48,7 +46,7 @@ namespace Challange.UnitTests.Entity
             AddCamera(container, camera);
 
             // Assert
-            Assert.AreEqual(3, container.GetCameras.Count);
+            Assert.AreEqual(4, container.CamerasNumber);
         }
 
         [Test]
@@ -60,7 +58,7 @@ namespace Challange.UnitTests.Entity
             AddCamera(container, camera);
 
             // Assert
-            Assert.AreEqual(2, container.GetCameras.Count);
+            Assert.AreEqual(container.GetCameras.ElementAt(2), camera);
         }
 
         [Test]
@@ -73,7 +71,7 @@ namespace Challange.UnitTests.Entity
             RemoveCamera(container, camera);
 
             // Assert
-            Assert.AreEqual(1, container.GetCameras.Count);
+            Assert.AreEqual(2, container.CamerasNumber);
         }
 
         private void AddCamera(CamerasContainer container, PylonCamera camera)

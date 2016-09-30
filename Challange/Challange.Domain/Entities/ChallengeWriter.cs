@@ -15,15 +15,15 @@ namespace Challange.Domain.Entities
         private string pathToVideos;
         private int width;
         private int height;
-        private Dictionary<string, string> camerasNames;
+        private ICamerasContainer camerasContainer;
 
         private IChallengeBuffer challengeBuffers;
 
-        public ChallengeWriter(IChallengeBuffer challengeBuffers, Dictionary<string, string> camerasNames, 
-                                                        string pathToVideos)
+        public ChallengeWriter(IChallengeBuffer challengeBuffers,
+            ICamerasContainer camerasContainer, string pathToVideos)
         {
             this.challengeBuffers = challengeBuffers;
-            this.camerasNames = camerasNames;
+            this.camerasContainer = camerasContainer;
             this.pathToVideos = pathToVideos;
             this.videos = UnitePastAndFutureFrames();
             this.width = GetWidth();
@@ -85,8 +85,8 @@ namespace Challange.Domain.Entities
                         tempVideoFrames = new List<Fps>();
                         tempVideoFrames.AddRange(pastFrames.Value);
                         tempVideoFrames.AddRange(futureFrames.Value);
-                        camerasNames.TryGetValue(
-                                pastFrames.Key, out currentVideoName);
+                        currentVideoName = 
+                            camerasContainer.GetCameraNameByKey(pastFrames.Key);
                         videos.Add(new Video(currentVideoName, tempVideoFrames));
                         break;
                     }

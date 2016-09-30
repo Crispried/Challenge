@@ -1,4 +1,5 @@
-﻿using Challange.Domain.Services.StreamProcess.Abstract;
+﻿using Challange.Domain.Abstract;
+using Challange.Domain.Services.StreamProcess.Abstract;
 using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 using System;
 using System.Collections.Generic;
@@ -9,14 +10,14 @@ using static PylonC.NETSupportLibrary.DeviceEnumerator;
 
 namespace Challange.Domain.Entities
 {
-    public class CamerasContainer
+    public class CamerasContainer : ICamerasContainer
     {
         private List<Camera> camerasContainer;
-        private List<Device> camerasInfo;
+        private List<Device> deviceList;
 
-        public CamerasContainer(List<Device> camerasInfo)
+        public CamerasContainer(List<Device> deviceList)
         {
-            this.camerasInfo = camerasInfo;
+            this.deviceList = deviceList;
             camerasContainer = new List<Camera>();
             InitializeCameras();
         }
@@ -24,14 +25,14 @@ namespace Challange.Domain.Entities
         private void InitializeCameras()
         {
             PylonCamera tmpCamera;
-            foreach (var cameraInfo in camerasInfo)
+            foreach (var cameraInfo in deviceList)
             {
                 tmpCamera = new PylonCamera(cameraInfo.Index, cameraInfo.FullName);
                 AddCamera(tmpCamera);
             }
         }
 
-        public int Count
+        public int CamerasNumber
         {
             get
             {
@@ -47,17 +48,45 @@ namespace Challange.Domain.Entities
             }
         }
 
-        public List<string> GetCamerasFullNames
+        public List<string> GetCamerasKeys
         {
             get
             {
-                List<string> camerasFullNames = new List<string>();
-                foreach (Camera camera in camerasContainer)
+                List<string> camerasKeys = new List<string>();
+                foreach (var camera in camerasContainer)
                 {
-                    camerasFullNames.Add(camera.FullName);
+                    camerasKeys.Add(camera.FullName);
                 }
-                return camerasFullNames;
+                return camerasKeys;
             }
+        }
+
+        public List<string> GetCamerasNames
+        {
+            get
+            {
+                List<string> camerasNames = new List<string>();
+                foreach (var camera in camerasContainer)
+                {
+                    camerasNames.Add(camera.Name);
+                }
+                return camerasNames;
+            }
+        }
+
+        public void SetCameraName(string fullName, string cameraName)
+        {
+            var camera = camerasContainer.Find(cam => cam.FullName == fullName);
+            if(camera != null)
+            {
+                camera.Name = cameraName;
+            }
+        }
+
+        public string GetCameraNameByKey(string fullName)
+        {
+            var camera = camerasContainer.Find(cam => cam.FullName == fullName);
+            return camera.Name;
         }
 
         public void AddCamera(Camera camera)

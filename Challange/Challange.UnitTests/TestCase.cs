@@ -45,12 +45,16 @@ namespace Challange.UnitTests
         protected List<Device> InitializeCamerasInfo()
         {
             List<Device> camerasInfo = new List<Device>();
-            Device item = new Device();
-            item.FullName = "FullName:port";
-            item.Name = "Name";
-            item.Index = 1;
-            camerasInfo.Add(item);
-
+            Device item1 = new Device();
+            item1.FullName = "FullName1";
+            item1.Name = "Name1";
+            item1.Index = 1;
+            Device item2 = new Device();
+            item2.FullName = "FullName2";
+            item2.Name = "Name2";
+            item2.Index = 1;
+            camerasInfo.Add(item1);
+            camerasInfo.Add(item2);
             return camerasInfo;
         }
     }

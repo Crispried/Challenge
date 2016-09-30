@@ -7,20 +7,22 @@ using Challange.Domain.Entities;
 using NUnit.Framework;
 using System.Timers;
 using System.Reflection;
+using System.Threading;
 
 namespace Challange.UnitTests.Entity
 {
     [TestFixture]
     class EventSubscriberTest
     {
-        private Timer timer;
+        private System.Timers.Timer timer;
         private bool eventWasRaised;
-        private Delegate timerEventHandler;
+        private double interval;
 
         [SetUp]
         public void SetUp()
         {
-            timer = new Timer(10);
+            interval = 100;
+            timer = new System.Timers.Timer(interval);
             timer.Start();
         }
 
@@ -30,43 +32,22 @@ namespace Challange.UnitTests.Entity
             // Arrange
             eventWasRaised = false;
             // Act
-            AddEventHandler();
+            var handler = AddEventHandler();
             // Assert
-            while (true)
-            {
-                if (eventWasRaised)
-                {
-                    break;
-                }
-            }
+            Thread.Sleep(Convert.ToInt16(interval * 2));
             Assert.True(eventWasRaised);
+            timer.Enabled = false;
         }
 
         [Test]
         public void UnsubscribeFromEvent()
         {
-            // Arrange
-            timer = new Timer(1);
-            timer.Start();
+            // Arrange           
             // Act
-            var timerEventHandler = EventSubscriber.AddEventHandler(timer,
-                    "Elapsed", TimerElapsed);
-            for (int i = 0; i < 10000000; i++)
-            {
-                if (eventWasRaised)
-                {
-                    break;
-                }
-            }
-            EventSubscriber.RemoveEventHandler(timer, "Elapsed", timerEventHandler);
+            var handler = AddEventHandler();
+            RemoveEventHandler(handler);
             eventWasRaised = false;
-            for (int i = 0; i < 100000; i++)
-            {
-                if (eventWasRaised)
-                {
-                    break;
-                }
-            }
+            Thread.Sleep(Convert.ToInt16(interval*2));
             // Assert
             Assert.False(eventWasRaised);
         }
@@ -76,15 +57,16 @@ namespace Challange.UnitTests.Entity
             eventWasRaised = true;
         }
 
-        private void AddEventHandler()
+        private Delegate AddEventHandler()
         {
-            timerEventHandler = EventSubscriber.AddEventHandler(timer,
+            var timerEventHandler = EventSubscriber.AddEventHandler(timer,
                                 "Elapsed", TimerElapsed);
+            return timerEventHandler;
         }
 
-        private void RemoveEventHandler()
+        private void RemoveEventHandler(Delegate handler)
         {
-            EventSubscriber.RemoveEventHandler(timer, "Elapsed", timerEventHandler);
+            EventSubscriber.RemoveEventHandler(timer, "Elapsed", handler);
         }
     }
 }

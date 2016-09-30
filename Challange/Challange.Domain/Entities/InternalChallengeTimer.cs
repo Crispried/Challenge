@@ -16,7 +16,7 @@ namespace Challange.Domain.Entities
         public InternalChallengeTimer(double interval, bool autoReset)
         {
             timer = new Timer(interval);
-            this.autoReset = autoReset;
+            timer.AutoReset = autoReset;
         }
 
         public Delegate TimerElapsedEventHandler
@@ -41,7 +41,6 @@ namespace Challange.Domain.Entities
 
         public void Start()
         {
-            timer.AutoReset = autoReset;
             timer.Start();
         }
 

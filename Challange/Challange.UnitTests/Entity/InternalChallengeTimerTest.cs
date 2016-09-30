@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Challange.UnitTests.Entity
@@ -11,18 +12,19 @@ namespace Challange.UnitTests.Entity
     [TestFixture]
     class InternalChallengeTimerTest
     {
-        InternalChallengeTimer internalChallengeTimer;
-        bool timerHandlerWasInvoked;
-        double interval;
-        bool autoReset;
+        private InternalChallengeTimer internalChallengeTimer;
+        private bool timerHandlerWasInvoked;
+        private double interval;
+        private bool autoReset;
 
         [SetUp]
         public void SetUp()
         {
-            interval = 0.1;
+            interval = 100;
             autoReset = true;
             internalChallengeTimer =
                     new InternalChallengeTimer(interval, autoReset);
+            internalChallengeTimer.Start();
         }
 
         [Test]
@@ -31,38 +33,29 @@ namespace Challange.UnitTests.Entity
             // Arrange
             timerHandlerWasInvoked = false;
             // Act
-            TimerStart();
             internalChallengeTimer.EnableTimerEvent(TimerHandler);
-            while (true)
-            {
-                if (timerHandlerWasInvoked)
-                {
-                    break;
-                }
-            }
             // Assert
-            Assert.IsTrue(timerHandlerWasInvoked);
+            Thread.Sleep(Convert.ToInt16(interval * 2));
+            Assert.True(timerHandlerWasInvoked);
+            internalChallengeTimer.Timer.Enabled = false;
         }
 
-        //[Test]
-        //public void DisableTimerEventTest()
-        //{
-        //    // Arrange
-        //    timerHandlerWasInvoked = false;
-        //    // Act
-        //    internalChallengeTimer.EnableTimerEvent(TimerHandler);
-        //    internalChallengeTimer.DisableTimerEvent();
-        //    while (timerHandlerWasInvoked)
-        //    {
-
-        //    }
-        //    // Assert
-        //    Assert.IsFalse(timerHandlerWasInvoked);
-        //}
+        [Test]
+        public void DisableTimerEventTest()
+        {
+            // Arrange           
+            // Act
+            internalChallengeTimer.EnableTimerEvent(TimerHandler);
+            internalChallengeTimer.DisableTimerEvent();
+            timerHandlerWasInvoked = false;
+            Thread.Sleep(Convert.ToInt16(interval * 2));
+            // Assert
+            Assert.False(timerHandlerWasInvoked);
+        }
 
         private void TimerHandler()
         {
-            timerHandlerWasInvoked = !timerHandlerWasInvoked;
+            timerHandlerWasInvoked = true;
         }
 
         private void TimerStart()

@@ -28,28 +28,10 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             if (challengeBuffers.HaveToRemovePastFps())
             {
-                RemoveFirstFpsFromPastBuffer();
+                challengeBuffers.RemoveFirstFpsFromPastBuffer();
             }
             challengeBuffers.AddPastFpses(fpsContainer);
-            InitializeFpsContainer();
-        }
-
-        /// <summary>
-        /// for example our past buffer is only for 20 FPS objects
-        /// so on 21 second we have to remove the first object from this buffer
-        /// </summary>
-        private void RemoveFirstFpsFromPastBuffer()
-        {
-            challengeBuffers.RemoveFirstFpsFromPastBuffer();
-        }
-
-        /// <summary>
-        /// this is temporary object which will keep fps objects
-        /// from all cameras which we create every second
-        /// </summary>
-        private void InitializeFpsContainer()
-        {
-            fpsContainer = new FpsContainer(camerasContainer.GetCamerasFullNames);
+            fpsContainer = new FpsContainer(camerasContainer.GetCamerasNames);
         }
 
         /// <summary>
@@ -60,13 +42,13 @@ namespace Challange.Presenter.Presenters.MainPresenter
             if (challengeBuffers.HaveToAddFutureFps())
             {
                 challengeBuffers.AddFutureFpses(fpsContainer);
-                InitializeFpsContainer();
+                fpsContainer = new FpsContainer(camerasContainer.GetCamerasNames);
             }
             else
             {
                 ChangeActivityOfEventForFutureFrames(false);
                 WriteChallangeAsVideo();
-                InitializeFpsContainer();
+                fpsContainer = new FpsContainer(camerasContainer.GetCamerasNames); ;
                 InitializeChallengeBuffers();
                 ChangeActivityOfEventForPastFrames(true);
             }
@@ -115,14 +97,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
                 internalChallengeTimer.DisableTimerEvent();
                 IsEventForPastFramesActive = false;
             }
-        }
-
-        /// <summary>
-        /// Just initialize GameInformation object
-        /// </summary>
-        private void InitializeGameInformation()
-        {
-            gameInformation = new GameInformation();
         }
 
         /// <summary>
@@ -185,9 +159,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void BindPlayersToCameras()
         {
             Queue<string> camerasNames = new Queue<string>();
-            foreach (Camera camera in camerasContainer.GetCameras)
+            foreach (string cameraName in camerasContainer.GetCamerasNames)
             {
-                camerasNames.Enqueue(camera.FullName);
+                camerasNames.Enqueue(cameraName);
             }
             View.BindPlayersToCameras(camerasNames);
         }
@@ -227,7 +201,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void InitializeInternalTimer()
         {
-            InitializeFpsContainer();
+            fpsContainer = new FpsContainer(camerasContainer.GetCamerasNames);
             internalChallengeTimer = new InternalChallengeTimer(1000, true);
             internalChallengeTimer.Start();
             internalChallengeTimer.EnableTimerEvent(InternalTimerEventForPastFrames);
@@ -326,7 +300,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void WriteChallangeAsVideo()
         {
             var pathToChallenge = challenge.GetChallengeDirectoryPath;
-            var challengeWriter = new ChallengeWriter(challengeBuffers, camerasNames, pathToChallenge);
+            var challengeWriter = new ChallengeWriter(challengeBuffers,
+                                 camerasContainer, pathToChallenge);
             challengeWriter.WriteChallenge();
             challengeBuffers.ClearBuffers();
         }
