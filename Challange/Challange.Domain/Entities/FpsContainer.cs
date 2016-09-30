@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Challange.Domain.Abstract;
 
 namespace Challange.Domain.Entities
 {
     public class FpsContainer
     {
-        private Dictionary<string, Fps> fpses;
+        private Dictionary<string, IFps> fpses;
         private List<string> keys;
 
         public FpsContainer(List<string> keys)
@@ -17,7 +18,7 @@ namespace Challange.Domain.Entities
             InitializeFpses();
         }
 
-        public Dictionary<string, Fps> Fpses
+        public Dictionary<string, IFps> Fpses
         {
             get
             {
@@ -35,17 +36,23 @@ namespace Challange.Domain.Entities
 
         private void InitializeFpses()
         {
-            fpses = new Dictionary<string, Fps>();
+            fpses = new Dictionary<string, IFps>();
             foreach (var key in keys)
             {
                 fpses.Add(key, new Fps());
             }
         }
 
-        public Fps GetFpsByKey(string key)
+        public IFps GetFpsByKey(string key)
         {
-            Fps fps;
+            IFps fps;
             fpses.TryGetValue(key, out fps);
+
+            if(fps == null)
+            {
+                return new NullFps();
+            }
+
             return fps;
         }
     }
