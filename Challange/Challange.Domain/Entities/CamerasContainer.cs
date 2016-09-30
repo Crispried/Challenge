@@ -103,5 +103,13 @@ namespace Challange.Domain.Entities
         {
             return camerasContainer.Count == 0;
         }
+
+        public void StopAllCameras()
+        {
+            foreach (Camera camera in camerasContainer)
+            {
+                camera.Stop();
+            }
+        }
     }
 }

@@ -35,9 +35,9 @@ namespace Challange.UnitTests.Entity
                                                                         maxElementsInFutureCollection);
             fpsContainer = new FpsContainer(camerasContainer.GetCamerasKeys);
             bitmap = new Bitmap(@"bitmap/bitmap.jpg");
-            fpsItem = fpsContainer.GetFpsByKey("fullName1");
+            fpsItem = fpsContainer.GetFpsByKey("FullName1");
             fpsItem.AddFrame(bitmap);
-            fpsItem = fpsContainer.GetFpsByKey("fullName2");
+            fpsItem = fpsContainer.GetFpsByKey("FullName2");
             fpsItem.AddFrame(bitmap);
 
             challengeBuffers.AddPastFpses(fpsContainer);

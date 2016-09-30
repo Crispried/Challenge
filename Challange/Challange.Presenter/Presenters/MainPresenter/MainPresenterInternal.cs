@@ -313,10 +313,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             if (camerasContainer != null)
             {
-                foreach (var camera in camerasContainer.GetCameras)
-                {
-                    camera.Stop();
-                }
+                camerasContainer.StopAllCameras();
             }
             IsCaptureDevicesEnable = false;
         }
