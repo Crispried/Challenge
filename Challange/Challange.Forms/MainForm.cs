@@ -12,6 +12,7 @@ using AForge.Video.DirectShow;
 using System.Reflection;
 using System.ComponentModel;
 using System.Windows;
+using Challange.Domain.Services.Message;
 
 namespace Challange.Forms
 {
@@ -430,6 +431,13 @@ namespace Challange.Forms
             return player.Controls.Cast<TextBox>().FirstOrDefault();
         }
 
+        public void ShowMessage(ChallengeMessage message)
+        {
+            string caption = message.Caption;
+            string text = message.Text;
+            MessageBox.Show(text, caption,
+                message.MessageButtons, message.MessageIcon);
+        }
         #region Messages
         public void ShowChallengeSettingsFileParseProblemError()
         {

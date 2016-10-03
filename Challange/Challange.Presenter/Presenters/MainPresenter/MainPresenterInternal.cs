@@ -1,5 +1,6 @@
 ﻿using Challange.Domain.Entities;
 using Challange.Domain.Infrastructure;
+using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingParser;
 using Challange.Domain.Services.Settings.SettingTypes;
@@ -318,22 +319,10 @@ namespace Challange.Presenter.Presenters.MainPresenter
             IsCaptureDevicesEnable = false;
         }
 
-        #region Show messages
-        private void ShowChallengeSettingsFileParseProblemError()
+        private void ShowMessage(MessageType type)
         {
-            View.ShowChallengeSettingsFileParseProblemError();
+            ChallengeMessage message = MessageParser.GetMessage(type);
+            View.ShowMessage(message);
         }
-
-        private void ShowPlayerPanelSettingsFileParseProblemError()
-        {
-            View.ShowPlayerPanelSettingsFileParseProblemError();
-        }
-
-        private void ShowEmptyDeviceContainerMessage()
-        {
-            View.ShowEmptyDeviceContainerMessage();
-            WasDeviceListEmptyMessageShowed = true;
-        }
-        #endregion
     }
 }

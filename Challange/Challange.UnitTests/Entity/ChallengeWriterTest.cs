@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using static PylonC.NETSupportLibrary.DeviceEnumerator;
 using System.Drawing;
 using PylonC.NET;
+using Challange.Domain.Abstract;
 
 namespace Challange.UnitTests.Entity
 {
@@ -23,7 +24,7 @@ namespace Challange.UnitTests.Entity
         private Dictionary<string, string> camerasNames;
         private ChallengeWriter challengeWriter;
         private string pathToVideos = "test";
-        private Fps fpsItem;
+        private IFps fpsItem;
         private Bitmap bitmap;
 
         [SetUp]

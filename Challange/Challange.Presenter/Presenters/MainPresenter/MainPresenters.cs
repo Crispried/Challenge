@@ -1,5 +1,7 @@
-﻿using Challange.Domain.Entities;
+﻿using Challange.Domain.Abstract;
+using Challange.Domain.Entities;
 using Challange.Domain.Infrastructure;
+using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 using System;
@@ -21,12 +23,12 @@ namespace Challange.Presenter.Presenters.MainPresenter
             if(challengeSettings == null)
             {
                 ChallengeSettingsAreNull = true;
-                ShowChallengeSettingsFileParseProblemError();
+                ShowMessage(MessageType.ChallengeSettingsFileParseProblem);
             }
             else if(playerPanelSettings == null)
             {
                 PlayerPanelSettingsAreNull = true;
-                ShowPlayerPanelSettingsFileParseProblemError();
+                ShowMessage(MessageType.PlayerPanelSettingsFileParseProblem);
             }
             else
             {
@@ -57,7 +59,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             string cameraName = View.CurrentFrameInfo.Item1;
             Bitmap currentFrame = View.CurrentFrameInfo.Item2;
-            Fps tempFPS = fpsContainer.GetFpsByKey(cameraName);
+            IFps tempFPS = fpsContainer.GetFpsByKey(cameraName);
             tempFPS.AddFrame(currentFrame);
         }
 
@@ -107,7 +109,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
             }
             else
             {
-                ShowEmptyDeviceContainerMessage();
+                ShowMessage(MessageType.EmptyDeviceContainer);
             }
         }
 

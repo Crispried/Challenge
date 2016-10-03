@@ -3,6 +3,7 @@ using Challange.Presenter.Base;
 using Challange.Domain.Services.Settings.SettingTypes;
 using System.Drawing;
 using System.Collections.Generic;
+using Challange.Domain.Services.Message;
 
 namespace Challange.Presenter.Views
 {
@@ -54,10 +55,6 @@ namespace Challange.Presenter.Views
 
         void BindPlayersToCameras(Queue<string> camerasNames);
 
-        void ShowEmptyDeviceContainerMessage();
-
-        void ShowChallengeSettingsFileParseProblemError();
-
-        void ShowPlayerPanelSettingsFileParseProblemError();
+        void ShowMessage(ChallengeMessage message);
     }
 }

@@ -11,8 +11,8 @@ namespace Challange.Domain.Entities
 {
     public class ChallengeBuffers : IChallengeBuffer
     {
-        private Dictionary<string, List<Fps>> pastCameraRecords;
-        private Dictionary<string, List<Fps>> futureCameraRecords;
+        private Dictionary<string, List<IFps>> pastCameraRecords;
+        private Dictionary<string, List<IFps>> futureCameraRecords;
         private int maxElementsInPastCollection;
         private int maxElementsInFutureCollection;
 
@@ -24,7 +24,7 @@ namespace Challange.Domain.Entities
             InitializeBuffers(camerasContainer);
         }
 
-        public Dictionary<string, List<Fps>> PastCameraRecords
+        public Dictionary<string, List<IFps>> PastCameraRecords
         {
             get
             {
@@ -32,7 +32,7 @@ namespace Challange.Domain.Entities
             }
         }
 
-        public Dictionary<string, List<Fps>> FutureCameraRecords
+        public Dictionary<string, List<IFps>> FutureCameraRecords
         {
             get
             {
@@ -40,22 +40,22 @@ namespace Challange.Domain.Entities
             }
         }
 
-        public List<Fps> GetPastCameraRecordsValueByKey(string key)
+        public List<IFps> GetPastCameraRecordsValueByKey(string key)
         {
             return GetByValue(key, pastCameraRecords);
         }
 
-        public List<Fps> GetFutureCameraRecordsValueByKey(string key)
+        public List<IFps> GetFutureCameraRecordsValueByKey(string key)
         {
             return GetByValue(key, futureCameraRecords);
         }
 
-        public List<Fps> GetFirstPastValue()
+        public List<IFps> GetFirstPastValue()
         {
             return pastCameraRecords.Values.FirstOrDefault();
         }
 
-        public List<Fps> GetFirstFutureValue()
+        public List<IFps> GetFirstFutureValue()
         {
             return futureCameraRecords.Values.FirstOrDefault();
         }
@@ -72,7 +72,7 @@ namespace Challange.Domain.Entities
         /// </summary>
         public void RemoveFirstFpsFromPastBuffer()
         {
-            var fpsesToRemove = new Dictionary<string, Fps>();
+            var fpsesToRemove = new Dictionary<string, IFps>();
             foreach (var pastFrames in pastCameraRecords)
             {
                 fpsesToRemove.Add(pastFrames.Key, pastFrames.Value[0]);
@@ -115,7 +115,7 @@ namespace Challange.Domain.Entities
         /// </summary>
         public void AddPastFpses(FpsContainer fpsContainer)
         {
-            List<Fps> temp;
+            List<IFps> temp;
             foreach (var fps in fpsContainer.Fpses)
             {
                 temp = GetPastCameraRecordsValueByKey(fps.Key);
@@ -125,7 +125,7 @@ namespace Challange.Domain.Entities
                 }
                 else
                 {
-                    temp = new List<Fps>();
+                    temp = new List<IFps>();
                     temp.Add(fps.Value);
                     AddNewPastCameraRecord(fps.Key, temp);
                 }
@@ -137,7 +137,7 @@ namespace Challange.Domain.Entities
         /// </summary>
         public void AddFutureFpses(FpsContainer fpsContainer)
         {
-            List<Fps> temp;
+            List<IFps> temp;
             foreach (var fps in fpsContainer.Fpses)
             {
                 temp = GetFutureCameraRecordsValueByKey(fps.Key);
@@ -147,33 +147,33 @@ namespace Challange.Domain.Entities
                 }
                 else
                 {
-                    temp = new List<Fps>();
+                    temp = new List<IFps>();
                     temp.Add(fps.Value);
                     AddNewFutureCameraRecord(fps.Key, temp);
                 }
             }
         }
 
-        private void AddNewPastCameraRecord(string key, List<Fps> value)
+        private void AddNewPastCameraRecord(string key, List<IFps> value)
         {
             AddNewRecord(key, value, pastCameraRecords);
         }
 
-        private void AddNewFutureCameraRecord(string key, List<Fps> value)
+        private void AddNewFutureCameraRecord(string key, List<IFps> value)
         {
             AddNewRecord(key, value, futureCameraRecords);
         }
 
-        private void AddNewRecord(string key, List<Fps> value,
-                            Dictionary<string, List<Fps>> dictionary)
+        private void AddNewRecord(string key, List<IFps> value,
+                            Dictionary<string, List<IFps>> dictionary)
         {
             dictionary.Add(key, value);
         }
 
-        private List<Fps> GetByValue(string key,
-                        Dictionary<string, List<Fps>> dictionary)
+        private List<IFps> GetByValue(string key,
+                        Dictionary<string, List<IFps>> dictionary)
         {
-            List<Fps> value;
+            List<IFps> value;
             if (dictionary.TryGetValue(key, out value))
             {
                 return value;
@@ -186,15 +186,15 @@ namespace Challange.Domain.Entities
         /// </summary>
         private void InitializeBuffers(CamerasContainer camerasContainer)
         {
-            pastCameraRecords = new Dictionary<string, List<Fps>>();
+            pastCameraRecords = new Dictionary<string, List<IFps>>();
             foreach (string key in camerasContainer.GetCamerasKeys)
             {
-                pastCameraRecords.Add(key, new List<Fps>());
+                pastCameraRecords.Add(key, new List<IFps>());
             }
-            futureCameraRecords = new Dictionary<string, List<Fps>>();
+            futureCameraRecords = new Dictionary<string, List<IFps>>();
             foreach (string key in camerasContainer.GetCamerasKeys)
             {
-                futureCameraRecords.Add(key, new List<Fps>());
+                futureCameraRecords.Add(key, new List<IFps>());
             }
         }
     }

@@ -58,6 +58,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -72,6 +73,7 @@
   <ItemGroup>
     <Compile Include="Abstract\ICamerasContainer.cs" />
     <Compile Include="Abstract\IChallengeBuffer.cs" />
+    <Compile Include="Abstract\IFps.cs" />
     <Compile Include="Entities\ChallengeObject.cs" />
     <Compile Include="Entities\ChallengeBuffers.cs" />
     <Compile Include="Entities\EventSubscriber.cs" />
@@ -87,6 +89,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Services\Message\MessageParser.cs" />
+    <Compile Include="Services\Message\MessageType.cs" />
     <Compile Include="Services\Settings\SettingTypes\IChallengeSettings.cs" />
     <Compile Include="Services\StreamProcess\Abstract\ICameraProvider.cs" />
     <Compile Include="Entities\ChallengeWriter.cs" />
@@ -104,6 +108,7 @@
     <Compile Include="Entities\CamerasContainer.cs" />
     <Compile Include="Services\StreamProcess\Concrete\Pylon\PylonCamera.cs" />
     <Compile Include="Services\StreamProcess\Concrete\Pylon\PylonCameraProvider.cs" />
+    <Compile Include="Services\Message\ChallengeMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

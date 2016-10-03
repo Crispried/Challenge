@@ -9,17 +9,17 @@ namespace Challange.Domain.Abstract
 {
     public interface IChallengeBuffer
     {
-        Dictionary<string, List<Fps>> PastCameraRecords { get; }
+        Dictionary<string, List<IFps>> PastCameraRecords { get; }
 
-        Dictionary<string, List<Fps>> FutureCameraRecords { get; }
+        Dictionary<string, List<IFps>> FutureCameraRecords { get; }
 
-        List<Fps> GetPastCameraRecordsValueByKey(string key);
+        List<IFps> GetPastCameraRecordsValueByKey(string key);
 
-        List<Fps> GetFutureCameraRecordsValueByKey(string key);
+        List<IFps> GetFutureCameraRecordsValueByKey(string key);
 
-        List<Fps> GetFirstPastValue();
+        List<IFps> GetFirstPastValue();
 
-        List<Fps> GetFirstFutureValue();
+        List<IFps> GetFirstFutureValue();
 
         void ClearBuffers();
 

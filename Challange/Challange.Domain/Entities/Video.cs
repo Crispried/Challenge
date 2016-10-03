@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Challange.Domain.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,11 @@ namespace Challange.Domain.Entities
 {
     public class Video
     {
-        private List<Fps> fpsList;
+        private List<IFps> fpsList;
         private string name;
         private int fpsValue;
 
-        public Video(string name, List<Fps> fpsList)
+        public Video(string name, List<IFps> fpsList)
         {
             this.name = name;
             this.fpsList = fpsList;
@@ -37,7 +38,7 @@ namespace Challange.Domain.Entities
             }
         }
 
-        public List<Fps> FpsList
+        public List<IFps> FpsList
         {
             get
             {
