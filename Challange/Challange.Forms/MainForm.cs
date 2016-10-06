@@ -26,6 +26,12 @@ namespace Challange.Forms
         private List<PictureBox> allPlayers;
         private Dictionary<string, string> camerasNames;
 
+        #region Full screen button
+        private string pathToFullScreenImage = "../../Images/fullscreen.png";
+        private int fullScreenButtonWidth = 20;
+        private int fullScreenButtonHeight = 20;
+        #endregion
+
         private ComponentResourceManager resources =
                  new ComponentResourceManager(typeof(MainForm));
 
@@ -91,6 +97,7 @@ namespace Challange.Forms
             elapsedTimeFromStart.Text = challangeTimeAxis.ElapsedTimeFromStart;
         }
 
+        #region fullScreen
         private int controlIndex;
         private PictureBox pictureBoxToShowFullscreen;
         private bool fullScreenMode = false;
@@ -98,53 +105,110 @@ namespace Challange.Forms
         private void ShowFullScreen_Click(object sender, EventArgs e)
         {
             pictureBoxToShowFullscreen = (PictureBox)((Button)sender).Parent;
-            controlIndex = playerPanel.Controls.GetChildIndex(pictureBoxToShowFullscreen);
 
+            controlIndex = GetControlIndexOfClickedPictureBox();
+            RemoveClickedPictureBoxFromPlayerPanel();
+            AddFullScreenPictureBoxToGeneralControls();
+            HideAllButtonsOnFullScreen();
+            ShowFullScreenMode();
+            ManageFullScreenEvents();
+        }
+
+        private int GetControlIndexOfClickedPictureBox()
+        {
+            return playerPanel.Controls.GetChildIndex(pictureBoxToShowFullscreen);
+        }
+
+        private void RemoveClickedPictureBoxFromPlayerPanel()
+        {
             playerPanel.Controls.Remove(pictureBoxToShowFullscreen);
-            this.Controls.Add(pictureBoxToShowFullscreen);
+        }
 
+        private void AddFullScreenPictureBoxToGeneralControls()
+        {
+            Controls.Add(pictureBoxToShowFullscreen);
+        }
+
+        private void AddFullScreenPictureBoxToPlayerPanelControls()
+        {
+            playerPanel.Controls.Add(pictureBoxToShowFullscreen);
+        }
+
+        private void ShowFullScreenMode()
+        {
             pictureBoxToShowFullscreen.Dock = DockStyle.Fill;
             pictureBoxToShowFullscreen.BringToFront();
             pictureBoxToShowFullscreen.Select();
-            this.WindowState = FormWindowState.Maximized;
-
+            MaximizeWindowState();
             fullScreenMode = true;
+        }
+
+        private void MaximizeWindowState()
+        {
+            WindowState = FormWindowState.Maximized;
+        }
+
+        private void HideAllButtonsOnFullScreen()
+        {
+            // Actually hides only "Show FullScreen" button
+            foreach (Button btn in pictureBoxToShowFullscreen.Controls.OfType<Button>())
+            {
+                btn.Hide();
+            }
+        }
+
+        private void ShowAllButtonsAfterFullScreenExit()
+        {
+            foreach (Button btn in pictureBoxToShowFullscreen.Controls.OfType<Button>())
+            {
+                btn.Show();
+            }
+        }
+
+        private void ManageFullScreenEvents()
+        {
             pictureBoxToShowFullscreen.KeyDown += new KeyEventHandler(FullScreenForm_KeyPress);
 
             // Disable click event if fullscreen mode is entered
             pictureBoxToShowFullscreen.Click -= new EventHandler(PlayerPanel_Click);
 
-            // Hide the button
-            foreach(Button btn in pictureBoxToShowFullscreen.Controls.OfType<Button>())
-            {
-                btn.Hide();
-            }
-
-            // When you change camera name in textbox, we should be able to press esc and exit fullscreen mode also
+            // When you change camera name in textbox, we should be able to press esc and exit fullscreen mode as well
             foreach (TextBox textBox in pictureBoxToShowFullscreen.Controls.OfType<TextBox>())
             {
                 textBox.KeyDown += new KeyEventHandler(FullScreenForm_KeyPress);
             }
         }
 
+        private void ManageExitFullScreenEvents()
+        {
+            // Enable click event if user exits fullscreen mode
+            pictureBoxToShowFullscreen.Click += new EventHandler(PlayerPanel_Click);
+        }
+
         public void FullScreenForm_KeyPress(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Escape)
+            if(EscapeKeyWasPressed(e))
             {
-                playerPanel.Controls.Add(pictureBoxToShowFullscreen);
-                playerPanel.Controls.SetChildIndex(pictureBoxToShowFullscreen, controlIndex);
-                // Enable click event if fullscreen mode is entered
-                pictureBoxToShowFullscreen.Click += new EventHandler(PlayerPanel_Click);
-                // Show the button we hide in fullscreen mode
-                foreach (Button btn in pictureBoxToShowFullscreen.Controls.OfType<Button>())
-                {
-                    btn.Show();
-                }
-
-                // Now controls are not being removed
-                pictureBoxToShowFullscreen.Dock = DockStyle.None;
+                AddFullScreenPictureBoxToPlayerPanelControls();
+                PlaceFullScreenPictureBoxOnOldPosition();
+                ShowAllButtonsAfterFullScreenExit();
+                ManageExitFullScreenEvents();
             }
         }
+
+        private bool EscapeKeyWasPressed(KeyEventArgs e)
+        {
+            return e.KeyCode == Keys.Escape;
+        }
+
+        private void PlaceFullScreenPictureBoxOnOldPosition()
+        {
+            playerPanel.Controls.SetChildIndex(pictureBoxToShowFullscreen, controlIndex);
+
+            // Now controls are not being removed after fullscreen mode exit
+            pictureBoxToShowFullscreen.Dock = DockStyle.None;
+        }
+        #endregion
 
         private void PlayerPanel_Click(object sender, EventArgs e)
         {
@@ -259,8 +323,8 @@ namespace Challange.Forms
         #region DrawPlayers
         public void DrawPlayers(PlayerPanelSettings settings)
         {
-            playerPanel.Controls.Clear();
-            numberOfPlayers = settings.NumberOfPlayers;
+            ClearPlayerPanelControls();
+            numberOfPlayers = GetNumberOfPlayers(settings);
             var playerSize = GetPlayerSize(settings);
             var playerWidth = playerSize.Width;
             var playerHeight = playerSize.Height;
@@ -273,10 +337,20 @@ namespace Challange.Forms
             }        
         }
 
+        private void ClearPlayerPanelControls()
+        {
+            playerPanel.Controls.Clear();
+        }
+
+        private int GetNumberOfPlayers(PlayerPanelSettings settings)
+        {
+            return settings.NumberOfPlayers;
+        }
+
         private Size GetPlayerSize(PlayerPanelSettings settings)
         {
             Size size = new Size();
-            if (settings.AutosizeMode)
+            if (AutoSizeModeIsOn(settings))
             {
                 size.Width = playerPanel.Width / autosizeWidthCoefficient;
                 size.Height = playerPanel.Height / autosizeHeightCoefficient;
@@ -287,6 +361,11 @@ namespace Challange.Forms
                 size.Height = settings.PlayerHeight;
             }
             return size;
+        }
+
+        private bool AutoSizeModeIsOn(PlayerPanelSettings settings)
+        {
+            return settings.AutosizeMode;
         }
 
         private void AddPlayerIntoPlayerList(PictureBox player)
@@ -302,45 +381,52 @@ namespace Challange.Forms
         private PictureBox InitializePlayer(int playerWidth, int playerHeight,
                                 string playerName)
         {
-            PictureBox newPictureBox;
-            newPictureBox = new PictureBox();
-            newPictureBox.BackColor = Color.Red;
-            newPictureBox.Height = playerHeight;
-            newPictureBox.Width = playerWidth;
-            newPictureBox.Controls.Add(new TextBox
-            {
-                Width = playerWidth,
-                MaxLength = 30
-            });
-
-            Button showFullscreen = CreateFullScreenButton(playerWidth, playerHeight);
-
-            showFullscreen.Click += new EventHandler(ShowFullScreen_Click);
-            newPictureBox.Controls.Add(showFullscreen);
-            newPictureBox.Click += new EventHandler(PlayerPanel_Click);
-            return newPictureBox;
+            return CreatePictureBox(playerWidth, playerHeight);
         }
         #endregion
 
+        private PictureBox CreatePictureBox(int playerWidth, int playerHeight)
+        {
+            PictureBox pictureBox = new PictureBox();
+            pictureBox.BackColor = Color.Red;
+            pictureBox.Height = playerHeight;
+            pictureBox.Width = playerWidth;
+            pictureBox.Controls.Add(CreateTextBox(playerWidth));
+            pictureBox.Controls.Add(CreateFullScreenButton(playerWidth, playerHeight));
+
+            pictureBox.Click += new EventHandler(PlayerPanel_Click);
+
+            return pictureBox;
+        }
+
+        private TextBox CreateTextBox(int playerWidth)
+        {
+            return new TextBox
+            {
+                Width = playerWidth,
+                MaxLength = 30
+            };
+        }
+
         private Button CreateFullScreenButton(int playerWidth, int playerHeight)
         {
-            var pathToFullScreenImage = "../../Images/fullscreen.png";
-            int buttonWidth = 20;
-            int buttonHeight = 20;
-            // On autoscale works good, have to fix issue when using custom width and height
-            var positionPoint = new Point(playerWidth - buttonWidth, playerHeight - buttonHeight);
-
             Button showFullscreen = new Button
             {
-                Width = buttonWidth,
-                Height = buttonHeight,
-                Location = positionPoint,
+                Width = fullScreenButtonWidth,
+                Height = fullScreenButtonHeight,
+                Location = CalculateFullScreenButtonPosition(playerWidth, playerHeight),
                 BackgroundImage = Image.FromFile(pathToFullScreenImage),
                 BackgroundImageLayout = ImageLayout.Stretch,
                 FlatStyle = FlatStyle.Flat
             };
             showFullscreen.FlatAppearance.BorderSize = 0;
+            showFullscreen.Click += new EventHandler(ShowFullScreen_Click);
             return showFullscreen;
+        }
+
+        private Point CalculateFullScreenButtonPosition(int playerWidth, int playerHeight)
+        {
+            return new Point(playerWidth - fullScreenButtonWidth, playerHeight - fullScreenButtonHeight);
         }
 
         public void AddMarkerOnTimeAxis()

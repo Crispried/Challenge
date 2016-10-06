@@ -8,7 +8,7 @@ using Challange.Domain.Abstract;
 
 namespace Challange.Domain.Entities
 {
-    public abstract class Camera : ICamera
+    public abstract class Camera
     {
         protected Bitmap currentFrame;
         /// <summary>
