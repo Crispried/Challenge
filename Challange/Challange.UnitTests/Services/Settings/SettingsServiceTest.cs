@@ -9,7 +9,7 @@ using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.Settings.SettingParser;
 
-namespace Challange.UnitTests.Services
+namespace Challange.UnitTests.Services.Settings
 {
     [TestFixture]
     class SettingsServiceTest : TestCase
