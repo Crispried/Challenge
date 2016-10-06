@@ -74,10 +74,7 @@
   <ItemGroup>
     <Compile Include="Abstract\ICamerasContainer.cs" />
     <Compile Include="Abstract\IChallengeBuffer.cs" />
-<<<<<<< HEAD
-=======
     <Compile Include="Abstract\ICamera.cs" />
->>>>>>> 7614573ebb7f81adfbc9cb8e11b46a016005c3ba
     <Compile Include="Abstract\IFps.cs" />
     <Compile Include="Entities\ChallengeObject.cs" />
     <Compile Include="Entities\ChallengeBuffers.cs" />
