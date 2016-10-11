@@ -13,6 +13,7 @@ using System.Reflection;
 using System.ComponentModel;
 using System.Windows;
 using Challange.Domain.Services.Message;
+using System.Drawing.Drawing2D;
 
 namespace Challange.Forms
 {
@@ -100,7 +101,6 @@ namespace Challange.Forms
         #region fullScreen
         private int controlIndex;
         private PictureBox pictureBoxToShowFullscreen;
-        private bool fullScreenMode = false;
 
         private void ShowFullScreen_Click(object sender, EventArgs e)
         {
@@ -140,7 +140,6 @@ namespace Challange.Forms
             pictureBoxToShowFullscreen.BringToFront();
             pictureBoxToShowFullscreen.Select();
             MaximizeWindowState();
-            fullScreenMode = true;
         }
 
         private void MaximizeWindowState()
@@ -169,6 +168,9 @@ namespace Challange.Forms
         {
             pictureBoxToShowFullscreen.KeyDown += new KeyEventHandler(FullScreenForm_KeyPress);
 
+            // Zoom in/out event
+            pictureBoxToShowFullscreen.MouseWheel += new MouseEventHandler(FullScreenPictureBox_MouseWheel);
+
             // Disable click event if fullscreen mode is entered
             pictureBoxToShowFullscreen.Click -= new EventHandler(PlayerPanel_Click);
 
@@ -179,21 +181,90 @@ namespace Challange.Forms
             }
         }
 
-        private void ManageExitFullScreenEvents()
+        private void FullScreenForm_KeyPress(object sender, KeyEventArgs e)
         {
-            // Enable click event if user exits fullscreen mode
-            pictureBoxToShowFullscreen.Click += new EventHandler(PlayerPanel_Click);
-        }
-
-        public void FullScreenForm_KeyPress(object sender, KeyEventArgs e)
-        {
-            if(EscapeKeyWasPressed(e))
+            if (EscapeKeyWasPressed(e))
             {
                 AddFullScreenPictureBoxToPlayerPanelControls();
                 PlaceFullScreenPictureBoxOnOldPosition();
                 ShowAllButtonsAfterFullScreenExit();
                 ManageExitFullScreenEvents();
             }
+        }
+
+        private double maxZoom = 1.5;
+        private double minZoom = 0.5;
+        // private double zoom = 1;
+        private int realImageWidth = 0;
+        private int realImageHeight = 0;
+        private Image image;
+
+        private double zoom = 1;
+
+
+        private void FullScreenPictureBox_MouseWheel(object sender, MouseEventArgs e)
+        {
+            PictureBox fullscreenPictureBox = (PictureBox)sender;
+            image = fullscreenPictureBox.Image;
+
+            if (realImageWidth == 0)
+            {
+                realImageWidth = fullscreenPictureBox.Image.Width;
+            }
+
+            if (realImageHeight == 0)
+            {
+                realImageHeight = fullscreenPictureBox.Image.Height;
+            }
+
+            if (e.Delta > 0)
+            {
+                zoom = zoom + 0.1;
+                if (zoom < maxZoom)
+                {
+                    Bitmap bmp = new Bitmap(image, Convert.ToInt32(realImageWidth * zoom), Convert.ToInt32(realImageHeight * zoom));
+                    Graphics g = Graphics.FromImage(bmp);
+                    g.SmoothingMode = SmoothingMode.HighQuality;
+                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                    fullscreenPictureBox.Image = bmp;
+                    image = fullscreenPictureBox.Image;
+
+                    // MessageBox.Show(e.X.ToString(), e.Y.ToString()); 
+                }
+                else
+                {
+                    zoom = maxZoom;
+                    MessageBox.Show("No more scrolling up!");
+                }
+            }
+            else
+            {
+                zoom = zoom - 0.1;
+                if (zoom > minZoom)
+                {
+                    Bitmap bmp = new Bitmap(image, Convert.ToInt32(realImageWidth * zoom), Convert.ToInt32(realImageHeight * zoom));
+                    Graphics g = Graphics.FromImage(bmp);
+                    g.SmoothingMode = SmoothingMode.HighQuality;
+                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                    fullscreenPictureBox.Image = bmp;
+                    image = fullscreenPictureBox.Image;
+                }
+                else
+                {
+                    zoom = minZoom;
+                    MessageBox.Show("No more scrolling down!");
+                }
+            }
+        }
+
+        private void ManageExitFullScreenEvents()
+        {
+            // Enable click event if user exits fullscreen mode
+            pictureBoxToShowFullscreen.Click += new EventHandler(PlayerPanel_Click);
+
+            pictureBoxToShowFullscreen.MouseWheel -= new MouseEventHandler(FullScreenPictureBox_MouseWheel);
         }
 
         private bool EscapeKeyWasPressed(KeyEventArgs e)
@@ -283,11 +354,7 @@ namespace Challange.Forms
 
         private bool IsReplaceMode()
         {
-            if (replaceMode)
-            {
-                return true;
-            }
-            return false;
+            return replaceMode ? true : false;
         }
 
         private void ToggleReplaceMode()
@@ -296,7 +363,6 @@ namespace Challange.Forms
         }
         #endregion
 
-
         public void InitializeTimer()
         {
             timer = new System.Windows.Forms.Timer();
@@ -304,7 +370,7 @@ namespace Challange.Forms
             timer.Interval = 1000;
             Thread.Sleep(1000);
             timer.Start();
-        }     
+        }
 
         public void ResetTimeAxis()
         {
@@ -391,6 +457,7 @@ namespace Challange.Forms
             pictureBox.BackColor = Color.Red;
             pictureBox.Height = playerHeight;
             pictureBox.Width = playerWidth;
+            pictureBox.Image = Image.FromFile(@"C:\Images\default.jpg");
             pictureBox.Controls.Add(CreateTextBox(playerWidth));
             pictureBox.Controls.Add(CreateFullScreenButton(playerWidth, playerHeight));
 
@@ -524,30 +591,5 @@ namespace Challange.Forms
             MessageBox.Show(text, caption,
                 message.MessageButtons, message.MessageIcon);
         }
-        #region Messages
-        public void ShowChallengeSettingsFileParseProblemError()
-        {
-            string caption = "Problems with challenge settings file.";
-            string text = "Ooops it looks like something wrong with your challenge settings file or it wasn't found";
-            MessageBox.Show(text, caption,
-                MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        public void ShowPlayerPanelSettingsFileParseProblemError()
-        {
-            string caption = "Problems with player panel settings file.";
-            string text = "Ooops it looks like something wrong with your player panel settings file or it wasn't found";
-            MessageBox.Show(text, caption,
-                MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        public void ShowEmptyDeviceContainerMessage()
-        {
-            string caption = "No connected devices.";
-            string text = "Ooops it looks like there are not any connected devices.";
-            MessageBox.Show(text, caption,
-                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        }
-        #endregion 
     }
 }
