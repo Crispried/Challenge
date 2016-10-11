@@ -10,7 +10,6 @@ namespace Challange.Domain.Entities
     public class InternalChallengeTimer
     {
         private Timer timer;
-        private bool autoReset;
         private Delegate timerElapsedEventHandler;
 
         public InternalChallengeTimer(double interval, bool autoReset)

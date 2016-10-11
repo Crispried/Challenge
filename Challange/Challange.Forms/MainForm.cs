@@ -13,6 +13,7 @@ using System.Reflection;
 using System.ComponentModel;
 using System.Windows;
 using Challange.Domain.Services.Message;
+using System.Drawing.Drawing2D;
 
 namespace Challange.Forms
 {
@@ -37,6 +38,9 @@ namespace Challange.Forms
 
         private Tuple<string, Bitmap> currentFrameInfo;
 
+
+        private Graphics g;
+
         public MainForm(ApplicationContext context)
         {
             this.context = context;
@@ -58,6 +62,8 @@ namespace Challange.Forms
             openDevicesListButton.Click += (sender, args) =>
                             Invoke(OpenDevicesList);
             allPlayers = new List<PictureBox>();
+
+            Graphics g = CreateGraphics();
         }
 
         public Tuple<string, Bitmap> CurrentFrameInfo
@@ -100,7 +106,6 @@ namespace Challange.Forms
         #region fullScreen
         private int controlIndex;
         private PictureBox pictureBoxToShowFullscreen;
-        private bool fullScreenMode = false;
 
         private void ShowFullScreen_Click(object sender, EventArgs e)
         {
@@ -140,7 +145,6 @@ namespace Challange.Forms
             pictureBoxToShowFullscreen.BringToFront();
             pictureBoxToShowFullscreen.Select();
             MaximizeWindowState();
-            fullScreenMode = true;
         }
 
         private void MaximizeWindowState()
@@ -169,6 +173,9 @@ namespace Challange.Forms
         {
             pictureBoxToShowFullscreen.KeyDown += new KeyEventHandler(FullScreenForm_KeyPress);
 
+            // Zoom in/out event
+            pictureBoxToShowFullscreen.MouseWheel += new MouseEventHandler(FullScreenPictureBox_MouseWheel);
+
             // Disable click event if fullscreen mode is entered
             pictureBoxToShowFullscreen.Click -= new EventHandler(PlayerPanel_Click);
 
@@ -179,21 +186,181 @@ namespace Challange.Forms
             }
         }
 
-        private void ManageExitFullScreenEvents()
+        private void FullScreenForm_KeyPress(object sender, KeyEventArgs e)
         {
-            // Enable click event if user exits fullscreen mode
-            pictureBoxToShowFullscreen.Click += new EventHandler(PlayerPanel_Click);
-        }
-
-        public void FullScreenForm_KeyPress(object sender, KeyEventArgs e)
-        {
-            if(EscapeKeyWasPressed(e))
+            if (EscapeKeyWasPressed(e))
             {
                 AddFullScreenPictureBoxToPlayerPanelControls();
                 PlaceFullScreenPictureBoxOnOldPosition();
                 ShowAllButtonsAfterFullScreenExit();
                 ManageExitFullScreenEvents();
             }
+        }
+
+        private double maxZoom = 1.5;
+        private double minZoom = 0.5;
+        // private double zoom = 1;
+        private int realImageWidth = 0;
+        private int realImageHeight = 0;
+        private Image image;
+
+        Image img;
+        Point mouseDown;
+        int startx = 0;             // offset of image when mouse was pressed
+        int starty = 0;
+        int imgx = 0;               // current offset of image
+        int imgy = 0;
+
+        bool mousepressed = false;  // true as long as left mousebutton is pressed
+        float zoom = 1;
+
+        private void FullScreenPictureBox_MouseWheel(object sender, MouseEventArgs e)
+        {
+            img = pictureBoxToShowFullscreen.Image;
+
+            zoom = (pictureBoxToShowFullscreen.Width / img.Width) * (img.HorizontalResolution / g.DpiX);
+
+            pictureBoxToShowFullscreen.Paint += new PaintEventHandler(imageBox_Paint);
+
+            pictureBoxToShowFullscreen.MouseDown += new MouseEventHandler(imageBox_MouseDown);
+            pictureBoxToShowFullscreen.MouseMove += new MouseEventHandler(pictureBox_MouseMove);
+            pictureBoxToShowFullscreen.MouseUp += new MouseEventHandler(imageBox_MouseUp);
+        }
+
+        private void pictureBox_MouseMove(object sender, EventArgs e)
+        {
+            MouseEventArgs mouse = e as MouseEventArgs;
+
+            if (mouse.Button == MouseButtons.Left)
+            {
+                Point mousePosNow = mouse.Location;
+
+                // the distance the mouse has been moved since mouse was pressed
+                int deltaX = mousePosNow.X - mouseDown.X;
+                int deltaY = mousePosNow.Y - mouseDown.Y;
+
+                // calculate new offset of image based on the current zoom factor
+                imgx = (int)(startx + (deltaX / zoom));
+                imgy = (int)(starty + (deltaY / zoom));
+
+                pictureBoxToShowFullscreen.Refresh();
+            }
+        }
+
+        private void imageBox_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            e.Graphics.ScaleTransform(zoom, zoom);
+            e.Graphics.DrawImage(img, imgx, imgy);
+        }
+
+        private void imageBox_MouseDown(object sender, EventArgs e)
+        {
+            MouseEventArgs mouse = e as MouseEventArgs;
+
+            if (mouse.Button == MouseButtons.Left)
+            {
+                if (!mousepressed)
+                {
+                    mousepressed = true;
+                    mouseDown = mouse.Location;
+                    startx = imgx;
+                    starty = imgy;
+                }
+            }
+        }
+
+        private void imageBox_MouseUp(object sender, EventArgs e)
+        {
+            mousepressed = false;
+        }
+
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            float oldzoom = zoom;
+
+            if (e.Delta > 0)
+            {
+                zoom += 0.1F;
+            }
+            else if (e.Delta < 0)
+            {
+                zoom = Math.Max(zoom - 0.1F, 0.01F);
+            }
+
+            MouseEventArgs mouse = e as MouseEventArgs;
+            Point mousePosNow = mouse.Location;
+
+            // Where location of the mouse in the pictureframe
+            int x = mousePosNow.X - pictureBoxToShowFullscreen.Location.X;
+            int y = mousePosNow.Y - pictureBoxToShowFullscreen.Location.Y;
+
+            // Where in the IMAGE is it now
+            int oldimagex = (int)(x / oldzoom);
+            int oldimagey = (int)(y / oldzoom);
+
+            // Where in the IMAGE will it be when the new zoom i made
+            int newimagex = (int)(x / zoom);
+            int newimagey = (int)(y / zoom);
+
+            // Where to move image to keep focus on one point
+            imgx = newimagex - oldimagex + imgx;
+            imgy = newimagey - oldimagey + imgy;
+
+            pictureBoxToShowFullscreen.Refresh();  // calls imageBox_Paint
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            const int WM_KEYDOWN = 0x100;
+            const int WM_SYSKEYDOWN = 0x104;
+
+            if ((msg.Msg == WM_KEYDOWN) || (msg.Msg == WM_SYSKEYDOWN))
+            {
+                switch (keyData)
+                {
+                    case Keys.Right:
+                        imgx -= (int)(pictureBoxToShowFullscreen.Width * 0.1F / zoom);
+                        pictureBoxToShowFullscreen.Refresh();
+                        break;
+
+                    case Keys.Left:
+                        imgx += (int)(pictureBoxToShowFullscreen.Width * 0.1F / zoom);
+                        pictureBoxToShowFullscreen.Refresh();
+                        break;
+
+                    case Keys.Down:
+                        imgy -= (int)(pictureBoxToShowFullscreen.Height * 0.1F / zoom);
+                        pictureBoxToShowFullscreen.Refresh();
+                        break;
+
+                    case Keys.Up:
+                        imgy += (int)(pictureBoxToShowFullscreen.Height * 0.1F / zoom);
+                        pictureBoxToShowFullscreen.Refresh();
+                        break;
+
+                    case Keys.PageDown:
+                        imgy -= (int)(pictureBoxToShowFullscreen.Height * 0.90F / zoom);
+                        pictureBoxToShowFullscreen.Refresh();
+                        break;
+
+                    case Keys.PageUp:
+                        imgy += (int)(pictureBoxToShowFullscreen.Height * 0.90F / zoom);
+                        pictureBoxToShowFullscreen.Refresh();
+                        break;
+                }
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+       
+
+        private void ManageExitFullScreenEvents()
+        {
+            // Enable click event if user exits fullscreen mode
+            pictureBoxToShowFullscreen.Click += new EventHandler(PlayerPanel_Click);
+
+            pictureBoxToShowFullscreen.MouseWheel -= new MouseEventHandler(FullScreenPictureBox_MouseWheel);
         }
 
         private bool EscapeKeyWasPressed(KeyEventArgs e)
@@ -283,11 +450,7 @@ namespace Challange.Forms
 
         private bool IsReplaceMode()
         {
-            if (replaceMode)
-            {
-                return true;
-            }
-            return false;
+            return replaceMode ? true : false;
         }
 
         private void ToggleReplaceMode()
@@ -296,7 +459,6 @@ namespace Challange.Forms
         }
         #endregion
 
-
         public void InitializeTimer()
         {
             timer = new System.Windows.Forms.Timer();
@@ -304,7 +466,7 @@ namespace Challange.Forms
             timer.Interval = 1000;
             Thread.Sleep(1000);
             timer.Start();
-        }     
+        }
 
         public void ResetTimeAxis()
         {
@@ -391,6 +553,7 @@ namespace Challange.Forms
             pictureBox.BackColor = Color.Red;
             pictureBox.Height = playerHeight;
             pictureBox.Width = playerWidth;
+            pictureBox.Image = Image.FromFile(@"C:\Images\default.jpg");
             pictureBox.Controls.Add(CreateTextBox(playerWidth));
             pictureBox.Controls.Add(CreateFullScreenButton(playerWidth, playerHeight));
 
@@ -524,30 +687,5 @@ namespace Challange.Forms
             MessageBox.Show(text, caption,
                 message.MessageButtons, message.MessageIcon);
         }
-        #region Messages
-        public void ShowChallengeSettingsFileParseProblemError()
-        {
-            string caption = "Problems with challenge settings file.";
-            string text = "Ooops it looks like something wrong with your challenge settings file or it wasn't found";
-            MessageBox.Show(text, caption,
-                MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        public void ShowPlayerPanelSettingsFileParseProblemError()
-        {
-            string caption = "Problems with player panel settings file.";
-            string text = "Ooops it looks like something wrong with your player panel settings file or it wasn't found";
-            MessageBox.Show(text, caption,
-                MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        public void ShowEmptyDeviceContainerMessage()
-        {
-            string caption = "No connected devices.";
-            string text = "Ooops it looks like there are not any connected devices.";
-            MessageBox.Show(text, caption,
-                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        }
-        #endregion 
     }
 }

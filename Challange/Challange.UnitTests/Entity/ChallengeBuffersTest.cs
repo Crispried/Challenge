@@ -58,7 +58,7 @@ namespace Challange.UnitTests.Entity
             Assert.NotNull(outputFpsList1);
             Assert.NotNull(outputFpsList2);
         }
-
+        
         [Test]
         public void GetPastCameraRecordsValueByKeyReturnNull()
         {

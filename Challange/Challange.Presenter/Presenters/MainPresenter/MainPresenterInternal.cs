@@ -49,7 +49,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
             {
                 ChangeActivityOfEventForFutureFrames(false);
                 WriteChallangeAsVideo();
-                fpsContainer = new FpsContainer(camerasContainer.GetCamerasNames); ;
+                fpsContainer = new FpsContainer(camerasContainer.GetCamerasNames);
                 InitializeChallengeBuffers();
                 ChangeActivityOfEventForPastFrames(true);
             }
