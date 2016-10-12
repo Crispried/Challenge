@@ -39,8 +39,6 @@ namespace Challange.Forms
         private Tuple<string, Bitmap> currentFrameInfo;
 
 
-        private Graphics g;
-
         public MainForm(ApplicationContext context)
         {
             this.context = context;
@@ -62,8 +60,7 @@ namespace Challange.Forms
             openDevicesListButton.Click += (sender, args) =>
                             Invoke(OpenDevicesList);
             allPlayers = new List<PictureBox>();
-
-            Graphics g = CreateGraphics();
+            g = CreateGraphics();
         }
 
         public Tuple<string, Bitmap> CurrentFrameInfo
@@ -106,10 +103,12 @@ namespace Challange.Forms
         #region fullScreen
         private int controlIndex;
         private PictureBox pictureBoxToShowFullscreen;
+        Image img;
 
         private void ShowFullScreen_Click(object sender, EventArgs e)
         {
             pictureBoxToShowFullscreen = (PictureBox)((Button)sender).Parent;
+            img = pictureBoxToShowFullscreen.Image;
 
             controlIndex = GetControlIndexOfClickedPictureBox();
             RemoveClickedPictureBoxFromPlayerPanel();
@@ -197,14 +196,6 @@ namespace Challange.Forms
             }
         }
 
-        private double maxZoom = 1.5;
-        private double minZoom = 0.5;
-        // private double zoom = 1;
-        private int realImageWidth = 0;
-        private int realImageHeight = 0;
-        private Image image;
-
-        Image img;
         Point mouseDown;
         int startx = 0;             // offset of image when mouse was pressed
         int starty = 0;
@@ -214,9 +205,11 @@ namespace Challange.Forms
         bool mousepressed = false;  // true as long as left mousebutton is pressed
         float zoom = 1;
 
+        private Graphics g;
+        
         private void FullScreenPictureBox_MouseWheel(object sender, MouseEventArgs e)
         {
-            img = pictureBoxToShowFullscreen.Image;
+            // img = pictureBoxToShowFullscreen.Image;
 
             zoom = (pictureBoxToShowFullscreen.Width / img.Width) * (img.HorizontalResolution / g.DpiX);
 
