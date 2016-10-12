@@ -33,6 +33,18 @@ namespace Challange.Forms
         private int fullScreenButtonHeight = 20;
         #endregion
 
+        #region Zoom In
+        bool mousepressed = false;
+        Point mouseDown;
+        Image img;
+        int imgx = 0;
+        int imgy = 0;
+        float zoom = 1;
+        float minZoom = 1;
+        int startx = 0;                         
+        int starty = 0;
+        #endregion
+
         private ComponentResourceManager resources =
                  new ComponentResourceManager(typeof(MainForm));
 
@@ -106,12 +118,105 @@ namespace Challange.Forms
         {
             pictureBoxToShowFullscreen = (PictureBox)((Button)sender).Parent;
 
+            img = pictureBoxToShowFullscreen.Image;
+            Graphics g = CreateGraphics();
+            pictureBoxToShowFullscreen.Paint += new PaintEventHandler(imageBox_Paint);
+
             controlIndex = GetControlIndexOfClickedPictureBox();
             RemoveClickedPictureBoxFromPlayerPanel();
             AddFullScreenPictureBoxToGeneralControls();
             HideAllButtonsOnFullScreen();
             ShowFullScreenMode();
             ManageFullScreenEvents();
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            const int WM_KEYDOWN = 0x100;
+            const int WM_SYSKEYDOWN = 0x104;
+
+            if ((msg.Msg == WM_KEYDOWN) || (msg.Msg == WM_SYSKEYDOWN))
+            {
+                switch (keyData)
+                {
+                    case Keys.Left:
+                        imgx -= (int)(pictureBoxToShowFullscreen.Width * 0.1F / zoom);
+                        pictureBoxToShowFullscreen.Refresh();
+                        break;
+
+                    case Keys.Right:
+                        imgx += (int)(pictureBoxToShowFullscreen.Width * 0.1F / zoom);
+                        pictureBoxToShowFullscreen.Refresh();
+                        break;
+
+                    case Keys.Up:
+                        imgy -= (int)(pictureBoxToShowFullscreen.Height * 0.1F / zoom);
+                        pictureBoxToShowFullscreen.Refresh();
+                        break;
+
+                    case Keys.Down:
+                        imgy += (int)(pictureBoxToShowFullscreen.Height * 0.1F / zoom);
+                        pictureBoxToShowFullscreen.Refresh();
+                        break;
+                }
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            float oldzoom = zoom;
+
+            if (MouseIsScrollingUp(e.Delta))
+            {
+                zoom += 0.1F;
+            }
+            else if (MouseIsScrollingDown(e.Delta))
+            {
+                if(zoom > minZoom)
+                {
+                    zoom = Math.Max(zoom - 0.1F, 0.01F);
+                }
+                else
+                {
+                    zoom = minZoom;
+                }
+            }
+
+            MouseEventArgs mouse = e as MouseEventArgs;
+            Point mousePosNow = mouse.Location;
+
+            int x = mousePosNow.X - pictureBoxToShowFullscreen.Location.X;
+            int y = mousePosNow.Y - pictureBoxToShowFullscreen.Location.Y;
+
+            int oldimagex = (int)(x / oldzoom);
+            int oldimagey = (int)(y / oldzoom);
+
+            int newimagex = (int)(x / zoom);
+            int newimagey = (int)(y / zoom);
+
+            imgx = newimagex - oldimagex + imgx;
+            imgy = newimagey - oldimagey + imgy;
+
+            pictureBoxToShowFullscreen.Refresh();
+        }
+
+        private bool MouseIsScrollingUp(int delta)
+        {
+            return delta > 0;
+        }
+
+        private bool MouseIsScrollingDown(int delta)
+        {
+            return delta < 0;
+        }
+
+        private void imageBox_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            e.Graphics.ScaleTransform(zoom, zoom);
+            e.Graphics.DrawImage(img, imgx, imgy);
         }
 
         private int GetControlIndexOfClickedPictureBox()
@@ -169,7 +274,7 @@ namespace Challange.Forms
             pictureBoxToShowFullscreen.KeyDown += new KeyEventHandler(FullScreenForm_KeyPress);
 
             // Zoom in/out event
-            pictureBoxToShowFullscreen.MouseWheel += new MouseEventHandler(FullScreenPictureBox_MouseWheel);
+            // pictureBoxToShowFullscreen.MouseWheel += new MouseEventHandler(FullScreenPictureBox_MouseWheel);
 
             // Disable click event if fullscreen mode is entered
             pictureBoxToShowFullscreen.Click -= new EventHandler(PlayerPanel_Click);
@@ -192,79 +297,12 @@ namespace Challange.Forms
             }
         }
 
-        private double maxZoom = 1.5;
-        private double minZoom = 0.5;
-        // private double zoom = 1;
-        private int realImageWidth = 0;
-        private int realImageHeight = 0;
-        private Image image;
-
-        private double zoom = 1;
-
-
-        private void FullScreenPictureBox_MouseWheel(object sender, MouseEventArgs e)
-        {
-            PictureBox fullscreenPictureBox = (PictureBox)sender;
-            image = fullscreenPictureBox.Image;
-
-            if (realImageWidth == 0)
-            {
-                realImageWidth = fullscreenPictureBox.Image.Width;
-            }
-
-            if (realImageHeight == 0)
-            {
-                realImageHeight = fullscreenPictureBox.Image.Height;
-            }
-
-            if (e.Delta > 0)
-            {
-                zoom = zoom + 0.1;
-                if (zoom < maxZoom)
-                {
-                    Bitmap bmp = new Bitmap(image, Convert.ToInt32(realImageWidth * zoom), Convert.ToInt32(realImageHeight * zoom));
-                    Graphics g = Graphics.FromImage(bmp);
-                    g.SmoothingMode = SmoothingMode.HighQuality;
-                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                    fullscreenPictureBox.Image = bmp;
-                    image = fullscreenPictureBox.Image;
-
-                    // MessageBox.Show(e.X.ToString(), e.Y.ToString()); 
-                }
-                else
-                {
-                    zoom = maxZoom;
-                    MessageBox.Show("No more scrolling up!");
-                }
-            }
-            else
-            {
-                zoom = zoom - 0.1;
-                if (zoom > minZoom)
-                {
-                    Bitmap bmp = new Bitmap(image, Convert.ToInt32(realImageWidth * zoom), Convert.ToInt32(realImageHeight * zoom));
-                    Graphics g = Graphics.FromImage(bmp);
-                    g.SmoothingMode = SmoothingMode.HighQuality;
-                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                    fullscreenPictureBox.Image = bmp;
-                    image = fullscreenPictureBox.Image;
-                }
-                else
-                {
-                    zoom = minZoom;
-                    MessageBox.Show("No more scrolling down!");
-                }
-            }
-        }
-
         private void ManageExitFullScreenEvents()
         {
             // Enable click event if user exits fullscreen mode
             pictureBoxToShowFullscreen.Click += new EventHandler(PlayerPanel_Click);
 
-            pictureBoxToShowFullscreen.MouseWheel -= new MouseEventHandler(FullScreenPictureBox_MouseWheel);
+            // pictureBoxToShowFullscreen.MouseWheel -= new MouseEventHandler(FullScreenPictureBox_MouseWheel);
         }
 
         private bool EscapeKeyWasPressed(KeyEventArgs e)
@@ -457,6 +495,7 @@ namespace Challange.Forms
             pictureBox.BackColor = Color.Red;
             pictureBox.Height = playerHeight;
             pictureBox.Width = playerWidth;
+            pictureBox.Image = Image.FromFile(@"C:\Images\default.jpg");
             pictureBox.Controls.Add(CreateTextBox(playerWidth));
             pictureBox.Controls.Add(CreateFullScreenButton(playerWidth, playerHeight));
 

@@ -25,9 +25,9 @@ namespace Challange.Domain.Entities
             this.challengeBuffers = challengeBuffers;
             this.camerasContainer = camerasContainer;
             this.pathToVideos = pathToVideos;
-            this.videos = UnitePastAndFutureFrames();
-            this.width = GetWidth();
-            this.height = GetHeight();
+            videos = UnitePastAndFutureFrames();
+            width = GetWidth();
+            height = GetHeight();
         }
 
         public void WriteChallenge()

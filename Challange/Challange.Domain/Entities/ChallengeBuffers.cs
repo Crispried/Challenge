@@ -174,11 +174,7 @@ namespace Challange.Domain.Entities
                         Dictionary<string, List<IFps>> dictionary)
         {
             List<IFps> value;
-            if (dictionary.TryGetValue(key, out value))
-            {
-                return value;
-            }
-            return null;
+            return dictionary.TryGetValue(key, out value) ? value : null;
         }
 
         /// <summary>
