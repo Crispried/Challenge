@@ -119,7 +119,7 @@ namespace Challange.Forms
             pictureBoxToShowFullscreen = (PictureBox)((Button)sender).Parent;
             img = pictureBoxToShowFullscreen.Image;
             Graphics g = CreateGraphics();
-            zoom = ((float)pictureBoxToShowFullscreen.Width / (float)img.Width) * (img.HorizontalResolution / g.DpiX);
+            // zoom = ((float)pictureBoxToShowFullscreen.Width / (float)img.Width) * (img.HorizontalResolution / g.DpiX);
 
             pictureBoxToShowFullscreen.Paint += new PaintEventHandler(imageBox_Paint);
 
@@ -182,8 +182,16 @@ namespace Challange.Forms
 
             else if (e.Delta < 0)
             {
-                zoom = Math.Max(zoom - 0.1F, 0.01F);
+                if(zoom > 1)
+                {
+                    zoom = Math.Max(zoom - 0.1F, 0.01F);
+                }
+                else
+                {
+                    zoom = 1;
+                }
             }
+
 
             MouseEventArgs mouse = e as MouseEventArgs;
             Point mousePosNow = mouse.Location;
@@ -220,22 +228,22 @@ namespace Challange.Forms
             {
                 switch (keyData)
                 {
-                    case Keys.Right:
+                    case Keys.Left:
                         imgx -= (int)(pictureBoxToShowFullscreen.Width * 0.1F / zoom);
                         pictureBoxToShowFullscreen.Refresh();
                         break;
 
-                    case Keys.Left:
+                    case Keys.Right:
                         imgx += (int)(pictureBoxToShowFullscreen.Width * 0.1F / zoom);
                         pictureBoxToShowFullscreen.Refresh();
                         break;
 
-                    case Keys.Down:
+                    case Keys.Up:
                         imgy -= (int)(pictureBoxToShowFullscreen.Height * 0.1F / zoom);
                         pictureBoxToShowFullscreen.Refresh();
                         break;
 
-                    case Keys.Up:
+                    case Keys.Down:
                         imgy += (int)(pictureBoxToShowFullscreen.Height * 0.1F / zoom);
                         pictureBoxToShowFullscreen.Refresh();
                         break;
