@@ -43,6 +43,7 @@ namespace Challange.Forms
 
         bool mousepressed = false;  // true as long as left mousebutton is pressed
         float zoom = 1;
+        float minZoom = 1;
         #endregion
 
         private ComponentResourceManager resources =
@@ -117,10 +118,10 @@ namespace Challange.Forms
         private void ShowFullScreen_Click(object sender, EventArgs e)
         {
             pictureBoxToShowFullscreen = (PictureBox)((Button)sender).Parent;
+
             img = pictureBoxToShowFullscreen.Image;
             Graphics g = CreateGraphics();
             // zoom = ((float)pictureBoxToShowFullscreen.Width / (float)img.Width) * (img.HorizontalResolution / g.DpiX);
-
             pictureBoxToShowFullscreen.Paint += new PaintEventHandler(imageBox_Paint);
 
             controlIndex = GetControlIndexOfClickedPictureBox();
@@ -129,46 +130,6 @@ namespace Challange.Forms
             HideAllButtonsOnFullScreen();
             ShowFullScreenMode();
             ManageFullScreenEvents();
-        }
-
-        //
-        private void pictureBox_MouseMove(object sender, EventArgs e)
-        {
-            MouseEventArgs mouse = e as MouseEventArgs;
-
-            if (mouse.Button == MouseButtons.Left)
-            {
-                Point mousePosNow = mouse.Location;
-
-                int deltaX = mousePosNow.X - mouseDown.X; // the distance the mouse has been moved since mouse was pressed
-                int deltaY = mousePosNow.Y - mouseDown.Y;
-
-                imgx = (int)(startx + (deltaX / zoom));  // calculate new offset of image based on the current zoom factor
-                imgy = (int)(starty + (deltaY / zoom));
-
-                pictureBoxToShowFullscreen.Refresh();
-            }
-        }
-
-        private void imageBox_MouseDown(object sender, EventArgs e)
-        {
-            MouseEventArgs mouse = e as MouseEventArgs;
-
-            if (mouse.Button == MouseButtons.Left)
-            {
-                if (!mousepressed)
-                {
-                    mousepressed = true;
-                    mouseDown = mouse.Location;
-                    startx = imgx;
-                    starty = imgy;
-                }
-            }
-        }
-
-        private void imageBox_MouseUp(object sender, EventArgs e)
-        {
-            mousepressed = false;
         }
 
         protected override void OnMouseWheel(MouseEventArgs e)
@@ -182,16 +143,15 @@ namespace Challange.Forms
 
             else if (e.Delta < 0)
             {
-                if(zoom > 1)
+                if(zoom > minZoom)
                 {
                     zoom = Math.Max(zoom - 0.1F, 0.01F);
                 }
                 else
                 {
-                    zoom = 1;
+                    zoom = minZoom;
                 }
             }
-
 
             MouseEventArgs mouse = e as MouseEventArgs;
             Point mousePosNow = mouse.Location;
@@ -217,52 +177,6 @@ namespace Challange.Forms
             e.Graphics.ScaleTransform(zoom, zoom);
             e.Graphics.DrawImage(img, imgx, imgy);
         }
-
-
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            const int WM_KEYDOWN = 0x100;
-            const int WM_SYSKEYDOWN = 0x104;
-
-            if ((msg.Msg == WM_KEYDOWN) || (msg.Msg == WM_SYSKEYDOWN))
-            {
-                switch (keyData)
-                {
-                    case Keys.Left:
-                        imgx -= (int)(pictureBoxToShowFullscreen.Width * 0.1F / zoom);
-                        pictureBoxToShowFullscreen.Refresh();
-                        break;
-
-                    case Keys.Right:
-                        imgx += (int)(pictureBoxToShowFullscreen.Width * 0.1F / zoom);
-                        pictureBoxToShowFullscreen.Refresh();
-                        break;
-
-                    case Keys.Up:
-                        imgy -= (int)(pictureBoxToShowFullscreen.Height * 0.1F / zoom);
-                        pictureBoxToShowFullscreen.Refresh();
-                        break;
-
-                    case Keys.Down:
-                        imgy += (int)(pictureBoxToShowFullscreen.Height * 0.1F / zoom);
-                        pictureBoxToShowFullscreen.Refresh();
-                        break;
-
-                    case Keys.PageDown:
-                        imgy -= (int)(pictureBoxToShowFullscreen.Height * 0.90F / zoom);
-                        pictureBoxToShowFullscreen.Refresh();
-                        break;
-
-                    case Keys.PageUp:
-                        imgy += (int)(pictureBoxToShowFullscreen.Height * 0.90F / zoom);
-                        pictureBoxToShowFullscreen.Refresh();
-                        break;
-                }
-            }
-
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
-        //
 
         private int GetControlIndexOfClickedPictureBox()
         {
