@@ -35,13 +35,8 @@ namespace Challange.Forms
 
         #region Zoom In
         Image img;
-        Point mouseDown;
-        int startx = 0;                         // offset of image when mouse was pressed
-        int starty = 0;
-        int imgx = 0;                         // current offset of image
+        int imgx = 0;
         int imgy = 0;
-
-        bool mousepressed = false;  // true as long as left mousebutton is pressed
         float zoom = 1;
         float minZoom = 1;
         #endregion
@@ -121,7 +116,6 @@ namespace Challange.Forms
 
             img = pictureBoxToShowFullscreen.Image;
             Graphics g = CreateGraphics();
-            // zoom = ((float)pictureBoxToShowFullscreen.Width / (float)img.Width) * (img.HorizontalResolution / g.DpiX);
             pictureBoxToShowFullscreen.Paint += new PaintEventHandler(imageBox_Paint);
 
             controlIndex = GetControlIndexOfClickedPictureBox();
@@ -136,12 +130,11 @@ namespace Challange.Forms
         {
             float oldzoom = zoom;
 
-            if (e.Delta > 0)
+            if (MouseIsScrollingUp(e.Delta))
             {
                 zoom += 0.1F;
             }
-
-            else if (e.Delta < 0)
+            else if (MouseIsScrollingDown(e.Delta))
             {
                 if(zoom > minZoom)
                 {
@@ -156,19 +149,29 @@ namespace Challange.Forms
             MouseEventArgs mouse = e as MouseEventArgs;
             Point mousePosNow = mouse.Location;
 
-            int x = mousePosNow.X - pictureBoxToShowFullscreen.Location.X;    // Where location of the mouse in the pictureframe
+            int x = mousePosNow.X - pictureBoxToShowFullscreen.Location.X;
             int y = mousePosNow.Y - pictureBoxToShowFullscreen.Location.Y;
 
-            int oldimagex = (int)(x / oldzoom);  // Where in the IMAGE is it now
+            int oldimagex = (int)(x / oldzoom);
             int oldimagey = (int)(y / oldzoom);
 
-            int newimagex = (int)(x / zoom);     // Where in the IMAGE will it be when the new zoom i made
+            int newimagex = (int)(x / zoom);
             int newimagey = (int)(y / zoom);
 
-            imgx = newimagex - oldimagex + imgx;  // Where to move image to keep focus on one point
+            imgx = newimagex - oldimagex + imgx;
             imgy = newimagey - oldimagey + imgy;
 
-            pictureBoxToShowFullscreen.Refresh();  // calls imageBox_Paint
+            pictureBoxToShowFullscreen.Refresh();
+        }
+
+        private bool MouseIsScrollingUp(int delta)
+        {
+            return delta > 0;
+        }
+
+        private bool MouseIsScrollingDown(int delta)
+        {
+            return delta < 0;
         }
 
         private void imageBox_Paint(object sender, PaintEventArgs e)
