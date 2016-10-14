@@ -374,7 +374,7 @@ namespace Challange.Forms
                 if (!IsReplaceMode())
                 {
                     // Works a little bit slower
-                    // DisableFullScreenButtonsClickEvent();
+                    DisableFullScreenButtonsClickEvent();
                     firstSelectedPlayer = clickedPlayer;
                     SetCursor(Cursors.NoMove2D);
                     SetBorderStyle(BorderStyle.Fixed3D, clickedPlayer);
@@ -382,7 +382,7 @@ namespace Challange.Forms
                 else
                 {
                     // Works a little bit slower
-                    // EnableFullScreenButtonsClickEvent();
+                    EnableFullScreenButtonsClickEvent();
                     secondSelecterPlayer = clickedPlayer;
                     ReplacePlayers();
                     SetCursor(Cursors.Default);
