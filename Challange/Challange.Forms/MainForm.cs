@@ -102,7 +102,7 @@ namespace Challange.Forms
                 DisableBorderForAllPlayers();
             }
         }
-
+        
         private bool ShouldBeHovered()
         {
             return hoverIsActive == true;
@@ -167,7 +167,6 @@ namespace Challange.Forms
             pictureBoxToShowFullscreen = (PictureBox)((Button)sender).Parent;
             img = pictureBoxToShowFullscreen.Image;
             pictureBoxToShowFullscreen.Paint += new PaintEventHandler(imageBox_Paint);
-
             controlIndex = GetControlIndexOfClickedPictureBox();
             RemoveClickedPictureBoxFromPlayerPanel();
             AddFullScreenPictureBoxToGeneralControls();
@@ -328,11 +327,6 @@ namespace Challange.Forms
         {
             pictureBoxToShowFullscreen.KeyDown += new KeyEventHandler(FullScreenForm_KeyPress);
 
-            // Zoom in/out event
-
-            // Disable click event if fullscreen mode is entered
-            pictureBoxToShowFullscreen.Click -= new EventHandler(PlayerPanel_Click);
-
             // When you change camera name in textbox, we should be able to press esc and exit fullscreen mode as well
             foreach (TextBox textBox in pictureBoxToShowFullscreen.Controls.OfType<TextBox>())
             {
@@ -348,14 +342,7 @@ namespace Challange.Forms
                 AddFullScreenPictureBoxToPlayerPanelControls();
                 PlaceFullScreenPictureBoxOnOldPosition();
                 ShowAllButtonsAfterFullScreenExit();
-                ManageExitFullScreenEvents();
             }
-        }
-
-        private void ManageExitFullScreenEvents()
-        {
-            // Enable click event if user exits fullscreen mode
-            pictureBoxToShowFullscreen.Click += new EventHandler(PlayerPanel_Click);
         }
 
         private bool EscapeKeyWasPressed(KeyEventArgs e)
@@ -374,26 +361,29 @@ namespace Challange.Forms
 
         private void PlayerPanel_Click(object sender, EventArgs e)
         {
-            hoverIsActive = !hoverIsActive;
-            var clickedPlayer = sender as PictureBox;
-            if (!IsReplaceMode())
+            if(fullScreenMode == false)
             {
-                // Works a little bit slower
-                DisableFullScreenButtonsClickEvent();
-                firstSelectedPlayer = clickedPlayer;
-                SetCursor(Cursors.NoMove2D);
-                SetBorderStyle(BorderStyle.Fixed3D, clickedPlayer);
+                hoverIsActive = !hoverIsActive;
+                var clickedPlayer = sender as PictureBox;
+                if (!IsReplaceMode())
+                {
+                    // Works a little bit slower
+                    DisableFullScreenButtonsClickEvent();
+                    firstSelectedPlayer = clickedPlayer;
+                    SetCursor(Cursors.NoMove2D);
+                    SetBorderStyle(BorderStyle.Fixed3D, clickedPlayer);
+                }
+                else
+                {
+                    // Works a little bit slower
+                    EnableFullScreenButtonsClickEvent();
+                    secondSelecterPlayer = clickedPlayer;
+                    ReplacePlayers();
+                    SetCursor(Cursors.Default);
+                    SetBorderStyle(BorderStyle.None, clickedPlayer);
+                }
+                ToggleReplaceMode();
             }
-            else
-            {
-                // Works a little bit slower
-                EnableFullScreenButtonsClickEvent();
-                secondSelecterPlayer = clickedPlayer;
-                ReplacePlayers();
-                SetCursor(Cursors.Default);
-                SetBorderStyle(BorderStyle.None, clickedPlayer);
-            }
-            ToggleReplaceMode();
         }
 
         private void DisableFullScreenButtonsClickEvent()
@@ -511,7 +501,8 @@ namespace Challange.Forms
             for (int i = 0; i < numberOfPlayers; i++)
             {
                 var player = InitializePlayer(playerWidth,
-                                    playerHeight, i.ToString());                
+                                    playerHeight, i.ToString());     
+                player.Click += new EventHandler(PlayerPanel_Click);
                 player.MouseHover += new EventHandler(Player_MouseHover);
                 player.MouseLeave += new EventHandler(Player_MouseLeave);
                 DrawPlayer(player);
@@ -563,11 +554,11 @@ namespace Challange.Forms
         private PictureBox InitializePlayer(int playerWidth, int playerHeight,
                                 string playerName)
         {
-            return CreatePictureBox(playerWidth, playerHeight);
+            return CreatePlayer(playerWidth, playerHeight);
         }
         #endregion
 
-        private PictureBox CreatePictureBox(int playerWidth, int playerHeight)
+        private PictureBox CreatePlayer(int playerWidth, int playerHeight)
         {
             PictureBox pictureBox = new PictureBox();
             pictureBox.BackColor = Color.Red;
@@ -576,8 +567,6 @@ namespace Challange.Forms
             pictureBox.Image = Image.FromFile(@"C:\Images\default.jpg");
             pictureBox.Controls.Add(CreateTextBox(playerWidth));
             pictureBox.Controls.Add(CreateFullScreenButton(playerWidth, playerHeight));
-
-            pictureBox.Click += new EventHandler(PlayerPanel_Click);
 
             return pictureBox;
         }
@@ -604,6 +593,7 @@ namespace Challange.Forms
             };
             showFullscreen.FlatAppearance.BorderSize = 0;
             showFullscreen.Click += new EventHandler(ShowFullScreen_Click);
+
             fullScreenButtonsList.Add(showFullscreen);
             return showFullscreen;
         }
