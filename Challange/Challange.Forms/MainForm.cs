@@ -328,12 +328,9 @@ namespace Challange.Forms
             pictureBoxToShowFullscreen.KeyDown += new KeyEventHandler(FullScreenForm_KeyPress);
 
             // When you change camera name in textbox, we should be able to press esc and exit fullscreen mode as well
-            foreach (TextBox textBox in pictureBoxToShowFullscreen.Controls.OfType<TextBox>())
-            {
-                textBox.KeyDown += new KeyEventHandler(FullScreenForm_KeyPress);
-            }
+            pictureBoxToShowFullscreen.Controls.OfType<TextBox>().First().KeyDown += new KeyEventHandler(FullScreenForm_KeyPress);
         }
-
+        
         private void FullScreenForm_KeyPress(object sender, KeyEventArgs e)
         {
             if (EscapeKeyWasPressed(e))
@@ -342,7 +339,16 @@ namespace Challange.Forms
                 AddFullScreenPictureBoxToPlayerPanelControls();
                 PlaceFullScreenPictureBoxOnOldPosition();
                 ShowAllButtonsAfterFullScreenExit();
+                ManageExitFullScreenEvents();
             }
+        }
+
+        private void ManageExitFullScreenEvents()
+        {
+            pictureBoxToShowFullscreen.KeyDown -= new KeyEventHandler(FullScreenForm_KeyPress);
+
+            // Disable the keydown event for picturebox when leaving the fullscreenmode
+            pictureBoxToShowFullscreen.Controls.OfType<TextBox>().First().KeyDown -= new KeyEventHandler(FullScreenForm_KeyPress);
         }
 
         private bool EscapeKeyWasPressed(KeyEventArgs e)
@@ -368,7 +374,7 @@ namespace Challange.Forms
                 if (!IsReplaceMode())
                 {
                     // Works a little bit slower
-                    DisableFullScreenButtonsClickEvent();
+                    // DisableFullScreenButtonsClickEvent();
                     firstSelectedPlayer = clickedPlayer;
                     SetCursor(Cursors.NoMove2D);
                     SetBorderStyle(BorderStyle.Fixed3D, clickedPlayer);
@@ -376,7 +382,7 @@ namespace Challange.Forms
                 else
                 {
                     // Works a little bit slower
-                    EnableFullScreenButtonsClickEvent();
+                    // EnableFullScreenButtonsClickEvent();
                     secondSelecterPlayer = clickedPlayer;
                     ReplacePlayers();
                     SetCursor(Cursors.Default);
