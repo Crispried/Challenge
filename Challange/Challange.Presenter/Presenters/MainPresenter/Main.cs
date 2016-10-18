@@ -15,6 +15,7 @@ using static PylonC.NETSupportLibrary.DeviceEnumerator;
 using Challange.Domain.Services.StreamProcess.Concrete;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using System.Linq;
+using Challange.Domain.Services.Replay;
 
 namespace Challange.Presenter.Presenters.MainPresenter
 {
@@ -37,11 +38,14 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private InternalChallengeTimer internalChallengeTimer;
         private ChallengeObject challenge;
 
+        private Zoomer zoomer;
+
         public MainPresenter(IApplicationController controller,
                              IMainView mainView) : 
                              base(controller, mainView)
         {
             SubscribePresenters();
+            zoomer = new Zoomer();
         }
 
         private void SubscribePresenters()
@@ -57,6 +61,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
             View.MainFormClosing += FormClosing;
             View.CreateChallange += CreateChallange;
             View.NewFrameCallback += AddNewFrame;
+            View.MakeZoom += MakeZoom;
             View.PassCamerasNamesToPresenterCallback += PassCamerasNamesToPresenter;
         }
         

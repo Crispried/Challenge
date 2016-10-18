@@ -107,6 +107,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BroadcastForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BroadcastForm.Designer.cs">
+      <DependentUpon>BroadcastForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CamerasForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -140,6 +146,9 @@
     <Compile Include="LightInjectAdapter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="BroadcastForm.resx">
+      <DependentUpon>BroadcastForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CamerasForm.resx">
       <DependentUpon>CamerasForm.cs</DependentUpon>
     </EmbeddedResource>

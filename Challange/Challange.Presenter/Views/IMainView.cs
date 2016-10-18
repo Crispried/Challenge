@@ -4,6 +4,9 @@ using Challange.Domain.Services.Settings.SettingTypes;
 using System.Drawing;
 using System.Collections.Generic;
 using Challange.Domain.Services.Message;
+using System.Windows.Forms;
+using Challange.Domain.Services.Replay;
+using Challange.Domain.Entities;
 
 namespace Challange.Presenter.Views
 {
@@ -26,6 +29,8 @@ namespace Challange.Presenter.Views
         event Action CreateChallange;
 
         event Action NewFrameCallback;
+
+        event Action<Point, int, Point> MakeZoom;
 
         event Action<string, string> PassCamerasNamesToPresenterCallback;
 
@@ -56,5 +61,7 @@ namespace Challange.Presenter.Views
         void BindPlayersToCameras(Queue<string> camerasNames);
 
         void ShowMessage(ChallengeMessage message);
+
+        void RedrawZoomedImage(ZoomData zoomData);
     }
 }

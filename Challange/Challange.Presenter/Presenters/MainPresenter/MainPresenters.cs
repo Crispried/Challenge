@@ -11,6 +11,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static PylonC.NETSupportLibrary.DeviceEnumerator;
+using Challange.Domain.Services.Replay;
+using System.Windows.Forms;
 
 namespace Challange.Presenter.Presenters.MainPresenter
 {
@@ -61,6 +63,16 @@ namespace Challange.Presenter.Presenters.MainPresenter
             Bitmap currentFrame = View.CurrentFrameInfo.Item2;
             IFps tempFPS = fpsContainer.GetFpsByKey(cameraName);
             tempFPS.AddFrame(currentFrame);
+        }
+
+        /// <summary>
+        /// Zooms in/out replayed videos in the fullscreen mode
+        /// according to the mouse position
+        /// </summary>
+        public void MakeZoom(Point pictureBoxLocation, int delta, Point mouseLocation)
+        {
+            ZoomData zoomData = zoomer.MakeZoom(pictureBoxLocation, delta, mouseLocation);
+            View.RedrawZoomedImage(zoomData);
         }
 
         /// <summary>
