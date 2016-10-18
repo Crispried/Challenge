@@ -80,7 +80,6 @@ namespace Challange.Forms
         public void Player_MouseHover(object sender, EventArgs e)
         {
             PictureBox pictureBox = (PictureBox)sender;
-            
             if(ShouldBeHovered() && HoverNotOnFirstSelectedElement(pictureBox))
             {
                 SetBorderStyle(BorderStyle.Fixed3D, pictureBox);
@@ -188,17 +187,14 @@ namespace Challange.Forms
                         imgx -= (int)(pictureBoxToShowFullscreen.Width * 0.1F / zoom);
                         pictureBoxToShowFullscreen.Refresh();
                         break;
-
                     case Keys.Right:
                         imgx += (int)(pictureBoxToShowFullscreen.Width * 0.1F / zoom);
                         pictureBoxToShowFullscreen.Refresh();
                         break;
-
                     case Keys.Up:
                         imgy -= (int)(pictureBoxToShowFullscreen.Height * 0.1F / zoom);
                         pictureBoxToShowFullscreen.Refresh();
                         break;
-
                     case Keys.Down:
                         imgy += (int)(pictureBoxToShowFullscreen.Height * 0.1F / zoom);
                         pictureBoxToShowFullscreen.Refresh();
@@ -570,7 +566,6 @@ namespace Challange.Forms
             pictureBox.BackColor = Color.Red;
             pictureBox.Height = playerHeight;
             pictureBox.Width = playerWidth;
-            pictureBox.Image = Image.FromFile(@"C:\Images\default.jpg");
             pictureBox.Controls.Add(CreateTextBox(playerWidth));
             pictureBox.Controls.Add(CreateFullScreenButton(playerWidth, playerHeight));
 
