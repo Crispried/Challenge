@@ -174,7 +174,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             foreach (Camera camera in camerasContainer.GetCameras)
             {
-                camera.NewFrameEvent += Camera_NewFrameEvent;
+                EventSubscriber.AddEventHandler(camera, "NewFrameEvent", Camera_NewFrameEvent);
                 camera.Start();
             }
         }
@@ -184,9 +184,10 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         /// <param name="frame"></param>
         /// <param name="cameraName"></param>
-        private void Camera_NewFrameEvent(Bitmap frame, string cameraName)
+        private void Camera_NewFrameEvent(object sender, EventArgs args)
         {
-            View.DrawNewFrame(frame, cameraName);
+            NewFrameEventArgs newFrameEventArgs = args as NewFrameEventArgs;
+            View.DrawNewFrame(newFrameEventArgs.Frame, newFrameEventArgs.CameraName);
         }
 
         /// <summary>
@@ -233,16 +234,35 @@ namespace Challange.Presenter.Presenters.MainPresenter
         }
 
         /// <summary>
-        /// Changes the state of challenge button on pointed number of seconds
-        /// if true - active
-        /// if false - not active
+        /// makes challenge button invisible
+        /// and makes challenge recording image visible
         /// </summary>
-        /// <param name="isEnable"></param>
         /// <param name="numberOfSeconds"></param>
-        private void ChangeStateOfChallengeButtonIn(bool isEnable, int numberOfSeconds)
+        private void SetUIAsChallengeRecordingOn(int numberOfSeconds)
         {
-            View.ToggleChallengeButtonIn(isEnable, numberOfSeconds);
-            IsChallengeButtonEnable = isEnable;
+            MakeChallengeButtonInvisibleOn(numberOfSeconds);
+            MakeChallengeRecordingImageVisibleOn(numberOfSeconds);
+        }
+
+        /// <summary>
+        /// Makes visible challenge recording image on pointed number of seconds
+        /// </summary>
+        /// <param name="numberOfSeconds"></param>
+        private void MakeChallengeRecordingImageVisibleOn(int numberOfSeconds)
+        {
+            View.MakeChallengeRecordingImageVisibleOn(numberOfSeconds);
+            IsChallengeRecordingImageVisible = true;
+        }
+
+        /// <summary>
+        /// Makes invisible add challenge button on pointed number of seconds
+        /// </summary>
+        /// <param name="isVisible"></param>
+        /// <param name="numberOfSeconds"></param>
+        private void MakeChallengeButtonInvisibleOn(int numberOfSeconds)
+        {
+            View.MakeChallengeButtonInvisibleOn(numberOfSeconds);
+            IsChallengeButtonVisible = false;
         }      
 
         /// <summary>
@@ -278,9 +298,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// <summary>
         /// Draws marker on time axis
         /// </summary>
-        private void AddMarkerOnTimeAxis()
+        private void AddMarkerOnTimeAxis(string pathToChallenge)
         {
-            View.AddMarkerOnTimeAxis();
+            View.AddMarkerOnTimeAxis(pathToChallenge);
             MarkerWasAddedOntoTimeAxis = true;
         }
 
@@ -305,6 +325,14 @@ namespace Challange.Presenter.Presenters.MainPresenter
                                  camerasContainer, pathToChallenge);
             challengeWriter.WriteChallenge();
             challengeBuffers.ClearBuffers();
+        }
+
+        /// <summary>
+        /// Draws challenge recording image instead of Challenge button
+        /// </summary>
+        private void DrawChallengeRecordingImage()
+        {
+            View.DrawChallengeRecordingImage();
         }
 
         /// <summary>

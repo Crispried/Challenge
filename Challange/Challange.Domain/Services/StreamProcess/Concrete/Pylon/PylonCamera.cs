@@ -19,9 +19,10 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
         {
             this.cameraIndex = cameraIndex;
             imageProvider = new ImageProvider();
-            imageProvider.ImageReadyEvent +=
-                new ImageProvider.ImageReadyEventHandler(
-                            OnImageReadyEventCallback);
+            //imageProvider.ImageReadyEvent +=
+            //    new ImageProvider.ImageReadyEventHandler(
+            //                OnImageReadyEventCallback);
+            EventSubscriber.AddEventHandler(imageProvider, "ImageReadyEvent", OnImageReadyEventCallback);
         }
 
         private void OnImageReadyEventCallback()
@@ -30,7 +31,6 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
             {
                 /* Acquire the image from the image provider. Only show the latest image. The camera may acquire images faster than images can be displayed*/
                 ImageProvider.Image image = imageProvider.GetLatestImage();
-
                 /* Check if the image has been removed in the meantime. */
                 if (image != null)
                 {

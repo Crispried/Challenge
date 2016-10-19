@@ -57,7 +57,7 @@ namespace Challange.Domain.Entities
 
         public List<IFps> GetFirstFutureValue()
         {
-            return futureCameraRecords.Values.FirstOrDefault();
+            return futureCameraRecords.Values.FirstOrDefault();          
         }
 
         public void ClearBuffers()
@@ -95,7 +95,11 @@ namespace Challange.Domain.Entities
         public bool HaveToRemovePastFps()
         {
             var pastFrames = GetFirstPastValue();
-            return pastFrames.Count == maxElementsInPastCollection;
+            if (pastFrames != null)
+            {
+                return pastFrames.Count == maxElementsInPastCollection;
+            }
+            return false;
         }
 
         /// <summary>
@@ -106,7 +110,11 @@ namespace Challange.Domain.Entities
         public bool HaveToAddFutureFps()
         {
             var futureFrames = GetFirstFutureValue();
-            return futureFrames.Count != maxElementsInFutureCollection;
+            if(futureFrames != null)
+            {
+                return futureFrames.Count != maxElementsInFutureCollection;
+            }
+            return false;
         }
 
 

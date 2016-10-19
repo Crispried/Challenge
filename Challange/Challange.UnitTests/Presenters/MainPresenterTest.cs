@@ -126,7 +126,7 @@ namespace Challange.UnitTests.Presenters
             Assert.IsTrue(presenter.DirectoryForChallengeWasCreated);
             Assert.IsFalse(presenter.IsEventForPastFramesActive);
             Assert.IsTrue(presenter.IsEventForFutureFramesActive);
-            Assert.IsFalse(presenter.IsChallengeButtonEnable);
+            Assert.IsFalse(presenter.IsChallengeButtonVisible);
             Assert.IsTrue(presenter.MarkerWasAddedOntoTimeAxis);
         }
 

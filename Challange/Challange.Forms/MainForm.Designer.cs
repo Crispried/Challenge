@@ -39,7 +39,8 @@
             this.challangeSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timeAxis = new System.Windows.Forms.Panel();
-            this.challangeTimeAxis = new ChallangeTimeAxis.TimeAxis();
+            this.viewLastChallengeButton = new System.Windows.Forms.Button();
+            this.challengeTimeAxis = new ChallangeTimeAxis.TimeAxis();
             this.elapsedTimeFromStart = new System.Windows.Forms.Label();
             this.addChallange = new System.Windows.Forms.Button();
             this.toolBox = new System.Windows.Forms.ToolStrip();
@@ -47,9 +48,11 @@
             this.stopStreamButton = new System.Windows.Forms.ToolStripButton();
             this.openGameFolderButton = new System.Windows.Forms.ToolStripButton();
             this.openDevicesListButton = new System.Windows.Forms.ToolStripButton();
+            this.challengeRecordingImage = new System.Windows.Forms.PictureBox();
             this.menu.SuspendLayout();
             this.timeAxis.SuspendLayout();
             this.toolBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.challengeRecordingImage)).BeginInit();
             this.SuspendLayout();
             // 
             // playerPanel
@@ -59,13 +62,15 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.playerPanel.AutoScroll = true;
             this.playerPanel.BackColor = System.Drawing.Color.Black;
-            this.playerPanel.Location = new System.Drawing.Point(0, 44);
+            this.playerPanel.Location = new System.Drawing.Point(0, 54);
+            this.playerPanel.Margin = new System.Windows.Forms.Padding(4);
             this.playerPanel.Name = "playerPanel";
-            this.playerPanel.Size = new System.Drawing.Size(784, 458);
+            this.playerPanel.Size = new System.Drawing.Size(1045, 564);
             this.playerPanel.TabIndex = 0;
             // 
             // contextMenuStrip1
             // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
@@ -73,13 +78,15 @@
             // 
             this.menu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.menu.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.menu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.settingsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
-            this.menu.Size = new System.Drawing.Size(784, 24);
+            this.menu.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
+            this.menu.Size = new System.Drawing.Size(1045, 28);
             this.menu.TabIndex = 2;
             this.menu.Text = "Menu";
             // 
@@ -87,7 +94,7 @@
             // 
             this.fileToolStripMenuItem.Font = new System.Drawing.Font("Georgia", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // settingsToolStripMenuItem
@@ -97,47 +104,62 @@
             this.challangeSettings});
             this.settingsToolStripMenuItem.Font = new System.Drawing.Font("Georgia", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(82, 24);
             this.settingsToolStripMenuItem.Text = "Settings";
             // 
             // playerPanelSettings
             // 
             this.playerPanelSettings.Name = "playerPanelSettings";
-            this.playerPanelSettings.Size = new System.Drawing.Size(153, 22);
+            this.playerPanelSettings.Size = new System.Drawing.Size(177, 26);
             this.playerPanelSettings.Text = "Player panel";
             // 
             // challangeSettings
             // 
             this.challangeSettings.Name = "challangeSettings";
-            this.challangeSettings.Size = new System.Drawing.Size(153, 22);
+            this.challangeSettings.Size = new System.Drawing.Size(177, 26);
             this.challangeSettings.Text = "Challange";
             // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Font = new System.Drawing.Font("Georgia", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(58, 24);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // timeAxis
             // 
             this.timeAxis.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.timeAxis.Controls.Add(this.challangeTimeAxis);
+            this.timeAxis.Controls.Add(this.challengeRecordingImage);
+            this.timeAxis.Controls.Add(this.viewLastChallengeButton);
+            this.timeAxis.Controls.Add(this.challengeTimeAxis);
             this.timeAxis.Controls.Add(this.elapsedTimeFromStart);
             this.timeAxis.Controls.Add(this.addChallange);
             this.timeAxis.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.timeAxis.Location = new System.Drawing.Point(0, 501);
+            this.timeAxis.Location = new System.Drawing.Point(0, 617);
+            this.timeAxis.Margin = new System.Windows.Forms.Padding(4);
             this.timeAxis.Name = "timeAxis";
-            this.timeAxis.Size = new System.Drawing.Size(784, 61);
+            this.timeAxis.Size = new System.Drawing.Size(1045, 75);
             this.timeAxis.TabIndex = 3;
             // 
-            // challangeTimeAxis
+            // viewLastChallengeButton
             // 
-            this.challangeTimeAxis.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.challangeTimeAxis.Location = new System.Drawing.Point(3, 13);
-            this.challangeTimeAxis.Name = "challangeTimeAxis";
-            this.challangeTimeAxis.Size = new System.Drawing.Size(635, 23);
-            this.challangeTimeAxis.TabIndex = 0;
+            this.viewLastChallengeButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.viewLastChallengeButton.Font = new System.Drawing.Font("Georgia", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.viewLastChallengeButton.Location = new System.Drawing.Point(330, 28);
+            this.viewLastChallengeButton.Name = "viewLastChallengeButton";
+            this.viewLastChallengeButton.Size = new System.Drawing.Size(237, 44);
+            this.viewLastChallengeButton.TabIndex = 2;
+            this.viewLastChallengeButton.Text = "View last challenge";
+            this.viewLastChallengeButton.UseVisualStyleBackColor = true;
+            // 
+            // challengeTimeAxis
+            // 
+            this.challengeTimeAxis.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.challengeTimeAxis.Location = new System.Drawing.Point(5, 4);
+            this.challengeTimeAxis.Margin = new System.Windows.Forms.Padding(5);
+            this.challengeTimeAxis.Name = "challengeTimeAxis";
+            this.challengeTimeAxis.Size = new System.Drawing.Size(847, 28);
+            this.challengeTimeAxis.TabIndex = 0;
             // 
             // elapsedTimeFromStart
             // 
@@ -145,9 +167,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.elapsedTimeFromStart.AutoSize = true;
-            this.elapsedTimeFromStart.Location = new System.Drawing.Point(12, 39);
+            this.elapsedTimeFromStart.Location = new System.Drawing.Point(16, 48);
+            this.elapsedTimeFromStart.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.elapsedTimeFromStart.Name = "elapsedTimeFromStart";
-            this.elapsedTimeFromStart.Size = new System.Drawing.Size(0, 13);
+            this.elapsedTimeFromStart.Size = new System.Drawing.Size(0, 17);
             this.elapsedTimeFromStart.TabIndex = 0;
             // 
             // addChallange
@@ -156,9 +179,10 @@
             this.addChallange.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.addChallange.Enabled = false;
             this.addChallange.Font = new System.Drawing.Font("Georgia", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.addChallange.Location = new System.Drawing.Point(644, 3);
+            this.addChallange.Location = new System.Drawing.Point(859, 4);
+            this.addChallange.Margin = new System.Windows.Forms.Padding(4);
             this.addChallange.Name = "addChallange";
-            this.addChallange.Size = new System.Drawing.Size(128, 55);
+            this.addChallange.Size = new System.Drawing.Size(171, 68);
             this.addChallange.TabIndex = 1;
             this.addChallange.Text = "Challange";
             this.addChallange.UseVisualStyleBackColor = false;
@@ -166,14 +190,15 @@
             // toolBox
             // 
             this.toolBox.BackColor = System.Drawing.Color.White;
+            this.toolBox.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolBox.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.startStreamButton,
             this.stopStreamButton,
             this.openGameFolderButton,
             this.openDevicesListButton});
-            this.toolBox.Location = new System.Drawing.Point(0, 24);
+            this.toolBox.Location = new System.Drawing.Point(0, 28);
             this.toolBox.Name = "toolBox";
-            this.toolBox.Size = new System.Drawing.Size(784, 25);
+            this.toolBox.Size = new System.Drawing.Size(1045, 27);
             this.toolBox.TabIndex = 4;
             this.toolBox.Text = "toolStrip1";
             // 
@@ -183,7 +208,7 @@
             this.startStreamButton.Image = ((System.Drawing.Image)(resources.GetObject("startStreamButton.Image")));
             this.startStreamButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.startStreamButton.Name = "startStreamButton";
-            this.startStreamButton.Size = new System.Drawing.Size(23, 22);
+            this.startStreamButton.Size = new System.Drawing.Size(24, 24);
             this.startStreamButton.Text = "Start stream";
             // 
             // stopStreamButton
@@ -193,7 +218,7 @@
             this.stopStreamButton.Image = ((System.Drawing.Image)(resources.GetObject("stopStreamButton.Image")));
             this.stopStreamButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.stopStreamButton.Name = "stopStreamButton";
-            this.stopStreamButton.Size = new System.Drawing.Size(23, 22);
+            this.stopStreamButton.Size = new System.Drawing.Size(24, 24);
             this.stopStreamButton.Text = "Stop stream";
             // 
             // openGameFolderButton
@@ -202,7 +227,7 @@
             this.openGameFolderButton.Image = ((System.Drawing.Image)(resources.GetObject("openGameFolderButton.Image")));
             this.openGameFolderButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openGameFolderButton.Name = "openGameFolderButton";
-            this.openGameFolderButton.Size = new System.Drawing.Size(23, 22);
+            this.openGameFolderButton.Size = new System.Drawing.Size(24, 24);
             this.openGameFolderButton.Text = "Open game folder";
             // 
             // openDevicesListButton
@@ -211,19 +236,31 @@
             this.openDevicesListButton.Image = ((System.Drawing.Image)(resources.GetObject("openDevicesListButton.Image")));
             this.openDevicesListButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openDevicesListButton.Name = "openDevicesListButton";
-            this.openDevicesListButton.Size = new System.Drawing.Size(23, 22);
+            this.openDevicesListButton.Size = new System.Drawing.Size(24, 24);
             this.openDevicesListButton.Text = "Opens list with all conncected devices";
+            // 
+            // challengeRecordingImage
+            // 
+            this.challengeRecordingImage.Image = ((System.Drawing.Image)(resources.GetObject("challengeRecordingImage.Image")));
+            this.challengeRecordingImage.Location = new System.Drawing.Point(856, 4);
+            this.challengeRecordingImage.Name = "challengeRecordingImage";
+            this.challengeRecordingImage.Size = new System.Drawing.Size(186, 68);
+            this.challengeRecordingImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.challengeRecordingImage.TabIndex = 3;
+            this.challengeRecordingImage.TabStop = false;
+            this.challengeRecordingImage.Visible = false;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 562);
+            this.ClientSize = new System.Drawing.Size(1045, 692);
             this.Controls.Add(this.toolBox);
             this.Controls.Add(this.timeAxis);
             this.Controls.Add(this.menu);
             this.Controls.Add(this.playerPanel);
-            this.MinimumSize = new System.Drawing.Size(800, 600);
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.MinimumSize = new System.Drawing.Size(1061, 728);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Challange";
@@ -233,6 +270,7 @@
             this.timeAxis.PerformLayout();
             this.toolBox.ResumeLayout(false);
             this.toolBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.challengeRecordingImage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -250,13 +288,15 @@
         private System.Windows.Forms.ToolStripMenuItem playerPanelSettings;
         private System.Windows.Forms.Label elapsedTimeFromStart;
         private System.Windows.Forms.Button addChallange;
-        private ChallangeTimeAxis.TimeAxis challangeTimeAxis;
+        private ChallangeTimeAxis.TimeAxis challengeTimeAxis;
         private System.Windows.Forms.ToolStrip toolBox;
         private System.Windows.Forms.ToolStripButton startStreamButton;
         private System.Windows.Forms.ToolStripButton stopStreamButton;
         private System.Windows.Forms.ToolStripMenuItem challangeSettings;
         private System.Windows.Forms.ToolStripButton openGameFolderButton;
         private System.Windows.Forms.ToolStripButton openDevicesListButton;
+        private System.Windows.Forms.Button viewLastChallengeButton;
+        private System.Windows.Forms.PictureBox challengeRecordingImage;
     }
 }
 

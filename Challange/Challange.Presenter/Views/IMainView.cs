@@ -27,6 +27,10 @@ namespace Challange.Presenter.Views
 
         event Action NewFrameCallback;
 
+        event Action<string> OpenChallengePlayer; // where string is path to neccessary challenge
+
+        event Action OpenChallengePlayerForLastChallenge; // where string is path to last challenge
+
         event Action<string, string> PassCamerasNamesToPresenterCallback;
 
         Tuple<string, Bitmap> CurrentFrameInfo { get; }
@@ -41,11 +45,13 @@ namespace Challange.Presenter.Views
 
         void ResetTimeAxis();
 
-        void AddMarkerOnTimeAxis();
+        void AddMarkerOnTimeAxis(string pathToChallenge);
 
         void ToggleChallengeButton(bool state);
 
-        void ToggleChallengeButtonIn(bool state, int seconds);
+        void MakeChallengeButtonInvisibleOn(int seconds);
+
+        void MakeChallengeRecordingImageVisibleOn(int seconds);
 
         void ToggleStartButton(bool state);
 
@@ -54,6 +60,8 @@ namespace Challange.Presenter.Views
         void DrawNewFrame(Bitmap frame, string cameraName);
 
         void BindPlayersToCameras(Queue<string> camerasNames);
+
+        void DrawChallengeRecordingImage();
 
         void ShowMessage(ChallengeMessage message);
     }

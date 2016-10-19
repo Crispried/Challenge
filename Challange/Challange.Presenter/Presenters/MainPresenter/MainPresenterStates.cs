@@ -19,7 +19,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
 
         public bool IsEventForFutureFramesActive { get; set; }
 
-        public bool IsChallengeButtonEnable { get; set; }
+        public bool IsChallengeButtonVisible { get; set; }
+
+        public bool IsChallengeRecordingImageVisible { get; set; }
         #endregion
 
         #region Run

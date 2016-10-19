@@ -98,7 +98,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void StartStream()
         {
             // camerasContainer = InitializeDevices();
-            if (!IsDeviceListEmpty)
+            if (IsDeviceListEmpty) // DONT FORGET BACK "!" !!!!!!!
             {
                 InitializeChallengeBuffers();
                 BindPlayersToCameras();
@@ -134,8 +134,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
             challenge.CreateDirectoryForChallenge();
             ChangeActivityOfEventForPastFrames(false);
             ChangeActivityOfEventForFutureFrames(true);
-            ChangeStateOfChallengeButtonIn(false, challengeSettings.NumberOfFutureFPS);
-            AddMarkerOnTimeAxis();
+            SetUIAsChallengeRecordingOn(challengeSettings.NumberOfFutureFPS);
+            AddMarkerOnTimeAxis(challenge.GetChallengeDirectoryPath);
         }
 
         /// <summary>
@@ -144,6 +144,24 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void OpenGameFolder()
         {
             FileService.OpenFileOrFolder(gameInformation.DirectoryName);
+        }
+
+        /// <summary>
+        /// Opens Challenge Player form for choosed challenge
+        /// </summary>
+        public void OpenChallengePlayer(string pathToChallenge)
+        {
+            Controller.Run<ChallengePlayerPresenter.ChallengePlayerPresenter,
+               string>(pathToChallenge);
+        }
+
+        /// <summary>
+        /// Opens Challenge Player form for last challenge
+        /// </summary>
+        public void OpenChallengePlayerForLastChallenge()
+        {
+            // challenge.GetChallengeDirectoryPath contains last one challenge folder
+            OpenChallengePlayer(challenge.GetChallengeDirectoryPath); 
         }
 
         /// <summary>

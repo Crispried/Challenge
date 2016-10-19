@@ -16,7 +16,7 @@ namespace Challange.Forms
 #if DEBUG
             /* This is a special debug setting needed only for GigE cameras.
                 See 'Building Applications with pylon' in the Programmer's Guide. */
-            Environment.SetEnvironmentVariable("PYLON_GIGE_HEARTBEAT", "10000" /*ms*/);
+            Environment.SetEnvironmentVariable("PYLON_GIGE_HEARTBEAT", "5000" /*ms*/);
 #endif
             Pylon.Initialize();
             try
@@ -30,6 +30,7 @@ namespace Challange.Forms
                                 .RegisterView<IChallengeSettingsView, ChallangeSettingsForm>()
                                 .RegisterView<IGameInformationView, GameInformationForm>()
                                 .RegisterView<ICamerasView, CamerasForm>()
+                                .RegisterView<IChallengePlayerView, ChallengePlayerForm>()
                                 .RegisterInstance(new ApplicationContext());
 
                 controller.Run<MainPresenter>();

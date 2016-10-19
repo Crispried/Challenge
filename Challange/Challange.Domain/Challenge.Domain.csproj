@@ -39,21 +39,18 @@
     <Reference Include="AForge.Video.DirectShow">
       <HintPath>..\packages\AForge.Video.DirectShow.2.2.5\lib\AForge.Video.DirectShow.dll</HintPath>
     </Reference>
-    <Reference Include="AForge.Video.FFMPEG, Version=2.2.5.0, Culture=neutral, PublicKeyToken=03563089b1be05dd, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\AForge.Video.FFMPEG.dll</HintPath>
+    <Reference Include="AForge.Video.FFMPEG">
+      <HintPath>..\packages\AForge.Video.FFMPEG\lib\AForge.Video.FFMPEG.dll</HintPath>
     </Reference>
     <Reference Include="INIFileParser, Version=2.2.4.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
       <HintPath>..\packages\ini-parser.2.2.4\lib\net20\INIFileParser.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PylonC.NET, Version=4.1.0.0, Culture=neutral, PublicKeyToken=a77e8471c5919d5a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\Volodymyr\Desktop\PylonC.NET.dll</HintPath>
+    <Reference Include="PylonC.NET">
+      <HintPath>..\packages\Pylon.5\lib\PylonC.NET.dll</HintPath>
     </Reference>
-    <Reference Include="PylonC.NETSupportLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\Volodymyr\Desktop\PylonC.NETSupportLibrary.dll</HintPath>
+    <Reference Include="PylonC.NETSupportLibrary">
+      <HintPath>..\packages\Pylon.5\lib\PylonC.NETSupportLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

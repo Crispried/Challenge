@@ -57,7 +57,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
             View.MainFormClosing += FormClosing;
             View.CreateChallange += CreateChallange;
             View.NewFrameCallback += AddNewFrame;
+            View.OpenChallengePlayer += OpenChallengePlayer;
             View.PassCamerasNamesToPresenterCallback += PassCamerasNamesToPresenter;
+            View.OpenChallengePlayerForLastChallenge += OpenChallengePlayerForLastChallenge;
         }
         
         public GameInformation GameInformation

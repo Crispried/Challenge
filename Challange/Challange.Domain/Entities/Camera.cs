@@ -59,14 +59,14 @@ namespace Challange.Domain.Entities
             }
         }
 
-        public delegate void NewFrameEventHandler(Bitmap frame, string cameraName);
-        public event NewFrameEventHandler NewFrameEvent;
+//        public delegate void NewFrameEventHandler(Bitmap frame, string cameraName);
+        public event EventHandler<NewFrameEventArgs> NewFrameEvent;
 
         protected void OnNewFrameEvent(Bitmap frame, string cameraName)
         {
             if (NewFrameEvent != null)
             {
-                NewFrameEvent(frame, cameraName);
+                NewFrameEvent(this, new NewFrameEventArgs(frame, cameraName));
             }
         }
 
@@ -111,6 +111,16 @@ namespace Challange.Domain.Entities
         public override int GetHashCode()
         {
             return name.GetHashCode() ^ fullName.GetHashCode();
+        }
+    }
+    public class NewFrameEventArgs : EventArgs
+    {
+        public Bitmap Frame { get; set; }
+        public string CameraName { get; set; }
+        public NewFrameEventArgs(Bitmap frame, string cameraName)
+        {
+            Frame = frame;
+            CameraName = cameraName;
         }
     }
 }

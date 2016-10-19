@@ -11,7 +11,7 @@ namespace Challange.Domain.Entities
 {
     public static class EventSubscriber
     {
-        public static Delegate AddEventHandler(object item, 
+        public static Delegate AddEventHandler(object item,
                             string eventName, Action action)
         {
             var eventInfo = GetEventInfo(item.GetType(), eventName);
@@ -21,12 +21,11 @@ namespace Challange.Domain.Entities
             return handler;
         }
 
-        public static Delegate AddEventHandler(object item,
-                    string eventName, Action<object, EventArgs> action)
+        public static Delegate AddEventHandler(object item, string eventName, Action<object, EventArgs> action)
         {
             var eventInfo = GetEventInfo(item.GetType(), eventName);
             var parameters = GetParameters(eventInfo);
-            var invoke = GetMethod(action);
+            var invoke = action.GetType().GetMethod("Invoke");
             var handler = GetHandler(eventInfo, action, invoke, parameters);
             eventInfo.AddEventHandler(item, handler);
             return handler;
@@ -41,7 +40,7 @@ namespace Challange.Domain.Entities
 
         private static EventInfo GetEventInfo(Type type, string eventName)
         {
-            return type.GetEvent("Elapsed");
+            return type.GetEvent(eventName);
         }
 
         private static ParameterExpression[] GetParameters(EventInfo eventInfo)
@@ -64,19 +63,14 @@ namespace Challange.Domain.Entities
         }
 
         private static Delegate GetHandler(EventInfo eventInfo,
-            Action<object, EventArgs> action, MethodInfo methodInfo,
-            ParameterExpression[] parameters)
+            Action<object, EventArgs> action, MethodInfo invoke, ParameterExpression[] parameters)
         {
             return Expression.Lambda(
                 eventInfo.EventHandlerType,
-                Expression.Call(Expression.Constant(action),
-                methodInfo, parameters), parameters)
+                Expression.Call(Expression.Constant(action), invoke, parameters),
+                parameters
+              )
               .Compile();
-        }
-
-        private static MethodInfo GetMethod(Action<object, EventArgs> action)
-        {
-            return action.GetType().GetMethod("Invoke");
         }
     }
 }

@@ -26,8 +26,11 @@ namespace Challange.Domain.Entities
             this.camerasContainer = camerasContainer;
             this.pathToVideos = pathToVideos;
             videos = UnitePastAndFutureFrames();
-            width = GetWidth();
-            height = GetHeight();
+            if(videos.Count != 0)
+            {
+                width = GetWidth();
+                height = GetHeight();
+            }
         }
 
         public void WriteChallenge()

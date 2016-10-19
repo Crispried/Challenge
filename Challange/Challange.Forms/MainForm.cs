@@ -14,6 +14,8 @@ using System.ComponentModel;
 using System.Windows;
 using Challange.Domain.Services.Message;
 using System.Drawing.Drawing2D;
+using ChallangeMarker;
+using Challange.Domain.Entities;
 
 namespace Challange.Forms
 {
@@ -73,6 +75,8 @@ namespace Challange.Forms
                             Invoke(CreateChallange);
             openDevicesListButton.Click += (sender, args) =>
                             Invoke(OpenDevicesList);
+            viewLastChallengeButton.Click += (sender, args) =>
+                            Invoke(OpenChallengePlayerForLastChallenge);
             allPlayers = new List<PictureBox>();
             fullScreenButtonsList = new List<Button>();
         }
@@ -148,14 +152,14 @@ namespace Challange.Forms
         #region events
         private void OnTimedEvent(Object source, EventArgs myEventArgs)
         {
-            challangeTimeAxis.UpdateTimeAxis();
-            elapsedTimeFromStart.Text = challangeTimeAxis.ElapsedTimeFromStart;
+            challengeTimeAxis.UpdateTimeAxis();
+            elapsedTimeFromStart.Text = challengeTimeAxis.ElapsedTimeFromStart;
         }
 
         private void TimerCallback(object state)
         {
-            challangeTimeAxis.UpdateTimeAxis();
-            elapsedTimeFromStart.Text = challangeTimeAxis.ElapsedTimeFromStart;
+            challengeTimeAxis.UpdateTimeAxis();
+            elapsedTimeFromStart.Text = challengeTimeAxis.ElapsedTimeFromStart;
         }
 
         #region fullScreen
@@ -426,6 +430,10 @@ namespace Challange.Forms
 
         public event Action NewFrameCallback;
 
+        public event Action<string> OpenChallengePlayer;
+
+        public event Action OpenChallengePlayerForLastChallenge;
+
         public event Action<string, string> PassCamerasNamesToPresenterCallback;
         #endregion
 
@@ -482,6 +490,7 @@ namespace Challange.Forms
             timer.Start();
         }
 
+        #region Time axis
         public void ResetTimeAxis()
         {
             timer.Stop();
@@ -489,6 +498,14 @@ namespace Challange.Forms
             // challangeTimeAxis.Reset();
             elapsedTimeFromStart.ResetText();
         }
+
+        public void AddMarkerOnTimeAxis(string pathToChallenge)
+        {
+            Marker marker = new Marker(pathToChallenge);
+            challengeTimeAxis.AddMarkerOnTimeAxis(marker);
+            marker.Click += (sender, args) => Invoke(OpenChallengePlayer, marker.pathToChallenge);
+        }
+        #endregion
 
         public new void Show()
         {
@@ -570,7 +587,6 @@ namespace Challange.Forms
             pictureBox.BackColor = Color.Red;
             pictureBox.Height = playerHeight;
             pictureBox.Width = playerWidth;
-            pictureBox.Image = Image.FromFile(@"C:\Images\default.jpg");
             pictureBox.Controls.Add(CreateTextBox(playerWidth));
             pictureBox.Controls.Add(CreateFullScreenButton(playerWidth, playerHeight));
 
@@ -609,29 +625,26 @@ namespace Challange.Forms
             return new Point(playerWidth - fullScreenButtonWidth, playerHeight - fullScreenButtonHeight);
         }
 
-        public void AddMarkerOnTimeAxis()
-        {
-            challangeTimeAxis.CreateMarker();
-        }
-
         public void ToggleChallengeButton(bool enabled)
         {
             addChallange.Enabled = enabled;
         }
 
-        public void ToggleChallengeButtonIn(bool enabled, int seconds)
+        public void MakeChallengeButtonInvisibleOn(int seconds)
         {
-            ToggleChallengeButton(false);
-            EnableChallangeAfter(seconds);
+            ChangeVisibilityOn(addChallange, seconds, false);
         }
 
-        private async void EnableChallangeAfter(int seconds)
+        public void MakeChallengeRecordingImageVisibleOn(int seconds)
         {
+            ChangeVisibilityOn(challengeRecordingImage, seconds, true);
+        }
+
+        private async void ChangeVisibilityOn(Control control, int seconds, bool isVisible)
+        {
+            control.Visible = isVisible;
             await Task.Delay(seconds * 1000);
-            if (IsStreaming())
-            {
-                ToggleChallengeButton(true);
-            }
+            control.Visible = !isVisible;
         }
 
         public void ToggleStartButton(bool enabled)
@@ -647,6 +660,18 @@ namespace Challange.Forms
         private bool IsStreaming()
         {
             return timer.Enabled;
+        }
+
+        public void DrawChallengeRecordingImage()
+        {
+            addChallange.Visible = false;
+            PictureBox recordingChallenge = new PictureBox();
+            recordingChallenge.Image = Image.FromFile(@"../../Images/challenge_recording.png");
+            recordingChallenge.Location = addChallange.Location;
+            recordingChallenge.Size = addChallange.Size;
+            recordingChallenge.BringToFront();
+            recordingChallenge.SizeMode = PictureBoxSizeMode.StretchImage;
+            timeAxis.Controls.Add(recordingChallenge);
         }
 
         public void DrawNewFrame(Bitmap frame, string cameraName)

@@ -47,12 +47,11 @@
       <HintPath>..\packages\ini-parser.2.2.4\lib\net20\INIFileParser.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PylonC.NET, Version=4.1.0.0, Culture=neutral, PublicKeyToken=a77e8471c5919d5a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\Volodymyr\Desktop\PylonC.NET.dll</HintPath>
+    <Reference Include="PylonC.NET">
+      <HintPath>..\packages\Pylon.5\lib\PylonC.NET.dll</HintPath>
     </Reference>
     <Reference Include="PylonC.NETSupportLibrary">
-      <HintPath>C:\Users\Volodymyr\Desktop\PylonC.NETSupportLibrary.dll</HintPath>
+      <HintPath>..\packages\Pylon.5\lib\PylonC.NETSupportLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -79,6 +78,10 @@
     <Compile Include="Presenters\CamerasPresenter\Cameras.cs" />
     <Compile Include="Presenters\CamerasPresenter\CamerasPresenters.cs" />
     <Compile Include="Presenters\CamerasPresenter\CamerasPresenterState.cs" />
+    <Compile Include="Presenters\ChallengePlayerPresenter\ChallengePlayer.cs" />
+    <Compile Include="Presenters\ChallengePlayerPresenter\ChallengePlayerInternal.cs" />
+    <Compile Include="Presenters\ChallengePlayerPresenter\ChallengePlayerPresenters.cs" />
+    <Compile Include="Presenters\ChallengePlayerPresenter\ChallengePlayerStates.cs" />
     <Compile Include="Presenters\ChallengeSettingsPresenter\ChallengeSettingsInternal.cs" />
     <Compile Include="Presenters\ChallengeSettingsPresenter\ChallengeSettings.cs" />
     <Compile Include="Presenters\ChallengeSettingsPresenter\ChallengeSettingsPresenters.cs" />
@@ -94,6 +97,7 @@
     <Compile Include="Presenters\PlayerPanelSettingsPresenter\PlayerPanelSettings.cs" />
     <Compile Include="Presenters\PlayerPanelSettingsPresenter\PlayerPanelSettingsPresenters.cs" />
     <Compile Include="Views\ICamerasView.cs" />
+    <Compile Include="Views\IChallengePlayerView.cs" />
     <Compile Include="Views\IChallengeSettingsView.cs" />
     <Compile Include="Views\IGameInformationView.cs" />
     <Compile Include="Views\IMainView.cs" />
