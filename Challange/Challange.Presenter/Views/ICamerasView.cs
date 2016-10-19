@@ -10,5 +10,7 @@ namespace Challange.Presenter.Views
     public interface ICamerasView : IView
     {
         void FillCamerasListView(List<string> camerasNames);
+
+        void SetUIOnNoConnectedDevices();
     }
 }

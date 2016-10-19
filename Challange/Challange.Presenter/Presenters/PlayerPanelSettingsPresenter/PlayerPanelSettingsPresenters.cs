@@ -35,8 +35,6 @@ namespace Challange.Presenter.Presenters.PlayerPanelSettingsPresenter
                             newSettings.PlayerWidth;
             playerPanelSettings.PlayerHeight =
                             newSettings.PlayerHeight;
-            playerPanelSettings.NumberOfPlayers =
-                            newSettings.NumberOfPlayers;
             playerPanelSettings.AutosizeMode =
                             newSettings.AutosizeMode;
 

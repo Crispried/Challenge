@@ -81,6 +81,7 @@
     <Compile Include="Entities\GameInformation.cs" />
     <Compile Include="Entities\InternalChallengeTimer.cs" />
     <Compile Include="Entities\Video.cs" />
+    <Compile Include="Entities\ZoomData.cs" />
     <Compile Include="Infrastructure\ChallengeStructurer.cs" />
     <Compile Include="Entities\Camera.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -90,6 +91,7 @@
     </Compile>
     <Compile Include="Services\Message\MessageParser.cs" />
     <Compile Include="Services\Message\MessageType.cs" />
+    <Compile Include="Services\Replay\Zoomer.cs" />
     <Compile Include="Services\Settings\SettingTypes\IChallengeSettings.cs" />
     <Compile Include="Services\StreamProcess\Abstract\ICameraProvider.cs" />
     <Compile Include="Entities\ChallengeWriter.cs" />

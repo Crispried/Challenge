@@ -25,10 +25,18 @@ namespace Challange.Forms
 
         public void FillCamerasListView(List<string> camerasNames)
         {
+            camerasListBox.Visible = true;
+            noConnectedCameraLabel.Visible = false;
             foreach (string cameraName in camerasNames)
             {
                 camerasListBox.Items.Add(cameraName);
             }
+        }
+
+        public void SetUIOnNoConnectedDevices()
+        {
+            camerasListBox.Visible = false;
+            noConnectedCameraLabel.Visible = true;
         }
     }
 }

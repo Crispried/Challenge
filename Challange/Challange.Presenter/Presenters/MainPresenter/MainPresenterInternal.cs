@@ -107,7 +107,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             if (playerPanelSettings != null)
             {
-                View.DrawPlayers(playerPanelSettings);
+                View.DrawPlayers(playerPanelSettings, camerasContainer.CamerasNumber);
             }
         }
         #region settings

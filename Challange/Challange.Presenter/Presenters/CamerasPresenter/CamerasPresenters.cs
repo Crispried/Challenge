@@ -12,9 +12,15 @@ namespace Challange.Presenter.Presenters.CamerasPresenter
         public override void Run(List<string> argument)
         {
             connectedCameras = argument;
-            FillCamerasListView();
+            if(connectedCameras.Count == 0)
+            {
+                SetUIOnNoConnectedDevices();
+            }
+            else
+            {
+                FillCamerasListView();
+            }
             View.Show();
-
             CamerasListWindowIsOpened = true;
         }
     }

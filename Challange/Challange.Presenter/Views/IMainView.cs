@@ -4,6 +4,9 @@ using Challange.Domain.Services.Settings.SettingTypes;
 using System.Drawing;
 using System.Collections.Generic;
 using Challange.Domain.Services.Message;
+using System.Windows.Forms;
+using Challange.Domain.Services.Replay;
+using Challange.Domain.Entities;
 
 namespace Challange.Presenter.Views
 {
@@ -31,6 +34,8 @@ namespace Challange.Presenter.Views
 
         event Action OpenChallengePlayerForLastChallenge; // where string is path to last challenge
 
+        event Action<Point, int, Point> MakeZoom;
+
         event Action<string, string> PassCamerasNamesToPresenterCallback;
 
         Tuple<string, Bitmap> CurrentFrameInfo { get; }
@@ -39,7 +44,7 @@ namespace Challange.Presenter.Views
 
         string GetElapsedTime { get; }
 
-        void DrawPlayers(PlayerPanelSettings settings);
+        void DrawPlayers(PlayerPanelSettings settings, int numberOfPlayers);
 
         void InitializeTimer();
 
@@ -64,5 +69,7 @@ namespace Challange.Presenter.Views
         void DrawChallengeRecordingImage();
 
         void ShowMessage(ChallengeMessage message);
+
+        void RedrawZoomedImage(ZoomData zoomData);
     }
 }

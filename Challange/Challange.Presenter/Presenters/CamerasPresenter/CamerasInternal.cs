@@ -15,5 +15,14 @@ namespace Challange.Presenter.Presenters.CamerasPresenter
         {
             View.FillCamerasListView(connectedCameras);
         }
+
+        /// <summary>
+        /// in fact we want hide list box and make visible label
+        /// which will say that there aren't any connected camera
+        /// </summary>
+        private void SetUIOnNoConnectedDevices()
+        {
+            View.SetUIOnNoConnectedDevices();
+        }
     }
 }

@@ -42,8 +42,6 @@ namespace Challange.Forms
                     Convert.ToInt32(playerHeightTextBox.Text),
                 PlayerWidth =
                     Convert.ToInt32(playerWidthTextBox.Text),
-                NumberOfPlayers =
-                    Convert.ToInt32(numberOfPlayersTextBox.Text),
                 AutosizeMode = autosizeCheckButton.Checked
             };
             return playerPanelSettings;
@@ -60,8 +58,6 @@ namespace Challange.Forms
                 playerPanelSetting.PlayerHeight.ToString();
             playerWidthTextBox.Text =
                 playerPanelSetting.PlayerWidth.ToString();
-            numberOfPlayersTextBox.Text =
-                playerPanelSetting.NumberOfPlayers.ToString();
             autosizeCheckButton.Checked =
                 playerPanelSetting.AutosizeMode;
         }

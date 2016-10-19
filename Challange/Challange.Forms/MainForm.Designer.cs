@@ -39,6 +39,7 @@
             this.challangeSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timeAxis = new System.Windows.Forms.Panel();
+            this.challengeRecordingImage = new System.Windows.Forms.PictureBox();
             this.viewLastChallengeButton = new System.Windows.Forms.Button();
             this.challengeTimeAxis = new ChallangeTimeAxis.TimeAxis();
             this.elapsedTimeFromStart = new System.Windows.Forms.Label();
@@ -48,11 +49,10 @@
             this.stopStreamButton = new System.Windows.Forms.ToolStripButton();
             this.openGameFolderButton = new System.Windows.Forms.ToolStripButton();
             this.openDevicesListButton = new System.Windows.Forms.ToolStripButton();
-            this.challengeRecordingImage = new System.Windows.Forms.PictureBox();
             this.menu.SuspendLayout();
             this.timeAxis.SuspendLayout();
-            this.toolBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.challengeRecordingImage)).BeginInit();
+            this.toolBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // playerPanel
@@ -140,6 +140,17 @@
             this.timeAxis.Name = "timeAxis";
             this.timeAxis.Size = new System.Drawing.Size(1045, 75);
             this.timeAxis.TabIndex = 3;
+            // 
+            // challengeRecordingImage
+            // 
+            this.challengeRecordingImage.Image = ((System.Drawing.Image)(resources.GetObject("challengeRecordingImage.Image")));
+            this.challengeRecordingImage.Location = new System.Drawing.Point(856, 4);
+            this.challengeRecordingImage.Name = "challengeRecordingImage";
+            this.challengeRecordingImage.Size = new System.Drawing.Size(186, 68);
+            this.challengeRecordingImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.challengeRecordingImage.TabIndex = 3;
+            this.challengeRecordingImage.TabStop = false;
+            this.challengeRecordingImage.Visible = false;
             // 
             // viewLastChallengeButton
             // 
@@ -239,17 +250,6 @@
             this.openDevicesListButton.Size = new System.Drawing.Size(24, 24);
             this.openDevicesListButton.Text = "Opens list with all conncected devices";
             // 
-            // challengeRecordingImage
-            // 
-            this.challengeRecordingImage.Image = ((System.Drawing.Image)(resources.GetObject("challengeRecordingImage.Image")));
-            this.challengeRecordingImage.Location = new System.Drawing.Point(856, 4);
-            this.challengeRecordingImage.Name = "challengeRecordingImage";
-            this.challengeRecordingImage.Size = new System.Drawing.Size(186, 68);
-            this.challengeRecordingImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.challengeRecordingImage.TabIndex = 3;
-            this.challengeRecordingImage.TabStop = false;
-            this.challengeRecordingImage.Visible = false;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -268,9 +268,9 @@
             this.menu.PerformLayout();
             this.timeAxis.ResumeLayout(false);
             this.timeAxis.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.challengeRecordingImage)).EndInit();
             this.toolBox.ResumeLayout(false);
             this.toolBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.challengeRecordingImage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
