@@ -176,6 +176,12 @@ namespace Challange.Presenter.Presenters.MainPresenter
             OpenChallengePlayer(challenge.GetChallengeDirectoryPath); 
         }
 
+        public void OpenBroadcastForm(string cameraFullName)
+        {
+            Camera cameraForBroadcasting = camerasContainer.GetCameraByKey(cameraFullName);
+            Controller.Run<BroadcastPresenter.BroadcastPresenter, Camera>(cameraForBroadcasting);
+        }
+
         /// <summary>
         /// Stops capturing from all connected devices
         /// </summary>

@@ -34,18 +34,21 @@
             // 
             // broadcastPictureBox
             // 
-            this.broadcastPictureBox.Location = new System.Drawing.Point(12, 12);
+            this.broadcastPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.broadcastPictureBox.Location = new System.Drawing.Point(0, 0);
+            this.broadcastPictureBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.broadcastPictureBox.Name = "broadcastPictureBox";
-            this.broadcastPictureBox.Size = new System.Drawing.Size(530, 387);
+            this.broadcastPictureBox.Size = new System.Drawing.Size(739, 506);
             this.broadcastPictureBox.TabIndex = 0;
             this.broadcastPictureBox.TabStop = false;
             // 
             // BroadcastForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(554, 411);
+            this.ClientSize = new System.Drawing.Size(739, 506);
             this.Controls.Add(this.broadcastPictureBox);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "BroadcastForm";
             this.Text = "Broadcast";
             ((System.ComponentModel.ISupportInitialize)(this.broadcastPictureBox)).EndInit();

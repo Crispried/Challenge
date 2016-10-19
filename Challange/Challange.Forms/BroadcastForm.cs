@@ -16,11 +16,20 @@ namespace Challange.Forms
         public BroadcastForm()
         {
             InitializeComponent();
+            this.Shown += (sender, args) => Invoke(BroadcastShowCallback);
         }
 
-        public new void Show()
+        public event Action BroadcastShowCallback;
+
+        public void DrawNewFrame(Bitmap frame, string fullCameraName)
         {
-            ShowDialog();
+            Bitmap frameClone = CloneFrame(frame);
+            broadcastPictureBox.Image = frameClone;
+        }
+
+        private Bitmap CloneFrame(Bitmap frame)
+        {
+            return frame.Clone(new Rectangle(0, 0, frame.Width, frame.Height), frame.PixelFormat);
         }
     }
 }

@@ -49,6 +49,8 @@
             this.stopStreamButton = new System.Windows.Forms.ToolStripButton();
             this.openGameFolderButton = new System.Windows.Forms.ToolStripButton();
             this.openDevicesListButton = new System.Windows.Forms.ToolStripButton();
+            this.tempToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.drawTestPlayersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             this.timeAxis.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.challengeRecordingImage)).BeginInit();
@@ -72,7 +74,7 @@
             // 
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(67, 4);
             // 
             // menu
             // 
@@ -82,7 +84,8 @@
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.settingsToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.helpToolStripMenuItem,
+            this.tempToolStripMenuItem});
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
             this.menu.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
@@ -250,6 +253,21 @@
             this.openDevicesListButton.Size = new System.Drawing.Size(24, 24);
             this.openDevicesListButton.Text = "Opens list with all conncected devices";
             // 
+            // tempToolStripMenuItem
+            // 
+            this.tempToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.drawTestPlayersToolStripMenuItem});
+            this.tempToolStripMenuItem.Name = "tempToolStripMenuItem";
+            this.tempToolStripMenuItem.Size = new System.Drawing.Size(54, 24);
+            this.tempToolStripMenuItem.Text = "Temp";
+            // 
+            // drawTestPlayersToolStripMenuItem
+            // 
+            this.drawTestPlayersToolStripMenuItem.Name = "drawTestPlayersToolStripMenuItem";
+            this.drawTestPlayersToolStripMenuItem.Size = new System.Drawing.Size(183, 26);
+            this.drawTestPlayersToolStripMenuItem.Text = "DrawTestPlayers";
+            this.drawTestPlayersToolStripMenuItem.Click += new System.EventHandler(this.drawTestPlayersToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -297,6 +315,8 @@
         private System.Windows.Forms.ToolStripButton openDevicesListButton;
         private System.Windows.Forms.Button viewLastChallengeButton;
         private System.Windows.Forms.PictureBox challengeRecordingImage;
+        private System.Windows.Forms.ToolStripMenuItem tempToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem drawTestPlayersToolStripMenuItem;
     }
 }
 

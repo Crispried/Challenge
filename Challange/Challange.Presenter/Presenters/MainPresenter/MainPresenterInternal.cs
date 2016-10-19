@@ -180,7 +180,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         }
 
         /// <summary>
-        /// Process new frame from device cameraName
+        /// Process new frame from device cameraFullName
         /// </summary>
         /// <param name="frame"></param>
         /// <param name="cameraName"></param>

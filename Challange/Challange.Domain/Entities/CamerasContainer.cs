@@ -111,5 +111,10 @@ namespace Challange.Domain.Entities
                 camera.Stop();
             }
         }
+
+        public Camera GetCameraByKey(string key)
+        {
+            return camerasContainer.Find(camera => camera.FullName == key);
+        }
     }
 }

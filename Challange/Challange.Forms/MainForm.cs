@@ -367,6 +367,8 @@ namespace Challange.Forms
 
         public event Action<Point, int, Point> MakeZoom;
 
+        public event Action<string> OpenBroadcastForm;
+
         public event Action<string, string> PassCamerasNamesToPresenterCallback;
         #endregion
 
@@ -560,9 +562,11 @@ namespace Challange.Forms
                 FlatStyle = FlatStyle.Flat
             };
             broadcastButton.FlatAppearance.BorderSize = 0;
-            //showFullscreen.Click += new EventHandler(ShowFullScreen_Click);
-
-            //fullScreenButtonsList.Add(showFullscreen);
+            broadcastButton.Click += (sender, args)
+                            => Invoke(OpenBroadcastForm,
+                                (sender as Button).
+                                Parent.Controls.OfType<TextBox>().
+                                FirstOrDefault().Tag);
             return broadcastButton;
         }
 
@@ -672,6 +676,12 @@ namespace Challange.Forms
         private TextBox GetPlayersTextBox(PictureBox player)
         {
             return player.Controls.Cast<TextBox>().FirstOrDefault();
+        }
+
+        private void drawTestPlayersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ClearPlayerPanelControls();
+            DrawPlayers(new PlayerPanelSettings() { AutosizeMode = true }, 5);
         }
 
         public void ShowMessage(ChallengeMessage message)

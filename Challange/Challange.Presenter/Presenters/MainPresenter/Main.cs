@@ -65,6 +65,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
             View.MakeZoom += MakeZoom;
             View.PassCamerasNamesToPresenterCallback += PassCamerasNamesToPresenter;
             View.OpenChallengePlayerForLastChallenge += OpenChallengePlayerForLastChallenge;
+            View.OpenBroadcastForm += OpenBroadcastForm;
         }
         
         public GameInformation GameInformation
