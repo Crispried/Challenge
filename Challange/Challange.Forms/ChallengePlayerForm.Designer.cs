@@ -147,7 +147,7 @@
             // rewindOnSetting
             // 
             this.rewindOnSetting.Name = "rewindOnSetting";
-            this.rewindOnSetting.Size = new System.Drawing.Size(181, 26);
+            this.rewindOnSetting.Size = new System.Drawing.Size(169, 26);
             this.rewindOnSetting.Text = "Rewind On";
             // 
             // ChallengePlayerForm

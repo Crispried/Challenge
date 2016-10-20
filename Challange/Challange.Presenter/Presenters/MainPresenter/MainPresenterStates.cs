@@ -30,6 +30,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public bool ChallengeSettingsAreNull { get; set; }
 
         public bool PlayerPanelSettingsAreNull { get; set; }
+
+        public bool FtpSettingsAreNull { get; set; }
         #endregion
 
         #region Start stream

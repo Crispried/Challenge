@@ -138,6 +138,20 @@ namespace Challange.Presenter.Presenters.MainPresenter
             return challengeSettingService.
                         GetSetting();
         }
+
+        /// <summary>
+        /// read ftp settings from xml file
+        /// this action occures only when we run our form
+        /// </summary>
+        /// <returns></returns>
+        private FtpSettings GetFtpSettings()
+        {
+            var ftpSettingsService =
+                 new SettingsService<FtpSettings>(
+                                new FtpSettingsParser());
+            return ftpSettingsService.
+                        GetSetting();
+        }
         #endregion
 
 

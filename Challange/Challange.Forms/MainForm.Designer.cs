@@ -37,6 +37,7 @@
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.playerPanelSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.challangeSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.ftpSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tempToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.drawTestPlayersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,7 +66,7 @@
             this.playerPanel.AutoScroll = true;
             this.playerPanel.BackColor = System.Drawing.Color.Black;
             this.playerPanel.Location = new System.Drawing.Point(0, 54);
-            this.playerPanel.Margin = new System.Windows.Forms.Padding(4);
+            this.playerPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.playerPanel.Name = "playerPanel";
             this.playerPanel.Size = new System.Drawing.Size(1045, 564);
             this.playerPanel.TabIndex = 0;
@@ -74,7 +75,7 @@
             // 
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(67, 4);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
             // menu
             // 
@@ -104,7 +105,8 @@
             // 
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.playerPanelSettings,
-            this.challangeSettings});
+            this.challangeSettings,
+            this.ftpSettings});
             this.settingsToolStripMenuItem.Font = new System.Drawing.Font("Georgia", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(82, 24);
@@ -113,14 +115,20 @@
             // playerPanelSettings
             // 
             this.playerPanelSettings.Name = "playerPanelSettings";
-            this.playerPanelSettings.Size = new System.Drawing.Size(181, 26);
+            this.playerPanelSettings.Size = new System.Drawing.Size(177, 26);
             this.playerPanelSettings.Text = "Player panel";
             // 
             // challangeSettings
             // 
             this.challangeSettings.Name = "challangeSettings";
-            this.challangeSettings.Size = new System.Drawing.Size(181, 26);
+            this.challangeSettings.Size = new System.Drawing.Size(177, 26);
             this.challangeSettings.Text = "Challange";
+            // 
+            // ftpSettings
+            // 
+            this.ftpSettings.Name = "ftpSettings";
+            this.ftpSettings.Size = new System.Drawing.Size(177, 26);
+            this.ftpSettings.Text = "FTP";
             // 
             // helpToolStripMenuItem
             // 
@@ -154,7 +162,7 @@
             this.timeAxis.Controls.Add(this.addChallange);
             this.timeAxis.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.timeAxis.Location = new System.Drawing.Point(0, 617);
-            this.timeAxis.Margin = new System.Windows.Forms.Padding(4);
+            this.timeAxis.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.timeAxis.Name = "timeAxis";
             this.timeAxis.Size = new System.Drawing.Size(1045, 75);
             this.timeAxis.TabIndex = 3;
@@ -163,8 +171,9 @@
             // 
             this.challengeRecordingImage.Image = ((System.Drawing.Image)(resources.GetObject("challengeRecordingImage.Image")));
             this.challengeRecordingImage.Location = new System.Drawing.Point(856, 4);
+            this.challengeRecordingImage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.challengeRecordingImage.Name = "challengeRecordingImage";
-            this.challengeRecordingImage.Size = new System.Drawing.Size(186, 68);
+            this.challengeRecordingImage.Size = new System.Drawing.Size(187, 68);
             this.challengeRecordingImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.challengeRecordingImage.TabIndex = 3;
             this.challengeRecordingImage.TabStop = false;
@@ -174,7 +183,8 @@
             // 
             this.viewLastChallengeButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.viewLastChallengeButton.Font = new System.Drawing.Font("Georgia", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.viewLastChallengeButton.Location = new System.Drawing.Point(330, 28);
+            this.viewLastChallengeButton.Location = new System.Drawing.Point(331, 28);
+            this.viewLastChallengeButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.viewLastChallengeButton.Name = "viewLastChallengeButton";
             this.viewLastChallengeButton.Size = new System.Drawing.Size(237, 44);
             this.viewLastChallengeButton.TabIndex = 2;
@@ -186,7 +196,7 @@
             // 
             this.challengeTimeAxis.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.challengeTimeAxis.Location = new System.Drawing.Point(5, 4);
-            this.challengeTimeAxis.Margin = new System.Windows.Forms.Padding(5);
+            this.challengeTimeAxis.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.challengeTimeAxis.Name = "challengeTimeAxis";
             this.challengeTimeAxis.Size = new System.Drawing.Size(847, 28);
             this.challengeTimeAxis.TabIndex = 0;
@@ -210,7 +220,7 @@
             this.addChallange.Enabled = false;
             this.addChallange.Font = new System.Drawing.Font("Georgia", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.addChallange.Location = new System.Drawing.Point(859, 4);
-            this.addChallange.Margin = new System.Windows.Forms.Padding(4);
+            this.addChallange.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.addChallange.Name = "addChallange";
             this.addChallange.Size = new System.Drawing.Size(171, 68);
             this.addChallange.TabIndex = 1;
@@ -278,8 +288,8 @@
             this.Controls.Add(this.timeAxis);
             this.Controls.Add(this.menu);
             this.Controls.Add(this.playerPanel);
-            this.Margin = new System.Windows.Forms.Padding(4);
-            this.MinimumSize = new System.Drawing.Size(1061, 728);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.MinimumSize = new System.Drawing.Size(1061, 724);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Challange";
@@ -318,6 +328,7 @@
         private System.Windows.Forms.PictureBox challengeRecordingImage;
         private System.Windows.Forms.ToolStripMenuItem tempToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem drawTestPlayersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ftpSettings;
     }
 }
 

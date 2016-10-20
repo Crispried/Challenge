@@ -39,8 +39,9 @@
     <Reference Include="AForge.Video.DirectShow">
       <HintPath>..\packages\AForge.Video.DirectShow.2.2.5\lib\AForge.Video.DirectShow.dll</HintPath>
     </Reference>
-    <Reference Include="AForge.Video.FFMPEG">
-      <HintPath>..\packages\AForge.Video.FFMPEG\lib\AForge.Video.FFMPEG.dll</HintPath>
+    <Reference Include="AForge.Video.FFMPEG, Version=2.2.5.0, Culture=neutral, PublicKeyToken=03563089b1be05dd, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\AForge.Video.FFMPEG.dll</HintPath>
     </Reference>
     <Reference Include="INIFileParser, Version=2.2.4.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
       <HintPath>..\packages\ini-parser.2.2.4\lib\net20\INIFileParser.dll</HintPath>
@@ -78,6 +79,7 @@
     <Compile Include="Entities\EventSubscriber.cs" />
     <Compile Include="Entities\Fps.cs" />
     <Compile Include="Entities\FpsContainer.cs" />
+    <Compile Include="Entities\FtpConnector.cs" />
     <Compile Include="Entities\GameInformation.cs" />
     <Compile Include="Entities\InternalChallengeTimer.cs" />
     <Compile Include="Entities\Video.cs" />
@@ -94,6 +96,8 @@
     <Compile Include="Services\Replay\Zoomer.cs" />
     <Compile Include="Services\Settings\SettingParser\RewindSettingsParser.cs" />
     <Compile Include="Services\Settings\SettingTypes\RewindSettings.cs" />
+    <Compile Include="Services\Settings\SettingParser\FtpSettingsParser.cs" />
+    <Compile Include="Services\Settings\SettingTypes\FtpSettings.cs" />
     <Compile Include="Services\StreamProcess\Abstract\ICameraProvider.cs" />
     <Compile Include="Entities\ChallengeWriter.cs" />
     <Compile Include="Services\Settings\SettingParser\ChallengeSettingsParser.cs" />

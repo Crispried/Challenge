@@ -127,7 +127,7 @@
             this.MinimumSize = new System.Drawing.Size(450, 300);
             this.Name = "RewindSettingsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "RewindSettingsForm";
+            this.Text = "Rewind Settings";
             this.ResumeLayout(false);
             this.PerformLayout();
 

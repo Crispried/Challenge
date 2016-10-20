@@ -91,6 +91,10 @@
     <Compile Include="Presenters\ChallengeSettingsPresenter\ChallengeSettings.cs" />
     <Compile Include="Presenters\ChallengeSettingsPresenter\ChallengeSettingsPresenters.cs" />
     <Compile Include="Presenters\ChallengeSettingsPresenter\ChallengeSettingsStates.cs" />
+    <Compile Include="Presenters\FtpPresenter\Ftp.cs" />
+    <Compile Include="Presenters\FtpPresenter\FtpPresenterInternal.cs" />
+    <Compile Include="Presenters\FtpPresenter\FtpPresenters.cs" />
+    <Compile Include="Presenters\FtpPresenter\FtpPresenterStates.cs" />
     <Compile Include="Presenters\GameInformationPresenter\GameInformationInternal.cs" />
     <Compile Include="Presenters\GameInformationPresenter\GameInformation.cs" />
     <Compile Include="Presenters\GameInformationPresenter\GameInformationPresenters.cs" />
@@ -105,6 +109,7 @@
     <Compile Include="Presenters\RewindSettingsPresenter\RewindSettingsInternal.cs" />
     <Compile Include="Presenters\RewindSettingsPresenter\RewindSettingsPresenters.cs" />
     <Compile Include="Presenters\RewindSettingsPresenter\RewindSettingsStates.cs" />
+    <Compile Include="Views\IFtpView.cs" />
     <Compile Include="Views\ICamerasView.cs" />
     <Compile Include="Views\IChallengePlayerView.cs" />
     <Compile Include="Views\IChallengeSettingsView.cs" />
@@ -124,9 +129,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

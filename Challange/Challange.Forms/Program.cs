@@ -33,6 +33,7 @@ namespace Challange.Forms
                                 .RegisterView<IChallengePlayerView, ChallengePlayerForm>()
                                 .RegisterView<IRewindSettingsView, RewindSettingsForm>()
                                 .RegisterView<IBroadcastView, BroadcastForm>()
+                                .RegisterView<IFtpView, FtpForm>()
                                 .RegisterInstance(new ApplicationContext());
 
                 controller.Run<MainPresenter>();

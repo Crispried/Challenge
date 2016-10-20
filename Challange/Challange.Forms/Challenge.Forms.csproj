@@ -132,6 +132,12 @@
     <Compile Include="ChallengePlayerForm.Designer.cs">
       <DependentUpon>ChallengePlayerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FtpForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FtpForm.Designer.cs">
+      <DependentUpon>FtpForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="GameInformationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -170,6 +176,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ChallengePlayerForm.resx">
       <DependentUpon>ChallengePlayerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FtpForm.resx">
+      <DependentUpon>FtpForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GameInformationForm.resx">
       <DependentUpon>GameInformationForm.cs</DependentUpon>
@@ -221,12 +230,15 @@
   <ItemGroup>
     <Content Include="Images\broadcast.png" />
     <Content Include="Images\camera.png" />
+    <Content Include="Images\challenge_backward.png" />
+    <Content Include="Images\challenge_forward.png" />
+    <Content Include="Images\challenge_play.png" />
     <Content Include="Images\challenge_recording.png" />
+    <Content Include="Images\challenge_stop.png" />
     <Content Include="Images\fullscreen.png" />
     <Content Include="Images\game_folder.png" />
-    <Content Include="Images\start.png" />
-    <Content Include="Images\stop.png" />
-    <None Include="Resources\rewindBackward.BackgroundImage.png" />
+    <Content Include="Images\stream_start.png" />
+    <Content Include="Images\stream_stop.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

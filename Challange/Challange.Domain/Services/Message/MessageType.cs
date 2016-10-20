@@ -13,6 +13,8 @@ namespace Challange.Domain.Services.Message
         FtpSettingsFileParseProblem,
         RewindSettingsFileParseProblem,
         EmptyDeviceContainer,
-        HaveNotRecordedAnyChallengeYet
+        HaveNotRecordedAnyChallengeYet,
+        TestFtpConnectionSuccessed,
+        TestFtpConnectionFailed
     };
 }

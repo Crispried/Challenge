@@ -3,19 +3,15 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Challange.Presenter.Views;
-using Challange.Domain.Services.Settings.SettingTypes;
 using System.Threading.Tasks;
 using System.Threading;
-using AForge.Video;
-using AForge.Video.DirectShow;
-using System.Reflection;
 using System.ComponentModel;
-using System.Windows;
-using Challange.Domain.Services.Message;
 using System.Drawing.Drawing2D;
 using ChallangeMarker;
+using Challange.Presenter.Views;
 using Challange.Domain.Entities;
+using Challange.Domain.Services.Settings.SettingTypes;
+using Challange.Domain.Services.Message;
 
 namespace Challange.Forms
 {
@@ -60,6 +56,8 @@ namespace Challange.Forms
                             Invoke(OpenPlayerPanelSettings);
             challangeSettings.Click += (sender, args) =>
                             Invoke(OpenChallengeSettings);
+            ftpSettings.Click += (sender, args) =>
+                            Invoke(OpenFtpSettings);
             startStreamButton.Click += (sender, args) =>
                             Invoke(StartStream);
             stopStreamButton.Click += (sender, args) =>
@@ -346,6 +344,8 @@ namespace Challange.Forms
         public event Action OpenPlayerPanelSettings;
 
         public event Action OpenChallengeSettings;
+
+        public event Action OpenFtpSettings;
 
         public event Action OpenDevicesList;
 
