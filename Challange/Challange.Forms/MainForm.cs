@@ -590,6 +590,11 @@ namespace Challange.Forms
             ChangeVisibilityOn(challengeRecordingImage, seconds, true);
         }
 
+        public void ToggleVisibilityOfViewLastChallengeButton()
+        {
+            viewLastChallengeButton.Visible = !viewLastChallengeButton.Visible;
+        }
+
         private async void ChangeVisibilityOn(Control control, int seconds, bool isVisible)
         {
             control.Visible = isVisible;

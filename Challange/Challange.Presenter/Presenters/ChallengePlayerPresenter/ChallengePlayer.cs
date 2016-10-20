@@ -19,7 +19,7 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
 
         private void SubscribePresenters()
         {
-
+            View.OpenRewindSettings += OpenRewindSettings;
         }
     }
 }

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Challange.Domain.Services.Settings.SettingTypes
 {
-    public interface IChallengeSettings
+    public class RewindSettings : Setting
     {
-        int NumberOfPastFPS { get; set; }
+        public int Forward { get; set; }
 
-        int NumberOfFutureFPS { get; set; }
+        public int Backward { get; set; }
     }
 }

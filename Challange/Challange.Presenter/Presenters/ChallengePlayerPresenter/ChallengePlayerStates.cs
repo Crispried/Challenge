@@ -8,5 +8,6 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
 {
     public partial class ChallengePlayerPresenter
     {
+        public bool RewindSettingsAreNull { get; set; }
     }
 }

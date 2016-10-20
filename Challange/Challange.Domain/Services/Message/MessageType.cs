@@ -10,6 +10,9 @@ namespace Challange.Domain.Services.Message
     {
         ChallengeSettingsFileParseProblem,
         PlayerPanelSettingsFileParseProblem,
-        EmptyDeviceContainer
+        FtpSettingsFileParseProblem,
+        RewindSettingsFileParseProblem,
+        EmptyDeviceContainer,
+        HaveNotRecordedAnyChallengeYet
     };
 }

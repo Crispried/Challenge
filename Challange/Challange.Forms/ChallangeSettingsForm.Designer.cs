@@ -38,8 +38,8 @@
             // futureSecondsTextBox
             // 
             this.futureSecondsTextBox.Font = new System.Drawing.Font("Georgia", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.futureSecondsTextBox.Location = new System.Drawing.Point(300, 106);
-            this.futureSecondsTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.futureSecondsTextBox.Location = new System.Drawing.Point(189, 79);
+            this.futureSecondsTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.futureSecondsTextBox.MaxLength = 2;
             this.futureSecondsTextBox.Name = "futureSecondsTextBox";
             this.futureSecondsTextBox.Size = new System.Drawing.Size(80, 34);
@@ -50,7 +50,7 @@
             // 
             this.pastSecondsLabel.AutoSize = true;
             this.pastSecondsLabel.Font = new System.Drawing.Font("Georgia", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.pastSecondsLabel.Location = new System.Drawing.Point(40, 52);
+            this.pastSecondsLabel.Location = new System.Drawing.Point(13, 31);
             this.pastSecondsLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.pastSecondsLabel.Name = "pastSecondsLabel";
             this.pastSecondsLabel.Size = new System.Drawing.Size(148, 29);
@@ -61,7 +61,7 @@
             // 
             this.futureSecondsLabel.AutoSize = true;
             this.futureSecondsLabel.Font = new System.Drawing.Font("Georgia", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.futureSecondsLabel.Location = new System.Drawing.Point(40, 113);
+            this.futureSecondsLabel.Location = new System.Drawing.Point(13, 82);
             this.futureSecondsLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.futureSecondsLabel.Name = "futureSecondsLabel";
             this.futureSecondsLabel.Size = new System.Drawing.Size(175, 29);
@@ -71,8 +71,8 @@
             // pastSecondsTextBox
             // 
             this.pastSecondsTextBox.Font = new System.Drawing.Font("Georgia", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.pastSecondsTextBox.Location = new System.Drawing.Point(300, 44);
-            this.pastSecondsTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pastSecondsTextBox.Location = new System.Drawing.Point(189, 28);
+            this.pastSecondsTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.pastSecondsTextBox.MaxLength = 2;
             this.pastSecondsTextBox.Name = "pastSecondsTextBox";
             this.pastSecondsTextBox.Size = new System.Drawing.Size(79, 34);
@@ -82,8 +82,8 @@
             // saveChallangeSettingsButton
             // 
             this.saveChallangeSettingsButton.Font = new System.Drawing.Font("Georgia", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.saveChallangeSettingsButton.Location = new System.Drawing.Point(300, 185);
-            this.saveChallangeSettingsButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.saveChallangeSettingsButton.Location = new System.Drawing.Point(189, 128);
+            this.saveChallangeSettingsButton.Margin = new System.Windows.Forms.Padding(4);
             this.saveChallangeSettingsButton.Name = "saveChallangeSettingsButton";
             this.saveChallangeSettingsButton.Size = new System.Drawing.Size(80, 62);
             this.saveChallangeSettingsButton.TabIndex = 12;
@@ -95,15 +95,15 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ClientSize = new System.Drawing.Size(443, 250);
+            this.ClientSize = new System.Drawing.Size(282, 203);
             this.Controls.Add(this.saveChallangeSettingsButton);
             this.Controls.Add(this.futureSecondsTextBox);
             this.Controls.Add(this.pastSecondsLabel);
             this.Controls.Add(this.futureSecondsLabel);
             this.Controls.Add(this.pastSecondsTextBox);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.MaximumSize = new System.Drawing.Size(461, 297);
-            this.MinimumSize = new System.Drawing.Size(461, 297);
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximumSize = new System.Drawing.Size(300, 250);
+            this.MinimumSize = new System.Drawing.Size(300, 250);
             this.Name = "ChallangeSettingsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Challange Settings";
