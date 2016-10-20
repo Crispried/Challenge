@@ -32,6 +32,7 @@ namespace Challange.Forms
                                 .RegisterView<ICamerasView, CamerasForm>()
                                 .RegisterView<IChallengePlayerView, ChallengePlayerForm>()
                                 .RegisterView<IBroadcastView, BroadcastForm>()
+                                .RegisterView<IFtpView, FtpForm>()
                                 .RegisterInstance(new ApplicationContext());
 
                 controller.Run<MainPresenter>();

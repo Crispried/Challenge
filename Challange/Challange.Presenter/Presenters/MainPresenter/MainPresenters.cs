@@ -22,6 +22,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             playerPanelSettings = GetPlayerPanelSettings();
             challengeSettings = GetChallengeSettings();
+            ftpSettings = GetFtpSettings();
             if(challengeSettings == null)
             {
                 ChallengeSettingsAreNull = true;
@@ -31,6 +32,11 @@ namespace Challange.Presenter.Presenters.MainPresenter
             {
                 PlayerPanelSettingsAreNull = true;
                 ShowMessage(MessageType.PlayerPanelSettingsFileParseProblem);
+            }
+            else if (ftpSettings == null)
+            {
+                FtpSettingsAreNull = true;
+                ShowMessage(MessageType.FtpSettingsFileParseProblem);
             }
             else
             {
@@ -102,6 +108,15 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             Controller.Run<ChallengeSettingsPresenter.ChallengeSettingsPresenter,
                             ChallengeSettings>(challengeSettings);
+        }
+
+        /// <summary>
+        /// Shows the form which allows to change ftp connection settings
+        /// </summary>
+        public void ChangeFtpSettings()
+        {
+            Controller.Run<FtpPresenter.FtpPresenter,
+                            FtpSettings>(ftpSettings);
         }
 
         /// <summary>

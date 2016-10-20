@@ -24,6 +24,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         // settings
         private PlayerPanelSettings playerPanelSettings;
         private ChallengeSettings challengeSettings;
+        private FtpSettings ftpSettings;
         //
         private GameInformation gameInformation;
         // video streaming
@@ -54,6 +55,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
                         ChangePlayerPanelSettings;
             View.OpenChallengeSettings +=
                                     ChangeChallengeSettings;
+            View.OpenFtpSettings +=
+                        ChangeFtpSettings;
             View.OpenDevicesList += ShowDevicesList;
             View.StartStream += StartStream;
             View.StopStream += StopStream;
@@ -89,6 +92,14 @@ namespace Challange.Presenter.Presenters.MainPresenter
             set
             {
                 challengeSettings = value;
+            }
+        }
+
+        public FtpSettings FtpSettings
+        {
+            set
+            {
+                ftpSettings = value;
             }
         }
     }

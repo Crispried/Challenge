@@ -27,7 +27,6 @@ namespace Challange.UnitTests
             return new PlayerPanelSettings()
             {
                 AutosizeMode = false,
-                NumberOfPlayers = 5,
                 PlayerHeight = 480,
                 PlayerWidth = 640
             };

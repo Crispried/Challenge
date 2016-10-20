@@ -60,6 +60,8 @@ namespace Challange.Forms
                             Invoke(OpenPlayerPanelSettings);
             challangeSettings.Click += (sender, args) =>
                             Invoke(OpenChallengeSettings);
+            ftpSettings.Click += (sender, args) =>
+                            Invoke(OpenFtpSettings);
             startStreamButton.Click += (sender, args) =>
                             Invoke(StartStream);
             stopStreamButton.Click += (sender, args) =>
@@ -346,6 +348,8 @@ namespace Challange.Forms
         public event Action OpenPlayerPanelSettings;
 
         public event Action OpenChallengeSettings;
+
+        public event Action OpenFtpSettings;
 
         public event Action OpenDevicesList;
 
