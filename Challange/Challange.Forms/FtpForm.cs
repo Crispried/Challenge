@@ -1,4 +1,5 @@
-﻿using Challange.Domain.Services.Settings.SettingTypes;
+﻿using Challange.Domain.Services.Message;
+using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Presenter.Views;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,13 @@ namespace Challange.Forms
             InitializeComponent();
             saveFtpSettingsButton.Click += (sender, args)
                                 => Invoke(ChangeFtpSettings);
+            ftpTestConnectionButton.Click += (sender, args)
+                                => Invoke(TestFtpConnection, GetSettings());
+        }
+
+        public new void Show()
+        {
+            ShowDialog();
         }
 
         public FtpSettings FtpSettings
@@ -46,6 +54,8 @@ namespace Challange.Forms
         }
 
         public event Action ChangeFtpSettings;
+
+        public event Action<FtpSettings> TestFtpConnection;
 
         public void SetFtpSettings(FtpSettings ftpSettings)
         {
@@ -84,21 +94,12 @@ namespace Challange.Forms
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        private void ftpTestConnectionButton_Click(object sender, EventArgs e)
+        public void ShowMessage(ChallengeMessage message)
         {
-            try
-            {
-                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(ftpAddressTextBox.Text);
-                request.Proxy = null;
-                request.Method = WebRequestMethods.Ftp.ListDirectory;
-                request.Credentials = new NetworkCredential(userNameTextBox.Text, passwordTextBox.Text);
-                request.GetResponse();
-                request.Abort();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            string caption = message.Caption;
+            string text = message.Text;
+            MessageBox.Show(text, caption,
+                message.MessageButtons, message.MessageIcon);
         }
     }
 }

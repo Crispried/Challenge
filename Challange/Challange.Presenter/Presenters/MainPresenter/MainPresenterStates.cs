@@ -22,6 +22,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public bool IsChallengeButtonVisible { get; set; }
 
         public bool IsChallengeRecordingImageVisible { get; set; }
+
+        public bool HaveNotRecordedAnyChallengeYetMessageShown { get; set; }
         #endregion
 
         #region Run

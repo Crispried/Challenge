@@ -1,7 +1,7 @@
 ﻿
 namespace Challange.Domain.Services.Settings.SettingTypes
 {
-    public class ChallengeSettings : Setting, IChallengeSettings
+    public class ChallengeSettings : Setting
     {
         public int NumberOfPastFPS { get; set; }
 

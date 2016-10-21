@@ -19,8 +19,8 @@ namespace Challange.Presenter.Presenters.FtpPresenter
 
         private void SubscribePresenters()
         {
-            View.ChangeFtpSettings += () =>
-             ChangeFtpSettings();
+            View.ChangeFtpSettings += ChangeFtpSettings;
+            View.TestFtpConnection += TestFtpConnection;
         }
     }
 }

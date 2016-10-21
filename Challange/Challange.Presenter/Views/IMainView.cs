@@ -75,5 +75,7 @@ namespace Challange.Presenter.Views
         void ShowMessage(ChallengeMessage message);
 
         void RedrawZoomedImage(ZoomData zoomData);
+
+        void ToggleVisibilityOfViewLastChallengeButton();
     }
 }

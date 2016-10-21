@@ -55,6 +55,11 @@ namespace Challange.Forms
 
         public void SetChallengeSettings(ChallengeSettings challengeSettings)
         {
+            SetChallengeView(challengeSettings);
+        }
+
+        public void SetChallengeView(ChallengeSettings challengeSettings)
+        {
             pastSecondsTextBox.Text = 
                 challengeSettings.NumberOfPastFPS.ToString();
             futureSecondsTextBox.Text = 

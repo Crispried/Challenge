@@ -307,6 +307,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
                 ChangeStateOfStartButton(true);
                 ChangeStateOfStopButton(false);
             }
+            View.ToggleVisibilityOfViewLastChallengeButton();
         }
 
         /// <summary>

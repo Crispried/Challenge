@@ -82,7 +82,7 @@
     <Compile Include="Presenters\CamerasPresenter\CamerasInternal.cs" />
     <Compile Include="Presenters\CamerasPresenter\Cameras.cs" />
     <Compile Include="Presenters\CamerasPresenter\CamerasPresenters.cs" />
-    <Compile Include="Presenters\CamerasPresenter\CamerasPresenterState.cs" />
+    <Compile Include="Presenters\CamerasPresenter\CamerasPresenterStates.cs" />
     <Compile Include="Presenters\ChallengePlayerPresenter\ChallengePlayer.cs" />
     <Compile Include="Presenters\ChallengePlayerPresenter\ChallengePlayerInternal.cs" />
     <Compile Include="Presenters\ChallengePlayerPresenter\ChallengePlayerPresenters.cs" />
@@ -90,7 +90,7 @@
     <Compile Include="Presenters\ChallengeSettingsPresenter\ChallengeSettingsInternal.cs" />
     <Compile Include="Presenters\ChallengeSettingsPresenter\ChallengeSettings.cs" />
     <Compile Include="Presenters\ChallengeSettingsPresenter\ChallengeSettingsPresenters.cs" />
-    <Compile Include="Presenters\ChallengeSettingsPresenter\ChallengeSettingsState.cs" />
+    <Compile Include="Presenters\ChallengeSettingsPresenter\ChallengeSettingsStates.cs" />
     <Compile Include="Presenters\FtpPresenter\Ftp.cs" />
     <Compile Include="Presenters\FtpPresenter\FtpPresenterInternal.cs" />
     <Compile Include="Presenters\FtpPresenter\FtpPresenters.cs" />
@@ -105,6 +105,10 @@
     <Compile Include="Presenters\PlayerPanelSettingsPresenter\PlayerPanelSettingsInternal.cs" />
     <Compile Include="Presenters\PlayerPanelSettingsPresenter\PlayerPanelSettings.cs" />
     <Compile Include="Presenters\PlayerPanelSettingsPresenter\PlayerPanelSettingsPresenters.cs" />
+    <Compile Include="Presenters\RewindSettingsPresenter\RewindSettings.cs" />
+    <Compile Include="Presenters\RewindSettingsPresenter\RewindSettingsInternal.cs" />
+    <Compile Include="Presenters\RewindSettingsPresenter\RewindSettingsPresenters.cs" />
+    <Compile Include="Presenters\RewindSettingsPresenter\RewindSettingsStates.cs" />
     <Compile Include="Views\IFtpView.cs" />
     <Compile Include="Views\ICamerasView.cs" />
     <Compile Include="Views\IChallengePlayerView.cs" />
@@ -115,6 +119,7 @@
     <Compile Include="Presenters\MainPresenter\Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\IPlayerPanelSettingsView.cs" />
+    <Compile Include="Views\IRewindSettingsView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Challange.Domain\Challenge.Domain.csproj">
@@ -124,9 +129,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

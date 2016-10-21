@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace Challange.Domain.Services.Settings.SettingTypes
 {
-    public interface IFtpSettings
+    public class RewindSettings : Setting
     {
-        string FtpAddress { get; set; }
+        public int Forward { get; set; }
 
-        string UserName { get; set; }
-
-        string Password { get; set; }
+        public int Backward { get; set; }
     }
 }

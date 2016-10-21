@@ -3,19 +3,15 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Challange.Presenter.Views;
-using Challange.Domain.Services.Settings.SettingTypes;
 using System.Threading.Tasks;
 using System.Threading;
-using AForge.Video;
-using AForge.Video.DirectShow;
-using System.Reflection;
 using System.ComponentModel;
-using System.Windows;
-using Challange.Domain.Services.Message;
 using System.Drawing.Drawing2D;
 using ChallangeMarker;
+using Challange.Presenter.Views;
 using Challange.Domain.Entities;
+using Challange.Domain.Services.Settings.SettingTypes;
+using Challange.Domain.Services.Message;
 
 namespace Challange.Forms
 {
@@ -592,6 +588,11 @@ namespace Challange.Forms
         public void MakeChallengeRecordingImageVisibleOn(int seconds)
         {
             ChangeVisibilityOn(challengeRecordingImage, seconds, true);
+        }
+
+        public void ToggleVisibilityOfViewLastChallengeButton()
+        {
+            viewLastChallengeButton.Visible = !viewLastChallengeButton.Visible;
         }
 
         private async void ChangeVisibilityOn(Control control, int seconds, bool isVisible)

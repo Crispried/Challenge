@@ -49,8 +49,8 @@
             // savePlayerPanelSettingsButton
             // 
             this.savePlayerPanelSettingsButton.Font = new System.Drawing.Font("Georgia", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.savePlayerPanelSettingsButton.Location = new System.Drawing.Point(293, 289);
-            this.savePlayerPanelSettingsButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.savePlayerPanelSettingsButton.Location = new System.Drawing.Point(184, 178);
+            this.savePlayerPanelSettingsButton.Margin = new System.Windows.Forms.Padding(4);
             this.savePlayerPanelSettingsButton.Name = "savePlayerPanelSettingsButton";
             this.savePlayerPanelSettingsButton.Size = new System.Drawing.Size(80, 62);
             this.savePlayerPanelSettingsButton.TabIndex = 8;
@@ -61,7 +61,7 @@
             // 
             this.playerHeightLabel.AutoSize = true;
             this.playerHeightLabel.Font = new System.Drawing.Font("Georgia", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.playerHeightLabel.Location = new System.Drawing.Point(32, 217);
+            this.playerHeightLabel.Location = new System.Drawing.Point(14, 122);
             this.playerHeightLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.playerHeightLabel.Name = "playerHeightLabel";
             this.playerHeightLabel.Size = new System.Drawing.Size(154, 29);
@@ -71,8 +71,9 @@
             // playerHeightTextBox
             // 
             this.playerHeightTextBox.Font = new System.Drawing.Font("Georgia", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.playerHeightTextBox.Location = new System.Drawing.Point(292, 209);
-            this.playerHeightTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.playerHeightTextBox.Location = new System.Drawing.Point(184, 119);
+            this.playerHeightTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.playerHeightTextBox.MaxLength = 4;
             this.playerHeightTextBox.Name = "playerHeightTextBox";
             this.playerHeightTextBox.Size = new System.Drawing.Size(80, 34);
             this.playerHeightTextBox.TabIndex = 6;
@@ -81,7 +82,7 @@
             // 
             this.playerWidthLabel.AutoSize = true;
             this.playerWidthLabel.Font = new System.Drawing.Font("Georgia", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.playerWidthLabel.Location = new System.Drawing.Point(32, 132);
+            this.playerWidthLabel.Location = new System.Drawing.Point(14, 67);
             this.playerWidthLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.playerWidthLabel.Name = "playerWidthLabel";
             this.playerWidthLabel.Size = new System.Drawing.Size(148, 29);
@@ -91,8 +92,9 @@
             // playerWidthTextBox
             // 
             this.playerWidthTextBox.Font = new System.Drawing.Font("Georgia", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.playerWidthTextBox.Location = new System.Drawing.Point(292, 129);
-            this.playerWidthTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.playerWidthTextBox.Location = new System.Drawing.Point(184, 64);
+            this.playerWidthTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.playerWidthTextBox.MaxLength = 4;
             this.playerWidthTextBox.Name = "playerWidthTextBox";
             this.playerWidthTextBox.Size = new System.Drawing.Size(79, 34);
             this.playerWidthTextBox.TabIndex = 4;
@@ -101,8 +103,8 @@
             // 
             this.autosizeCheckButton.AutoSize = true;
             this.autosizeCheckButton.Font = new System.Drawing.Font("Georgia", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.autosizeCheckButton.Location = new System.Drawing.Point(293, 55);
-            this.autosizeCheckButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.autosizeCheckButton.Location = new System.Drawing.Point(218, 29);
+            this.autosizeCheckButton.Margin = new System.Windows.Forms.Padding(4);
             this.autosizeCheckButton.Name = "autosizeCheckButton";
             this.autosizeCheckButton.Size = new System.Drawing.Size(18, 17);
             this.autosizeCheckButton.TabIndex = 3;
@@ -113,7 +115,7 @@
             // 
             this.autosizeLabel.AutoSize = true;
             this.autosizeLabel.Font = new System.Drawing.Font("Georgia", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.autosizeLabel.Location = new System.Drawing.Point(32, 48);
+            this.autosizeLabel.Location = new System.Drawing.Point(14, 22);
             this.autosizeLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.autosizeLabel.Name = "autosizeLabel";
             this.autosizeLabel.Size = new System.Drawing.Size(170, 29);
@@ -125,7 +127,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ClientSize = new System.Drawing.Size(443, 373);
+            this.ClientSize = new System.Drawing.Size(282, 253);
             this.Controls.Add(this.playerHeightTextBox);
             this.Controls.Add(this.savePlayerPanelSettingsButton);
             this.Controls.Add(this.playerWidthLabel);
@@ -134,9 +136,9 @@
             this.Controls.Add(this.autosizeCheckButton);
             this.Controls.Add(this.autosizeLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.MaximumSize = new System.Drawing.Size(461, 420);
-            this.MinimumSize = new System.Drawing.Size(461, 420);
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximumSize = new System.Drawing.Size(300, 300);
+            this.MinimumSize = new System.Drawing.Size(300, 300);
             this.Name = "PlayerPanelSettingsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Player Panel Settings";

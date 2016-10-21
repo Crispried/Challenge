@@ -124,7 +124,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         public void StartStream()
         {
-            // camerasContainer = InitializeDevices();
+             camerasContainer = InitializeDevices();
             if (IsDeviceListEmpty) // DONT FORGET BACK "!" !!!!!!!
             {
                 InitializeChallengeBuffers();
@@ -188,7 +188,15 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void OpenChallengePlayerForLastChallenge()
         {
             // challenge.GetChallengeDirectoryPath contains last one challenge folder
-            OpenChallengePlayer(challenge.GetChallengeDirectoryPath); 
+            if(challenge != null)
+            {
+                OpenChallengePlayer(challenge.GetChallengeDirectoryPath);
+            }
+            else
+            {
+                ShowMessage(MessageType.HaveNotRecordedAnyChallengeYet);
+                HaveNotRecordedAnyChallengeYetMessageShown = true;
+            }
         }
 
         public void OpenBroadcastForm(string cameraFullName)

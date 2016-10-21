@@ -1,7 +1,7 @@
 ﻿
 namespace Challange.Domain.Services.Settings.SettingTypes
 {
-    public class FtpSettings : Setting, IFtpSettings
+    public class FtpSettings : Setting
     {
         public string FtpAddress { get; set; }
 
