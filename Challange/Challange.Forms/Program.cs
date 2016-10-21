@@ -5,6 +5,7 @@ using Challange.Presenter.Views;
 using Challange.Presenter.Presenters;
 using PylonC.NET;
 using Challange.Presenter.Presenters.MainPresenter;
+using Challange.Presenter.Views.Layouts;
 
 namespace Challange.Forms
 {
@@ -25,7 +26,10 @@ namespace Challange.Forms
                 Application.SetCompatibleTextRenderingDefault(false);
 
                 var controller = new ApplicationController(new LightInjectAdapter())
+
                                 .RegisterView<IMainView, MainForm>()
+                                .RegisterLayoutToForm<IPlayerLayout, MainForm>()
+                                .RegisterLayoutToImplementation<IPlayerLayout, PlayerLayout>()
                                 .RegisterView<IPlayerPanelSettingsView, PlayerPanelSettingsForm>()
                                 .RegisterView<IChallengeSettingsView, ChallangeSettingsForm>()
                                 .RegisterView<IGameInformationView, GameInformationForm>()

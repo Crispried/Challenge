@@ -6,7 +6,5 @@ namespace Challange.Presenter.Base
         void Show();
 
         void Close();
-
-        void Refresh();
     }
 }

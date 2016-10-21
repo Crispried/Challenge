@@ -1,4 +1,6 @@
 ﻿
+using Challange.Presenter.Views.Layouts;
+
 namespace Challange.Presenter.Base
 {
     public interface IApplicationController
@@ -11,6 +13,14 @@ namespace Challange.Presenter.Base
 
         IApplicationController RegisterService<TService, TImplementation>()
                 where TImplementation : class, TService;
+
+        IApplicationController RegisterLayoutToForm<TLayout, TImplementation>()
+                where TLayout : ILayout
+                where TImplementation : class, TLayout;
+
+        IApplicationController RegisterLayoutToImplementation<TLayout, TImplementation>()
+                where TLayout : ILayout
+                where TImplementation : class, TLayout;
 
         void Run<TPresenter>()
                 where TPresenter : class, IPresenter;
