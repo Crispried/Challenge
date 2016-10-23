@@ -1,7 +1,9 @@
-﻿using Challange.Domain.Services.Message;
+﻿using Challange.Domain.Entities;
+using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings.SettingTypes;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,9 +16,16 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
 
         private string pathToChallenge;
 
+        private Dictionary<string, Bitmap> initialData;
+
+        private int numberOfVideos;
+
+        private ChallengeReader challengeReader;
+
         public override void Run(string argument)
         {
             pathToChallenge = argument;
+            challengeReader = new ChallengeReader(pathToChallenge);
             rewindSettings = GetRewindSettings();
             if (rewindSettings == null)
             {
@@ -25,6 +34,10 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
             }
             else
             {
+                numberOfVideos = GetNumberOfVideos(pathToChallenge);
+                DrawPlayers(numberOfVideos);
+                initialData = GetInitialData();
+                InitializePlayers(initialData);
                 View.Show();
             }
         }
@@ -33,6 +46,11 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
         {
             Controller.Run<RewindSettingsPresenter.RewindSettingsPresenter,
                RewindSettings>(rewindSettings);
+        }
+
+        public void OpenBroadcastForm(string cameraFullName)
+        {
+
         }
     }
 }

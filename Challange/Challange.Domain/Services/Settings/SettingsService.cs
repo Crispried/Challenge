@@ -12,10 +12,6 @@ namespace Challange.Domain.Services.Settings
             this.settingsParser = settingParser;
         }
 
-        public SettingsService()
-        {
-        }
-
         public void SaveSetting(T setting)
         {
             settingsParser.SaveSettings(setting);

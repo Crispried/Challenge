@@ -9,5 +9,6 @@ namespace Challange.Presenter.Views.Layouts
 {
     public interface IPlayerLayout : ILayout
     {
+
     }
 }

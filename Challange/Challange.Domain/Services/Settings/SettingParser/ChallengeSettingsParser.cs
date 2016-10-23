@@ -26,11 +26,7 @@ namespace Challange.Domain.Services.Settings.SettingParser
 
         public bool SaveSettings(ChallengeSettings settings)
         {
-            if (FileWorker.SerializeXml(settings, SettingsFilePath))
-            {
-                return true;
-            }
-            return false;
+            return FileWorker.SerializeXml(settings, SettingsFilePath) ? true : false;
         }
 
         public ChallengeSettings GetSettings()

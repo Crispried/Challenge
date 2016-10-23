@@ -4,8 +4,11 @@ using Challange.Domain.Services.Settings.SettingParser;
 using Challange.Domain.Services.Settings.SettingTypes;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
+using AForge.Video.FFMPEG;
 using System.Threading.Tasks;
 
 namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
@@ -32,6 +35,27 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
         {
             ChallengeMessage message = MessageParser.GetMessage(type);
             View.ShowMessage(message);
+        }
+
+        private void DrawPlayers(int numberOfVideos)
+        {
+            View.DrawPlayers(numberOfVideos);
+        }
+
+        private int GetNumberOfVideos(string pathToChallenge)
+        {
+            DirectoryInfo di = new DirectoryInfo(pathToChallenge);
+            return di.GetFiles("*.mp4", SearchOption.TopDirectoryOnly).Length;
+        }
+
+        private void InitializePlayers(Dictionary<string, Bitmap> initialData)
+        {
+            View.InitializePlayers(initialData);
+        }
+
+        private Dictionary<string, Bitmap> GetInitialData()
+        {
+            return challengeReader.GetInitialData();
         }
     }
 }

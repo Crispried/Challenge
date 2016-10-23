@@ -35,7 +35,7 @@
             this.startButton = new System.Windows.Forms.Button();
             this.stopButton = new System.Windows.Forms.Button();
             this.challengeTrackBar = new System.Windows.Forms.TrackBar();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.challengePlayerPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.challengeFormSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.rewindOnSetting = new System.Windows.Forms.ToolStripMenuItem();
@@ -114,14 +114,15 @@
             this.challengeTrackBar.Size = new System.Drawing.Size(776, 56);
             this.challengeTrackBar.TabIndex = 0;
             // 
-            // flowLayoutPanel1
+            // challengePlayerPanel
             // 
-            this.flowLayoutPanel1.BackColor = System.Drawing.Color.Black;
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 28);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(782, 440);
-            this.flowLayoutPanel1.TabIndex = 1;
+            this.challengePlayerPanel.AutoScroll = true;
+            this.challengePlayerPanel.BackColor = System.Drawing.Color.Black;
+            this.challengePlayerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.challengePlayerPanel.Location = new System.Drawing.Point(0, 28);
+            this.challengePlayerPanel.Name = "challengePlayerPanel";
+            this.challengePlayerPanel.Size = new System.Drawing.Size(782, 440);
+            this.challengePlayerPanel.TabIndex = 1;
             // 
             // menuStrip1
             // 
@@ -155,7 +156,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(782, 553);
-            this.Controls.Add(this.flowLayoutPanel1);
+            this.Controls.Add(this.challengePlayerPanel);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.MinimumSize = new System.Drawing.Size(800, 600);
@@ -175,7 +176,7 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel challengePlayerPanel;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem challengeFormSettings;
         private System.Windows.Forms.Button rewindForward;

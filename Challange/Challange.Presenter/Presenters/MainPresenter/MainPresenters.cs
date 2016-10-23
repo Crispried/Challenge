@@ -178,8 +178,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         public void OpenChallengePlayer(string pathToChallenge)
         {
+            string stringForTest = @"Team1_vs_Team2(21.10.2016)\00_00_10\";
             Controller.Run<ChallengePlayerPresenter.ChallengePlayerPresenter,
-               string>(pathToChallenge);
+               string>(stringForTest); // pathToChallenge instead of stringForTest
         }
 
         /// <summary>

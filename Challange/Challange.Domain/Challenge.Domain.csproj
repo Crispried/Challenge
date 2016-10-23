@@ -76,6 +76,7 @@
     <Compile Include="Abstract\IFps.cs" />
     <Compile Include="Entities\ChallengeObject.cs" />
     <Compile Include="Entities\ChallengeBuffers.cs" />
+    <Compile Include="Entities\ChallengeReader.cs" />
     <Compile Include="Entities\EventSubscriber.cs" />
     <Compile Include="Entities\Fps.cs" />
     <Compile Include="Entities\FpsContainer.cs" />

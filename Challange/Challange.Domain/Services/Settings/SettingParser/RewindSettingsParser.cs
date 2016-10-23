@@ -27,11 +27,7 @@ namespace Challange.Domain.Services.Settings.SettingParser
 
         public bool SaveSettings(RewindSettings settings)
         {
-            if (FileWorker.SerializeXml(settings, settingsFilePath))
-            {
-                return true;
-            }
-            return false;
+            return FileWorker.SerializeXml(settings, settingsFilePath) ? true : false;
         }
 
         public RewindSettings GetSettings()
