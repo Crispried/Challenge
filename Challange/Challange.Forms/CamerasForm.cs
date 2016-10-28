@@ -38,5 +38,10 @@ namespace Challange.Forms
             camerasListBox.Visible = false;
             noConnectedCameraLabel.Visible = true;
         }
+
+        public void ShowValidationErrorMessage()
+        {
+
+        }
     }
 }

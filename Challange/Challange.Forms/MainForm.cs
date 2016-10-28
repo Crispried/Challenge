@@ -203,7 +203,7 @@ namespace Challange.Forms
             if (zoomData != null)
             {
                 e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                e.Graphics.ScaleTransform(zoomData.GetZoom, zoomData.GetZoom);
+                e.Graphics.ScaleTransform(zoomData.Zoom, zoomData.Zoom);
                 e.Graphics.DrawImage(pictureBoxToShowFullscreen.Image, zoomData.GetImgX, zoomData.GetImgY);
             }
         }

@@ -10,6 +10,7 @@ using Challange.Domain.Infrastructure;
 using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingTypes;
+using Challange.Domain.Services.Replay;
 
 namespace Challange.Forms
 {
@@ -46,6 +47,7 @@ namespace Challange.Forms
                                 .RegisterService<IFileService, FileService>()
                                 .RegisterService<IPathFormatter, PathFormatter>()
                                 .RegisterService<IMessageParser, MessageParser>()
+                                .RegisterService<IZoomCalculator, ZoomCalculator>()
                                 .RegisterInstance(new ApplicationContext());
 
                 controller.Run<MainPresenter>();
