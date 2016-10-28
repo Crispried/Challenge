@@ -22,10 +22,11 @@ namespace Challange.Presenter.Presenters.GameInformationPresenter
         public void PrepareApplication(
                         GameInformation gameInfo)
         {
-            InitializeGameInformation(gameInfo);
+            gameInformation.SetGameInformation(gameInfo);
+            gameInformation.DirectoryName = FormatDirectoryName();
             var directoryName = gameInformation.DirectoryName;
             CreateRootDirectory(directoryName);
-            var pathToFile = PathToFile(directoryName);
+            var pathToFile = FormatPathToFile(directoryName);
             SaveGameInformation(gameInformation, pathToFile);
             View.Close();
         }

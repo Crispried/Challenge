@@ -1,27 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static PylonC.NETSupportLibrary.DeviceEnumerator;
+﻿using Challange.Domain.Entities;
 
 namespace Challange.Presenter.Presenters.CamerasPresenter
 {
     public partial class CamerasPresenter
     {
-        public override void Run(List<string> argument)
+        public override void Run(CamerasContainer argument)
         {
             connectedCameras = argument;
-            if(connectedCameras.Count == 0)
+            if(connectedCameras.IsEmpty())
             {
-                SetUIOnNoConnectedDevices();
+                ShowNoConnectedCamerasLabel();
             }
             else
             {
                 FillCamerasListView();
             }
             View.Show();
-            CamerasListWindowIsOpened = true;
         }
     }
 }

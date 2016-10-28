@@ -6,6 +6,10 @@ using Challange.Presenter.Presenters;
 using PylonC.NET;
 using Challange.Presenter.Presenters.MainPresenter;
 using Challange.Presenter.Views.Layouts;
+using Challange.Domain.Infrastructure;
+using Challange.Domain.Services.Message;
+using Challange.Domain.Services.Settings;
+using Challange.Domain.Services.Settings.SettingTypes;
 
 namespace Challange.Forms
 {
@@ -20,7 +24,7 @@ namespace Challange.Forms
             Environment.SetEnvironmentVariable("PYLON_GIGE_HEARTBEAT", "5000" /*ms*/);
 #endif
             Pylon.Initialize();
-            try
+           // try
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
@@ -37,16 +41,20 @@ namespace Challange.Forms
                                 .RegisterView<IChallengePlayerView, ChallengePlayerForm>()
                                 .RegisterView<IRewindSettingsView, RewindSettingsForm>()
                                 .RegisterView<IBroadcastView, BroadcastForm>()
-                                .RegisterView<IFtpView, FtpForm>()
+                                .RegisterView<IFtpSettingsView, FtpSettingsForm>()
+                                .RegisterService<IFileWorker, FileWorker>()
+                                .RegisterService<IFileService, FileService>()
+                                .RegisterService<IPathFormatter, PathFormatter>()
+                                .RegisterService<IMessageParser, MessageParser>()
                                 .RegisterInstance(new ApplicationContext());
 
                 controller.Run<MainPresenter>();
             }
-            catch
-            {
-                Pylon.Terminate();
-                throw;
-            }
+            //catch
+            //{
+            //    Pylon.Terminate();
+            //    throw;
+            //}
             Pylon.Terminate();
         }
     }

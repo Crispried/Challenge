@@ -1,4 +1,5 @@
-﻿using Challange.Domain.Services.Settings;
+﻿using Challange.Domain.Services.Message;
+using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingParser;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Presenter.Base;
@@ -15,19 +16,21 @@ namespace Challange.Presenter.Presenters.ChallengeSettingsPresenter
                     BasePresenter<IChallengeSettingsView, ChallengeSettings>
     {
         private ChallengeSettings challengeSettings;
+        private IMessageParser messageParser;
 
         public ChallengeSettingsPresenter(
         IApplicationController controller,
-        IChallengeSettingsView challengeSettingsView) :
+        IChallengeSettingsView challengeSettingsView,
+        IMessageParser messageParser) :
                 base(controller, challengeSettingsView)
         {
+            this.messageParser = messageParser;
             SubscribePresenters();
         }
 
         private void SubscribePresenters()
         {
-            View.ChangeChallengeSettings += () =>
-             ChangeChallengeSettings();
+            View.ChangeChallengeSettings += ChangeChallengeSettings;
         }
     }
 }

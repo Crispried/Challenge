@@ -1,4 +1,5 @@
-﻿using Challange.Domain.Services.Settings.SettingTypes;
+﻿using Challange.Domain.Services.Message;
+using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Presenter.Views;
 using System;
 using System.Collections.Generic;
@@ -71,12 +72,12 @@ namespace Challange.Forms
                    (!string.IsNullOrWhiteSpace(rewindBackwardTextBox.Text));
         }
 
-        public void ShowValidationErrorMessage()
+        public void ShowMessage(ChallengeMessage message)
         {
-            string caption = "Form is not valid";
-            string text = "Please, fill all fields";
+            string caption = message.Caption;
+            string text = message.Text;
             MessageBox.Show(text, caption,
-                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                message.MessageButtons, message.MessageIcon);
         }
 
         private void rewindForwardTextBox_KeyPress(object sender, KeyPressEventArgs e)

@@ -16,6 +16,7 @@ using Challange.Domain.Services.StreamProcess.Concrete;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using System.Linq;
 using Challange.Domain.Services.Replay;
+using Challange.Domain.Services.Message;
 
 namespace Challange.Presenter.Presenters.MainPresenter
 {
@@ -39,6 +40,10 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private InternalChallengeTimer internalChallengeTimer;
         private ChallengeObject challenge;
 
+        private MessageParser messageParser;
+
+        private FileService fileService;
+
         private Zoomer zoomer;
 
         public MainPresenter(IApplicationController controller,
@@ -47,6 +52,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             SubscribePresenters();
             zoomer = new Zoomer();
+            messageParser = new MessageParser();
+            fileService = new FileService();
         }
 
         private void SubscribePresenters()

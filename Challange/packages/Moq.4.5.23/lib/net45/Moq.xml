@@ -120,18 +120,24 @@
 			unexpected invocations on loose mocks.
 		</summary>
         </member>
+        <member name="T:Moq.InterceptObjectMethodsMixin">
+            <summary>
+            Intercept strategy that handles `System.Object` methods.
+            </summary>
+        </member>
         <member name="M:Moq.AddActualInvocation.GetEventFromName(System.String)">
             <summary>
             Get an eventInfo for a given event name.  Search type ancestors depth first if necessary.
             </summary>
             <param name="eventName">Name of the event, with the set_ or get_ prefix already removed</param>
         </member>
-        <member name="M:Moq.AddActualInvocation.GetNonPublicEventFromName(System.String)">
+        <member name="M:Moq.AddActualInvocation.GetEventFromName(System.String,System.Reflection.BindingFlags)">
             <summary>
             Get an eventInfo for a given event name.  Search type ancestors depth first if necessary.
-            Searches also in non public events.
+            Searches events using the specified binding constraints.
             </summary>
             <param name="eventName">Name of the event, with the set_ or get_ prefix already removed</param>
+            <param name="bindingAttr">Specifies how the search for events is conducted</param>
         </member>
         <member name="M:Moq.AddActualInvocation.GetAncestorTypes(System.Type)">
             <summary>
@@ -2773,6 +2779,12 @@
             Exposes the list of extra interfaces implemented by the mock.
             </summary>
         </member>
+        <member name="P:Moq.Mock.InternallyImplementedInterfaceCount">
+            <summary>
+            Indicates the number of interfaces in <see cref="P:Moq.Mock.ImplementedInterfaces"/> that were
+            defined internally, rather than through calls to <see cref="M:Moq.Mock.As``1"/>.
+            </summary>
+        </member>
         <member name="M:Moq.Mock.Verify">
             <summary>
 			Verifies that all verifiable expectations have been met.
@@ -4239,6 +4251,13 @@
             Throws a sequence of exceptions, once per call.
             </summary>
         </member>
+        <member name="T:Moq.SerializableTypesValueProvider">
+            <summary>
+            A <see cref="T:Moq.IDefaultValueProvider"/> that returns an empty default value 
+            for serializable types that do not implement <see cref="T:System.Runtime.Serialization.ISerializable"/> properly, 
+            and returns the value provided by the decorated provider otherwise.
+            </summary>
+        </member>
         <member name="M:Moq.ExpressionExtensions.ToLambda(System.Linq.Expressions.Expression)">
             <summary>
             Casts the expression to a lambda expression, removing 
@@ -5580,13 +5599,13 @@
             <summary>Branch: master</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: ffcaf6e</summary>
+            <summary>Commit: 8772a49</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: ffcaf6eb3d9e5b37c231dcf2578e593a174717d3</summary>
+            <summary>Sha: 8772a49d4565a03d8455685f5633ffed80bb2cc9</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
-            <summary>Commits on top of base version: 16</summary>
+            <summary>Commits on top of base version: 23</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
             <summary>Tag: </summary>
@@ -5616,7 +5635,7 @@
             <summary>Minor: 5</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Patch">
-            <summary>Patch: 16</summary>
+            <summary>Patch: 23</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Label">
             <summary>Label: </summary>

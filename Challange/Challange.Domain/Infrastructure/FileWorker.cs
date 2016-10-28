@@ -4,9 +4,9 @@ using System.Xml.Serialization;
 
 namespace Challange.Domain.Infrastructure
 {
-    public static class FileWorker
+    public class FileWorker : IFileWorker
     {
-        public static bool SerializeXml(object objectToSerialize, string outputPath)
+        public bool SerializeXml(object objectToSerialize, string outputPath)
         {
             XmlSerializer xsSubmit = new XmlSerializer(objectToSerialize.GetType());
             try
@@ -34,7 +34,7 @@ namespace Challange.Domain.Infrastructure
             return true;
         }
 
-        public static ObjectType DeserializeXml<ObjectType>(string settingsFilePath)
+        public ObjectType DeserializeXml<ObjectType>(string settingsFilePath)
         {
             XmlSerializer serializer = new
                     XmlSerializer(typeof(ObjectType));

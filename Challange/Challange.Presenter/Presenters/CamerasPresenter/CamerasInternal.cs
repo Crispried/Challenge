@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace Challange.Presenter.Presenters.CamerasPresenter
 {
@@ -13,16 +9,16 @@ namespace Challange.Presenter.Presenters.CamerasPresenter
         /// </summary>
         private void FillCamerasListView()
         {
-            View.FillCamerasListView(connectedCameras);
+            View.FillCamerasListView(connectedCameras.GetCamerasNames);
         }
 
         /// <summary>
         /// in fact we want hide list box and make visible label
         /// which will say that there aren't any connected camera
         /// </summary>
-        private void SetUIOnNoConnectedDevices()
+        private void ShowNoConnectedCamerasLabel()
         {
-            View.SetUIOnNoConnectedDevices();
+            View.ShowNoConnectedCamerasLabel();
         }
     }
 }

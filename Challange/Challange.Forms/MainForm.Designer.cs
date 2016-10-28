@@ -66,7 +66,7 @@
             this.playerPanel.AutoScroll = true;
             this.playerPanel.BackColor = System.Drawing.Color.Black;
             this.playerPanel.Location = new System.Drawing.Point(0, 54);
-            this.playerPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.playerPanel.Margin = new System.Windows.Forms.Padding(4);
             this.playerPanel.Name = "playerPanel";
             this.playerPanel.Size = new System.Drawing.Size(1045, 564);
             this.playerPanel.TabIndex = 0;
@@ -162,7 +162,7 @@
             this.timeAxis.Controls.Add(this.addChallange);
             this.timeAxis.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.timeAxis.Location = new System.Drawing.Point(0, 617);
-            this.timeAxis.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.timeAxis.Margin = new System.Windows.Forms.Padding(4);
             this.timeAxis.Name = "timeAxis";
             this.timeAxis.Size = new System.Drawing.Size(1045, 75);
             this.timeAxis.TabIndex = 3;
@@ -196,7 +196,7 @@
             // 
             this.challengeTimeAxis.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.challengeTimeAxis.Location = new System.Drawing.Point(5, 4);
-            this.challengeTimeAxis.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.challengeTimeAxis.Margin = new System.Windows.Forms.Padding(5);
             this.challengeTimeAxis.Name = "challengeTimeAxis";
             this.challengeTimeAxis.Size = new System.Drawing.Size(847, 28);
             this.challengeTimeAxis.TabIndex = 0;
@@ -220,7 +220,7 @@
             this.addChallange.Enabled = false;
             this.addChallange.Font = new System.Drawing.Font("Georgia", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.addChallange.Location = new System.Drawing.Point(859, 4);
-            this.addChallange.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.addChallange.Margin = new System.Windows.Forms.Padding(4);
             this.addChallange.Name = "addChallange";
             this.addChallange.Size = new System.Drawing.Size(171, 68);
             this.addChallange.TabIndex = 1;
@@ -288,7 +288,7 @@
             this.Controls.Add(this.timeAxis);
             this.Controls.Add(this.menu);
             this.Controls.Add(this.playerPanel);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(1061, 724);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

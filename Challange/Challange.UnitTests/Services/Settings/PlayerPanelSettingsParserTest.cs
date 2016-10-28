@@ -20,7 +20,7 @@ namespace Challange.UnitTests.Services.SettingParsers
         [SetUp]
         public void SetUp()
         {
-            parser = new PlayerPanelSettingsParser();
+           // parser = new PlayerPanelSettingsParser();
             settings = InitializePlayerPanelSettings();
         }
 

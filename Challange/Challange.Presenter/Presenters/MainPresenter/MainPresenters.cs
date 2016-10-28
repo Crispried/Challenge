@@ -56,7 +56,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void ShowDevicesList()
         {
             Controller.Run<CamerasPresenter.CamerasPresenter,
-                List<string>>(camerasContainer.GetCamerasNames);
+                CamerasContainer>(camerasContainer);
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         public void ChangeFtpSettings()
         {
-            Controller.Run<FtpPresenter.FtpPresenter,
+            Controller.Run<FtpSettingsPresenter.FtpSettingsPresenter,
                             FtpSettings>(ftpSettings);
         }
 
@@ -158,11 +158,11 @@ namespace Challange.Presenter.Presenters.MainPresenter
             var challengeTime = GetChallengeTime();
             challenge = new ChallengeObject(
                 gameInformation.DirectoryName, challengeTime);
-            challenge.CreateDirectoryForChallenge();
+            CreateDirectoryForChallenge();
             ChangeActivityOfEventForPastFrames(false);
             ChangeActivityOfEventForFutureFrames(true);
             SetUIAsChallengeRecordingOn(challengeSettings.NumberOfFutureFPS);
-            AddMarkerOnTimeAxis(challenge.GetChallengeDirectoryPath);
+            AddMarkerOnTimeAxis(challenge.PathToChallengeDirectory);
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         public void OpenGameFolder()
         {
-            FileService.OpenFileOrFolder(gameInformation.DirectoryName);
+            fileService.OpenFileOrFolder(gameInformation.DirectoryName);
         }
 
         /// <summary>
@@ -191,7 +191,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
             // challenge.GetChallengeDirectoryPath contains last one challenge folder
             if(challenge != null)
             {
-                OpenChallengePlayer(challenge.GetChallengeDirectoryPath);
+                OpenChallengePlayer(challenge.PathToChallengeDirectory);
             }
             else
             {

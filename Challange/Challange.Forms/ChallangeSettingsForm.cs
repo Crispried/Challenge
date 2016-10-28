@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Challange.Domain.Services.Settings.SettingTypes;
+using Challange.Domain.Services.Message;
 
 namespace Challange.Forms
 {
@@ -19,7 +20,7 @@ namespace Challange.Forms
         {
             InitializeComponent();
             saveChallangeSettingsButton.Click += (sender, args)
-                                => Invoke(ChangeChallengeSettings);
+                                => Invoke(ChangeChallengeSettings, GetSettings());
         }
 
         public new void Show()
@@ -51,7 +52,7 @@ namespace Challange.Forms
             return challengeSettings;
         }
 
-        public event Action ChangeChallengeSettings;
+        public event Action<ChallengeSettings> ChangeChallengeSettings;
 
         public void SetChallengeSettings(ChallengeSettings challengeSettings)
         {
@@ -84,12 +85,12 @@ namespace Challange.Forms
                    (!string.IsNullOrWhiteSpace(futureSecondsTextBox.Text));
         }
 
-        public void ShowValidationErrorMessage()
+        public void ShowMessage(ChallengeMessage message)
         {
-            string caption = "Form is not valid";
-            string text = "Please, fill all fields";
+            string caption = message.Caption;
+            string text = message.Text;
             MessageBox.Show(text, caption,
-                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                message.MessageButtons, message.MessageIcon);
         }
 
         private void pastSecondsTextBox_KeyPress(object sender, KeyPressEventArgs e)

@@ -2,9 +2,9 @@
 using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings.SettingTypes;
 
-namespace Challange.Presenter.Presenters.FtpPresenter
+namespace Challange.Presenter.Presenters.FtpSettingsPresenter
 {
-    public partial class FtpPresenter
+    public partial class FtpSettingsPresenter
     { 
         public override void Run(FtpSettings argument)
         {
@@ -16,25 +16,19 @@ namespace Challange.Presenter.Presenters.FtpPresenter
         /// <summary>
         /// Changes challenge settings (number of past and future FPSes)
         /// </summary>
-        public void ChangeFtpSettings()
+        public void ChangeFtpSettings(FtpSettings newSettings)
         {
             if (View.ValidateForm())
             {
-                // ChallengeSettingsFormIsValid = true;
-
-                var newSettings = View.FtpSettings;
                 SaveSettings(newSettings);
-                ftpSettings.FtpAddress = newSettings.FtpAddress;
-                ftpSettings.UserName = newSettings.UserName;
-                ftpSettings.Password = newSettings.Password;
+                ftpSettings.SetSettings(newSettings);
                 View.Close();
-
-                // ChallengeSettingsAreSaved = true;
             }
             else
             {
-                // ChallengeSettingsFormIsValid = false;
-                View.ShowValidationErrorMessage();
+                ChallengeMessage message =
+                    messageParser.GetMessage(MessageType.FtpSettingsInvalid);
+                View.ShowMessage(message);
             }
         }
 
@@ -46,8 +40,8 @@ namespace Challange.Presenter.Presenters.FtpPresenter
                                     ftpSettings.Password);
             bool ftpConnectionSuccess = ftpConnector.IsFtpConnectionSuccessful();
             ChallengeMessage message = ftpConnectionSuccess ?
-                MessageParser.GetMessage(MessageType.TestFtpConnectionSuccessed) :
-                MessageParser.GetMessage(MessageType.TestFtpConnectionFailed);
+                messageParser.GetMessage(MessageType.TestFtpConnectionSuccessed) :
+                messageParser.GetMessage(MessageType.TestFtpConnectionFailed);
             View.ShowMessage(message);
         }
     }

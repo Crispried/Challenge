@@ -5,6 +5,9 @@ namespace Challange.Presenter.Presenters.BroadcastPresenter
 {
     public partial class BroadcastPresenter
     {
+        /// <summary>
+        /// Subscribes camera on NewFrameEvent and starts it
+        /// </summary>
         private void StartStream()
         {
             EventSubscriber.AddEventHandler(camera, "NewFrameEvent", Camera_NewFrameEvent);

@@ -1,4 +1,5 @@
-﻿using Challange.Domain.Services.Settings.SettingTypes;
+﻿using Challange.Domain.Services.Message;
+using Challange.Domain.Services.Settings.SettingTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,32 +15,24 @@ namespace Challange.Presenter.Presenters.ChallengeSettingsPresenter
             challengeSettings = argument;
             SetChallengeSettings();
             View.Show();
-            ChallengeSettingsAreOpened = true;
         }
 
         /// <summary>
         /// Changes challenge settings (number of past and future FPSes)
         /// </summary>
-        public void ChangeChallengeSettings()
+        public void ChangeChallengeSettings(ChallengeSettings newSettings)
         {
             if (View.ValidateForm())
             {
-                ChallengeSettingsFormIsValid = true;
-
-                var newSettings = View.ChallengeSettings;
                 SaveSettings(newSettings);
-                challengeSettings.NumberOfPastFPS =
-                                newSettings.NumberOfPastFPS;
-                challengeSettings.NumberOfFutureFPS =
-                                newSettings.NumberOfFutureFPS;
+                challengeSettings.SetSettings(newSettings);
                 View.Close();
-
-                ChallengeSettingsAreSaved = true;
             }
             else
             {
-                ChallengeSettingsFormIsValid = false;
-                View.ShowValidationErrorMessage();
+                ChallengeMessage message =
+                    messageParser.GetMessage(MessageType.ChallengeSettingsInvalid);
+                View.ShowMessage(message);
             }
         }
     }

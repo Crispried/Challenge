@@ -7,19 +7,20 @@ using System.Threading.Tasks;
 
 namespace Challange.Domain.Services.Message
 {
-    public static class MessageParser
+    public class MessageParser : IMessageParser
     {
-        private static string defaultPathToFile = @"Message/message_info.xml";
+        private string defaultPathToFile = @"Message/message_info.xml";
 
-        public static ChallengeMessage GetMessage(MessageType type)
+        public ChallengeMessage GetMessage(MessageType type)
         {
             return GetMessage(type, defaultPathToFile);
         }
 
-        public static ChallengeMessage GetMessage(MessageType type, string pathToFile)
+        public ChallengeMessage GetMessage(MessageType type, string pathToFile)
         {
+            FileWorker fileWorker = new FileWorker();
             List<ChallengeMessage> messages =
-                FileWorker.DeserializeXml<List<ChallengeMessage>>(pathToFile);
+                fileWorker.DeserializeXml<List<ChallengeMessage>>(pathToFile);
             ChallengeMessage appropriateMessage =
                 messages.Where(m => m.MessageType == type).FirstOrDefault();
             return appropriateMessage;

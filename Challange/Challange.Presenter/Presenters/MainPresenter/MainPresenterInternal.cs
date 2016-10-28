@@ -120,7 +120,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             var playerPanelSettingService =
                  new SettingsService<PlayerPanelSettings>(
-                                new PlayerPanelSettingsParser());
+                                new PlayerPanelSettingsParser(new FileWorker()));
             return playerPanelSettingService.
                         GetSetting();
         }
@@ -131,10 +131,10 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         /// <returns></returns>
         private ChallengeSettings GetChallengeSettings()
-        {           
+        {
             var challengeSettingService =
                  new SettingsService<ChallengeSettings>(
-                                new ChallengeSettingsParser());
+                                new ChallengeSettingsParser(new FileWorker()));
             return challengeSettingService.
                         GetSetting();
         }
@@ -148,7 +148,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             var ftpSettingsService =
                  new SettingsService<FtpSettings>(
-                                new FtpSettingsParser());
+                                new FtpSettingsParser(new FileWorker()));
             return ftpSettingsService.
                         GetSetting();
         }
@@ -335,11 +335,19 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void WriteChallangeAsVideo()
         {
-            var pathToChallenge = challenge.GetChallengeDirectoryPath;
+            SetChallengeDirectoryPath();
             var challengeWriter = new ChallengeWriter(challengeBuffers,
-                                 camerasContainer, pathToChallenge);
+                                 camerasContainer, challenge.PathToChallengeDirectory);
             challengeWriter.WriteChallenge();
             challengeBuffers.ClearBuffers();
+        }
+        
+        private void SetChallengeDirectoryPath()
+        {
+            var pathToRootDirectory = challenge.PathToRootDirectory;
+            var challengeFolderName = challenge.ChallengeFolderName;
+            challenge.PathToChallengeDirectory = pathToRootDirectory + @"\" +
+                fileService.FilterFolderName(challengeFolderName) + @"\";
         }
 
         /// <summary>
@@ -362,9 +370,14 @@ namespace Challange.Presenter.Presenters.MainPresenter
             IsCaptureDevicesEnable = false;
         }
 
+        private void CreateDirectoryForChallenge()
+        {
+            fileService.CreateDirectory(challenge.PathToChallengeDirectory);
+        }
+
         private void ShowMessage(MessageType type)
         {
-            ChallengeMessage message = MessageParser.GetMessage(type);
+            ChallengeMessage message = messageParser.GetMessage(type);
             View.ShowMessage(message);
         }
     }

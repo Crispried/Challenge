@@ -77,6 +77,7 @@
             this.playerHeightTextBox.Name = "playerHeightTextBox";
             this.playerHeightTextBox.Size = new System.Drawing.Size(80, 34);
             this.playerHeightTextBox.TabIndex = 6;
+            this.playerHeightTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.playerHeightTextBox_KeyPress);
             // 
             // playerWidthLabel
             // 
@@ -98,6 +99,7 @@
             this.playerWidthTextBox.Name = "playerWidthTextBox";
             this.playerWidthTextBox.Size = new System.Drawing.Size(79, 34);
             this.playerWidthTextBox.TabIndex = 4;
+            this.playerWidthTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.playerWidthTextBox_KeyPress);
             // 
             // autosizeCheckButton
             // 

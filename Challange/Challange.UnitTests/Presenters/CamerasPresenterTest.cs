@@ -10,6 +10,7 @@ using NSubstitute;
 using Moq;
 using Challange.Presenter.Presenters.CamerasPresenter;
 using static PylonC.NETSupportLibrary.DeviceEnumerator;
+using Challange.Domain.Entities;
 
 namespace Challange.UnitTests.Presenters
 {
@@ -19,7 +20,8 @@ namespace Challange.UnitTests.Presenters
         private IApplicationController controller;
         private CamerasPresenter presenter;
         private ICamerasView view;
-        private List<string> argument;
+        private CamerasContainer argument;
+        private List<Device> devices;
 
         [SetUp]
         public void SetUp()
@@ -27,30 +29,53 @@ namespace Challange.UnitTests.Presenters
             controller = Substitute.For<IApplicationController>();
             view = Substitute.For<ICamerasView>();
             presenter = new CamerasPresenter(controller, view);
-            argument = InitializeDevicesList();
-            presenter.Run(argument);
+            devices = Substitute.For<List<Device>>();
         }
 
         [Test]
-        public void Run()
+        public void RunIfDeviceListIsNotEmpty()
         {
             // Arrange
-
-            // Act
+            Device device = CreateTestDevice();
+            devices.Add(device);
+            SetArgument(devices);
             presenter.Run(argument);
-
+            // Act
             // Assert
-            Assert.True(presenter.CamerasListWindowIsOpened);
+            view.DidNotReceive().ShowNoConnectedCamerasLabel();
+            view.ReceivedWithAnyArgs().FillCamerasListView(argument.GetCamerasNames);
+            view.Received().Show();
         }
 
-        private List<string> InitializeDevicesList()
+        [Test]
+        public void RunIfDeviceListIsEmpty()
         {
-            List<string> devicesList = new List<string>();
-            Device device = new Device();
+            // Arrange
+            devices.Clear();
+            SetArgument(devices);
+            presenter.Run(argument);
+            // Act
+            // Assert
+            view.DidNotReceive().FillCamerasListView(argument.GetCamerasNames);
+            view.Received().ShowNoConnectedCamerasLabel();
+            view.Received().Show();
+        }
 
-            devicesList.Add(device.Name);
+        private void SetArgument(List<Device> devices)
+        {
+            argument = Substitute.For<CamerasContainer>(devices);
+        }
 
-            return devicesList;
+        private Device CreateTestDevice()
+        {
+            Device device = Substitute.For<Device>();
+            device.FullName = "kurwa";
+            return device;
+        }
+
+        private void InitializeDevicesList()
+        {
+            argument.GetCamerasNames.Add("s");
         }
     }
 }

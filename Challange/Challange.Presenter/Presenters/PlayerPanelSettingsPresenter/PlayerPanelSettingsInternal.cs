@@ -1,4 +1,5 @@
-﻿using Challange.Domain.Services.Settings;
+﻿using Challange.Domain.Infrastructure;
+using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingParser;
 using Challange.Domain.Services.Settings.SettingTypes;
 using System;
@@ -25,11 +26,7 @@ namespace Challange.Presenter.Presenters.PlayerPanelSettingsPresenter
         /// <param name="newSettings"></param>
         private void SaveSettings(PlayerPanelSettings newSettings)
         {
-            var playerPanelSettingsService =
-                    new SettingsService<PlayerPanelSettings>(
-                    new PlayerPanelSettingsParser());
-            playerPanelSettingsService.SaveSetting(newSettings);
-            PlayerPanelSettingsAreSaved = true;
+            settingsService.SaveSetting(newSettings);
         }
     }
 }

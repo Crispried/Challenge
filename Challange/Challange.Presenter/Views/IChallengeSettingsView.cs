@@ -1,4 +1,5 @@
-﻿using Challange.Domain.Services.Settings.SettingTypes;
+﻿using Challange.Domain.Services.Message;
+using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Presenter.Base;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace Challange.Presenter.Views
 {
     public interface IChallengeSettingsView : IView
     {
-        event Action ChangeChallengeSettings;
+        event Action<ChallengeSettings> ChangeChallengeSettings;
 
         ChallengeSettings ChallengeSettings { get; set; }
 
@@ -19,6 +20,6 @@ namespace Challange.Presenter.Views
         
         bool ValidateForm();
 
-        void ShowValidationErrorMessage();
+        void ShowMessage(ChallengeMessage message);
     }
 }

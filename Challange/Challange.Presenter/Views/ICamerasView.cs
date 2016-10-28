@@ -11,6 +11,6 @@ namespace Challange.Presenter.Views
     {
         void FillCamerasListView(List<string> camerasNames);
 
-        void SetUIOnNoConnectedDevices();
+        void ShowNoConnectedCamerasLabel();
     }
 }

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using AForge.Video.FFMPEG;
 using System.Threading.Tasks;
+using Challange.Domain.Infrastructure;
 
 namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
 {
@@ -25,7 +26,7 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
         {
             var rewindSettingService =
                  new SettingsService<RewindSettings>(
-                                new RewindSettingsParser());
+                                new RewindSettingsParser(new FileWorker()));
             return rewindSettingService.
                         GetSetting();
         }
@@ -33,7 +34,7 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
 
         private void ShowMessage(MessageType type)
         {
-            ChallengeMessage message = MessageParser.GetMessage(type);
+            ChallengeMessage message = messageParser.GetMessage(type);
             View.ShowMessage(message);
         }
 

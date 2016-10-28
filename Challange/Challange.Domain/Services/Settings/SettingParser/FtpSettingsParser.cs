@@ -11,6 +11,12 @@ namespace Challange.Domain.Services.Settings.SettingParser
     public class FtpSettingsParser : ISettingsParser<FtpSettings>
     {
         private string settingsFilePath = @"Settings\ftp.xml";
+        private IFileWorker fileWorker;
+
+        public FtpSettingsParser(IFileWorker fileWorker)
+        {
+            this.fileWorker = fileWorker;
+        }
 
         public string SettingsFilePath
         {
@@ -26,14 +32,14 @@ namespace Challange.Domain.Services.Settings.SettingParser
 
         public bool SaveSettings(FtpSettings settings)
         {
-            return FileWorker.SerializeXml(settings, SettingsFilePath) ? true : false;
+            return fileWorker.SerializeXml(settings, SettingsFilePath) ? true : false;
         }
 
         public FtpSettings GetSettings()
         {
             try
             {
-                FtpSettings settings = FileWorker.
+                FtpSettings settings = fileWorker.
                     DeserializeXml<FtpSettings>(SettingsFilePath);
                 return settings;
             }

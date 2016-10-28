@@ -6,19 +6,27 @@ using System.Threading.Tasks;
 using Challange.Domain.Infrastructure;
 using Challange.Domain.Services.Settings.SettingTypes;
 using static PylonC.NETSupportLibrary.DeviceEnumerator;
+using Challange.Domain.Entities;
 
 namespace Challange.UnitTests
 {
     class TestCase
     {
+        private FileService fileService;
+
+        public TestCase()
+        {
+            fileService = new FileService();
+        }
+
         protected void DeleteFile(string path)
         {
-            FileService.DeleteFile(path);
+            fileService.DeleteFile(path);
         }
 
         protected bool FileExists(string path)
         {
-            return FileService.FileExists(path);
+            return fileService.FileExists(path);
         }
 
 
@@ -36,8 +44,32 @@ namespace Challange.UnitTests
         {
             return new ChallengeSettings()
             {
-                NumberOfFutureFPS = 10,
-                NumberOfPastFPS = 15
+                NumberOfPastFPS = 15,
+                NumberOfFutureFPS = 10
+            };
+        }
+
+        protected FtpSettings InitializeFtpSettings()
+        {
+            return new FtpSettings()
+            {
+                FtpAddress = "ftp://ftp.wsiz.rzeszow.pl",
+                UserName = "w46999",
+                Password = "35162067160"
+            };
+        }
+
+        protected GameInformation InitializeGameInformation()
+        {
+            return new GameInformation()
+            {
+                Country = "USA",
+                City = "New York",
+                FirstTeam = "Best squad",
+                SecondTeam = "Takeover",
+                Date = "26.10.2016",
+                GameStart = "17:45",
+                Part = "2"
             };
         }
 

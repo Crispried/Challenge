@@ -20,7 +20,7 @@ namespace Challange.UnitTests.Services.SettingParsers
         [SetUp]
         public void SetUp()
         {
-            parser = new ChallengeSettingsParser();
+           // parser = new ChallengeSettingsParser();
             settings = InitializeChallengeSettings();
         }
 

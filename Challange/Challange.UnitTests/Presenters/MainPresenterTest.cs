@@ -119,7 +119,7 @@ namespace Challange.UnitTests.Presenters
             // Act
             presenter.GameInformation = InitializeGameInformation();
             presenter.InternalChallengeTimer = InitializeInternalChallengeTimer();
-            presenter.ChallengeSettings = InitializeChallengeSettings();
+            //presenter.ChallengeSettings = InitializeChallengeSettings();
             view.CreateChallange += Raise.Event<Action>();
             // Assert
             Assert.IsTrue(presenter.ElapsedTimeWasGot);

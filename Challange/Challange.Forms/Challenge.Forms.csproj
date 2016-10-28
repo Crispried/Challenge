@@ -132,11 +132,11 @@
     <Compile Include="ChallengePlayerForm.Designer.cs">
       <DependentUpon>ChallengePlayerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="FtpForm.cs">
+    <Compile Include="FtpSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FtpForm.Designer.cs">
-      <DependentUpon>FtpForm.cs</DependentUpon>
+    <Compile Include="FtpSettingsForm.Designer.cs">
+      <DependentUpon>FtpSettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GameInformationForm.cs">
       <SubType>Form</SubType>
@@ -178,8 +178,8 @@
     <EmbeddedResource Include="ChallengePlayerForm.resx">
       <DependentUpon>ChallengePlayerForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FtpForm.resx">
-      <DependentUpon>FtpForm.cs</DependentUpon>
+    <EmbeddedResource Include="FtpSettingsForm.resx">
+      <DependentUpon>FtpSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GameInformationForm.resx">
       <DependentUpon>GameInformationForm.cs</DependentUpon>

@@ -5,6 +5,8 @@ namespace Challange.Domain.Entities
 {
     public class GameInformation
     {
+        private string directoryName;
+
         public string FirstTeam { get; set; }
 
         public string SecondTeam { get; set; }
@@ -23,13 +25,23 @@ namespace Challange.Domain.Entities
         {
             get
             {
-                return FormatDirectoryName();
+                return directoryName;
+            }
+            set
+            {
+                directoryName = value;
             }
         }
 
-        private string FormatDirectoryName()
+        public void SetGameInformation(GameInformation newGameInformation)
         {
-            return FirstTeam + "_vs_" + SecondTeam + "(" + Date + ")";
+            FirstTeam = newGameInformation.FirstTeam;
+            SecondTeam = newGameInformation.SecondTeam;
+            Date = newGameInformation.Date;
+            GameStart = newGameInformation.GameStart;
+            Country = newGameInformation.Country;
+            City = newGameInformation.City;
+            Part = newGameInformation.Part;
         }
     }
 }

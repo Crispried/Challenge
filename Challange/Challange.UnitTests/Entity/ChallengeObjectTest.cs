@@ -36,7 +36,7 @@ namespace Challange.UnitTests.Entity
 
         private string GetChallengeDirectoryPath()
         {
-            return challengeObject.GetChallengeDirectoryPath;
+            return challengeObject.PathToChallengeDirectory;
         }
     }
 }

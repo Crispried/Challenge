@@ -1,4 +1,5 @@
-﻿using Challange.Domain.Services.Settings;
+﻿using Challange.Domain.Infrastructure;
+using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingParser;
 using Challange.Domain.Services.Settings.SettingTypes;
 using System;
@@ -27,7 +28,7 @@ namespace Challange.Presenter.Presenters.ChallengeSettingsPresenter
         {
             var challengeSettingsService =
                     new SettingsService<ChallengeSettings>(
-                    new ChallengeSettingsParser());
+                    new ChallengeSettingsParser(new FileWorker()));
             challengeSettingsService.SaveSetting(newSettings);
         }
     }

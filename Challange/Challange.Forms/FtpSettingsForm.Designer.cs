@@ -1,6 +1,6 @@
 ﻿namespace Challange.Forms
 {
-    partial class FtpForm
+    partial class FtpSettingsForm
     {
         /// <summary>
         /// Required designer variable.

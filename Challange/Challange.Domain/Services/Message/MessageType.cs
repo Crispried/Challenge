@@ -15,6 +15,10 @@ namespace Challange.Domain.Services.Message
         EmptyDeviceContainer,
         HaveNotRecordedAnyChallengeYet,
         TestFtpConnectionSuccessed,
-        TestFtpConnectionFailed
+        TestFtpConnectionFailed,
+        FtpSettingsInvalid,
+        PlayerPanelSettingsInvalid,
+        ChallengeSettingsInvalid,
+        RewindSettingsInvalid
     };
 }

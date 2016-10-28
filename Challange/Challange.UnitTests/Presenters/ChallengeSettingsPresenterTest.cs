@@ -11,6 +11,10 @@ using NSubstitute;
 using Challange.Presenter.Presenters.ChallengeSettingsPresenter;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Moq;
+using Challange.Domain.Services.Settings.SettingParser;
+using Challange.Domain.Services.Settings;
+using Challange.Domain.Infrastructure;
+using Challange.Domain.Services.Message;
 
 namespace Challange.UnitTests.Presenters
 {
@@ -21,69 +25,74 @@ namespace Challange.UnitTests.Presenters
         private ChallengeSettingsPresenter presenter;
         private IChallengeSettingsView view;
         private ChallengeSettings argument;
+        private ChallengeSettings mock;
+        private SettingsService<ChallengeSettings> challengeSettingsService;
+        private IMessageParser messageParser;
 
         [SetUp]
         public void SetUp()
         {
             controller = Substitute.For<IApplicationController>();
             view = Substitute.For<IChallengeSettingsView>();
-            presenter = new ChallengeSettingsPresenter(controller, view);
+            messageParser = Substitute.For<IMessageParser>();
+            presenter = new ChallengeSettingsPresenter(controller, view, messageParser);
+            mock = Substitute.For<ChallengeSettings>();
+            IFileWorker fileWorker = Substitute.For<IFileWorker>();
+            ChallengeSettingsParser parser = 
+                Substitute.For<ChallengeSettingsParser>(fileWorker);
+            challengeSettingsService =
+                Substitute.For<SettingsService<ChallengeSettings>> (parser);
             argument = InitializeChallengeSettings();
-            presenter.Run(argument);
+            presenter.Run(mock);
         }
 
         [Test]
         public void Run()
         {
             // Arrange
-
             // Act
-            presenter.Run(argument);
-
             // Assert
-            Assert.True(presenter.ChallengeSettingsAreOpened);
+            view.Received().SetChallengeSettings(mock);
+            view.Received().Show();
         }
 
         [Test]
-        public void ChangeChallengeSettingsValidForm()
+        public void ChangeChallengeSettingsIfFormIsValid()
         {
             // Arrange
-            view.ChallengeSettings = argument;
             SetFormAsValid(true);
-
+            var returnedMessage = new ChallengeMessage()
+            {
+                MessageType = MessageType.ChallengeSettingsInvalid
+            };
             // Act
-            view.ChangeChallengeSettings += Raise.Event<Action>();
-
             // Assert
-            Assert.True(presenter.ChallengeSettingsFormIsValid);
+            presenter.ChangeChallengeSettings(argument);
+            challengeSettingsService.Received().SaveSetting(argument);
+            mock.Received().SetSettings(argument);
+            view.Received().Close();
+            messageParser.DidNotReceive().GetMessage(MessageType.ChallengeSettingsInvalid);
+            view.DidNotReceive().ShowMessage(returnedMessage);
         }
 
         [Test]
-        public void ChangeChallengeSettingsInvalidForm()
+        public void ChangeChallengeSettingsIfFormIsInvalid()
         {
             // Arrange
-            view.ChallengeSettings = argument;
             SetFormAsValid(false);
-
+            var returnedMessage = new ChallengeMessage()
+            {
+                MessageType = MessageType.ChallengeSettingsInvalid
+            };
             // Act
-            view.ChangeChallengeSettings += Raise.Event<Action>();
-
             // Assert
-            Assert.False(presenter.ChallengeSettingsFormIsValid);
-        }
-
-        [Test]
-        public void ChangeChallengeSettingsSaveSettings()
-        {
-            // Arrange
-            view.ChallengeSettings = argument;
-            SetFormAsValid(true);
-
-            // Act
-            view.ChangeChallengeSettings += Raise.Event<Action>();
-
-            // Assert
-            Assert.True(presenter.ChallengeSettingsAreSaved);
+            presenter.ChangeChallengeSettings(argument);
+            challengeSettingsService.DidNotReceiveWithAnyArgs().SaveSetting(argument);
+            mock.DidNotReceiveWithAnyArgs().SetSettings(argument);
+            view.DidNotReceive().Close();
+            messageParser.Received().GetMessage(MessageType.ChallengeSettingsInvalid);
+            view.ReceivedWithAnyArgs().ShowMessage(returnedMessage);
+            
         }
 
         private void SetFormAsValid(bool isValid)
