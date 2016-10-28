@@ -73,6 +73,7 @@
     <Compile Include="Base\BasePresenter.cs" />
     <Compile Include="Base\IApplicationController.cs" />
     <Compile Include="Base\IContainer.cs" />
+    <Compile Include="Base\ILayout.cs" />
     <Compile Include="Base\IPresenter.cs" />
     <Compile Include="Base\IView.cs" />
     <Compile Include="Presenters\BroadcastPresenter\Broadcast.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\IPlayerPanelSettingsView.cs" />
     <Compile Include="Views\IRewindSettingsView.cs" />
+    <Compile Include="Views\Layouts\IPlayerLayout.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Challange.Domain\Challenge.Domain.csproj">

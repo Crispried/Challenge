@@ -21,11 +21,7 @@ namespace Challange.Domain.Services.Settings.SettingParser
 
         public bool SaveSettings(PlayerPanelSettings settings)
         {
-            if (FileWorker.SerializeXml(settings, settingsFilePath))
-            {
-                return true;
-            }
-            return false;
+            return FileWorker.SerializeXml(settings, settingsFilePath) ? true : false;
         }
 
         public PlayerPanelSettings GetSettings()

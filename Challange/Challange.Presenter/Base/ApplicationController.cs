@@ -1,4 +1,6 @@
 ﻿
+using Challange.Presenter.Views.Layouts;
+
 namespace Challange.Presenter.Base
 {
     public class ApplicationController : IApplicationController
@@ -21,6 +23,22 @@ namespace Challange.Presenter.Base
                 where TImplementation : class, TService
         {
             container.Register<TService, TImplementation>();
+            return this;
+        }
+        
+        public IApplicationController RegisterLayoutToForm<TLayout, TImplementation>()
+                where TLayout : ILayout
+                where TImplementation : class, TLayout
+        {
+            container.Register<TLayout, TImplementation>();
+            return this;
+        }
+
+        public IApplicationController RegisterLayoutToImplementation<TLayout, TImplementation>()
+                where TLayout : ILayout
+                where TImplementation : class, TLayout
+        {
+            container.Register<TLayout, TImplementation>();
             return this;
         }
 

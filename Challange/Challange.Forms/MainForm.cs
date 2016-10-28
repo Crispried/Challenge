@@ -12,10 +12,11 @@ using Challange.Presenter.Views;
 using Challange.Domain.Entities;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.Message;
+using Challange.Presenter.Views.Layouts;
 
 namespace Challange.Forms
 {
-    public partial class MainForm : Form, IMainView
+    public partial class MainForm : Form, IMainView, IPlayerLayout
     {
         private readonly ApplicationContext context;
         private const int autosizeWidthCoefficient = 5;
@@ -23,6 +24,7 @@ namespace Challange.Forms
         private System.Windows.Forms.Timer timer;
         private List<PictureBox> allPlayers;
         private Dictionary<string, string> camerasNames;
+        private IPlayerLayout playerLayout;
 
         #region Full screen button
         private string pathToFullScreenImage = "../../Images/fullscreen.png";
@@ -48,9 +50,10 @@ namespace Challange.Forms
 
         private List<Button> fullScreenButtonsList;
 
-        public MainForm(ApplicationContext context)
+        public MainForm(ApplicationContext context, IPlayerLayout playerLayout)
         {
             this.context = context;
+            this.playerLayout = playerLayout;
             InitializeComponent();
             playerPanelSettings.Click += (sender, args) =>
                             Invoke(OpenPlayerPanelSettings);
