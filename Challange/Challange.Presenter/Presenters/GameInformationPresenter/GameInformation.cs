@@ -11,11 +11,24 @@ namespace Challange.Presenter.Presenters.GameInformationPresenter
     {
         private GameInformation gameInformation;
 
+        private IFileService fileService;
+
+        private IFileWorker fileWorker;
+
+        private IPathFormatter pathFormatter;
+
         public GameInformationPresenter(
         IApplicationController controller,
-        IGameInformationView gameInformationView) :
+        IGameInformationView gameInformationView,
+        IFileService fileService,
+        IFileWorker fileWorker,
+        IPathFormatter pathFormatter
+        ) :
                 base(controller, gameInformationView)
         {
+            this.fileService = fileService;
+            this.fileWorker = fileWorker;
+            this.pathFormatter = pathFormatter;
             SubscribePresenters();
         }
 

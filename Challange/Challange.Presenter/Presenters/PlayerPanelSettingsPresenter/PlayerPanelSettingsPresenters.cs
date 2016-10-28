@@ -1,4 +1,5 @@
-﻿using Challange.Domain.Services.Settings.SettingTypes;
+﻿using Challange.Domain.Services.Message;
+using Challange.Domain.Services.Settings.SettingTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,6 @@ namespace Challange.Presenter.Presenters.PlayerPanelSettingsPresenter
             playerPanelSettings = argument;
             SetPlayerPanelSettings();
             View.Show();
-            PlayerPanelSettingsAreOpened = true;
         }
 
         /// <summary>
@@ -28,17 +28,18 @@ namespace Challange.Presenter.Presenters.PlayerPanelSettingsPresenter
         public void ChangePlayerPanelSettings(
                         PlayerPanelSettings newSettings)
         {
-            SaveSettings(newSettings);
-            PlayerPanelSettingsAreSaved = true;
-            
-            playerPanelSettings.PlayerWidth =
-                            newSettings.PlayerWidth;
-            playerPanelSettings.PlayerHeight =
-                            newSettings.PlayerHeight;
-            playerPanelSettings.AutosizeMode =
-                            newSettings.AutosizeMode;
-
-            View.Close();
+            if (View.ValidateForm())
+            {
+                SaveSettings(newSettings);
+                playerPanelSettings.SetSettings(newSettings);
+                View.Close();
+            }
+            else
+            {
+                ChallengeMessage message =
+                    messageParser.GetMessage(MessageType.FtpSettingsInvalid);
+                View.ShowMessage(message);
+            }
         }
     }
 }

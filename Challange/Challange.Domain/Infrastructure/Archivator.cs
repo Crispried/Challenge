@@ -2,11 +2,18 @@
 
 namespace Challange.Domain.Infrastructure
 {
-    public static class Archivator
+    public class Archivator
     {
-        public static bool Archivate(string sourceDirectoryName, string destinationArchiveFileName)
+        private IFileService fileService;
+
+        public Archivator(IFileService fileService)
         {
-            if (!FileService.FileExists(destinationArchiveFileName))
+            this.fileService = fileService;
+        }
+
+        public bool Archivate(string sourceDirectoryName, string destinationArchiveFileName)
+        {
+            if (!fileService.FileExists(destinationArchiveFileName))
             {
                 try
                 {
@@ -20,7 +27,7 @@ namespace Challange.Domain.Infrastructure
             return true;
         }
 
-        private static void CreateArchiveFromDirectory(string from, string to)
+        private void CreateArchiveFromDirectory(string from, string to)
         {
             ZipFile.CreateFromDirectory(from, to);
         }

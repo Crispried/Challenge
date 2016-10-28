@@ -14,13 +14,13 @@ using System.Windows.Forms;
 
 namespace Challange.Forms
 {
-    public partial class FtpForm : Form, IFtpView 
+    public partial class FtpSettingsForm : Form, IFtpSettingsView 
     {
-        public FtpForm()
+        public FtpSettingsForm()
         {
             InitializeComponent();
             saveFtpSettingsButton.Click += (sender, args)
-                                => Invoke(ChangeFtpSettings);
+                                => Invoke(ChangeFtpSettings, GetSettings());
             ftpTestConnectionButton.Click += (sender, args)
                                 => Invoke(TestFtpConnection, GetSettings());
         }
@@ -53,7 +53,7 @@ namespace Challange.Forms
             return ftpSettings;
         }
 
-        public event Action ChangeFtpSettings;
+        public event Action<FtpSettings> ChangeFtpSettings;
 
         public event Action<FtpSettings> TestFtpConnection;
 
@@ -84,14 +84,6 @@ namespace Challange.Forms
             return (!string.IsNullOrWhiteSpace(ftpAddressTextBox.Text)) &&
                    (!string.IsNullOrWhiteSpace(userNameTextBox.Text)) &&
                    (!string.IsNullOrWhiteSpace(passwordTextBox.Text));
-        }
-
-        public void ShowValidationErrorMessage()
-        {
-            string caption = "Form is not valid";
-            string text = "Please, fill all fields";
-            MessageBox.Show(text, caption,
-                MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         public void ShowMessage(ChallengeMessage message)

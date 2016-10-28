@@ -12,16 +12,6 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
 {
     public partial class ChallengePlayerPresenter
     {
-        private RewindSettings rewindSettings;
-
-        private string pathToChallenge;
-
-        private Dictionary<string, Bitmap> initialData;
-
-        private int numberOfVideos;
-
-        private ChallengeReader challengeReader;
-
         public override void Run(string argument)
         {
             pathToChallenge = argument;

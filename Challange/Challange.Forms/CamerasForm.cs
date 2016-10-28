@@ -33,7 +33,7 @@ namespace Challange.Forms
             }
         }
 
-        public void SetUIOnNoConnectedDevices()
+        public void ShowNoConnectedCamerasLabel()
         {
             camerasListBox.Visible = false;
             noConnectedCameraLabel.Visible = true;

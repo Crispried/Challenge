@@ -11,6 +11,12 @@ namespace Challange.Domain.Services.Settings.SettingParser
     public class RewindSettingsParser : ISettingsParser<RewindSettings>
     {
         private string settingsFilePath = @"Settings\rewind.xml";
+        private IFileWorker fileWorker;
+
+        public RewindSettingsParser(IFileWorker fileWorker)
+        {
+            this.fileWorker = fileWorker;
+        }
 
         public string SettingsFilePath
         {
@@ -27,14 +33,14 @@ namespace Challange.Domain.Services.Settings.SettingParser
 
         public bool SaveSettings(RewindSettings settings)
         {
-            return FileWorker.SerializeXml(settings, settingsFilePath) ? true : false;
+            return fileWorker.SerializeXml(settings, settingsFilePath) ? true : false;
         }
 
         public RewindSettings GetSettings()
         {
             try
             {
-                RewindSettings settings = FileWorker.
+                RewindSettings settings = fileWorker.
                         DeserializeXml<RewindSettings>(settingsFilePath);
                 return settings;
             }

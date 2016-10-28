@@ -11,27 +11,12 @@ namespace Challange.Presenter.Presenters.GameInformationPresenter
     public partial class GameInformationPresenter
     {
         /// <summary>
-        ///  Initializes game information
-        /// </summary>
-        /// <param name="gameInfo"></param>
-        private void InitializeGameInformation(GameInformation gameInfo)
-        {
-            gameInformation.FirstTeam = gameInfo.FirstTeam;
-            gameInformation.SecondTeam = gameInfo.SecondTeam;
-            gameInformation.Date = gameInfo.Date;
-            gameInformation.GameStart = gameInfo.GameStart;
-            gameInformation.Country = gameInfo.Country;
-            gameInformation.City = gameInfo.City;
-            gameInformation.Part = gameInfo.Part;
-        }
-
-        /// <summary>
         /// Creates directory for current game
         /// </summary>
         /// <param name="name"></param>
         private void CreateRootDirectory(string name)
         {
-            FileService.CreateDirectory(name);
+            fileService.CreateDirectory(name);
         }
 
         /// <summary>
@@ -39,9 +24,10 @@ namespace Challange.Presenter.Presenters.GameInformationPresenter
         /// </summary>
         /// <param name="directioryName"></param>
         /// <returns></returns>
-        private string PathToFile(string directioryName)
+        private string FormatPathToFile(string directioryName)
         {
-            return directioryName + @"\Game_Information.xml";
+            string fileName = @"\Game_Information.xml";
+            return pathFormatter.FormatPathToGameInformationFile(directioryName, fileName);
         }
 
         /// <summary>
@@ -51,7 +37,13 @@ namespace Challange.Presenter.Presenters.GameInformationPresenter
         /// <param name="path"></param>
         private void SaveGameInformation(GameInformation gameInfo, string path)
         {
-            FileWorker.SerializeXml(gameInfo, path);
+            fileWorker.SerializeXml(gameInfo, path);
+        }
+
+        private string FormatDirectoryName()
+        {
+            return gameInformation.FirstTeam +
+                "_vs_" + gameInformation.SecondTeam + "(" + gameInformation.Date + ")";
         }
     }
 }

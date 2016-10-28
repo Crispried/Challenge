@@ -40,7 +40,7 @@
             this.camerasListBox.FormattingEnabled = true;
             this.camerasListBox.ItemHeight = 24;
             this.camerasListBox.Location = new System.Drawing.Point(0, 0);
-            this.camerasListBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.camerasListBox.Margin = new System.Windows.Forms.Padding(4);
             this.camerasListBox.Name = "camerasListBox";
             this.camerasListBox.Size = new System.Drawing.Size(643, 311);
             this.camerasListBox.TabIndex = 0;
@@ -54,7 +54,7 @@
             this.noConnectedCameraLabel.Name = "noConnectedCameraLabel";
             this.noConnectedCameraLabel.Size = new System.Drawing.Size(579, 86);
             this.noConnectedCameraLabel.TabIndex = 1;
-            this.noConnectedCameraLabel.Text = "There are not any connected\r\ncamera :(";
+            this.noConnectedCameraLabel.Text = "There are not any connected\r\ncameras :(";
             this.noConnectedCameraLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.noConnectedCameraLabel.Visible = false;
             // 
@@ -65,7 +65,7 @@
             this.ClientSize = new System.Drawing.Size(643, 311);
             this.Controls.Add(this.noConnectedCameraLabel);
             this.Controls.Add(this.camerasListBox);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximumSize = new System.Drawing.Size(661, 358);
             this.MinimumSize = new System.Drawing.Size(661, 358);
             this.Name = "CamerasForm";

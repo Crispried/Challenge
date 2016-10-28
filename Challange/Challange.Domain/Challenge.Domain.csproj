@@ -87,11 +87,16 @@
     <Compile Include="Entities\ZoomData.cs" />
     <Compile Include="Infrastructure\ChallengeStructurer.cs" />
     <Compile Include="Entities\Camera.cs" />
+    <Compile Include="Infrastructure\IFileService.cs" />
+    <Compile Include="Infrastructure\IFileWorker.cs" />
+    <Compile Include="Infrastructure\IPathFormatter.cs" />
+    <Compile Include="Infrastructure\PathFormatter.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Services\Message\IMessageParser.cs" />
     <Compile Include="Services\Message\MessageParser.cs" />
     <Compile Include="Services\Message\MessageType.cs" />
     <Compile Include="Services\Replay\Zoomer.cs" />

@@ -36,7 +36,7 @@
             // 
             this.broadcastPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.broadcastPictureBox.Location = new System.Drawing.Point(0, 0);
-            this.broadcastPictureBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.broadcastPictureBox.Margin = new System.Windows.Forms.Padding(4);
             this.broadcastPictureBox.Name = "broadcastPictureBox";
             this.broadcastPictureBox.Size = new System.Drawing.Size(739, 506);
             this.broadcastPictureBox.TabIndex = 0;
@@ -48,9 +48,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(739, 506);
             this.Controls.Add(this.broadcastPictureBox);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "BroadcastForm";
             this.Text = "Broadcast";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.broadcastPictureBox)).EndInit();
             this.ResumeLayout(false);
 

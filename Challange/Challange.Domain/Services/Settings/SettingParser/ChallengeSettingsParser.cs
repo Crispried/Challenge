@@ -10,6 +10,13 @@ namespace Challange.Domain.Services.Settings.SettingParser
 {
     public class ChallengeSettingsParser : ISettingsParser<ChallengeSettings>
     {
+        private IFileWorker fileWorker;
+
+        public ChallengeSettingsParser(IFileWorker fileWorker)
+        {
+            this.fileWorker = fileWorker;
+        }
+
         private string settingsFilePath = @"Settings\challenge.xml";
 
         public string SettingsFilePath
@@ -26,14 +33,14 @@ namespace Challange.Domain.Services.Settings.SettingParser
 
         public bool SaveSettings(ChallengeSettings settings)
         {
-            return FileWorker.SerializeXml(settings, SettingsFilePath) ? true : false;
+            return fileWorker.SerializeXml(settings, SettingsFilePath) ? true : false;
         }
 
         public ChallengeSettings GetSettings()
         {
             try
             {
-                ChallengeSettings settings = FileWorker.
+                ChallengeSettings settings = fileWorker.
                 DeserializeXml<ChallengeSettings>(SettingsFilePath);
                 return settings;
             }

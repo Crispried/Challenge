@@ -11,6 +11,7 @@ namespace Challange.Domain.Entities
     {
         private string pathToRootDirectory;
         private string challengeFolderName;
+        private string pathToChallengeDirectory;
 
         public ChallengeObject(string pathToRootDirectory,
                                string challengeFolderName)
@@ -19,24 +20,52 @@ namespace Challange.Domain.Entities
             this.challengeFolderName = challengeFolderName;
         }
 
-        public string GetChallengeDirectoryPath
+        public string PathToRootDirectory
         {
             get
             {
-                return FormatChallengeDirectoryPath();
+                return pathToRootDirectory;
             }
         }
 
-        public void CreateDirectoryForChallenge()
+        public string ChallengeFolderName
         {
-            FileService.CreateDirectory(GetChallengeDirectoryPath);
+            get
+            {
+                return challengeFolderName;
+            }
         }
 
-        private string FormatChallengeDirectoryPath()
+        public string PathToChallengeDirectory
         {
-            return pathToRootDirectory + @"\" +
-                FileService.FilterFolderName(challengeFolderName) + @"\";
+            get
+            {
+                return pathToChallengeDirectory;
+            }
+            set
+            {
+                pathToChallengeDirectory = value;
+            }
         }
+
+        //public string GetChallengeDirectoryPath
+        //{
+        //    get
+        //    {
+        //        return FormatChallengeDirectoryPath();
+        //    }
+        //}
+
+        //public void CreateDirectoryForChallenge()
+        //{
+        //    FileService.CreateDirectory(GetChallengeDirectoryPath);
+        //}
+
+        //private string FormatChallengeDirectoryPath()
+        //{
+        //    return pathToRootDirectory + @"\" +
+        //        FileService.FilterFolderName(challengeFolderName) + @"\";
+        //}
 
     }
 }

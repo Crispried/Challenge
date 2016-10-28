@@ -37,7 +37,8 @@ namespace Challange.UnitTests.Infrastructure
 
         private string FilterFolderName(string name)
         {
-            return FileService.FilterFolderName(name);
+            //return FileService.FilterFolderName(name);
+            return null;
         }
 
         

@@ -1,12 +1,13 @@
 ﻿using Challange.Domain.Entities;
+using Challange.Domain.Infrastructure;
 using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingParser;
 using Challange.Domain.Services.Settings.SettingTypes;
 using System;
 
-namespace Challange.Presenter.Presenters.FtpPresenter
+namespace Challange.Presenter.Presenters.FtpSettingsPresenter
 {
-    public partial class FtpPresenter
+    public partial class FtpSettingsPresenter
     {
         /// <summary>
         /// fill the fields with current ftp settings in view
@@ -24,7 +25,7 @@ namespace Challange.Presenter.Presenters.FtpPresenter
         {
             var ftpSettingsService =
                     new SettingsService<FtpSettings>(
-                    new FtpSettingsParser());
+                    new FtpSettingsParser(new FileWorker()));
             ftpSettingsService.SaveSetting(newSettings);
         }
     }

@@ -3,6 +3,13 @@ using Challange.Domain.Services.Settings.SettingTypes;
 
 namespace Challange.Domain.Services.Settings
 {
+    public interface ISettingsService<T> where T : Setting
+    {
+        void SaveSetting(T setting);
+
+        T GetSetting();
+    }
+
     public class SettingsService<T> where T : Setting
     {
         private ISettingsParser<T> settingsParser;

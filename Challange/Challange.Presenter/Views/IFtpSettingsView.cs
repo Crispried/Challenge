@@ -6,9 +6,9 @@ using System.Drawing;
 
 namespace Challange.Presenter.Views
 {
-    public interface IFtpView : IView
+    public interface IFtpSettingsView : IView
     {
-        event Action ChangeFtpSettings;
+        event Action<FtpSettings> ChangeFtpSettings;
 
         event Action<FtpSettings> TestFtpConnection;
 
@@ -17,8 +17,6 @@ namespace Challange.Presenter.Views
         FtpSettings FtpSettings { get; set; }
 
         bool ValidateForm();
-
-        void ShowValidationErrorMessage();
 
         void ShowMessage(ChallengeMessage message);
     }

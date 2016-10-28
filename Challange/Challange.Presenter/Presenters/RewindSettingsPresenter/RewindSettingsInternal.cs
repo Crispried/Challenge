@@ -1,4 +1,5 @@
-﻿using Challange.Domain.Services.Settings;
+﻿using Challange.Domain.Infrastructure;
+using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingParser;
 using Challange.Domain.Services.Settings.SettingTypes;
 using System;
@@ -20,7 +21,7 @@ namespace Challange.Presenter.Presenters.RewindSettingsPresenter
         {
             var rewindSettingsParser =
                 new SettingsService<RewindSettings>(
-                new RewindSettingsParser());
+                new RewindSettingsParser(new FileWorker()));
             rewindSettingsParser.SaveSetting(newSettings);
         }
     }

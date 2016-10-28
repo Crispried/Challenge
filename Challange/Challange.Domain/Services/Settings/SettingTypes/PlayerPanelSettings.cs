@@ -8,5 +8,13 @@ namespace Challange.Domain.Services.Settings.SettingTypes
         public int PlayerWidth { get; set; }
 
         public int PlayerHeight { get; set; }
+
+        public override void SetSettings(Setting newSettings)
+        {
+            var settings = (PlayerPanelSettings)newSettings;
+            AutosizeMode = settings.AutosizeMode;
+            PlayerWidth = settings.PlayerWidth;
+            PlayerHeight = settings.PlayerHeight;
+        }
     }
 }

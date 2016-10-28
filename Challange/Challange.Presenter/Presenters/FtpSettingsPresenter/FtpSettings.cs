@@ -1,19 +1,23 @@
 ﻿using Challange.Domain.Entities;
+using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Presenter.Base;
 using Challange.Presenter.Views;
 
-namespace Challange.Presenter.Presenters.FtpPresenter
+namespace Challange.Presenter.Presenters.FtpSettingsPresenter
 {
-    public partial class FtpPresenter : BasePresenter<IFtpView, FtpSettings>
+    public partial class FtpSettingsPresenter : BasePresenter<IFtpSettingsView, FtpSettings>
     {
         private FtpSettings ftpSettings;
+        private IMessageParser messageParser;
 
-        public FtpPresenter(
+        public FtpSettingsPresenter(
                 IApplicationController controller,
-                IFtpView ftpView) :
+                IFtpSettingsView ftpView,
+                IMessageParser messageParser) :
                 base(controller, ftpView)
         {
+            this.messageParser = messageParser;
             SubscribePresenters();
         }
 
