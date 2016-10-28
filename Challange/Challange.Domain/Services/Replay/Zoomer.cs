@@ -17,22 +17,49 @@ namespace Challange.Domain.Services.Replay
         private float zoom = 1;
         private float minZoom = 1;
 
-        public ZoomData MakeZoom(Point pictureBoxLocation, int delta, Point mouseLocation)
+        public float MinZoom
         {
-            float oldzoom = zoom;
-
-            if (MouseIsScrollingUp(delta))
+            get
             {
-                CalculatePositiveZoom();
+                return minZoom;
             }
-            else if (MouseIsScrollingDown(delta))
+            set
             {
-                CalculateNegativeZoom();
+                minZoom = value;
             }
+        }
 
-            CalculateNewImageLocation(oldzoom, mouseLocation, pictureBoxLocation);
+        public float Zoom
+        {
+            set
+            {
+                zoom = value;
+            }
+        }
 
-            // Return data that is necessary to make a zoom
+        //public ZoomData MakeZoom(Point pictureBoxLocation, int delta, Point mouseLocation)
+        //{
+        //    float oldzoom = zoom;
+
+        //    if (MouseIsScrollingUp(delta))
+        //    {
+        //        CalculatePositiveZoom();
+        //    }
+        //    else if (MouseIsScrollingDown(delta))
+        //    {
+        //        CalculateNegativeZoom();
+        //    }
+
+        //    CalculateNewImageLocation(oldzoom, mouseLocation, pictureBoxLocation);
+
+        //    // Return data that is necessary to make a zoom
+        //    return new ZoomData(zoom, imgx, imgy);
+        //}
+
+        public ZoomData MakeZoom()
+        {
+            CalculateNegativeZoom();
+
             return new ZoomData(zoom, imgx, imgy);
         }
 
@@ -50,7 +77,6 @@ namespace Challange.Domain.Services.Replay
         {
             zoom += 0.1F;
         }
-
         private void CalculateNegativeZoom()
         {
             if (zoom > minZoom)
