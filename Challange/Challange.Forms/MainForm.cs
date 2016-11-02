@@ -166,7 +166,7 @@ namespace Challange.Forms
         private void ShowFullScreen_Click(object sender, EventArgs e)
         {
             pictureBoxToShowFullscreen = (PictureBox)((Button)sender).Parent;
-            pictureBoxToShowFullscreen.Paint += new PaintEventHandler(imageBox_Paint);
+            // pictureBoxToShowFullscreen.Paint += new PaintEventHandler(imageBox_Paint);
             controlIndex = GetControlIndexOfClickedPictureBox();
             RemoveClickedPictureBoxFromPlayerPanel();
             AddFullScreenPictureBoxToGeneralControls();
@@ -194,16 +194,16 @@ namespace Challange.Forms
 
         public void RedrawZoomedImage(ZoomData zoomData)
         {
-            this.zoomData = zoomData;
-            pictureBoxToShowFullscreen.Refresh();
+            // this.zoomData = zoomData;
+            // pictureBoxToShowFullscreen.Refresh();
         }
 
         private void imageBox_Paint(object sender, PaintEventArgs e)
         {
-            if(zoomData != null)
+            if (zoomData != null)
             {
                 e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                e.Graphics.ScaleTransform(zoomData.GetZoom, zoomData.GetZoom);
+                e.Graphics.ScaleTransform(zoomData.Zoom, zoomData.Zoom);
                 e.Graphics.DrawImage(pictureBoxToShowFullscreen.Image, zoomData.GetImgX, zoomData.GetImgY);
             }
         }

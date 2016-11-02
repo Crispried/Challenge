@@ -16,23 +16,70 @@ namespace Challange.Domain.Services.Replay
         private int imgy = 0;
         private float zoom = 1;
         private float minZoom = 1;
+        private IZoomCalculator zoomCalculator;
+
+        public Zoomer(IZoomCalculator zoomCalculator)
+        {
+            this.zoomCalculator = zoomCalculator;
+        }
+
+        public float MinZoom
+        {
+            get
+            {
+                return minZoom;
+            }
+            set
+            {
+                minZoom = value;
+            }
+        }
+
+        public float Zoom
+        {
+            get
+            {
+                return zoom;
+            }
+            set
+            {
+                zoom = value;
+            }
+        }
+
+        public float Imgx
+        {
+            get
+            {
+                return imgx;
+            }
+        }
+
+        public float Imgy
+        {
+            get
+            {
+                return imgy;
+            }
+        }
 
         public ZoomData MakeZoom(Point pictureBoxLocation, int delta, Point mouseLocation)
         {
             float oldzoom = zoom;
 
-            if (MouseIsScrollingUp(delta))
+            if(MouseIsScrollingDown(delta))
             {
-                CalculatePositiveZoom();
+                zoom = zoomCalculator.CalculateNegativeZoom(zoom, minZoom);
             }
-            else if (MouseIsScrollingDown(delta))
+            else if(MouseIsScrollingUp(delta))
             {
-                CalculateNegativeZoom();
+                zoom = zoomCalculator.CalculatePositiveZoom(zoom);
             }
 
-            CalculateNewImageLocation(oldzoom, mouseLocation, pictureBoxLocation);
+            Point newLocation = zoomCalculator.CalculateNewImageLocation(zoom, imgx, imgy, oldzoom, mouseLocation, pictureBoxLocation);
+            imgx = newLocation.X;
+            imgy = newLocation.Y;
 
-            // Return data that is necessary to make a zoom
             return new ZoomData(zoom, imgx, imgy);
         }
 
@@ -44,47 +91,6 @@ namespace Challange.Domain.Services.Replay
         private bool MouseIsScrollingDown(int delta)
         {
             return delta < 0;
-        }
-
-        private void CalculatePositiveZoom()
-        {
-            zoom += 0.1F;
-        }
-
-        private void CalculateNegativeZoom()
-        {
-            if (zoom > minZoom)
-            {
-                zoom = Math.Max(zoom - 0.1F, 0.01F);
-            }
-            else
-            {
-                zoom = minZoom;
-            }
-        }
-
-        private Point GetPictureBoxLocation(Control redrawnControl)
-        {
-            Point pictureBoxLocation = new Point();
-            pictureBoxLocation.X = redrawnControl.Location.X;
-            pictureBoxLocation.Y = redrawnControl.Location.Y;
-
-            return pictureBoxLocation;
-        }
-
-        private void CalculateNewImageLocation(float oldzoom, Point mouseLocation, Point pictureBoxLocation)
-        {
-            int x = mouseLocation.X - pictureBoxLocation.X;
-            int y = mouseLocation.Y - pictureBoxLocation.Y;
-
-            int oldimagex = (int)(x / oldzoom);
-            int oldimagey = (int)(y / oldzoom);
-
-            int newimagex = (int)(x / zoom);
-            int newimagey = (int)(y / zoom);
-
-            imgx = newimagex - oldimagex + imgx;
-            imgy = newimagey - oldimagey + imgy;
         }
     }
 }

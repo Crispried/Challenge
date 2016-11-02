@@ -100,6 +100,8 @@
     <Compile Include="Services\Settings\SettingParser\ISettingsParser.cs" />
     <Compile Include="Services\Message\MessageParser.cs" />
     <Compile Include="Services\Message\MessageType.cs" />
+    <Compile Include="Services\Replay\IZoomCalculator.cs" />
+    <Compile Include="Services\Replay\ZoomCalculator.cs" />
     <Compile Include="Services\Replay\Zoomer.cs" />
     <Compile Include="Services\Settings\SettingParser\RewindSettingsParser.cs" />
     <Compile Include="Services\Settings\SettingTypes\RewindSettings.cs" />

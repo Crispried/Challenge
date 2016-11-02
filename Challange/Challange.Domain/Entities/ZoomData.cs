@@ -19,7 +19,7 @@ namespace Challange.Domain.Entities
             this.imgy = imgy;
         }
 
-        public float GetZoom
+        public float Zoom
         {
             get
             {

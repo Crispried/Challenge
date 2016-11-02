@@ -135,6 +135,8 @@
     <Compile Include="Presenters\PlayerPanelSettingsPresenterTest.cs" />
     <Compile Include="Presenters\RewindSettingsPresenterTest.cs" />
     <Compile Include="Services\Message\MessageParserTest.cs" />
+    <Compile Include="Services\Replay\ZoomCalculatorTest.cs" />
+    <Compile Include="Services\Replay\ZoomerTest.cs" />
     <Compile Include="Services\Settings\PlayerPanelSettingsParserTest.cs" />
     <Compile Include="Services\Settings\ChallengeSettingsParserTest.cs" />
     <Compile Include="Services\Settings\SettingsServiceTest.cs" />

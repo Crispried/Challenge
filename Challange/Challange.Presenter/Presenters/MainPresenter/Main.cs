@@ -44,6 +44,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
 
         private FileService fileService;
 
+        private ZoomCalculator zoomCalculator;
         private Zoomer zoomer;
 
         public MainPresenter(IApplicationController controller,
@@ -51,7 +52,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
                              base(controller, mainView)
         {
             SubscribePresenters();
-            zoomer = new Zoomer();
+            zoomCalculator = new ZoomCalculator();
+            zoomer = new Zoomer(zoomCalculator);
             messageParser = new MessageParser();
             fileService = new FileService();
         }

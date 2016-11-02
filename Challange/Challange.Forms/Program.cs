@@ -19,6 +19,7 @@ using Challange.Presenter.Presenters.FtpSettingsPresenter;
 using Challange.Presenter.Presenters.ChallengeSettingsPresenter;
 using Challange.Presenter.Presenters.PlayerPanelSettingsPresenter;
 using Challange.Presenter.Presenters.RewindSettingsPresenter;
+using Challange.Domain.Services.Replay;
 
 namespace Challange.Forms
 {
@@ -56,6 +57,7 @@ namespace Challange.Forms
                                 .RegisterService<IFileService, FileService>()
                                 .RegisterService<IPathFormatter, PathFormatter>()
                                 .RegisterService<IMessageParser, MessageParser>()
+                                .RegisterService<IZoomCalculator, ZoomCalculator>()
                                 .RegisterService<ISettingsParser<PlayerPanelSettings>, PlayerPanelSettingsParser>()
                                 .RegisterService<ISettingsService<PlayerPanelSettings>, SettingsService<PlayerPanelSettings>>()
                                 .RegisterService<ISettingsParser<FtpSettings>, FtpSettingsParser>()
