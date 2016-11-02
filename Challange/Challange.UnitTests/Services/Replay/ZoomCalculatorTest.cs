@@ -23,6 +23,19 @@ namespace Challange.UnitTests.Services.Replay
         }
 
         [Test]
+        public void CalculatePositiveZoomTest()
+        {
+            // Arrange
+            float actualZoom = 1F;
+
+            // Act
+            float receivedZoom = zoomCalculator.CalculatePositiveZoom(actualZoom);
+
+            // Assert
+            Assert.AreEqual(1.1F, receivedZoom);
+        }
+
+        [Test]
         public void ZoomCannotBeSmallerThanMinimum()
         {
             // Arrange
