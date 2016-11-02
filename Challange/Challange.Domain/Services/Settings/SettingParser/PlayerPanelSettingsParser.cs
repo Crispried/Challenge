@@ -1,4 +1,5 @@
-﻿using Challange.Domain.Infrastructure;
+﻿using System;
+using Challange.Domain.Infrastructure;
 using Challange.Domain.Services.Settings.SettingTypes;
 
 namespace Challange.Domain.Services.Settings.SettingParser
@@ -25,9 +26,9 @@ namespace Challange.Domain.Services.Settings.SettingParser
             }
         }
 
-        public bool SaveSettings(PlayerPanelSettings settings)
+        public bool SaveSettings(PlayerPanelSettings setting)
         {
-            return fileWorker.SerializeXml(settings, settingsFilePath) ? true : false;
+            return fileWorker.SerializeXml(setting, settingsFilePath) ? true : false;
         }
 
         public PlayerPanelSettings GetSettings()

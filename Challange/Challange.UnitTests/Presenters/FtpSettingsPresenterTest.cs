@@ -18,15 +18,14 @@ using System.Threading.Tasks;
 namespace Challange.UnitTests.Presenters
 {
     [TestFixture]
-    class FtpPresenterTest : TestCase
+    class FtpSettingsPresenterTest : TestCase
     {
         private IApplicationController controller;
         private FtpSettingsPresenter presenter;
         private IFtpSettingsView view;
         private FtpSettings argument;
         private FtpSettings mock;
-        private SettingsService<FtpSettings> ftpSettingsService;
-        private FtpConnector ftpConnector;
+        private ISettingsService<FtpSettings> settingsSerivce;
         private IMessageParser messageParser;
 
         [SetUp]
@@ -35,14 +34,11 @@ namespace Challange.UnitTests.Presenters
             controller = Substitute.For<IApplicationController>();
             view = Substitute.For<IFtpSettingsView>();
             messageParser = Substitute.For<IMessageParser>();
-            presenter = new FtpSettingsPresenter(controller, view, messageParser);
+            settingsSerivce =
+                Substitute.For<ISettingsService<FtpSettings>>();
+            presenter = new FtpSettingsPresenter(controller, view, messageParser, settingsSerivce);
             mock = Substitute.For<FtpSettings>();
             argument = InitializeFtpSettings();
-            IFileWorker fileWorker = Substitute.For<IFileWorker>();
-            FtpSettingsParser parser =
-                Substitute.For<FtpSettingsParser>(fileWorker);
-            ftpSettingsService =
-                Substitute.For<SettingsService<FtpSettings>>(parser);
             presenter.Run(mock);
         }
 
@@ -61,17 +57,14 @@ namespace Challange.UnitTests.Presenters
         {
             // Arrange
             SetFormAsValid(true);
-            var returnedMessage = new ChallengeMessage()
-            {
-                MessageType = MessageType.FtpSettingsInvalid
-            };
             // Act
             // Assert
             presenter.ChangeFtpSettings(argument);
-            ftpSettingsService.DidNotReceive().SaveSetting(argument);
+            settingsSerivce.Received().SaveSetting(argument);
             mock.Received().SetSettings(argument);
             view.Received().Close();
-            messageParser.DidNotReceiveWithAnyArgs().GetMessage(MessageType.FtpSettingsInvalid);
+            var returnedMessage = 
+                messageParser.DidNotReceiveWithAnyArgs().GetMessage(default(MessageType));
             view.DidNotReceiveWithAnyArgs().ShowMessage(returnedMessage);
         }
 
@@ -80,17 +73,14 @@ namespace Challange.UnitTests.Presenters
         {
             // Arrange
             SetFormAsValid(false);
-            var returnedMessage = new ChallengeMessage()
-            {
-                MessageType = MessageType.FtpSettingsInvalid
-            };
             // Act
             // Assert
             presenter.ChangeFtpSettings(argument);
-            ftpSettingsService.DidNotReceiveWithAnyArgs().SaveSetting(argument);
+            settingsSerivce.DidNotReceiveWithAnyArgs().SaveSetting(argument);
             mock.DidNotReceiveWithAnyArgs().SetSettings(argument);
             view.DidNotReceive().Close();
-            messageParser.Received().GetMessage(MessageType.FtpSettingsInvalid);
+            var returnedMessage = 
+                messageParser.Received().GetMessage(MessageType.FtpSettingsInvalid);
             view.ReceivedWithAnyArgs().ShowMessage(returnedMessage);
         }
 
@@ -98,18 +88,30 @@ namespace Challange.UnitTests.Presenters
         public void TestFtpConnectionSuccess()
         {
             // Arrange
-            ftpConnector = Substitute.For<FtpConnector>(argument.FtpAddress,
+            var ftpConnector = Substitute.For<FtpConnector>(argument.FtpAddress,
                                 argument.UserName, argument.Password);
-            var returnedMessage = new ChallengeMessage()
-            {
-                MessageType = MessageType.TestFtpConnectionSuccessed
-            };
             // Act
             // Assert
             presenter.TestFtpConnection(argument);
             ftpConnector.Received().IsFtpConnectionSuccessful();
-            messageParser.Received().GetMessage(MessageType.TestFtpConnectionSuccessed);
-            view.ReceivedWithAnyArgs().ShowMessage(returnedMessage);
+            var returnedMessage = 
+                messageParser.Received().GetMessage(MessageType.TestFtpConnectionSuccessed);
+            view.Received().ShowMessage(returnedMessage);
+        }
+
+        [Test]
+        public void TestFtpConnectionFailed()
+        {
+            // Arrange
+            var ftpConnector = Substitute.For<FtpConnector>(null,
+                                null, null);
+            // Act
+            // Assert
+            presenter.TestFtpConnection(mock);
+            ftpConnector.Received().IsFtpConnectionSuccessful();
+            var returnedMessage =
+                messageParser.Received().GetMessage(MessageType.TestFtpConnectionFailed);
+            view.Received().ShowMessage(returnedMessage);
         }
 
         private void SetFormAsValid(bool isValid)

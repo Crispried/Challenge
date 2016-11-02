@@ -1,31 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Challange.Presenter.Base;
-using Challange.Presenter.Presenters.MainPresenter;
 using Challange.Presenter.Views;
 using NSubstitute;
 using Challange.Presenter.Presenters.PlayerPanelSettingsPresenter;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.Settings;
-using Challange.Domain.Services.Settings.SettingParser;
-using Challange.Domain.Infrastructure;
 using Challange.Domain.Services.Message;
 
 namespace Challange.UnitTests.Presenters
 {
     [TestFixture]
-    class PlayerPanelSettingsTest : TestCase
+    class PlayerPanelSettingsPresenterTest : TestCase
     {
         private IApplicationController controller;
         private PlayerPanelSettingsPresenter presenter;
         private IPlayerPanelSettingsView view;
         private PlayerPanelSettings mock;
         private PlayerPanelSettings argument;
-        private SettingsService<PlayerPanelSettings> settingService;
+        private ISettingsService<PlayerPanelSettings> settingService;
         private IMessageParser messageParser;
 
         [SetUp]
@@ -34,13 +26,10 @@ namespace Challange.UnitTests.Presenters
             controller = Substitute.For<IApplicationController>();
             view = Substitute.For<IPlayerPanelSettingsView>();
             messageParser = Substitute.For<IMessageParser>();
-            IFileWorker fileWorker = Substitute.For<IFileWorker>();
-            PlayerPanelSettingsParser parser =
-                Substitute.For<PlayerPanelSettingsParser>(fileWorker);
             settingService =
-                Substitute.For<SettingsService<PlayerPanelSettings>>(parser);
+                Substitute.For<ISettingsService<PlayerPanelSettings>>();
             presenter = new PlayerPanelSettingsPresenter(
-                controller, view, messageParser, fileWorker);
+                controller, view, messageParser, settingService);
             mock = Substitute.For<PlayerPanelSettings>();
             argument = InitializePlayerPanelSettings();
             presenter.Run(mock);
@@ -61,17 +50,14 @@ namespace Challange.UnitTests.Presenters
         {
             // Arrange
             SetFormAsValid(true);
-            var returnedMessage = new ChallengeMessage()
-            {
-                MessageType = MessageType.PlayerPanelSettingsInvalid
-            };
             // Act
             presenter.ChangePlayerPanelSettings(argument);
             // Assert
-            settingService.DidNotReceive().SaveSetting(argument);
+            settingService.Received().SaveSetting(argument);
             mock.Received().SetSettings(argument);
             view.Received().Close();
-            messageParser.DidNotReceiveWithAnyArgs().GetMessage(MessageType.PlayerPanelSettingsInvalid);
+            var returnedMessage =
+                messageParser.DidNotReceiveWithAnyArgs().GetMessage(default(MessageType));
             view.DidNotReceiveWithAnyArgs().ShowMessage(returnedMessage);
         }
 
@@ -81,17 +67,14 @@ namespace Challange.UnitTests.Presenters
         {
             // Arrange
             SetFormAsValid(false);
-            var returnedMessage = new ChallengeMessage()
-            {
-                MessageType = MessageType.PlayerPanelSettingsInvalid
-            };
             // Act
             presenter.ChangePlayerPanelSettings(argument);
             // Assert
             settingService.DidNotReceiveWithAnyArgs().SaveSetting(argument);
             mock.DidNotReceiveWithAnyArgs().SetSettings(argument);
             view.DidNotReceiveWithAnyArgs().Close();
-            messageParser.Received().GetMessage(MessageType.PlayerPanelSettingsInvalid);
+            var returnedMessage =
+                messageParser.Received().GetMessage(MessageType.PlayerPanelSettingsInvalid);
             view.Received().ShowMessage(returnedMessage);
         }
 

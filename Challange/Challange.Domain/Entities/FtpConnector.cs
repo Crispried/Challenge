@@ -24,23 +24,27 @@ namespace Challange.Domain.Entities
 
         public bool IsFtpConnectionSuccessful()
         {
-            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(hostName);
-            request.Proxy = null;
-            request.Method = WebRequestMethods.Ftp.ListDirectory;
-            request.Credentials = new NetworkCredential(login, password);
-            try
+            if (!string.IsNullOrEmpty(hostName))
             {
-                request.GetResponse();      
-                return true;
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(hostName);
+                request.Proxy = null;
+                request.Method = WebRequestMethods.Ftp.ListDirectory;
+                request.Credentials = new NetworkCredential(login, password);
+                try
+                {
+                    request.GetResponse();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+                finally
+                {
+                    request.Abort();
+                }
             }
-            catch 
-            {
-                return false;
-            }
-            finally
-            {
-                request.Abort();
-            }
+            return false;
         }
     }
 }

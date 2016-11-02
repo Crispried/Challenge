@@ -1,4 +1,5 @@
 ﻿
+using Challange.Presenter.Presenters.MainPresenter;
 using Challange.Presenter.Views.Layouts;
 
 namespace Challange.Presenter.Base
@@ -13,7 +14,7 @@ namespace Challange.Presenter.Base
             this.container.RegisterInstance<IApplicationController>(this);
         }
 
-        public IApplicationController RegisterInstance<TArgument>(TArgument instance)
+        public IApplicationController RegisterInstance<TArgument>(TArgument instance) where TArgument : class
         {
             container.RegisterInstance(instance);
             return this;
@@ -25,7 +26,7 @@ namespace Challange.Presenter.Base
             container.Register<TService, TImplementation>();
             return this;
         }
-        
+
         public IApplicationController RegisterLayoutToForm<TLayout, TImplementation>()
                 where TLayout : ILayout
                 where TImplementation : class, TLayout
@@ -53,10 +54,6 @@ namespace Challange.Presenter.Base
         public void Run<TPresenter>()
                 where TPresenter : class, IPresenter
         {
-            if (!container.IsRegistered<TPresenter>())
-            {
-                container.Register<TPresenter>();
-            }
             var presenter = container.Resolve<TPresenter>();
             presenter.Run();
         }
@@ -64,10 +61,6 @@ namespace Challange.Presenter.Base
         public void Run<TPresenter, TArgument>(TArgument argument)
                 where TPresenter : class, IPresenter<TArgument>
         {
-            if (!container.IsRegistered<TPresenter>())
-            {
-                container.Register<TPresenter>();
-            }
             var presenter = container.Resolve<TPresenter>();
             presenter.Run(argument);
         }

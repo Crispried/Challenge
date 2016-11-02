@@ -23,7 +23,7 @@ namespace Challange.Forms
             container.Register<TService>();
         }
 
-        public void RegisterInstance<T>(T instance)
+        public void RegisterInstance<T>(T instance) where T : class
         {
             container.RegisterInstance(instance);
         }

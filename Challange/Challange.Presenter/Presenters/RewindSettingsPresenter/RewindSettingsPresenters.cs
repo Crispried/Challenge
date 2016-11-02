@@ -1,4 +1,5 @@
-﻿using Challange.Domain.Services.Settings;
+﻿using Challange.Domain.Services.Message;
+using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingParser;
 using Challange.Domain.Services.Settings.SettingTypes;
 using System;
@@ -20,11 +21,18 @@ namespace Challange.Presenter.Presenters.RewindSettingsPresenter
 
         public void ChangeRewindSettings(RewindSettings newSettings)
         {
-            SaveSettings(newSettings);
-            rewindSettings.Backward = newSettings.Backward;
-            rewindSettings.Forward = newSettings.Forward;
-            RewindSettingsWasSaved = true;
-            View.Close();
+            if (View.ValidateForm())
+            {
+                SaveSettings(newSettings);
+                rewindSettings.SetSettings(newSettings);
+                View.Close();
+            }
+            else
+            {
+                ChallengeMessage message =
+                    messageParser.GetMessage(MessageType.RewindSettingsInvalid);
+                View.ShowMessage(message);
+            }
         }
     }
 }

@@ -37,7 +37,7 @@ namespace Challange.Presenter.Presenters.PlayerPanelSettingsPresenter
             else
             {
                 ChallengeMessage message =
-                    messageParser.GetMessage(MessageType.FtpSettingsInvalid);
+                    messageParser.GetMessage(MessageType.PlayerPanelSettingsInvalid);
                 View.ShowMessage(message);
             }
         }

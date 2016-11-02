@@ -104,7 +104,6 @@
     <Compile Include="Presenters\RewindSettingsPresenter\RewindSettings.cs" />
     <Compile Include="Presenters\RewindSettingsPresenter\RewindSettingsInternal.cs" />
     <Compile Include="Presenters\RewindSettingsPresenter\RewindSettingsPresenters.cs" />
-    <Compile Include="Presenters\RewindSettingsPresenter\RewindSettingsStates.cs" />
     <Compile Include="Views\IFtpSettingsView.cs" />
     <Compile Include="Views\ICamerasView.cs" />
     <Compile Include="Views\IChallengePlayerView.cs" />

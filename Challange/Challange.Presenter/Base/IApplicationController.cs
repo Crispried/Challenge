@@ -9,7 +9,7 @@ namespace Challange.Presenter.Base
                 where TImplementation : class, TView
                 where TView : IView;
 
-        IApplicationController RegisterInstance<TArgument>(TArgument instance);
+        IApplicationController RegisterInstance<TArgument>(TArgument instance) where TArgument : class;
 
         IApplicationController RegisterService<TService, TImplementation>()
                 where TImplementation : class, TService;

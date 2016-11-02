@@ -23,10 +23,7 @@ namespace Challange.Presenter.Presenters.FtpSettingsPresenter
         /// <param name="newSettings"></param>
         private void SaveSettings(FtpSettings newSettings)
         {
-            var ftpSettingsService =
-                    new SettingsService<FtpSettings>(
-                    new FtpSettingsParser(new FileWorker()));
-            ftpSettingsService.SaveSetting(newSettings);
+            settingsService.SaveSetting(newSettings);
         }
     }
 }

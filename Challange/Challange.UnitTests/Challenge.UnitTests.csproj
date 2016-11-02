@@ -130,9 +130,10 @@
     <Compile Include="Presenters\BroadcastPresenterTest.cs" />
     <Compile Include="Presenters\CamerasPresenterTest.cs" />
     <Compile Include="Presenters\ChallengeSettingsPresenterTest.cs" />
-    <Compile Include="Presenters\FtpPresenterTest.cs" />
+    <Compile Include="Presenters\FtpSettingsPresenterTest.cs" />
     <Compile Include="Presenters\GameInformationTest.cs" />
-    <Compile Include="Presenters\PlayerPanelSettingsTest.cs" />
+    <Compile Include="Presenters\PlayerPanelSettingsPresenterTest.cs" />
+    <Compile Include="Presenters\RewindSettingsPresenterTest.cs" />
     <Compile Include="Services\Message\MessageParserTest.cs" />
     <Compile Include="Services\Settings\PlayerPanelSettingsParserTest.cs" />
     <Compile Include="Services\Settings\ChallengeSettingsParserTest.cs" />

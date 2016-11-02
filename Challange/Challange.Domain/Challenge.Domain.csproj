@@ -97,6 +97,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Services\Message\IMessageParser.cs" />
+    <Compile Include="Services\Settings\SettingParser\ISettingsParser.cs" />
     <Compile Include="Services\Message\MessageParser.cs" />
     <Compile Include="Services\Message\MessageType.cs" />
     <Compile Include="Services\Replay\Zoomer.cs" />
@@ -110,7 +111,6 @@
     <Compile Include="Services\Settings\SettingTypes\ChallengeSettings.cs" />
     <Compile Include="Services\Settings\SettingTypes\PlayerPanelSettings.cs" />
     <Compile Include="Services\Settings\SettingParser\PlayerPanelSettingsParser.cs" />
-    <Compile Include="Services\Settings\SettingParser\ISettingsParser.cs" />
     <Compile Include="Infrastructure\Archivator.cs" />
     <Compile Include="Infrastructure\FileWorker.cs" />
     <Compile Include="Infrastructure\FileService.cs" />

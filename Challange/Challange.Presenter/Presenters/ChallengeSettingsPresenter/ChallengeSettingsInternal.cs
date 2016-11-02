@@ -26,10 +26,7 @@ namespace Challange.Presenter.Presenters.ChallengeSettingsPresenter
         /// <param name="newSettings"></param>
         private void SaveSettings(ChallengeSettings newSettings)
         {
-            var challengeSettingsService =
-                    new SettingsService<ChallengeSettings>(
-                    new ChallengeSettingsParser(new FileWorker()));
-            challengeSettingsService.SaveSetting(newSettings);
+            settingsService.SaveSetting(newSettings);
         }
     }
 }

@@ -59,6 +59,15 @@ namespace Challange.UnitTests
             };
         }
 
+        protected RewindSettings InitializeRewindSettings()
+        {
+            return new RewindSettings()
+            {
+                Backward = 10,
+                Forward = 15
+            };
+        }
+
         protected GameInformation InitializeGameInformation()
         {
             return new GameInformation()

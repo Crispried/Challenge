@@ -26,7 +26,7 @@ namespace Challange.UnitTests.Presenters
         private IChallengeSettingsView view;
         private ChallengeSettings argument;
         private ChallengeSettings mock;
-        private SettingsService<ChallengeSettings> challengeSettingsService;
+        private ISettingsService<ChallengeSettings> settingsService;
         private IMessageParser messageParser;
 
         [SetUp]
@@ -35,13 +35,10 @@ namespace Challange.UnitTests.Presenters
             controller = Substitute.For<IApplicationController>();
             view = Substitute.For<IChallengeSettingsView>();
             messageParser = Substitute.For<IMessageParser>();
-            presenter = new ChallengeSettingsPresenter(controller, view, messageParser);
+            settingsService =
+                Substitute.For<ISettingsService<ChallengeSettings>>();
+            presenter = new ChallengeSettingsPresenter(controller, view, messageParser, settingsService);
             mock = Substitute.For<ChallengeSettings>();
-            IFileWorker fileWorker = Substitute.For<IFileWorker>();
-            ChallengeSettingsParser parser = 
-                Substitute.For<ChallengeSettingsParser>(fileWorker);
-            challengeSettingsService =
-                Substitute.For<SettingsService<ChallengeSettings>> (parser);
             argument = InitializeChallengeSettings();
             presenter.Run(mock);
         }
@@ -61,18 +58,15 @@ namespace Challange.UnitTests.Presenters
         {
             // Arrange
             SetFormAsValid(true);
-            var returnedMessage = new ChallengeMessage()
-            {
-                MessageType = MessageType.ChallengeSettingsInvalid
-            };
             // Act
             // Assert
             presenter.ChangeChallengeSettings(argument);
-            challengeSettingsService.Received().SaveSetting(argument);
+            settingsService.Received().SaveSetting(argument);
             mock.Received().SetSettings(argument);
             view.Received().Close();
-            messageParser.DidNotReceive().GetMessage(MessageType.ChallengeSettingsInvalid);
-            view.DidNotReceive().ShowMessage(returnedMessage);
+            var returnedMessage = 
+                messageParser.DidNotReceiveWithAnyArgs().GetMessage(default(MessageType));
+            view.DidNotReceiveWithAnyArgs().ShowMessage(returnedMessage);
         }
 
         [Test]
@@ -80,18 +74,15 @@ namespace Challange.UnitTests.Presenters
         {
             // Arrange
             SetFormAsValid(false);
-            var returnedMessage = new ChallengeMessage()
-            {
-                MessageType = MessageType.ChallengeSettingsInvalid
-            };
             // Act
             // Assert
             presenter.ChangeChallengeSettings(argument);
-            challengeSettingsService.DidNotReceiveWithAnyArgs().SaveSetting(argument);
+            settingsService.DidNotReceiveWithAnyArgs().SaveSetting(argument);
             mock.DidNotReceiveWithAnyArgs().SetSettings(argument);
             view.DidNotReceive().Close();
-            messageParser.Received().GetMessage(MessageType.ChallengeSettingsInvalid);
-            view.ReceivedWithAnyArgs().ShowMessage(returnedMessage);
+            var returnedMessage = 
+                messageParser.Received().GetMessage(MessageType.ChallengeSettingsInvalid);
+            view.Received().ShowMessage(returnedMessage);
             
         }
 
