@@ -16,7 +16,7 @@ namespace Challange.Domain.Services.Replay
 
         float CalculateNegativeZoom(float zoom, float minZoom);
 
-        void CalculateNewImageLocation(float zoom, float imgx, float imgy,
+        Point CalculateNewImageLocation(float zoom, float imgx, float imgy,
                             float oldzoom, Point mouseLocation, Point pictureBoxLocation);
     }
 }

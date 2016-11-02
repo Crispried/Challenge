@@ -59,28 +59,9 @@ namespace Challange.Domain.Services.Replay
         {
             get
             {
-                return Imgy;
+                return imgy;
             }
         }
-
-        //public ZoomData MakeZoom(Point pictureBoxLocation, int delta, Point mouseLocation)
-        //{
-        //    float oldzoom = zoom;
-
-        //    if (MouseIsScrollingUp(delta))
-        //    {
-        //        CalculatePositiveZoom();
-        //    }
-        //    else if (MouseIsScrollingDown(delta))
-        //    {
-        //        CalculateNegativeZoom();
-        //    }
-
-        //    CalculateNewImageLocation(oldzoom, mouseLocation, pictureBoxLocation);
-
-        //    // Return data that is necessary to make a zoom
-        //    return new ZoomData(zoom, imgx, imgy);
-        //}
 
         public ZoomData MakeZoom(Point pictureBoxLocation, int delta, Point mouseLocation)
         {
@@ -95,7 +76,9 @@ namespace Challange.Domain.Services.Replay
                 zoom = zoomCalculator.CalculatePositiveZoom(zoom);
             }
 
-            zoomCalculator.CalculateNewImageLocation(zoom, imgx, imgy, oldzoom, mouseLocation, pictureBoxLocation);
+            Point newLocation = zoomCalculator.CalculateNewImageLocation(zoom, imgx, imgy, oldzoom, mouseLocation, pictureBoxLocation);
+            imgx = newLocation.X;
+            imgy = newLocation.Y;
 
             return new ZoomData(zoom, imgx, imgy);
         }
@@ -108,15 +91,6 @@ namespace Challange.Domain.Services.Replay
         private bool MouseIsScrollingDown(int delta)
         {
             return delta < 0;
-        }
-
-        private Point GetPictureBoxLocation(Control redrawnControl)
-        {
-            Point pictureBoxLocation = new Point();
-            pictureBoxLocation.X = redrawnControl.Location.X;
-            pictureBoxLocation.Y = redrawnControl.Location.Y;
-
-            return pictureBoxLocation;
         }
     }
 }

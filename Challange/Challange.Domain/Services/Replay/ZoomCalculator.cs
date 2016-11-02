@@ -30,7 +30,7 @@ namespace Challange.Domain.Services.Replay
             return zoom;
         }
 
-        public void CalculateNewImageLocation(float zoom, float imgx, float imgy, 
+        public Point CalculateNewImageLocation(float zoom, float imgx, float imgy, 
                             float oldzoom, Point mouseLocation, Point pictureBoxLocation)
         {
             int x = mouseLocation.X - pictureBoxLocation.X;
@@ -44,6 +44,8 @@ namespace Challange.Domain.Services.Replay
 
             imgx = newimagex - oldimagex + imgx;
             imgy = newimagey - oldimagey + imgy;
+
+            return new Point((int)imgx, (int)imgy);
         }
     }
 }
