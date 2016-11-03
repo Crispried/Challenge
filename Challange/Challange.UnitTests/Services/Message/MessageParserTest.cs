@@ -11,24 +11,25 @@ namespace Challange.UnitTests.Services.Message
     [TestFixture]
     class MessageParserTest
     {
-        private string pathToFile;
+        MessageParser messageParser;
 
         [SetUp]
         public void SetUp()
         {
-            pathToFile = @"Message/message_info.xml";
+            messageParser = new MessageParser();
         }
 
         [Test]
         public void GetMessage()
         {
             // Arrange
+            string message = "Ooops it looks like there are not any connected devices.";
+
             // Act
-            //var message = MessageParser.GetMessage(
-            //    MessageType.ChallengeSettingsFileParseProblem, pathToFile);
-            //// Assert
-            //Assert.IsTrue(message.MessageType == 
-            //    MessageType.ChallengeSettingsFileParseProblem);
+            ChallengeMessage receivedMessage = messageParser.GetMessage(MessageType.EmptyDeviceContainer);
+
+            // Assert
+            Assert.AreEqual(receivedMessage.Text, message);
         }
     }
 }
