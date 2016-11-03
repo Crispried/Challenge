@@ -121,5 +121,108 @@ namespace Challange.UnitTests.Entity
             Assert.True(outputFpsList ==
                 buffers.FutureCameraRecords.Values.ElementAt(0));
         }
+
+        [Test]
+        public void MaxElementsInPastCollectionPropertyTest()
+        {
+            // Arrange
+            int maxElements = 1;
+            buffers.MaxElementsInPastCollection = maxElements;
+
+            // Act
+            int receivedMaxElements = buffers.MaxElementsInPastCollection;
+
+            // Assert
+            Assert.AreEqual(maxElements, receivedMaxElements);
+        }
+
+        [Test]
+        public void MaxElementsInFutureCollectionPropertyTest()
+        {
+            // Arrange
+            int maxElements = 1;
+            buffers.MaxElementsInFutureCollection = maxElements;
+
+            // Act
+            int receivedMaxElements = buffers.MaxElementsInFutureCollection;
+
+            // Assert
+            Assert.AreEqual(maxElements, receivedMaxElements);
+        }
+
+        [Test]
+        public void PastCameraRecordsGetterTest()
+        {
+            // Arrange
+
+            // Act
+
+            // Assert
+        }
+
+        [Test]
+        public void HaveToAddFutureFpsReturnsFalseTest()
+        {
+            // Arrange
+            buffers.MaxElementsInFutureCollection = 1;
+
+            // Act
+            bool result = buffers.HaveToAddFutureFps();
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Test]
+        public void HaveToAddFutureFpsReturnsTrueTest()
+        {
+            // Arrange
+            buffers.MaxElementsInFutureCollection = 2;
+
+            // Act
+            bool result = buffers.HaveToAddFutureFps();
+
+            // Assert
+            Assert.True(result);
+        }
+
+        [Test]
+        public void HaveToRemovePastFpsReturnsTrue()
+        {
+            // Arrange
+            buffers.MaxElementsInPastCollection = 1;
+
+            // Act
+            bool result = buffers.HaveToRemovePastFps();
+
+            // Assert
+            Assert.True(result);
+        }
+
+        [Test]
+        public void HaveToRemovePastFpsReturnsFalse()
+        {
+            // Arrange
+            buffers.MaxElementsInPastCollection = 2;
+
+            // Act
+            bool result = buffers.HaveToRemovePastFps();
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Test]
+        public void ClearBuffersTest()
+        {
+            // Arrange
+
+            // Act
+            buffers.ClearBuffers();
+
+            // Assert
+            Assert.IsEmpty(buffers.PastCameraRecords);
+            Assert.IsEmpty(buffers.FutureCameraRecords);
+        }
     }
 }

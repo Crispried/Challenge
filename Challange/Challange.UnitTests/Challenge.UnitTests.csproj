@@ -122,6 +122,7 @@
     <Compile Include="Entity\ChallengeWriterTest.cs" />
     <Compile Include="Entity\EventSubscriberTest.cs" />
     <Compile Include="Entity\FpsContainerTest.cs" />
+    <Compile Include="Entity\CameraTest.cs" />
     <Compile Include="Entity\InternalChallengeTimerTest.cs" />
     <Compile Include="Entity\VideoTest.cs" />
     <Compile Include="Entity\FpsTest.cs" />
