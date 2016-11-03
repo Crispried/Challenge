@@ -19,7 +19,6 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
             rewindSettings = GetRewindSettings();
             if (rewindSettings == null)
             {
-                RewindSettingsAreNull = true;
                 ShowMessage(MessageType.RewindSettingsFileParseProblem);
             }
             else

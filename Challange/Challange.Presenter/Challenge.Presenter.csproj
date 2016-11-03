@@ -85,7 +85,6 @@
     <Compile Include="Presenters\ChallengePlayerPresenter\ChallengePlayer.cs" />
     <Compile Include="Presenters\ChallengePlayerPresenter\ChallengePlayerInternal.cs" />
     <Compile Include="Presenters\ChallengePlayerPresenter\ChallengePlayerPresenters.cs" />
-    <Compile Include="Presenters\ChallengePlayerPresenter\ChallengePlayerStates.cs" />
     <Compile Include="Presenters\ChallengeSettingsPresenter\ChallengeSettingsInternal.cs" />
     <Compile Include="Presenters\ChallengeSettingsPresenter\ChallengeSettings.cs" />
     <Compile Include="Presenters\ChallengeSettingsPresenter\ChallengeSettingsPresenters.cs" />

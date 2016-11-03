@@ -129,6 +129,7 @@
     <Compile Include="Infrastructure\FileServiceTest.cs" />
     <Compile Include="Presenters\BroadcastPresenterTest.cs" />
     <Compile Include="Presenters\CamerasPresenterTest.cs" />
+    <Compile Include="Presenters\ChallengePlayerPresenterTest.cs" />
     <Compile Include="Presenters\ChallengeSettingsPresenterTest.cs" />
     <Compile Include="Presenters\FtpSettingsPresenterTest.cs" />
     <Compile Include="Presenters\GameInformationTest.cs" />
