@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Challange.Domain.Infrastructure
 {
-    public class PathFormatter : IPathFormatter
+    public class ProcessStarter : IProcessStarter
     {
-        public string FormatPathToGameInformationFile(string directoryName)
+        public void StartProcess(string fullName)
         {
-            return directoryName + @"\Game_Information.xml";
+            Process.Start(fullName);
         }
     }
 }

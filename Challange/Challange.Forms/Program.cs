@@ -55,6 +55,7 @@ namespace Challange.Forms
                                 .RegisterView<IFtpSettingsView, FtpSettingsForm>()
                                 .RegisterService<IFileWorker, FileWorker>()
                                 .RegisterService<IFileService, FileService>()
+                                .RegisterService<IProcessStarter, ProcessStarter>()
                                 .RegisterService<IPathFormatter, PathFormatter>()
                                 .RegisterService<IMessageParser, MessageParser>()
                                 .RegisterService<IZoomCalculator, ZoomCalculator>()

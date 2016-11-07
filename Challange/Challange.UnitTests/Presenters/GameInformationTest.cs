@@ -57,7 +57,7 @@ namespace Challange.UnitTests.Presenters
             argument.Received().SetGameInformation(argument);
             argument.Received().DirectoryName = "blabla";
             fileService.ReceivedWithAnyArgs().CreateDirectory("blabla");
-            pathFormatter.ReceivedWithAnyArgs().FormatPathToGameInformationFile("", "");
+            pathFormatter.ReceivedWithAnyArgs().FormatPathToGameInformationFile("");
             fileWorker.ReceivedWithAnyArgs().SerializeXml(argument, "");
             view.Received().Close();
         }

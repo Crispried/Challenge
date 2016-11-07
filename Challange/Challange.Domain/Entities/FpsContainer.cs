@@ -55,5 +55,16 @@ namespace Challange.Domain.Entities
 
             return fps;
         }
+
+        public void RemoveFpsByKey(string key)
+        {
+            IFps fps;
+            fpses.TryGetValue(key, out fps);
+
+            if (fps != null)
+            {
+                fpses.Remove(key);
+            }
+        }
     }
 }

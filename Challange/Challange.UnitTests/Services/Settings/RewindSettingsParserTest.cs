@@ -13,18 +13,18 @@ using Challange.Domain.Infrastructure;
 namespace Challange.UnitTests.Services.SettingParsers
 {
     [TestFixture]
-    class PlayerPanelSettingsParserTest : TestCase
+    class RewindSettingsParserTest : TestCase
     {
-        private PlayerPanelSettingsParser parser;
         private IFileWorker fileWorker;
-        private PlayerPanelSettings settings;
+        private RewindSettingsParser parser;
+        private RewindSettings settings;
 
         [SetUp]
         public void SetUp()
         {
             fileWorker = new FileWorker();
-            parser = new PlayerPanelSettingsParser(fileWorker);
-            settings = InitializePlayerPanelSettings();
+            parser = new RewindSettingsParser(fileWorker);
+            settings = InitializeRewindSettings();
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace Challange.UnitTests.Services.SettingParsers
         public void SaveSettingsRetunsFalseIfSettingsAreNull()
         {
             // Arrange
-
+            
             // Act
             bool settingsAreSaved = parser.SaveSettings(null);
 
@@ -57,11 +57,13 @@ namespace Challange.UnitTests.Services.SettingParsers
             // Arrange
 
             // Act
-            PlayerPanelSettings settings = parser.GetSettings();
+            RewindSettings settings = parser.GetSettings();
 
             // Assert
             Assert.NotNull(settings);
         }
+
+        // Test catch case
 
         [Test]
         public void SettingsFilePathPropertyTest()

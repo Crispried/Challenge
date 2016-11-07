@@ -161,6 +161,16 @@ namespace Challange.UnitTests.Entity
         }
 
         [Test]
+        public void AddPastFpsesTest()
+        {
+            // Arrange
+
+            // Act
+
+            // Assert
+        }
+
+        [Test]
         public void HaveToAddFutureFpsReturnsFalseTest()
         {
             // Arrange
@@ -223,6 +233,18 @@ namespace Challange.UnitTests.Entity
             // Assert
             Assert.IsEmpty(buffers.PastCameraRecords);
             Assert.IsEmpty(buffers.FutureCameraRecords);
+        }
+
+        [Test]
+        public void RemoveFirstFpsFromPastBufferTest()
+        {
+            // Arrange
+
+            // Act
+            buffers.RemoveFirstFpsFromPastBuffer();
+
+            // Assert
+            // Make an assertion
         }
     }
 }

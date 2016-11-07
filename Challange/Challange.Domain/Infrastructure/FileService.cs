@@ -5,6 +5,13 @@ namespace Challange.Domain.Infrastructure
 {
     public class FileService : IFileService
     {
+        private IProcessStarter processStarter;
+
+        public FileService(IProcessStarter processStarter)
+        {
+            this.processStarter = processStarter;
+        }
+
         public bool FileExists(string path)
         {
             return File.Exists(path);
@@ -27,7 +34,7 @@ namespace Challange.Domain.Infrastructure
 
         public void OpenFileOrFolder(string fullName)
         {
-            Process.Start(fullName);
+            processStarter.StartProcess(fullName);
         }
     }
 }

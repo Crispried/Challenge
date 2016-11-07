@@ -13,18 +13,18 @@ using Challange.Domain.Infrastructure;
 namespace Challange.UnitTests.Services.SettingParsers
 {
     [TestFixture]
-    class PlayerPanelSettingsParserTest : TestCase
+    class FtpSettingsParserTest : TestCase
     {
-        private PlayerPanelSettingsParser parser;
         private IFileWorker fileWorker;
-        private PlayerPanelSettings settings;
+        private FtpSettingsParser parser;
+        private FtpSettings settings;
 
         [SetUp]
         public void SetUp()
         {
             fileWorker = new FileWorker();
-            parser = new PlayerPanelSettingsParser(fileWorker);
-            settings = InitializePlayerPanelSettings();
+            parser = new FtpSettingsParser(fileWorker);
+            settings = InitializeFtpSettings();
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace Challange.UnitTests.Services.SettingParsers
         public void SaveSettingsRetunsFalseIfSettingsAreNull()
         {
             // Arrange
-
+            
             // Act
             bool settingsAreSaved = parser.SaveSettings(null);
 
@@ -57,23 +57,12 @@ namespace Challange.UnitTests.Services.SettingParsers
             // Arrange
 
             // Act
-            PlayerPanelSettings settings = parser.GetSettings();
+            FtpSettings settings = parser.GetSettings();
 
             // Assert
             Assert.NotNull(settings);
         }
 
-        [Test]
-        public void SettingsFilePathPropertyTest()
-        {
-            // Arrange
-            string path = "test_path";
-
-            // Act
-            parser.SettingsFilePath = path;
-
-            // Assert
-            Assert.AreEqual(path, parser.SettingsFilePath);
-        }
+        // Test catch case
     }
 }

@@ -13,8 +13,20 @@ namespace Challange.UnitTests.Infrastructure
     class ArchivatorTests : TestCase
     {
         // change to realtive path in the future
+        private Archivator archivator;
+        private IFileService fileService;
+        private IProcessStarter processStarter;
+
         private string correctInputDirectoryPath = @"test\ArchivatorTest";
         private string correctOutputFilePath = @"test\ArchivatorTestResult.zip";
+
+        [SetUp]
+        public void SetUp()
+        {
+            processStarter = new ProcessStarter();
+            fileService = new FileService(processStarter);
+            archivator = new Archivator(fileService);
+        }
 
         [Test]
         public void ArchivateMethodReturnsFalse(
@@ -50,9 +62,7 @@ namespace Challange.UnitTests.Infrastructure
 
         private bool Archivate(string from, string to)
         {
-            //return Archivator.Archivate(from, to);
-            return false;
+            return archivator.Archivate(from, to);
         }
-        
     }
 }

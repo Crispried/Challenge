@@ -43,6 +43,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private MessageParser messageParser;
 
         private FileService fileService;
+        private ProcessStarter processStarter;
 
         private ZoomCalculator zoomCalculator;
         private Zoomer zoomer;
@@ -55,7 +56,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
             zoomCalculator = new ZoomCalculator();
             zoomer = new Zoomer(zoomCalculator);
             messageParser = new MessageParser();
-            fileService = new FileService();
+            processStarter = new ProcessStarter();
+            fileService = new FileService(processStarter);
         }
 
         private void SubscribePresenters()
