@@ -36,12 +36,8 @@
             this.stopButton = new System.Windows.Forms.Button();
             this.challengeTrackBar = new System.Windows.Forms.TrackBar();
             this.challengePlayerPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.challengeFormSettings = new System.Windows.Forms.ToolStripMenuItem();
-            this.rewindOnSetting = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.challengeTrackBar)).BeginInit();
-            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -119,37 +115,10 @@
             this.challengePlayerPanel.AutoScroll = true;
             this.challengePlayerPanel.BackColor = System.Drawing.Color.Black;
             this.challengePlayerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.challengePlayerPanel.Location = new System.Drawing.Point(0, 28);
+            this.challengePlayerPanel.Location = new System.Drawing.Point(0, 0);
             this.challengePlayerPanel.Name = "challengePlayerPanel";
-            this.challengePlayerPanel.Size = new System.Drawing.Size(782, 440);
+            this.challengePlayerPanel.Size = new System.Drawing.Size(782, 468);
             this.challengePlayerPanel.TabIndex = 1;
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.challengeFormSettings});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(782, 28);
-            this.menuStrip1.TabIndex = 2;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // challengeFormSettings
-            // 
-            this.challengeFormSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.rewindOnSetting});
-            this.challengeFormSettings.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.challengeFormSettings.Name = "challengeFormSettings";
-            this.challengeFormSettings.Size = new System.Drawing.Size(82, 24);
-            this.challengeFormSettings.Text = "Settings";
-            // 
-            // rewindOnSetting
-            // 
-            this.rewindOnSetting.Name = "rewindOnSetting";
-            this.rewindOnSetting.Size = new System.Drawing.Size(169, 26);
-            this.rewindOnSetting.Text = "Rewind On";
             // 
             // ChallengePlayerForm
             // 
@@ -158,7 +127,6 @@
             this.ClientSize = new System.Drawing.Size(782, 553);
             this.Controls.Add(this.challengePlayerPanel);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.menuStrip1);
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "ChallengePlayerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -166,10 +134,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.challengeTrackBar)).EndInit();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -177,13 +142,10 @@
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.FlowLayoutPanel challengePlayerPanel;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem challengeFormSettings;
         private System.Windows.Forms.Button rewindForward;
         private System.Windows.Forms.Button rewindBackward;
         private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.Button stopButton;
         private System.Windows.Forms.TrackBar challengeTrackBar;
-        private System.Windows.Forms.ToolStripMenuItem rewindOnSetting;
     }
 }

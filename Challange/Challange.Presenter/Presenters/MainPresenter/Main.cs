@@ -23,14 +23,19 @@ namespace Challange.Presenter.Presenters.MainPresenter
     public partial class MainPresenter : BasePresenter<IMainView>
     {
         // settings
-        private PlayerPanelSettings playerPanelSettings;
-        private ChallengeSettings challengeSettings;
-        private FtpSettings ftpSettings;
+        private IFileService fileService;
+        private IMessageParser messageParser;
+        private PlayerPanelSettings playerPanelSetting;
+        private ChallengeSettings challengeSetting;
+        private FtpSettings ftpSetting;
+        private RewindSettings rewindSetting;
+        private ISettingsContext settingsContext;
+        private INullSettingsContainer nullSettingsContainer;
         //
         private GameInformation gameInformation;
         // video streaming
-        private CamerasContainer camerasContainer;
-        private PylonCameraProvider pylonCameraProvider;
+        private ICamerasContainer camerasContainer;
+        private ICameraProvider cameraProvider;
 
         // challenge
         private ChallengeBuffers challengeBuffers;
@@ -40,22 +45,29 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private InternalChallengeTimer internalChallengeTimer;
         private ChallengeObject challenge;
 
-        private MessageParser messageParser;
-
-        private FileService fileService;
-
         private ZoomCalculator zoomCalculator;
         private Zoomer zoomer;
 
         public MainPresenter(IApplicationController controller,
-                             IMainView mainView) : 
+                             IMainView mainView,
+                             IFileService fileService,
+                             IMessageParser messageParser,
+                             ISettingsContext settingsContext,
+                             INullSettingsContainer nullSettingsContainer,
+                             ICameraProvider cameraProvider,
+                             ICamerasContainer camerasContainer) : 
                              base(controller, mainView)
         {
+            this.fileService = fileService;
+            this.messageParser = messageParser;
+            this.settingsContext = settingsContext;
+            this.nullSettingsContainer = nullSettingsContainer;
+            this.cameraProvider = cameraProvider;
+            this.camerasContainer = camerasContainer;
             SubscribePresenters();
             zoomCalculator = new ZoomCalculator();
             zoomer = new Zoomer(zoomCalculator);
-            messageParser = new MessageParser();
-            fileService = new FileService();
+            gameInformation = new GameInformation();
         }
 
         private void SubscribePresenters()
@@ -66,6 +78,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
                                     ChangeChallengeSettings;
             View.OpenFtpSettings +=
                         ChangeFtpSettings;
+            View.OpenRewindSettings += ChangeRewindSettings;
             View.OpenDevicesList += ShowDevicesList;
             View.StartStream += StartStream;
             View.StopStream += StopStream;
@@ -100,7 +113,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             set
             {
-                challengeSettings = value;
+                challengeSetting = value;
             }
         }
 
@@ -108,7 +121,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             set
             {
-                ftpSettings = value;
+                ftpSetting = value;
             }
         }
     }

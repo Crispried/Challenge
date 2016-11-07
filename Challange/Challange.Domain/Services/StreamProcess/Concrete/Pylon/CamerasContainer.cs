@@ -1,4 +1,5 @@
 ﻿using Challange.Domain.Abstract;
+using Challange.Domain.Entities;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 using System;
@@ -8,22 +9,15 @@ using System.Text;
 using System.Threading.Tasks;
 using static PylonC.NETSupportLibrary.DeviceEnumerator;
 
-namespace Challange.Domain.Entities
+namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
 {
     public class CamerasContainer : ICamerasContainer
     {
         private List<Camera> camerasContainer;
-        private List<Device> deviceList;
 
-        public CamerasContainer(List<Device> deviceList)
+        public void InitializeCameras(List<Device> deviceList)
         {
-            this.deviceList = deviceList;
             camerasContainer = new List<Camera>();
-            InitializeCameras();
-        }
-
-        private void InitializeCameras()
-        {
             PylonCamera tmpCamera;
             foreach (var cameraInfo in deviceList)
             {

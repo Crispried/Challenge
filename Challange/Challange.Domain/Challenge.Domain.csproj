@@ -70,7 +70,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\ICamerasContainer.cs" />
+    <Compile Include="Services\StreamProcess\Abstract\ICamerasContainer.cs" />
     <Compile Include="Abstract\IChallengeBuffer.cs" />
     <Compile Include="Abstract\ICamera.cs" />
     <Compile Include="Abstract\IFps.cs" />
@@ -97,6 +97,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Services\Message\IMessageParser.cs" />
+    <Compile Include="Services\Settings\INullSettingsContainer.cs" />
+    <Compile Include="Services\Settings\ISettingsContext.cs" />
+    <Compile Include="Services\Settings\ISettingsService.cs" />
+    <Compile Include="Services\Settings\NullSettingsContainer.cs" />
+    <Compile Include="Services\Settings\SettingsContext.cs" />
     <Compile Include="Services\Settings\SettingParser\ISettingsParser.cs" />
     <Compile Include="Services\Message\MessageParser.cs" />
     <Compile Include="Services\Message\MessageType.cs" />
@@ -104,6 +109,7 @@
     <Compile Include="Services\Replay\ZoomCalculator.cs" />
     <Compile Include="Services\Replay\Zoomer.cs" />
     <Compile Include="Services\Settings\SettingParser\RewindSettingsParser.cs" />
+    <Compile Include="Services\Settings\SettingsEnum.cs" />
     <Compile Include="Services\Settings\SettingTypes\RewindSettings.cs" />
     <Compile Include="Services\Settings\SettingParser\FtpSettingsParser.cs" />
     <Compile Include="Services\Settings\SettingTypes\FtpSettings.cs" />
@@ -119,7 +125,7 @@
     <Compile Include="Services\Settings\SettingsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Settings\SettingTypes\Setting.cs" />
-    <Compile Include="Entities\CamerasContainer.cs" />
+    <Compile Include="Services\StreamProcess\Concrete\Pylon\CamerasContainer.cs" />
     <Compile Include="Services\StreamProcess\Concrete\Pylon\PylonCamera.cs" />
     <Compile Include="Services\StreamProcess\Concrete\Pylon\PylonCameraProvider.cs" />
     <Compile Include="Services\Message\ChallengeMessage.cs" />

@@ -36,13 +36,9 @@ namespace Challange.Forms
         public ChallengePlayerForm()
         {
             InitializeComponent();
-            rewindOnSetting.Click += (sender, args)
-                            => Invoke(OpenRewindSettings);
             allPlayers = new List<PictureBox>();
             fullScreenButtonsList = new List<Button>();
         }
-
-        public event Action OpenRewindSettings;
 
         public event Action<string> OpenBroadcastForm;
 

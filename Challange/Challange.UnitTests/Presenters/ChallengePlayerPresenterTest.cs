@@ -1,4 +1,5 @@
-﻿using Challange.Presenter.Base;
+﻿using Challange.Domain.Services.Settings.SettingTypes;
+using Challange.Presenter.Base;
 using Challange.Presenter.Presenters.ChallengePlayerPresenter;
 using Challange.Presenter.Views;
 using NSubstitute;
@@ -17,7 +18,7 @@ namespace Challange.UnitTests.Presenters
         private IApplicationController controller;
         private ChallengePlayerPresenter presenter;
         private IChallengePlayerView view;
-        private string mock;
+        private Tuple<string, RewindSettings> mock;
 
         [SetUp]
         public void SetUp()
@@ -25,6 +26,7 @@ namespace Challange.UnitTests.Presenters
             controller = Substitute.For<IApplicationController>();
             view = Substitute.For<IChallengePlayerView>();
             presenter = new ChallengePlayerPresenter(controller, view);
+            mock = Substitute.For<Tuple<string, RewindSettings>>();
             presenter.Run(mock);
         }
     }

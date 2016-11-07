@@ -18,6 +18,8 @@ namespace Challange.Presenter.Views
 
         event Action OpenFtpSettings;
 
+        event Action OpenRewindSettings;
+
         event Action OpenDevicesList;
 
         event Action StartStream;

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Challange.Domain.Abstract;
+using Challange.Domain.Services.StreamProcess.Abstract;
 
 namespace Challange.Domain.Entities
 {

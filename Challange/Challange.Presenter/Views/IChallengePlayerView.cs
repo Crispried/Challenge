@@ -11,8 +11,6 @@ namespace Challange.Presenter.Views
 {
     public interface IChallengePlayerView : IView
     {
-        event Action OpenRewindSettings;
-
         event Action<string> OpenBroadcastForm;
 
         void DrawPlayers(int numberOfPlayers);

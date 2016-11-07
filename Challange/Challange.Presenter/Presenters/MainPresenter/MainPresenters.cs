@@ -1,18 +1,12 @@
 ﻿using Challange.Domain.Abstract;
 using Challange.Domain.Entities;
-using Challange.Domain.Infrastructure;
 using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings.SettingTypes;
-using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static PylonC.NETSupportLibrary.DeviceEnumerator;
-using Challange.Domain.Services.Replay;
-using System.Windows.Forms;
+using System.Collections.Generic;
+using System;
+using Challange.Domain.Services.Settings;
+using Challange.Domain.Services.StreamProcess.Abstract;
 
 namespace Challange.Presenter.Presenters.MainPresenter
 {
@@ -20,28 +14,14 @@ namespace Challange.Presenter.Presenters.MainPresenter
     {
         public override void Run()
         {
-            playerPanelSettings = GetPlayerPanelSettings();
-            challengeSettings = GetChallengeSettings();
-            ftpSettings = GetFtpSettings();
-            if(challengeSettings == null)
+            ReadAllSettings();
+            CheckAllSettingsOnNull();
+            if (!nullSettingsContainer.IsEmpty())
             {
-                ChallengeSettingsAreNull = true;
-                ShowMessage(MessageType.ChallengeSettingsFileParseProblem);
-            }
-            else if(playerPanelSettings == null)
-            {
-                PlayerPanelSettingsAreNull = true;
-                ShowMessage(MessageType.PlayerPanelSettingsFileParseProblem);
-            }
-            else if (ftpSettings == null)
-            {
-                FtpSettingsAreNull = true;
-                ShowMessage(MessageType.FtpSettingsFileParseProblem);
+                ShowMessage(MessageType.SettingsFilesParseProblem);
             }
             else
             {
-                // we need to keep game information 
-                gameInformation = new GameInformation();
                 Controller.Run<GameInformationPresenter.GameInformationPresenter,
                                GameInformation>(gameInformation);
                 InitializeDevices();
@@ -56,7 +36,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void ShowDevicesList()
         {
             Controller.Run<CamerasPresenter.CamerasPresenter,
-                CamerasContainer>(camerasContainer);
+                ICamerasContainer>(camerasContainer);
         }
 
         /// <summary>
@@ -97,7 +77,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void ChangePlayerPanelSettings()
         {
             Controller.Run<PlayerPanelSettingsPresenter.PlayerPanelSettingsPresenter,
-                           PlayerPanelSettings>(playerPanelSettings);
+                           PlayerPanelSettings>(playerPanelSetting);
             DrawPlayers();
         }
 
@@ -107,7 +87,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void ChangeChallengeSettings()
         {
             Controller.Run<ChallengeSettingsPresenter.ChallengeSettingsPresenter,
-                            ChallengeSettings>(challengeSettings);
+                            ChallengeSettings>(challengeSetting);
         }
 
         /// <summary>
@@ -116,7 +96,16 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void ChangeFtpSettings()
         {
             Controller.Run<FtpSettingsPresenter.FtpSettingsPresenter,
-                            FtpSettings>(ftpSettings);
+                            FtpSettings>(ftpSetting);
+        }
+
+        /// <summary>
+        /// Shows the form which allows to change rewind settings
+        /// </summary>
+        public void ChangeRewindSettings()
+        {
+            Controller.Run<RewindSettingsPresenter.RewindSettingsPresenter,
+                            RewindSettings>(rewindSetting);
         }
 
         /// <summary>
@@ -124,7 +113,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         public void StartStream()
         {
-             camerasContainer = InitializeDevices();
+            InitializeDevices();
             if (IsDeviceListEmpty) // DONT FORGET BACK "!" !!!!!!!
             {
                 InitializeChallengeBuffers();
@@ -161,7 +150,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
             CreateDirectoryForChallenge();
             ChangeActivityOfEventForPastFrames(false);
             ChangeActivityOfEventForFutureFrames(true);
-            SetUIAsChallengeRecordingOn(challengeSettings.NumberOfFutureFPS);
+            SetUIAsChallengeRecordingOn(challengeSetting.NumberOfFutureFPS);
             AddMarkerOnTimeAxis(challenge.PathToChallengeDirectory);
         }
 
@@ -180,7 +169,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             string stringForTest = @"Team1_vs_Team2(21.10.2016)\00_00_10\";
             Controller.Run<ChallengePlayerPresenter.ChallengePlayerPresenter,
-               string>(stringForTest); // pathToChallenge instead of stringForTest
+               Tuple<string, RewindSettings>>
+               (Tuple.Create(stringForTest, rewindSetting)); // pathToChallenge instead of stringForTest
         }
 
         /// <summary>

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
 {
-    public partial class ChallengePlayerPresenter : BasePresenter<IChallengePlayerView, string>
+    public partial class ChallengePlayerPresenter : BasePresenter<IChallengePlayerView, Tuple<string, RewindSettings>>
     {
         private RewindSettings rewindSettings;
 
@@ -36,7 +36,6 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
 
         private void SubscribePresenters()
         {
-            View.OpenRewindSettings += OpenRewindSettings;
             View.OpenBroadcastForm += OpenBroadcastForm; 
         }
     }

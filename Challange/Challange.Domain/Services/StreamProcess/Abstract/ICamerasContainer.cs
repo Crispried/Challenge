@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static PylonC.NETSupportLibrary.DeviceEnumerator;
 
-namespace Challange.Domain.Abstract
+namespace Challange.Domain.Services.StreamProcess.Abstract
 {
     public interface ICamerasContainer
     {
+        void InitializeCameras(List<Device> deviceList);
         int CamerasNumber { get; }
         List<Camera> GetCameras { get; }
         List<string> GetCamerasKeys { get; }
@@ -18,5 +20,7 @@ namespace Challange.Domain.Abstract
         void AddCamera(Camera camera);
         void RemoveCamera(Camera camera);
         bool IsEmpty();
+        void StopAllCameras();
+        Camera GetCameraByKey(string key);
     }
 }

@@ -20,6 +20,8 @@ using Challange.Presenter.Presenters.ChallengeSettingsPresenter;
 using Challange.Presenter.Presenters.PlayerPanelSettingsPresenter;
 using Challange.Presenter.Presenters.RewindSettingsPresenter;
 using Challange.Domain.Services.Replay;
+using Challange.Domain.Services.StreamProcess.Abstract;
+using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 
 namespace Challange.Forms
 {
@@ -66,6 +68,10 @@ namespace Challange.Forms
                                 .RegisterService<ISettingsService<ChallengeSettings>, SettingsService<ChallengeSettings>>()
                                 .RegisterService<ISettingsParser<RewindSettings>, RewindSettingsParser>()
                                 .RegisterService<ISettingsService<RewindSettings>, SettingsService<RewindSettings>>()
+                                .RegisterService<ISettingsContext, SettingsContext>()
+                                .RegisterService<INullSettingsContainer, NullSettingsContainer>()
+                                .RegisterService<ICameraProvider, PylonCameraProvider>()
+                                .RegisterService<ICamerasContainer, CamerasContainer>()
                                 .RegisterInstance(new ApplicationContext());
 
 

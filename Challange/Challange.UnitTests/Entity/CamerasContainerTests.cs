@@ -8,6 +8,8 @@ using Challange.Domain.Services.StreamProcess.Concrete;
 using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 using Challange.Domain.Entities;
 using static PylonC.NETSupportLibrary.DeviceEnumerator;
+using Challange.Domain.Services.StreamProcess.Abstract;
+using NSubstitute;
 
 namespace Challange.UnitTests.Entity
 {
@@ -15,7 +17,7 @@ namespace Challange.UnitTests.Entity
     class CamerasContainerTests : TestCase
     {
         private PylonCamera camera;
-        private CamerasContainer container;
+        private ICamerasContainer camerasContainer;
         private List<Device> camerasInfo;
         private string pylonCameraName = "Pylon Camera";
 
@@ -24,7 +26,7 @@ namespace Challange.UnitTests.Entity
         {
             camerasInfo = InitializeCamerasInfo();
             camera = new PylonCamera(1, pylonCameraName);
-            container = new CamerasContainer(camerasInfo);
+            camerasContainer = Substitute.For<ICamerasContainer>();
         }
 
         [Test]
@@ -33,7 +35,7 @@ namespace Challange.UnitTests.Entity
             // Arrange
             // Act
             // Assert
-            Assert.AreEqual(2, container.CamerasNumber);
+            Assert.AreEqual(2, camerasContainer.CamerasNumber);
         }
 
         [Test]
@@ -42,11 +44,11 @@ namespace Challange.UnitTests.Entity
             // Arrange
 
             // Act
-            AddCamera(container, camera);
-            AddCamera(container, camera);
+            AddCamera(camerasContainer, camera);
+            AddCamera(camerasContainer, camera);
 
             // Assert
-            Assert.AreEqual(4, container.CamerasNumber);
+            Assert.AreEqual(4, camerasContainer.CamerasNumber);
         }
 
         [Test]
@@ -55,10 +57,10 @@ namespace Challange.UnitTests.Entity
             // Arrange
 
             // Act
-            AddCamera(container, camera);
+            AddCamera(camerasContainer, camera);
 
             // Assert
-            Assert.AreEqual(container.GetCameras.ElementAt(2), camera);
+            Assert.AreEqual(camerasContainer.GetCameras.ElementAt(2), camera);
         }
 
         [Test]
@@ -67,19 +69,19 @@ namespace Challange.UnitTests.Entity
             // Arrange
 
             // Act
-            AddCamera(container, camera);
-            RemoveCamera(container, camera);
+            AddCamera(camerasContainer, camera);
+            RemoveCamera(camerasContainer, camera);
 
             // Assert
-            Assert.AreEqual(2, container.CamerasNumber);
+            Assert.AreEqual(2, camerasContainer.CamerasNumber);
         }
 
-        private void AddCamera(CamerasContainer container, PylonCamera camera)
+        private void AddCamera(ICamerasContainer container, PylonCamera camera)
         {
             container.AddCamera(camera);
         }
 
-        private void RemoveCamera(CamerasContainer container, PylonCamera camera)
+        private void RemoveCamera(ICamerasContainer container, PylonCamera camera)
         {
             container.RemoveCamera(camera);
         }

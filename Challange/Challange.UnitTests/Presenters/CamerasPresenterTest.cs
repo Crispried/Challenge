@@ -11,6 +11,7 @@ using Moq;
 using Challange.Presenter.Presenters.CamerasPresenter;
 using static PylonC.NETSupportLibrary.DeviceEnumerator;
 using Challange.Domain.Entities;
+using Challange.Domain.Services.StreamProcess.Abstract;
 
 namespace Challange.UnitTests.Presenters
 {
@@ -20,7 +21,7 @@ namespace Challange.UnitTests.Presenters
         private IApplicationController controller;
         private CamerasPresenter presenter;
         private ICamerasView view;
-        private CamerasContainer argument;
+        private ICamerasContainer argument;
         private List<Device> devices;
 
         [SetUp]
@@ -63,7 +64,7 @@ namespace Challange.UnitTests.Presenters
 
         private void SetArgument(List<Device> devices)
         {
-            argument = Substitute.For<CamerasContainer>(devices);
+            argument = Substitute.For<ICamerasContainer>(devices);
         }
 
         private Device CreateTestDevice()

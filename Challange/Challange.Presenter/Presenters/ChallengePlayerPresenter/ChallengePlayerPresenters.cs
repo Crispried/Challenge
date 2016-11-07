@@ -12,29 +12,16 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
 {
     public partial class ChallengePlayerPresenter
     {
-        public override void Run(string argument)
+        public override void Run(Tuple<string, RewindSettings> argument)
         {
-            pathToChallenge = argument;
+            pathToChallenge = argument.Item1;
+            rewindSettings = argument.Item2;
             challengeReader = new ChallengeReader(pathToChallenge);
-            rewindSettings = GetRewindSettings();
-            if (rewindSettings == null)
-            {
-                ShowMessage(MessageType.RewindSettingsFileParseProblem);
-            }
-            else
-            {
-                numberOfVideos = GetNumberOfVideos(pathToChallenge);
-                DrawPlayers(numberOfVideos);
-                initialData = GetInitialData();
-                InitializePlayers(initialData);
-                View.Show();
-            }
-        }
-
-        public void OpenRewindSettings()
-        {
-            Controller.Run<RewindSettingsPresenter.RewindSettingsPresenter,
-               RewindSettings>(rewindSettings);
+            numberOfVideos = GetNumberOfVideos(pathToChallenge);
+            DrawPlayers(numberOfVideos);
+            initialData = GetInitialData();
+            InitializePlayers(initialData);
+            View.Show();
         }
 
         public void OpenBroadcastForm(string cameraFullName)

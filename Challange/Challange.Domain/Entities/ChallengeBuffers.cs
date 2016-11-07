@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Challange.Domain.Abstract;
 using Challange.Domain.Services.Settings.SettingTypes;
+using Challange.Domain.Services.StreamProcess.Abstract;
 
 namespace Challange.Domain.Entities
 {
@@ -16,7 +17,7 @@ namespace Challange.Domain.Entities
         private int maxElementsInPastCollection;
         private int maxElementsInFutureCollection;
 
-        public ChallengeBuffers(CamerasContainer camerasContainer,
+        public ChallengeBuffers(ICamerasContainer camerasContainer,
             int maxElementsInPastCollection, int maxElementsInFutureCollection)
         {
             this.maxElementsInPastCollection = maxElementsInPastCollection;
@@ -188,7 +189,7 @@ namespace Challange.Domain.Entities
         /// <summary>
         /// Initialize 2 buffers for past and future frames
         /// </summary>
-        private void InitializeBuffers(CamerasContainer camerasContainer)
+        private void InitializeBuffers(ICamerasContainer camerasContainer)
         {
             pastCameraRecords = new Dictionary<string, List<IFps>>();
             foreach (string key in camerasContainer.GetCamerasKeys)

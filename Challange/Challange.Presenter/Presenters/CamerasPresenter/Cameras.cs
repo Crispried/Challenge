@@ -1,13 +1,14 @@
 ﻿using Challange.Domain.Entities;
+using Challange.Domain.Services.StreamProcess.Abstract;
 using Challange.Presenter.Base;
 using Challange.Presenter.Views;
 
 namespace Challange.Presenter.Presenters.CamerasPresenter
 {
     public partial class CamerasPresenter :
-                    BasePresenter<ICamerasView, CamerasContainer>
+                    BasePresenter<ICamerasView, ICamerasContainer>
     {
-        private CamerasContainer connectedCameras;
+        private ICamerasContainer connectedCameras;
 
         public CamerasPresenter(
                     IApplicationController controller,

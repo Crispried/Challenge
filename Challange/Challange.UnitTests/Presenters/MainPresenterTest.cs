@@ -1,8 +1,12 @@
 ﻿using Challange.Domain.Entities;
 using Challange.Domain.Infrastructure;
+using Challange.Domain.Services.Message;
+using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingTypes;
+using Challange.Domain.Services.StreamProcess.Abstract;
 using Challange.Presenter.Base;
 using Challange.Presenter.Presenters.ChallengeSettingsPresenter;
+using Challange.Presenter.Presenters.GameInformationPresenter;
 using Challange.Presenter.Presenters.MainPresenter;
 using Challange.Presenter.Presenters.PlayerPanelSettingsPresenter;
 using Challange.Presenter.Views;
@@ -25,18 +29,102 @@ namespace Challange.UnitTests.Presenters
         private IApplicationController controller;
         private MainPresenter presenter;
         private IMainView view;
+        private IMessageParser messageParser;
+        private IFileService fileService;
+        private ISettingsContext settingsContext;
+        private INullSettingsContainer nullSettingsContainer;
+        private ICameraProvider cameraProvider;
+        private ICamerasContainer camerasContainer;
+
         private PlayerPanelSettings playerPanelSettings;
         private ChallengeSettings challengeSettings;
+        private FtpSettings ftpSettings;
+        private RewindSettings rewindSettings;
 
         [SetUp]
         public void SetUp()
         {
             controller = Substitute.For<IApplicationController>();
             view = Substitute.For<IMainView>();
-            presenter = new MainPresenter(controller, view);
+            fileService = Substitute.For<IFileService>();
+            messageParser = Substitute.For<IMessageParser>();
+            settingsContext = Substitute.For<ISettingsContext>();
+            cameraProvider = Substitute.For<ICameraProvider>();
+            nullSettingsContainer = Substitute.For<INullSettingsContainer>();
+            camerasContainer = Substitute.For<ICamerasContainer>();
+            presenter = new MainPresenter(controller, view,
+                                    fileService, messageParser,
+                                    settingsContext, nullSettingsContainer,
+                                    cameraProvider, camerasContainer );
             presenter.Run();
             playerPanelSettings = InitializePlayerPanelSettings();
             challengeSettings = InitializeChallengeSettings();
+            ftpSettings = InitializeFtpSettings();
+            rewindSettings = InitializeRewindSettings();
+        }
+
+        [Test]
+        public void RunParsingSettings()
+        {
+            // Arrange
+            // Act
+            // Assume
+            settingsContext.Received().GetPlayerPanelSetting();
+            settingsContext.Received().GetChallengeSetting();
+            settingsContext.Received().GetFtpSetting();
+            settingsContext.Received().GetRewindSetting();
+        }
+
+        [Test]
+        public void RunCheckingSettingsOnNull()
+        {
+            // Arrange
+            // Act
+            // Assume
+            nullSettingsContainer.ReceivedWithAnyArgs().CheckPlayerPanelSettingOnNull(null);
+            nullSettingsContainer.ReceivedWithAnyArgs().CheckChallengeSettingOnNull(null);
+            nullSettingsContainer.ReceivedWithAnyArgs().CheckFtpSettingOnNull(null);
+            nullSettingsContainer.ReceivedWithAnyArgs().CheckRewindSettingOnNull(null);
+        }
+
+        [Test]
+        public void RunIfThereAreNullSettings()
+        {
+            nullSettingsContainer.Received().CheckRewindSettingOnNull(null);
+            // Arrange
+            // Act
+            // Assume
+            nullSettingsContainer.Received().IsEmpty();
+            var returnedMessage = messageParser.Received().GetMessage(MessageType.SettingsFilesParseProblem);
+            view.ShowMessage(returnedMessage);
+            controller.DidNotReceiveWithAnyArgs().Run<GameInformationPresenter,
+                               GameInformation>(null);
+            cameraProvider.DidNotReceiveWithAnyArgs().GetConnectedCameras();
+            camerasContainer.DidNotReceiveWithAnyArgs().InitializeCameras(null);
+        }
+
+        [Test]
+        public void RunIfPlayerPanelSettingsAreNull()
+        {
+            // Arrange
+            //playerPanelSettingsService.Received().GetSetting().Returns(playerPanelSettings);
+            //challengeSettingsService.Received().GetSetting().Returns(default(ChallengeSettings));
+            //ftpSettingsService.Received().GetSetting().Returns(default(FtpSettings));
+            // Act
+            // Assume
+            controller.DidNotReceiveWithAnyArgs().Run<GameInformationPresenter, GameInformation>(default(GameInformation));
+        }
+
+        [Test]
+        public void RunIfFtpSettingsAreNull()
+        {
+
+        }
+
+        [Test]
+        public void RunIfEverythingOk()
+        {
+
         }
 
         [Test]

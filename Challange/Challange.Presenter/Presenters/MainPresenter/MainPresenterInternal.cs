@@ -58,8 +58,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void InitializeChallengeBuffers()
         {
             challengeBuffers = new ChallengeBuffers(camerasContainer,
-                        challengeSettings.NumberOfPastFPS,
-                        challengeSettings.NumberOfFutureFPS);
+                        challengeSetting.NumberOfPastFPS,
+                        challengeSetting.NumberOfFutureFPS);
         }
 
         /// <summary>
@@ -105,67 +105,43 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void DrawPlayers()
         {
-            if (playerPanelSettings != null)
+            if (playerPanelSetting != null)
             {
-                View.DrawPlayers(playerPanelSettings, camerasContainer.CamerasNumber);
+                View.DrawPlayers(playerPanelSetting, camerasContainer.CamerasNumber);
             }
         }
         #region settings
         /// <summary>
-        /// read player panel settings from xml file
-        /// this action occures only when we run our form
+        /// Read all settings via setting context from xml files
         /// </summary>
-        /// <returns></returns>
-        private PlayerPanelSettings GetPlayerPanelSettings()
+        private void ReadAllSettings()
         {
-            var playerPanelSettingService =
-                 new SettingsService<PlayerPanelSettings>(
-                                new PlayerPanelSettingsParser(new FileWorker()));
-            return playerPanelSettingService.
-                        GetSetting();
+            playerPanelSetting = settingsContext.GetPlayerPanelSetting();
+            challengeSetting = settingsContext.GetChallengeSetting();
+            ftpSetting = settingsContext.GetFtpSetting();
+            rewindSetting = settingsContext.GetRewindSetting();
         }
 
         /// <summary>
-        /// read challenge settings from xml file
-        /// this action occures only when we run our form
+        /// Checks all setting on null and if setting is null it adds into 
+        /// null container. NullSettingTypes is list with types of all null settings
         /// </summary>
-        /// <returns></returns>
-        private ChallengeSettings GetChallengeSettings()
+        private void CheckAllSettingsOnNull()
         {
-            var challengeSettingService =
-                 new SettingsService<ChallengeSettings>(
-                                new ChallengeSettingsParser(new FileWorker()));
-            return challengeSettingService.
-                        GetSetting();
-        }
-
-        /// <summary>
-        /// read ftp settings from xml file
-        /// this action occures only when we run our form
-        /// </summary>
-        /// <returns></returns>
-        private FtpSettings GetFtpSettings()
-        {
-            var ftpSettingsService =
-                 new SettingsService<FtpSettings>(
-                                new FtpSettingsParser(new FileWorker()));
-            return ftpSettingsService.
-                        GetSetting();
+            nullSettingsContainer.CheckPlayerPanelSettingOnNull(playerPanelSetting);
+            nullSettingsContainer.CheckChallengeSettingOnNull(challengeSetting);
+            nullSettingsContainer.CheckFtpSettingOnNull(ftpSetting);
+            nullSettingsContainer.CheckRewindSettingOnNull(rewindSetting);
         }
         #endregion
-
-
 
         /// <summary>
         /// Initializes devices
         /// </summary>
-        private CamerasContainer InitializeDevices()
+        private void InitializeDevices()
         {
-            pylonCameraProvider = new PylonCameraProvider();
-            var camerasInfo = pylonCameraProvider.GetConnectedCameras();
-            camerasContainer = new CamerasContainer(camerasInfo);
-            IsDeviceListEmpty = camerasContainer.IsEmpty() ? true : false;
-            return camerasContainer;
+            var camerasInfo = cameraProvider.GetConnectedCameras();
+            camerasContainer.InitializeCameras(camerasInfo);
         }
 
         /// <summary>

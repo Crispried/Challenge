@@ -60,9 +60,9 @@
             // saveRewindSettings
             // 
             this.saveRewindSettings.Font = new System.Drawing.Font("Georgia", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveRewindSettings.Location = new System.Drawing.Point(339, 171);
+            this.saveRewindSettings.Location = new System.Drawing.Point(323, 145);
             this.saveRewindSettings.Name = "saveRewindSettings";
-            this.saveRewindSettings.Size = new System.Drawing.Size(81, 70);
+            this.saveRewindSettings.Size = new System.Drawing.Size(97, 46);
             this.saveRewindSettings.TabIndex = 2;
             this.saveRewindSettings.Text = "Save";
             this.saveRewindSettings.UseVisualStyleBackColor = true;
@@ -114,7 +114,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ClientSize = new System.Drawing.Size(432, 253);
+            this.ClientSize = new System.Drawing.Size(432, 203);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.rewindBackwardTextBox);
@@ -123,8 +123,8 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.MaximumSize = new System.Drawing.Size(450, 300);
-            this.MinimumSize = new System.Drawing.Size(450, 300);
+            this.MaximumSize = new System.Drawing.Size(450, 250);
+            this.MinimumSize = new System.Drawing.Size(450, 250);
             this.Name = "RewindSettingsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Rewind Settings";

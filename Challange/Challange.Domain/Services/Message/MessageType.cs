@@ -8,10 +8,7 @@ namespace Challange.Domain.Services.Message
 {
     public enum MessageType
     {
-        ChallengeSettingsFileParseProblem,
-        PlayerPanelSettingsFileParseProblem,
-        FtpSettingsFileParseProblem,
-        RewindSettingsFileParseProblem,
+        SettingsFilesParseProblem,
         EmptyDeviceContainer,
         HaveNotRecordedAnyChallengeYet,
         TestFtpConnectionSuccessed,

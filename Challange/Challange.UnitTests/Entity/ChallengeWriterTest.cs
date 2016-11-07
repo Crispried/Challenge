@@ -9,6 +9,8 @@ using static PylonC.NETSupportLibrary.DeviceEnumerator;
 using System.Drawing;
 using PylonC.NET;
 using Challange.Domain.Abstract;
+using Challange.Domain.Services.StreamProcess.Abstract;
+using NSubstitute;
 
 namespace Challange.UnitTests.Entity
 {
@@ -16,7 +18,7 @@ namespace Challange.UnitTests.Entity
     class ChallengeWriterTest : TestCase
     {
         private List<Device> camerasInfo;
-        private CamerasContainer camerasContainer;
+        private ICamerasContainer camerasContainer;
         private ChallengeBuffers challengeBuffers;
         private FpsContainer fpsContainer;
         private int maxElementsInPastCollection = 10;
@@ -31,7 +33,7 @@ namespace Challange.UnitTests.Entity
         public void SetUp()
         {
             camerasInfo = InitializeCamerasInfo();
-            camerasContainer = new CamerasContainer(camerasInfo);
+            camerasContainer = Substitute.For<ICamerasContainer>();
             challengeBuffers = new ChallengeBuffers(camerasContainer, maxElementsInPastCollection,
                                                                         maxElementsInFutureCollection);
             fpsContainer = new FpsContainer(camerasContainer.GetCamerasKeys);

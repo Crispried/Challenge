@@ -52,6 +52,7 @@
             this.stopStreamButton = new System.Windows.Forms.ToolStripButton();
             this.openGameFolderButton = new System.Windows.Forms.ToolStripButton();
             this.openDevicesListButton = new System.Windows.Forms.ToolStripButton();
+            this.rewindSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             this.timeAxis.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.challengeRecordingImage)).BeginInit();
@@ -106,7 +107,8 @@
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.playerPanelSettings,
             this.challangeSettings,
-            this.ftpSettings});
+            this.ftpSettings,
+            this.rewindSettings});
             this.settingsToolStripMenuItem.Font = new System.Drawing.Font("Georgia", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(82, 24);
@@ -115,19 +117,19 @@
             // playerPanelSettings
             // 
             this.playerPanelSettings.Name = "playerPanelSettings";
-            this.playerPanelSettings.Size = new System.Drawing.Size(177, 26);
+            this.playerPanelSettings.Size = new System.Drawing.Size(181, 26);
             this.playerPanelSettings.Text = "Player panel";
             // 
             // challangeSettings
             // 
             this.challangeSettings.Name = "challangeSettings";
-            this.challangeSettings.Size = new System.Drawing.Size(177, 26);
+            this.challangeSettings.Size = new System.Drawing.Size(181, 26);
             this.challangeSettings.Text = "Challange";
             // 
             // ftpSettings
             // 
             this.ftpSettings.Name = "ftpSettings";
-            this.ftpSettings.Size = new System.Drawing.Size(177, 26);
+            this.ftpSettings.Size = new System.Drawing.Size(181, 26);
             this.ftpSettings.Text = "FTP";
             // 
             // helpToolStripMenuItem
@@ -279,6 +281,12 @@
             this.openDevicesListButton.Size = new System.Drawing.Size(24, 24);
             this.openDevicesListButton.Text = "Opens list with all conncected devices";
             // 
+            // rewindSettings
+            // 
+            this.rewindSettings.Name = "rewindSettings";
+            this.rewindSettings.Size = new System.Drawing.Size(181, 26);
+            this.rewindSettings.Text = "Rewind";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -329,6 +337,7 @@
         private System.Windows.Forms.ToolStripMenuItem tempToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem drawTestPlayersToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ftpSettings;
+        private System.Windows.Forms.ToolStripMenuItem rewindSettings;
     }
 }
 
