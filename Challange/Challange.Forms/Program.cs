@@ -57,9 +57,11 @@ namespace Challange.Forms
                                 .RegisterView<IFtpSettingsView, FtpSettingsForm>()
                                 .RegisterService<IFileWorker, FileWorker>()
                                 .RegisterService<IFileService, FileService>()
+                                .RegisterService<IProcessStarter, ProcessStarter>()
                                 .RegisterService<IPathFormatter, PathFormatter>()
                                 .RegisterService<IMessageParser, MessageParser>()
                                 .RegisterService<IZoomCalculator, ZoomCalculator>()
+                                .RegisterService<IZoomer, Zoomer>()
                                 .RegisterService<ISettingsParser<PlayerPanelSettings>, PlayerPanelSettingsParser>()
                                 .RegisterService<ISettingsService<PlayerPanelSettings>, SettingsService<PlayerPanelSettings>>()
                                 .RegisterService<ISettingsParser<FtpSettings>, FtpSettingsParser>()
@@ -72,6 +74,7 @@ namespace Challange.Forms
                                 .RegisterService<INullSettingsContainer, NullSettingsContainer>()
                                 .RegisterService<ICameraProvider, PylonCameraProvider>()
                                 .RegisterService<ICamerasContainer, CamerasContainer>()
+                                .RegisterService<IProcessStarter, ProcessStarter>()
                                 .RegisterInstance(new ApplicationContext());
 
 

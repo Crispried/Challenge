@@ -8,19 +8,22 @@ using NSubstitute;
 using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.Settings.SettingParser;
+using Challange.Domain.Infrastructure;
 
 namespace Challange.UnitTests.Services.SettingParsers
 {
     [TestFixture]
     class ChallengeSettingsParserTest : TestCase
     {
+        private IFileWorker fileWorker;
         private ChallengeSettingsParser parser;
         private ChallengeSettings settings;
 
         [SetUp]
         public void SetUp()
         {
-           // parser = new ChallengeSettingsParser();
+            fileWorker = new FileWorker();
+            parser = new ChallengeSettingsParser(fileWorker);
             settings = InitializeChallengeSettings();
         }
 
@@ -37,7 +40,19 @@ namespace Challange.UnitTests.Services.SettingParsers
         }
 
         [Test]
-        public void GetSettingsRetunsSettingsIfSettingsFileWasFound()
+        public void SaveSettingsRetunsFalseIfSettingsAreNull()
+        {
+            // Arrange
+            
+            // Act
+            bool settingsAreSaved = parser.SaveSettings(null);
+
+            // Assert
+            Assert.False(settingsAreSaved);
+        }
+
+        [Test]
+        public void GetSettingsRetunsSettingsTest()
         {
             // Arrange
 
@@ -48,17 +63,6 @@ namespace Challange.UnitTests.Services.SettingParsers
             Assert.NotNull(settings);
         }
 
-        [Test]
-        public void GetSettingsRetunsNullIfSettingsFileWasNotFound()
-        {
-            // Arrange
-            parser.SettingsFilePath = "not_exists";
-
-            // Act
-            ChallengeSettings settings = parser.GetSettings();
-
-            // Assert
-            Assert.Null(settings);
-        }
+        // Test exception
     }
 }

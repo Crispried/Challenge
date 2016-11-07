@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Challange.Domain.Services.Replay
 {
-    public class Zoomer
+    public class Zoomer : IZoomer
     {
         private int imgx = 0;
         private int imgy = 0;

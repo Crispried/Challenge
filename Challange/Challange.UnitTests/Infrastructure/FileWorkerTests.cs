@@ -13,8 +13,15 @@ namespace Challange.UnitTests.Infrastructure
     [TestFixture]
     class FileWorkerTests : TestCase
     {
+        private FileWorker fileWorker;
         private string correctPathToGameInformation = @"test\XmlFormatterResult.xml";
         private string correctPathToSettings = @"test\settings.xml";
+
+        [SetUp]
+        public void SetUp()
+        {
+            fileWorker = new FileWorker();
+        }
 
         [Test]
         public void SerializeXmlMethodReturnsFalse(
@@ -25,11 +32,23 @@ namespace Challange.UnitTests.Infrastructure
             var gameInformation = GetGameInformation();
 
             // Act
-          //  bool result = SerializeXml(gameInformation, incorrectOutputPath);
+            bool result = SerializeXml(gameInformation, incorrectOutputPath);
 
             // Assert
-            //Assert.IsFalse(FileExists(incorrectOutputPath));
-          //  Assert.IsFalse(result);
+            Assert.IsFalse(FileExists(incorrectOutputPath));
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void SerializeXmlMethodReturnsFalseWithBadGameInformation()
+        {
+            // Arrange
+
+            // Act
+            bool result = SerializeXml(null, correctPathToGameInformation);
+
+            // Assert
+            Assert.IsFalse(result);
         }
 
         [Test]
@@ -39,14 +58,14 @@ namespace Challange.UnitTests.Infrastructure
             var gameInformation = GetGameInformation();
 
             // Act
-         //   bool result = SerializeXml(gameInformation, correctPathToGameInformation);
+            bool result = SerializeXml(gameInformation, correctPathToGameInformation);
 
             // Assert
-         //   Assert.IsTrue(FileExists(correctPathToGameInformation));
-         //   Assert.IsTrue(result);
+            Assert.IsTrue(FileExists(correctPathToGameInformation));
+            Assert.IsTrue(result);
 
             // Delete
-          //  DeleteFile(correctPathToGameInformation);
+            DeleteFile(correctPathToGameInformation);
         }
         
         [Test]
@@ -54,10 +73,10 @@ namespace Challange.UnitTests.Infrastructure
         {
             // Arrange
             // Act
-           // PlayerPanelSettings result = DeserializeXml(correctPathToSettings);
+            PlayerPanelSettings result = DeserializeXml(correctPathToSettings);
 
             // Assert
-           // Assert.That(result, Is.TypeOf<PlayerPanelSettings>());
+            Assert.That(result, Is.TypeOf<PlayerPanelSettings>());
         }
 
         private GameInformation GetGameInformation()
@@ -75,14 +94,14 @@ namespace Challange.UnitTests.Infrastructure
             return gameInformation;
         }
 
-        private void SerializeXml(GameInformation gameInformation, string outputPathForXml)
+        private bool SerializeXml(object gameInformation, string outputPathForXml)
         {
-            //return FileWorker.SerializeXml(gameInformation, outputPathForXml);
+            return fileWorker.SerializeXml(gameInformation, outputPathForXml);
         }
 
-        private void DeserializeXml(string outputPathForXml)
+        private PlayerPanelSettings DeserializeXml(string outputPathForXml)
         {
-          //  return FileWorker.DeserializeXml<PlayerPanelSettings>(outputPathForXml);
+            return fileWorker.DeserializeXml<PlayerPanelSettings>(outputPathForXml);
         }
     }
 }

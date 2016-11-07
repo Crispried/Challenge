@@ -25,6 +25,30 @@ namespace Challange.Domain.Entities
             InitializeBuffers(camerasContainer);
         }
 
+        public int MaxElementsInPastCollection
+        {
+            get
+            {
+                return maxElementsInPastCollection;
+            }
+            set
+            {
+                maxElementsInPastCollection = value;
+            }
+        }
+
+        public int MaxElementsInFutureCollection
+        {
+            get
+            {
+                return maxElementsInFutureCollection;
+            }
+            set
+            {
+                maxElementsInFutureCollection = value;
+            }
+        }
+
         public Dictionary<string, List<IFps>> PastCameraRecords
         {
             get

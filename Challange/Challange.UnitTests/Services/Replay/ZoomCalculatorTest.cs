@@ -82,6 +82,5 @@ namespace Challange.UnitTests.Services.Replay
             Assert.AreEqual(-6, data.X);
             Assert.AreEqual(-6, data.Y);
         }
-
     }
 }

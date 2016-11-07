@@ -1,6 +1,7 @@
 ﻿using Challange.Domain.Entities;
 using Challange.Domain.Infrastructure;
 using Challange.Domain.Services.Message;
+using Challange.Domain.Services.Replay;
 using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.StreamProcess.Abstract;
@@ -35,6 +36,8 @@ namespace Challange.UnitTests.Presenters
         private INullSettingsContainer nullSettingsContainer;
         private ICameraProvider cameraProvider;
         private ICamerasContainer camerasContainer;
+        private IProcessStarter processStarter;
+        private IZoomer zoomer;
 
         private PlayerPanelSettings playerPanelSettings;
         private ChallengeSettings challengeSettings;
@@ -52,10 +55,13 @@ namespace Challange.UnitTests.Presenters
             cameraProvider = Substitute.For<ICameraProvider>();
             nullSettingsContainer = Substitute.For<INullSettingsContainer>();
             camerasContainer = Substitute.For<ICamerasContainer>();
+            processStarter = Substitute.For<IProcessStarter>();
+            zoomer = Substitute.For<IZoomer>();
             presenter = new MainPresenter(controller, view,
                                     fileService, messageParser,
                                     settingsContext, nullSettingsContainer,
-                                    cameraProvider, camerasContainer );
+                                    cameraProvider, camerasContainer,
+                                    processStarter, zoomer);
             presenter.Run();
             playerPanelSettings = InitializePlayerPanelSettings();
             challengeSettings = InitializeChallengeSettings();

@@ -31,6 +31,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private RewindSettings rewindSetting;
         private ISettingsContext settingsContext;
         private INullSettingsContainer nullSettingsContainer;
+        private IProcessStarter processStarter;
+        private IZoomer zoomer;
         //
         private GameInformation gameInformation;
         // video streaming
@@ -45,8 +47,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private InternalChallengeTimer internalChallengeTimer;
         private ChallengeObject challenge;
 
-        private ZoomCalculator zoomCalculator;
-        private Zoomer zoomer;
+
 
         public MainPresenter(IApplicationController controller,
                              IMainView mainView,
@@ -55,7 +56,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
                              ISettingsContext settingsContext,
                              INullSettingsContainer nullSettingsContainer,
                              ICameraProvider cameraProvider,
-                             ICamerasContainer camerasContainer) : 
+                             ICamerasContainer camerasContainer,
+                             IProcessStarter processStarter,
+                             IZoomer zoomer) : 
                              base(controller, mainView)
         {
             this.fileService = fileService;
@@ -64,9 +67,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
             this.nullSettingsContainer = nullSettingsContainer;
             this.cameraProvider = cameraProvider;
             this.camerasContainer = camerasContainer;
+            this.processStarter = processStarter;
+            this.zoomer = zoomer;
             SubscribePresenters();
-            zoomCalculator = new ZoomCalculator();
-            zoomer = new Zoomer(zoomCalculator);
             gameInformation = new GameInformation();
         }
 

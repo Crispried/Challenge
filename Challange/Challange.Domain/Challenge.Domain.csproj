@@ -70,6 +70,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Services\Replay\IZoomer.cs" />
     <Compile Include="Services\StreamProcess\Abstract\ICamerasContainer.cs" />
     <Compile Include="Abstract\IChallengeBuffer.cs" />
     <Compile Include="Abstract\ICamera.cs" />
@@ -90,6 +91,8 @@
     <Compile Include="Infrastructure\IFileService.cs" />
     <Compile Include="Infrastructure\IFileWorker.cs" />
     <Compile Include="Infrastructure\IPathFormatter.cs" />
+    <Compile Include="Infrastructure\IProcessStarter.cs" />
+    <Compile Include="Infrastructure\ProcessStarter.cs" />
     <Compile Include="Infrastructure\PathFormatter.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

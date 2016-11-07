@@ -8,30 +8,23 @@ namespace Challange.Domain.Infrastructure
     {
         public bool SerializeXml(object objectToSerialize, string outputPath)
         {
-            XmlSerializer xsSubmit = new XmlSerializer(objectToSerialize.GetType());
             try
             {
+                XmlSerializer xsSubmit = new XmlSerializer(objectToSerialize.GetType());
                 using (StreamWriter stringWriter = new StreamWriter(
                      outputPath))
                 {
                     using (XmlWriter writer = XmlWriter.Create(stringWriter))
                     {
-                        try
-                        {
-                            xsSubmit.Serialize(writer, objectToSerialize);
-                        }
-                        catch
-                        {
-                            return false;
-                        }
+                        xsSubmit.Serialize(writer, objectToSerialize);
                     }
                 }
+                return true;
             }
             catch
             {
                 return false;
             }
-            return true;
         }
 
         public ObjectType DeserializeXml<ObjectType>(string settingsFilePath)

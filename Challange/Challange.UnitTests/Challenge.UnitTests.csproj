@@ -122,10 +122,12 @@
     <Compile Include="Entity\ChallengeWriterTest.cs" />
     <Compile Include="Entity\EventSubscriberTest.cs" />
     <Compile Include="Entity\FpsContainerTest.cs" />
+    <Compile Include="Entity\CameraTest.cs" />
     <Compile Include="Entity\InternalChallengeTimerTest.cs" />
     <Compile Include="Entity\VideoTest.cs" />
     <Compile Include="Entity\FpsTest.cs" />
     <Compile Include="Entity\GameInformationTest.cs" />
+    <Compile Include="Infrastructure\PathFormatterTest.cs" />
     <Compile Include="Infrastructure\FileServiceTest.cs" />
     <Compile Include="Presenters\BroadcastPresenterTest.cs" />
     <Compile Include="Presenters\CamerasPresenterTest.cs" />
@@ -135,9 +137,12 @@
     <Compile Include="Presenters\GameInformationTest.cs" />
     <Compile Include="Presenters\PlayerPanelSettingsPresenterTest.cs" />
     <Compile Include="Presenters\RewindSettingsPresenterTest.cs" />
+    <Compile Include="Services\Message\ChallengeMessageTest.cs" />
     <Compile Include="Services\Message\MessageParserTest.cs" />
     <Compile Include="Services\Replay\ZoomCalculatorTest.cs" />
     <Compile Include="Services\Replay\ZoomerTest.cs" />
+    <Compile Include="Services\Settings\RewindSettingsParserTest.cs" />
+    <Compile Include="Services\Settings\FtpSettingsParserTest.cs" />
     <Compile Include="Services\Settings\PlayerPanelSettingsParserTest.cs" />
     <Compile Include="Services\Settings\ChallengeSettingsParserTest.cs" />
     <Compile Include="Services\Settings\SettingsServiceTest.cs" />
@@ -146,6 +151,10 @@
     <Compile Include="Infrastructure\FileWorkerTests.cs" />
     <Compile Include="Presenters\MainPresenterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\SettingTypes\RewindSettingsTest.cs" />
+    <Compile Include="Services\SettingTypes\PlayerPanelSettingsTest.cs" />
+    <Compile Include="Services\SettingTypes\FtpSettingsTest.cs" />
+    <Compile Include="Services\SettingTypes\ChallengeSettingsTest.cs" />
     <Compile Include="TestCase.cs" />
   </ItemGroup>
   <ItemGroup>

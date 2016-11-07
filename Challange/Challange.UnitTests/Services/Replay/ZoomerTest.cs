@@ -88,7 +88,7 @@ namespace Challange.UnitTests.Services.Replay
 
             // Act
             zoomCalculator.CalculateNegativeZoom(zoomer.Zoom, zoomer.MinZoom).ReturnsForAnyArgs(zoomer.MinZoom);
-            ZoomData zoomData = zoomer.MakeZoom(pictureBoxLocation, delta, mouseLocation);
+            ZoomData zoomData = MakeZoom(pictureBoxLocation, delta, mouseLocation);
 
             // Assert
             Assert.AreEqual(zoomData.Zoom, zoomer.MinZoom);
@@ -106,7 +106,7 @@ namespace Challange.UnitTests.Services.Replay
 
             // Act
             zoomCalculator.CalculateNegativeZoom(zoomer.Zoom, zoomer.MinZoom).ReturnsForAnyArgs(zoomer.Zoom);
-            ZoomData zoomData = zoomer.MakeZoom(pictureBoxLocation, delta, mouseLocation);
+            ZoomData zoomData = MakeZoom(pictureBoxLocation, delta, mouseLocation);
 
             // Assert
             Assert.Greater(zoomData.Zoom, zoomer.MinZoom);
@@ -121,7 +121,7 @@ namespace Challange.UnitTests.Services.Replay
             Point mouseLocation = new Point();
 
             // Act
-            ZoomData zoomData = zoomer.MakeZoom(pictureBoxLocation, delta, mouseLocation);
+            ZoomData zoomData = MakeZoom(pictureBoxLocation, delta, mouseLocation);
 
             // Assert
             zoomCalculator.ReceivedWithAnyArgs().CalculateNegativeZoom(zoomer.Zoom, zoomer.MinZoom);
@@ -137,7 +137,7 @@ namespace Challange.UnitTests.Services.Replay
             Point mouseLocation = new Point();
 
             // Act
-            ZoomData zoomData = zoomer.MakeZoom(pictureBoxLocation, delta, mouseLocation);
+            ZoomData zoomData = MakeZoom(pictureBoxLocation, delta, mouseLocation);
 
             // Assert
             zoomCalculator.ReceivedWithAnyArgs().CalculatePositiveZoom(zoomer.Zoom);
@@ -148,10 +148,9 @@ namespace Challange.UnitTests.Services.Replay
         public void CalculateNewImageLocationIsBeingFired()
         {
             // Arrange
-            int delta = 1;
 
             // Act
-            ZoomData zoomData = zoomer.MakeZoom(new Point(), delta, new Point());
+            ZoomData zoomData = MakeZoom();
 
             // Assert
             zoomCalculator.ReceivedWithAnyArgs().CalculateNewImageLocation(1.1f, 0, 0,
@@ -162,17 +161,20 @@ namespace Challange.UnitTests.Services.Replay
         public void ProperImgXAndImgYAreSet()
         {
             // Arrange
-            int delta = 1;
             
             // Act
             zoomCalculator.CalculateNewImageLocation(1.1f, 0, 0,
                                         1, new Point(), new Point()).ReturnsForAnyArgs(new Point(1, 1));
-            ZoomData zoomData = zoomer.MakeZoom(new Point(), delta, new Point());
+            ZoomData zoomData = MakeZoom();
 
             // Assert
             Assert.AreEqual(1f, zoomer.Imgx);
             Assert.AreEqual(1f, zoomer.Imgy);
         }
 
+        private ZoomData MakeZoom(Point pictureBoxLocation = new Point(), int delta = 1, Point mouseLocation = new Point())
+        {
+            return zoomer.MakeZoom(pictureBoxLocation, delta, mouseLocation);
+        }
     }
 }

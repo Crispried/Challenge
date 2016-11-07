@@ -8,7 +8,10 @@ using Challange.Domain.Services.StreamProcess.Concrete;
 using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 using Challange.Domain.Entities;
 using static PylonC.NETSupportLibrary.DeviceEnumerator;
+<<<<<<< HEAD
 using Challange.Domain.Services.StreamProcess.Abstract;
+=======
+>>>>>>> 8bee6a75e986a196494ee02467e98ffe6c0f24f9
 using NSubstitute;
 
 namespace Challange.UnitTests.Entity
@@ -25,8 +28,13 @@ namespace Challange.UnitTests.Entity
         public void SetUp()
         {
             camerasInfo = InitializeCamerasInfo();
+<<<<<<< HEAD
             camera = new PylonCamera(1, pylonCameraName);
             camerasContainer = Substitute.For<ICamerasContainer>();
+=======
+            camera = Substitute.For<PylonCamera>((uint)1, pylonCameraName);
+            container = new CamerasContainer(camerasInfo);
+>>>>>>> 8bee6a75e986a196494ee02467e98ffe6c0f24f9
         }
 
         [Test]
@@ -76,7 +84,66 @@ namespace Challange.UnitTests.Entity
             Assert.AreEqual(2, camerasContainer.CamerasNumber);
         }
 
+<<<<<<< HEAD
         private void AddCamera(ICamerasContainer container, PylonCamera camera)
+=======
+        [Test]
+        public void StopAllCamerasTest()
+        {
+            // Arrange
+            AddCamera(container, camera);
+
+            // Act
+            container.StopAllCameras();
+
+            // Assert
+            camera.Received().Stop();
+        }
+
+        [Test]
+        public void SetCameraNameTest()
+        {
+            // Arrange
+            string newCameraName = "CameraName";
+            AddCamera(container, camera);
+
+            // Act
+            container.SetCameraName("Pylon Camera", newCameraName);
+
+            // Assert
+            Assert.AreEqual(camera.Name, newCameraName);
+        }
+
+        [Test]
+        public void SetCameraNameTestTwo()
+        {
+            // Arrange
+            string newCameraName = "CameraName";
+            AddCamera(container, camera);
+
+            // Act
+            container.SetCameraName("Does Not Exist", newCameraName);
+
+            // Assert
+            Assert.AreEqual(camera.Name, "1");
+        }
+
+        [Test]
+        public void GetCameraByKeyTest()
+        {
+            // Arrange
+            string key = camera.FullName;
+            AddCamera(container, camera);
+
+            // Act
+            Camera receivedCamera = container.GetCameraByKey(key);
+
+            // Assert
+            Assert.AreEqual(camera.Name, receivedCamera.Name);
+        }
+
+        private void AddCamera(CamerasContainer container, PylonCamera camera)
+>>>>>>> 8bee6a75e986a196494ee02467e98ffe6c0f24f9
         {
             container.AddCamera(camera);
         }

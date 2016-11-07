@@ -26,8 +26,7 @@ namespace Challange.Presenter.Presenters.GameInformationPresenter
         /// <returns></returns>
         private string FormatPathToFile(string directioryName)
         {
-            string fileName = @"\Game_Information.xml";
-            return pathFormatter.FormatPathToGameInformationFile(directioryName, fileName);
+            return pathFormatter.FormatPathToGameInformationFile(directioryName);
         }
 
         /// <summary>
