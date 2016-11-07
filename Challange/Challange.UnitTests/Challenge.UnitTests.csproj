@@ -151,6 +151,8 @@
     <Compile Include="Infrastructure\FileWorkerTests.cs" />
     <Compile Include="Presenters\MainPresenterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\SettingTypes\RewindSettingsTest.cs" />
+    <Compile Include="Services\SettingTypes\PlayerPanelSettingsTest.cs" />
     <Compile Include="Services\SettingTypes\FtpSettingsTest.cs" />
     <Compile Include="Services\SettingTypes\ChallengeSettingsTest.cs" />
     <Compile Include="TestCase.cs" />
