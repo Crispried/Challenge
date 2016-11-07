@@ -43,6 +43,7 @@ namespace Challange.UnitTests.Presenters
         private ChallengeSettings challengeSettings;
         private FtpSettings ftpSettings;
         private RewindSettings rewindSettings;
+        private GameInformation gameInformation;
 
         [SetUp]
         public void SetUp()
@@ -62,11 +63,11 @@ namespace Challange.UnitTests.Presenters
                                     settingsContext, nullSettingsContainer,
                                     cameraProvider, camerasContainer,
                                     processStarter, zoomer);
-            presenter.Run();
             playerPanelSettings = InitializePlayerPanelSettings();
             challengeSettings = InitializeChallengeSettings();
             ftpSettings = InitializeFtpSettings();
             rewindSettings = InitializeRewindSettings();
+            gameInformation = Substitute.For<GameInformation>();
         }
 
         [Test]
@@ -74,6 +75,7 @@ namespace Challange.UnitTests.Presenters
         {
             // Arrange
             // Act
+            presenter.Run();
             // Assume
             settingsContext.Received().GetPlayerPanelSetting();
             settingsContext.Received().GetChallengeSetting();
@@ -86,6 +88,7 @@ namespace Challange.UnitTests.Presenters
         {
             // Arrange
             // Act
+            presenter.Run();
             // Assume
             nullSettingsContainer.ReceivedWithAnyArgs().CheckPlayerPanelSettingOnNull(null);
             nullSettingsContainer.ReceivedWithAnyArgs().CheckChallengeSettingOnNull(null);
@@ -96,13 +99,15 @@ namespace Challange.UnitTests.Presenters
         [Test]
         public void RunIfThereAreNullSettings()
         {
-            nullSettingsContainer.Received().CheckRewindSettingOnNull(null);
+            nullSettingsContainer.IsEmpty().ReturnsForAnyArgs(false);
+            presenter.Run();
             // Arrange
             // Act
+            presenter.Run();
             // Assume
             nullSettingsContainer.Received().IsEmpty();
             var returnedMessage = messageParser.Received().GetMessage(MessageType.SettingsFilesParseProblem);
-            view.ShowMessage(returnedMessage);
+            view.Received().ShowMessage(returnedMessage);
             controller.DidNotReceiveWithAnyArgs().Run<GameInformationPresenter,
                                GameInformation>(null);
             cameraProvider.DidNotReceiveWithAnyArgs().GetConnectedCameras();
@@ -110,27 +115,20 @@ namespace Challange.UnitTests.Presenters
         }
 
         [Test]
-        public void RunIfPlayerPanelSettingsAreNull()
+        public void RunIfThereAreNotNullSettings()
         {
+            nullSettingsContainer.IsEmpty().ReturnsForAnyArgs(true);
             // Arrange
-            //playerPanelSettingsService.Received().GetSetting().Returns(playerPanelSettings);
-            //challengeSettingsService.Received().GetSetting().Returns(default(ChallengeSettings));
-            //ftpSettingsService.Received().GetSetting().Returns(default(FtpSettings));
             // Act
+            presenter.Run();
             // Assume
-            controller.DidNotReceiveWithAnyArgs().Run<GameInformationPresenter, GameInformation>(default(GameInformation));
-        }
-
-        [Test]
-        public void RunIfFtpSettingsAreNull()
-        {
-
-        }
-
-        [Test]
-        public void RunIfEverythingOk()
-        {
-
+            nullSettingsContainer.Received().IsEmpty();
+            var returnedMessage = messageParser.DidNotReceiveWithAnyArgs().GetMessage(default(MessageType));
+            view.DidNotReceiveWithAnyArgs().ShowMessage(returnedMessage);
+            controller.ReceivedWithAnyArgs().Run<GameInformationPresenter,
+                               GameInformation>(gameInformation);
+            var connectedCameras = cameraProvider.Received().GetConnectedCameras();
+            camerasContainer.Received().InitializeCameras(connectedCameras);
         }
 
         [Test]
