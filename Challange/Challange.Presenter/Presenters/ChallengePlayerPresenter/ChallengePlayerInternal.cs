@@ -1,16 +1,11 @@
-﻿using Challange.Domain.Services.Message;
+﻿using Challange.Domain.Services.FileSystem;
+using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingParser;
 using Challange.Domain.Services.Settings.SettingTypes;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using AForge.Video.FFMPEG;
-using System.Threading.Tasks;
-using Challange.Domain.Infrastructure;
 
 namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
 {

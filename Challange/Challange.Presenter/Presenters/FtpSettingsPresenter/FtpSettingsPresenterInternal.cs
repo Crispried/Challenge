@@ -1,8 +1,4 @@
-﻿using Challange.Domain.Entities;
-using Challange.Domain.Infrastructure;
-using Challange.Domain.Services.Settings;
-using Challange.Domain.Services.Settings.SettingParser;
-using Challange.Domain.Services.Settings.SettingTypes;
+﻿using Challange.Domain.Services.Settings.SettingTypes;
 using System;
 
 namespace Challange.Presenter.Presenters.FtpSettingsPresenter

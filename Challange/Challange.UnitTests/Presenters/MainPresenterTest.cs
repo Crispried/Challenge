@@ -1,10 +1,11 @@
 ﻿using Challange.Domain.Entities;
-using Challange.Domain.Infrastructure;
+using Challange.Domain.Services.FileSystem;
 using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Replay;
 using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.StreamProcess.Abstract;
+using Challange.Domain.Servuces.Video.Concrete;
 using Challange.Presenter.Base;
 using Challange.Presenter.Presenters.ChallengeSettingsPresenter;
 using Challange.Presenter.Presenters.GameInformationPresenter;
@@ -14,11 +15,6 @@ using Challange.Presenter.Views;
 using NSubstitute;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
 
 namespace Challange.UnitTests.Presenters
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Challange.Domain.Infrastructure
+namespace Challange.Domain.Services.FileSystem
 {
     public class PathFormatter : IPathFormatter
     {

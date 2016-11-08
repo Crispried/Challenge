@@ -7,8 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Challange.Domain.Abstract;
 using Challange.Domain.Services.StreamProcess.Abstract;
+using Challange.Domain.Services.Video.Abstract;
 
-namespace Challange.Domain.Entities
+namespace Challange.Domain.Servuces.Video.Concrete
 {
     public class ChallengeWriter
     {

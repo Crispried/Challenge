@@ -1,6 +1,6 @@
 ﻿using System.IO.Compression;
 
-namespace Challange.Domain.Infrastructure
+namespace Challange.Domain.Services.FileSystem
 {
     public class Archivator
     {
