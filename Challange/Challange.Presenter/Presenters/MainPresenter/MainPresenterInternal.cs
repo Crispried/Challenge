@@ -135,8 +135,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void InitializeDevices()
         {
-            var camerasInfo = cameraProvider.GetConnectedCameras();
-            camerasContainer.InitializeCameras(camerasInfo);
+            camerasContainer.InitializeCameras();
         }
 
         /// <summary>
@@ -157,9 +156,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void StartDevices()
         {
-            foreach (Camera camera in camerasContainer.GetCameras)
+            foreach (ICamera camera in camerasContainer.GetCameras)
             {
-                EventSubscriber.AddEventHandler(camera, "NewFrameEvent", Camera_NewFrameEvent);
+                eventSubscriber.AddEventHandler(camera, "NewFrameEvent", Camera_NewFrameEvent);
                 camera.Start();
             }
         }

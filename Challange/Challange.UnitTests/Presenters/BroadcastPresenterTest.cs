@@ -1,5 +1,6 @@
 ﻿using Challange.Domain.Entities;
 using Challange.Domain.Services.Event;
+using Challange.Domain.Services.StreamProcess.Abstract;
 using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 using Challange.Presenter.Base;
 using Challange.Presenter.Presenters.BroadcastPresenter;
@@ -24,7 +25,7 @@ namespace Challange.UnitTests.Presenters
         private IApplicationController controller;
         private BroadcastPresenter presenter;
         private IBroadcastView view;
-        private Camera argument;
+        private ICamera argument;
         private IEventSubscriber eventSubscriber;
 
         [SetUp]
@@ -34,7 +35,7 @@ namespace Challange.UnitTests.Presenters
             view = Substitute.For<IBroadcastView>();
             eventSubscriber = Substitute.For<IEventSubscriber>();
             presenter = new BroadcastPresenter(controller, view, eventSubscriber);
-            argument = new PylonCamera(0, "test");
+            argument = Substitute.For<ICamera>();
             presenter.Run(argument);
         }
 

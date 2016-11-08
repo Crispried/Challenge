@@ -13,19 +13,23 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
 {
     public class CamerasContainer : ICamerasContainer
     {
-        private List<Camera> camerasContainer;
+        private List<ICamera> camerasContainer;
 
-        public CamerasContainer()
+        private ICameraProvider cameraProvider;
+
+        public CamerasContainer(ICameraProvider cameraProvider)
         {
-            camerasContainer = new List<Camera>();
+            this.cameraProvider = cameraProvider;
+            camerasContainer = new List<ICamera>();
         }
 
-        public void InitializeCameras(List<Device> deviceList)
+        public void InitializeCameras()
         {
-            PylonCamera tmpCamera;
+            var deviceList = cameraProvider.GetConnectedCameras();
+            ICamera tmpCamera;
             foreach (var cameraInfo in deviceList)
             {
-                tmpCamera = new PylonCamera(cameraInfo.Index, cameraInfo.FullName);
+                tmpCamera = new Camera(cameraInfo.Index, cameraInfo.FullName);
                 AddCamera(tmpCamera);
             }
         }
@@ -38,7 +42,7 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
             }
         }
 
-        public List<Camera> GetCameras
+        public List<ICamera> GetCameras
         {
             get
             {
@@ -81,18 +85,12 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
             }
         }
 
-        public string GetCameraNameByKey(string fullName)
-        {
-            var camera = camerasContainer.Find(cam => cam.FullName == fullName);
-            return camera.Name;
-        }
-
-        public void AddCamera(Camera camera)
+        public void AddCamera(ICamera camera)
         {
             camerasContainer.Add(camera);
         }
 
-        public void RemoveCamera(Camera camera)
+        public void RemoveCamera(ICamera camera)
         {
             camerasContainer.Remove(camera);
         }
@@ -104,13 +102,13 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
 
         public void StopAllCameras()
         {
-            foreach (Camera camera in camerasContainer)
+            foreach (ICamera camera in camerasContainer)
             {
                 camera.Stop();
             }
         }
 
-        public Camera GetCameraByKey(string key)
+        public ICamera GetCameraByKey(string key)
         {
             return camerasContainer.Find(camera => camera.FullName == key);
         }

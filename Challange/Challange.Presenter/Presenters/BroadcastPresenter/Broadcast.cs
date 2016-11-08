@@ -1,13 +1,14 @@
 ﻿using Challange.Domain.Entities;
 using Challange.Domain.Services.Event;
+using Challange.Domain.Services.StreamProcess.Abstract;
 using Challange.Presenter.Base;
 using Challange.Presenter.Views;
 
 namespace Challange.Presenter.Presenters.BroadcastPresenter
 {
-    public partial class BroadcastPresenter : BasePresenter<IBroadcastView, Camera>
+    public partial class BroadcastPresenter : BasePresenter<IBroadcastView, ICamera>
     {
-        private Camera camera;
+        private ICamera camera;
         private IEventSubscriber eventSubscriber;
         public BroadcastPresenter(
                 IApplicationController controller,
