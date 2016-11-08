@@ -147,7 +147,7 @@ namespace Challange.Domain.Servuces.Video.Concrete
         /// <summary>
         /// adds past fps objects into buffer for past frames
         /// </summary>
-        public void AddPastFpses(FpsContainer fpsContainer)
+        public void AddPastFpses(IFpsContainer fpsContainer)
         {
             List<IFps> temp;
             foreach (var fps in fpsContainer.Fpses)
@@ -169,7 +169,7 @@ namespace Challange.Domain.Servuces.Video.Concrete
         /// <summary>
         /// adds future fps objects into buffer for future frames
         /// </summary>
-        public void AddFutureFpses(FpsContainer fpsContainer)
+        public void AddFutureFpses(IFpsContainer fpsContainer)
         {
             List<IFps> temp;
             foreach (var fps in fpsContainer.Fpses)

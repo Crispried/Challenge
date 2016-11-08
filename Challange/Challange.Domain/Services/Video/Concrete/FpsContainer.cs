@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Challange.Domain.Abstract;
 using Challange.Domain.Entities;
+using Challange.Domain.Services.Video.Abstract;
 
 namespace Challange.Domain.Servuces.Video.Concrete
 {
-    public class FpsContainer
+    public class FpsContainer : IFpsContainer
     {
         private Dictionary<string, IFps> fpses;
         private List<string> keys;

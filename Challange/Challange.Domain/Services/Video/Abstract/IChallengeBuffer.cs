@@ -10,6 +10,10 @@ namespace Challange.Domain.Services.Video.Abstract
 {
     public interface IChallengeBuffer
     {
+        int MaxElementsInPastCollection { get; set; }
+
+        int MaxElementsInFutureCollection { get; set; }
+
         Dictionary<string, List<IFps>> PastCameraRecords { get; }
 
         Dictionary<string, List<IFps>> FutureCameraRecords { get; }
@@ -25,5 +29,13 @@ namespace Challange.Domain.Services.Video.Abstract
         void ClearBuffers();
 
         void RemoveFirstFpsFromPastBuffer();
+
+        void AddPastFpses(IFpsContainer fpsContainer);
+
+        void AddFutureFpses(IFpsContainer fpsContainer);
+
+        bool HaveToRemovePastFps();
+
+        bool HaveToAddFutureFps();
     }
 }

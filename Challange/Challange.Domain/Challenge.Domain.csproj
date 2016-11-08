@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="Services\Replay\IZoomer.cs" />
     <Compile Include="Services\StreamProcess\Abstract\ICamerasContainer.cs" />
+    <Compile Include="Services\Video\Abstract\IFpsContainer.cs" />
     <Compile Include="Services\Video\Abstract\IChallengeBuffer.cs" />
     <Compile Include="Abstract\ICamera.cs" />
     <Compile Include="Abstract\IFps.cs" />
