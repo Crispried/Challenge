@@ -28,6 +28,19 @@ namespace Challange.UnitTests.Services.SettingParsers
         }
 
         [Test]
+        public void SettingsFilePathPropertyTest()
+        {
+            // Arrange
+            string path = "path";
+
+            // Act
+            parser.SettingsFilePath = path;
+
+            // Assert
+            Assert.AreEqual(path, parser.SettingsFilePath);
+        }
+
+        [Test]
         public void SaveSettingsRetunsTrueIfSettingsFileWasFound()
         {
             // Arrange
@@ -63,6 +76,17 @@ namespace Challange.UnitTests.Services.SettingParsers
             Assert.NotNull(settings);
         }
 
-        // Test catch case
+        [Test]
+        public void GetSettingsRetunsSettingsTestException()
+        {
+            // Arrange
+            parser.SettingsFilePath = null;
+
+            // Act
+            var settings = parser.GetSettings();
+
+            // Assert
+            Assert.Null(settings);
+        }
     }
 }

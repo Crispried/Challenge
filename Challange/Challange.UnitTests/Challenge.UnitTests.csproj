@@ -141,10 +141,12 @@
     <Compile Include="Services\Message\MessageParserTest.cs" />
     <Compile Include="Services\Replay\ZoomCalculatorTest.cs" />
     <Compile Include="Services\Replay\ZoomerTest.cs" />
+    <Compile Include="Services\Settings\SettingsContextTest.cs" />
     <Compile Include="Services\Settings\RewindSettingsParserTest.cs" />
     <Compile Include="Services\Settings\FtpSettingsParserTest.cs" />
     <Compile Include="Services\Settings\PlayerPanelSettingsParserTest.cs" />
     <Compile Include="Services\Settings\ChallengeSettingsParserTest.cs" />
+    <Compile Include="Services\Settings\NullSettingsContainerTest.cs" />
     <Compile Include="Services\Settings\SettingsServiceTest.cs" />
     <Compile Include="Entity\CamerasContainerTests.cs" />
     <Compile Include="Infrastructure\ArchivatorTests.cs" />

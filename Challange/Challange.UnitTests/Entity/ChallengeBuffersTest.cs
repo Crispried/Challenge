@@ -52,9 +52,11 @@ namespace Challange.UnitTests.Entity
         public void GetPastCameraRecordsValueByKeyReturnProperValue()
         {
             // Arrange
+
             // Act
             List<IFps> outputFpsList1 = buffers.GetPastCameraRecordsValueByKey(key1);
             List<IFps> outputFpsList2 = buffers.GetPastCameraRecordsValueByKey(key1);
+
             // Assert
             Assert.NotNull(outputFpsList1);
             Assert.NotNull(outputFpsList2);
