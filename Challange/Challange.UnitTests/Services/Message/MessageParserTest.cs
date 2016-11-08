@@ -23,13 +23,14 @@ namespace Challange.UnitTests.Services.Message
         public void GetMessage()
         {
             // Arrange
-            string message = "Ooops it looks like there are not any connected devices.";
+            string pathToFile = @"Message/message_info.xml";
+            string caption = messageParser.GetMessage(MessageType.EmptyDeviceContainer).Caption;
 
             // Act
-            ChallengeMessage receivedMessage = messageParser.GetMessage(MessageType.EmptyDeviceContainer);
+            ChallengeMessage receivedMessage = messageParser.GetMessage(MessageType.EmptyDeviceContainer, pathToFile);
 
             // Assert
-            Assert.AreEqual(receivedMessage.Text, message);
+            Assert.AreEqual(caption, receivedMessage.Caption);
         }
     }
 }
