@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using System.IO;
-using Challange.Domain.Infrastructure;
+using Challange.Domain.Services.FileSystem;
 
 namespace Challange.UnitTests.Infrastructure
 {

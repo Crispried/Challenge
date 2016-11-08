@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Challange.Domain.Infrastructure;
 using Challange.Domain.Services.Settings.SettingTypes;
 using static PylonC.NETSupportLibrary.DeviceEnumerator;
 using Challange.Domain.Entities;
 using System.IO;
+using Challange.Domain.Services.FileSystem;
 
 namespace Challange.UnitTests
 {

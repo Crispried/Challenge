@@ -13,7 +13,6 @@ using Challange.Domain.Services.Settings.SettingTypes;
 using Moq;
 using Challange.Domain.Services.Settings.SettingParser;
 using Challange.Domain.Services.Settings;
-using Challange.Domain.Infrastructure;
 using Challange.Domain.Services.Message;
 
 namespace Challange.UnitTests.Presenters

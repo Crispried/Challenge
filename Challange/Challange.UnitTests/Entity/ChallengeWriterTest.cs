@@ -11,6 +11,7 @@ using PylonC.NET;
 using Challange.Domain.Abstract;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using NSubstitute;
+using Challange.Domain.Servuces.Video.Concrete;
 
 namespace Challange.UnitTests.Entity
 {

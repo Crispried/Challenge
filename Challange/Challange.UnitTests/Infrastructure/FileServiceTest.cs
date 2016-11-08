@@ -6,9 +6,9 @@ using System.Text;
 using System.IO;
 using System.Threading.Tasks;
 using Challange.Domain.Entities;
-using Challange.Domain.Infrastructure;
 using Challange.Domain.Services.Settings.SettingTypes;
 using NSubstitute;
+using Challange.Domain.Services.FileSystem;
 
 namespace Challange.UnitTests.Infrastructure
 {

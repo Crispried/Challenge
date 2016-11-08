@@ -1,19 +1,12 @@
 ﻿using Challange.Domain.Entities;
-using Challange.Domain.Infrastructure;
 using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings;
-using Challange.Domain.Services.Settings.SettingParser;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Presenter.Base;
 using Challange.Presenter.Presenters.FtpSettingsPresenter;
 using Challange.Presenter.Views;
 using NSubstitute;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Challange.UnitTests.Presenters
 {

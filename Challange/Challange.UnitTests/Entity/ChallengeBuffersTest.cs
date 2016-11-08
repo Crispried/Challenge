@@ -10,16 +10,18 @@ using static PylonC.NETSupportLibrary.DeviceEnumerator;
 using Challange.Domain.Abstract;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using NSubstitute;
+using Challange.Domain.Servuces.Video.Concrete;
+using Challange.Domain.Services.Video.Abstract;
 
 namespace Challange.UnitTests.Entity
 {
     class ChallengeBuffersTest : TestCase
     {
         private IFps fps;
-        private FpsContainer fpsContainer;
+        private IFpsContainer fpsContainer;
         private Bitmap bitmap;
         private ICamerasContainer camerasContainer;
-        private ChallengeBuffers buffers;
+        private IChallengeBuffer buffers;
         private List<Device> camerasInfo;
         private int maxElementsInPastCollection;
         private int maxElementsInFutureCollection;
@@ -35,16 +37,14 @@ namespace Challange.UnitTests.Entity
             camerasInfo = InitializeCamerasInfo();
             bitmap = new Bitmap(imagePath);
             camerasContainer = Substitute.For<ICamerasContainer>();
-            fpsContainer = new FpsContainer(camerasContainer.GetCamerasKeys);
+            fpsContainer = Substitute.For<IFpsContainer>();
             fps = fpsContainer.GetFpsByKey(key1);
             fps.AddFrame(bitmap);
             fps = fpsContainer.GetFpsByKey(key2);
             fps.AddFrame(bitmap);
             maxElementsInPastCollection = 10;
             maxElementsInFutureCollection = 10;
-            buffers = new ChallengeBuffers(camerasContainer,
-                        maxElementsInPastCollection,
-                        maxElementsInFutureCollection);
+            buffers = Substitute.For<IChallengeBuffer>();
             buffers.AddFutureFpses(fpsContainer);
             buffers.AddPastFpses(fpsContainer);
         }
