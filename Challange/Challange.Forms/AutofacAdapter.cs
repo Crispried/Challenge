@@ -33,6 +33,11 @@ namespace Challange.Forms
             builder.RegisterType<TImplementation>().As<TService>();
         }
 
+        public void RegisterSingleton<TService, TImplementation>() where TImplementation : TService
+        {
+            builder.RegisterType<TImplementation>().As<TService>().SingleInstance();
+        }
+
         public void RegisterInstance<T>(T instance) where T : class
         {
             builder.RegisterInstance(instance);

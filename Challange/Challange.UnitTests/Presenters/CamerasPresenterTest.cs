@@ -37,9 +37,8 @@ namespace Challange.UnitTests.Presenters
         public void RunIfDeviceListIsNotEmpty()
         {
             // Arrange
-            Device device = CreateTestDevice();
-            devices.Add(device);
-            SetArgument(devices);
+            SetArgument();
+            argument.IsEmpty().Returns(false);
             presenter.Run(argument);
             // Act
             // Assert
@@ -52,8 +51,8 @@ namespace Challange.UnitTests.Presenters
         public void RunIfDeviceListIsEmpty()
         {
             // Arrange
-            devices.Clear();
-            SetArgument(devices);
+            SetArgument();
+            argument.IsEmpty().Returns(true);
             presenter.Run(argument);
             // Act
             // Assert
@@ -62,9 +61,9 @@ namespace Challange.UnitTests.Presenters
             view.Received().Show();
         }
 
-        private void SetArgument(List<Device> devices)
+        private void SetArgument()
         {
-            argument = Substitute.For<ICamerasContainer>(devices);
+            argument = Substitute.For<ICamerasContainer>();
         }
 
         private Device CreateTestDevice()

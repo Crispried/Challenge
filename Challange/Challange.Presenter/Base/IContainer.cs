@@ -8,6 +8,9 @@ namespace Challange.Presenter.Base
         void Register<TService, TImplementation>() 
                 where TImplementation : TService;
 
+        void RegisterSingleton<TService, TImplementation>()
+                where TImplementation : TService;
+
         void Register<TService>();
 
         void RegisterInstance<T>(T instance) where T : class;

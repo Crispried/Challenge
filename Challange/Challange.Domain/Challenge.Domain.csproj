@@ -70,6 +70,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Services\Event\IEventSubscriber.cs" />
     <Compile Include="Services\Replay\IZoomer.cs" />
     <Compile Include="Services\StreamProcess\Abstract\ICamerasContainer.cs" />
     <Compile Include="Services\Video\Abstract\IChallengeObject.cs" />
@@ -81,7 +82,7 @@
     <Compile Include="Services\Video\Concrete\ChallengeObject.cs" />
     <Compile Include="Services\Video\Concrete\ChallengeBuffers.cs" />
     <Compile Include="Services\Video\Concrete\ChallengeReader.cs" />
-    <Compile Include="Entities\EventSubscriber.cs" />
+    <Compile Include="Services\Event\EventSubscriber.cs" />
     <Compile Include="Entities\Fps.cs" />
     <Compile Include="Services\Video\Concrete\FpsContainer.cs" />
     <Compile Include="Entities\FtpConnector.cs" />

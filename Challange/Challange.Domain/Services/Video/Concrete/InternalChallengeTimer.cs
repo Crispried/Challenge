@@ -1,4 +1,5 @@
 ﻿using Challange.Domain.Entities;
+using Challange.Domain.Services.Event;
 using Challange.Domain.Services.Video.Abstract;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,13 @@ namespace Challange.Domain.Servuces.Video.Concrete
     {
         private Timer timer;
         private Delegate timerElapsedEventHandler;
+        private IEventSubscriber eventSubscriber;
 
-        public InternalChallengeTimer()
+        public InternalChallengeTimer(IEventSubscriber eventSubscriber)
         {
             timer = new Timer(1000);
             timer.AutoReset = true;
+            this.eventSubscriber = eventSubscriber;
         }
 
         public Delegate TimerElapsedEventHandler
@@ -47,13 +50,13 @@ namespace Challange.Domain.Servuces.Video.Concrete
 
         public void EnableTimerEvent(Action action)
         {
-            timerElapsedEventHandler = EventSubscriber.AddEventHandler
+            timerElapsedEventHandler = eventSubscriber.AddEventHandler
                     (timer, "Elapsed", action);
         }
 
         public void DisableTimerEvent()
         {
-            EventSubscriber.RemoveEventHandler(timer, "Elapsed",
+            eventSubscriber.RemoveEventHandler(timer, "Elapsed",
                 timerElapsedEventHandler);
         }
     }
