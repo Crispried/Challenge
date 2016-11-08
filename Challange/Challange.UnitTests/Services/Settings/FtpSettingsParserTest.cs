@@ -8,7 +8,7 @@ using NSubstitute;
 using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.Settings.SettingParser;
-using Challange.Domain.Infrastructure;
+using Challange.Domain.Services.FileSystem;
 
 namespace Challange.UnitTests.Services.SettingParsers
 {

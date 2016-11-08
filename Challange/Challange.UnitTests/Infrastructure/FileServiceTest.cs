@@ -6,9 +6,9 @@ using System.Text;
 using System.IO;
 using System.Threading.Tasks;
 using Challange.Domain.Entities;
-using Challange.Domain.Infrastructure;
 using Challange.Domain.Services.Settings.SettingTypes;
 using NSubstitute;
+using Challange.Domain.Services.FileSystem;
 
 namespace Challange.UnitTests.Infrastructure
 {
@@ -16,11 +16,13 @@ namespace Challange.UnitTests.Infrastructure
     class FileServiceTest : TestCase
     {
         private IProcessStarter processStarter;
+        private IFileService fileService;
 
         [SetUp]
         public void SetUp()
         {
             processStarter = Substitute.For<IProcessStarter>();
+            fileService = new FileService(processStarter);
         }
 
         [Test]
@@ -30,7 +32,7 @@ namespace Challange.UnitTests.Infrastructure
             string folderName = "folder:name";
 
             // Act
-            string filtered = FilterFolderName(folderName);
+            string filtered = fileService.FilterFolderName(folderName);
             string expected = "folder_name";
 
             // Assert
@@ -44,13 +46,13 @@ namespace Challange.UnitTests.Infrastructure
             string path = "test2";
 
             // Act
-            CreateDirectory(path);
+            fileService.CreateDirectory(path);
 
             // Assert
-            Assert.True(DirectoryExists(path));
+            Assert.True(Directory.Exists(path));
 
             // Delete
-            DeleteDirectory(path);
+            fileService.DeleteFile(path);
         }
 
         [Test]
@@ -58,13 +60,13 @@ namespace Challange.UnitTests.Infrastructure
         {
             // Arrange
             string fileName = "testFile.txt";
-            CreateFile(fileName);
+            File.Create(fileName).Dispose();
 
             // Act
-            DeleteFile(fileName);
+            fileService.DeleteFile(fileName);
 
             // Assert
-            Assert.False(FileExists(fileName));
+            Assert.False(fileService.FileExists(fileName));
         }
 
         // FAILS and opens the window
@@ -73,16 +75,16 @@ namespace Challange.UnitTests.Infrastructure
         {
             // Arrange
             string path = "test2";
-            CreateDirectory(path);
+            fileService.CreateDirectory(path);
 
             // Act
-            OpenFileOrFolder(path);
+            fileService.OpenFileOrFolder(path);
 
             // Assert
             processStarter.Received().StartProcess(path);
 
             // Delete
-            DeleteDirectory(path);
+            fileService.DeleteFile(path);
         }
     }
 }

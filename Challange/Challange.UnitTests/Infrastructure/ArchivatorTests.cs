@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using System.IO;
-using Challange.Domain.Infrastructure;
+using Challange.Domain.Services.FileSystem;
 
 namespace Challange.UnitTests.Infrastructure
 {
@@ -40,7 +40,7 @@ namespace Challange.UnitTests.Infrastructure
             bool result = Archivate(incorrectInputDirectoryPath,
                                     incorrectOutputFilePath);
             // Assert
-            Assert.IsFalse(FileExists(incorrectOutputFilePath));
+            Assert.IsFalse(fileService.FileExists(incorrectOutputFilePath));
             Assert.IsFalse(result);
         }
             
@@ -53,11 +53,11 @@ namespace Challange.UnitTests.Infrastructure
                                     correctOutputFilePath);
 
             // Assert
-            Assert.IsTrue(FileExists(correctOutputFilePath));
+            Assert.IsTrue(fileService.FileExists(correctOutputFilePath));
             Assert.IsTrue(result);
 
             // Delete
-            DeleteFile(correctOutputFilePath);
+            fileService.DeleteFile(correctOutputFilePath);
         }
 
         private bool Archivate(string from, string to)

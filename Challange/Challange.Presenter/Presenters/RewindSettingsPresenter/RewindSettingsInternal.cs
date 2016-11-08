@@ -14,10 +14,7 @@ namespace Challange.Presenter.Presenters.RewindSettingsPresenter
 
         private void SaveSettings(RewindSettings newSettings)
         {
-            var rewindSettingsParser =
-                new SettingsService<RewindSettings>(
-                new RewindSettingsParser(new FileWorker()));
-            rewindSettingsParser.SaveSetting(newSettings);
+            settingsService.SaveSetting(newSettings);
         }
     }
 }

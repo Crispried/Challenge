@@ -1,5 +1,4 @@
-﻿using Challange.Domain.Infrastructure;
-using Challange.Domain.Services.Message;
+﻿using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingParser;
 using Challange.Domain.Services.Settings.SettingTypes;

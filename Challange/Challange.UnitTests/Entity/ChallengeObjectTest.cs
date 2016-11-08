@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using Challange.Domain.Entities;
 using System.Drawing;
+using Challange.Domain.Servuces.Video.Concrete;
 
 namespace Challange.UnitTests.Entity
 {

@@ -7,6 +7,7 @@ using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using Challange.Domain.Servuces.Video.Concrete;
 using Challange.Presenter.Base;
+using Challange.Presenter.Presenters.CamerasPresenter;
 using Challange.Presenter.Presenters.ChallengeSettingsPresenter;
 using Challange.Presenter.Presenters.GameInformationPresenter;
 using Challange.Presenter.Presenters.MainPresenter;
@@ -165,8 +166,8 @@ namespace Challange.UnitTests.Presenters
         {
             // Arrange
             // Act
-            view.OpenDevicesList += Raise.Event<Action>();
             // Assert
+            controller.ReceivedWithAnyArgs().Run<CamerasPresenter, ICamerasContainer>(null);;
         }
 
         [Test]
