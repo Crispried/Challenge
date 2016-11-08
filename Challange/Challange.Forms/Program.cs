@@ -64,6 +64,7 @@ namespace Challange.Forms
                                 .RegisterService<IMessageParser, MessageParser>()
                                 .RegisterService<IZoomCalculator, ZoomCalculator>()
                                 .RegisterService<IZoomer, Zoomer>()
+                                .RegisterService<IPylonImageProvider, PylonImageProvider>()
                                 .RegisterService<ISettingsParser<PlayerPanelSettings>, PlayerPanelSettingsParser>()
                                 .RegisterService<ISettingsService<PlayerPanelSettings>, SettingsService<PlayerPanelSettings>>()
                                 .RegisterService<ISettingsParser<FtpSettings>, FtpSettingsParser>()

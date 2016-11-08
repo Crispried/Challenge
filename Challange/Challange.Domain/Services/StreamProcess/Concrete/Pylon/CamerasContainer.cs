@@ -81,12 +81,6 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
             }
         }
 
-        public string GetCameraNameByKey(string fullName)
-        {
-            var camera = camerasContainer.Find(cam => cam.FullName == fullName);
-            return camera.Name;
-        }
-
         public void AddCamera(Camera camera)
         {
             camerasContainer.Add(camera);

@@ -3,6 +3,7 @@ using Challange.Domain.Services.StreamProcess.Abstract;
 using PylonC.NETSupportLibrary;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,20 +12,21 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
 {
     public class PylonCamera : Camera
     {
-        private ImageProvider imageProvider;
+        private IPylonImageProvider imageProvider;
         private uint cameraIndex;
 
         public PylonCamera(uint cameraIndex, string fullName)
              : base(cameraIndex.ToString(), FilterFullName(fullName))
         {
             this.cameraIndex = cameraIndex;
-            imageProvider = new ImageProvider();
+            imageProvider = new PylonImageProvider();
             //imageProvider.ImageReadyEvent +=
             //    new ImageProvider.ImageReadyEventHandler(
             //                OnImageReadyEventCallback);
             EventSubscriber.AddEventHandler(imageProvider, "ImageReadyEvent", OnImageReadyEventCallback);
         }
 
+        [ExcludeFromCodeCoverage]
         private void OnImageReadyEventCallback()
         {
             try

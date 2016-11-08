@@ -91,7 +91,7 @@ namespace Challange.Domain.Servuces.Video.Concrete
                         tempVideoFrames.AddRange(pastFrames.Value);
                         tempVideoFrames.AddRange(futureFrames.Value);
                         currentVideoName = 
-                            camerasContainer.GetCameraNameByKey(pastFrames.Key);
+                            camerasContainer.GetCameraByKey(pastFrames.Key).Name;
                         videos.Add(new Video(currentVideoName, tempVideoFrames));
                         break;
                     }

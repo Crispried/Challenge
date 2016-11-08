@@ -24,8 +24,8 @@ namespace Challange.UnitTests.Entity
         [SetUp]
         public void SetUp()
         {
-            camerasInfo = InitializeCamerasInfo();;
-            camerasContainer = Substitute.For<ICamerasContainer>();
+            camerasInfo = InitializeCamerasInfo();
+            camerasContainer = new CamerasContainer();
             camera = Substitute.For<PylonCamera>((uint)1, pylonCameraName);
         }
 
@@ -35,7 +35,7 @@ namespace Challange.UnitTests.Entity
             // Arrange
             // Act
             // Assert
-            Assert.AreEqual(2, camerasContainer.CamerasNumber);
+            Assert.AreEqual(0, camerasContainer.CamerasNumber);
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace Challange.UnitTests.Entity
             AddCamera(camerasContainer, camera);
 
             // Assert
-            Assert.AreEqual(4, camerasContainer.CamerasNumber);
+            Assert.AreEqual(2, camerasContainer.CamerasNumber);
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace Challange.UnitTests.Entity
             AddCamera(camerasContainer, camera);
 
             // Assert
-            Assert.AreEqual(camerasContainer.GetCameras.ElementAt(2), camera);
+            Assert.AreEqual(camerasContainer.GetCameras.ElementAt(0), camera);
         }
 
         [Test]
@@ -73,7 +73,7 @@ namespace Challange.UnitTests.Entity
             RemoveCamera(camerasContainer, camera);
 
             // Assert
-            Assert.AreEqual(2, camerasContainer.CamerasNumber);
+            Assert.AreEqual(0, camerasContainer.CamerasNumber);
         }
 
         [Test]
@@ -129,6 +129,99 @@ namespace Challange.UnitTests.Entity
 
             // Assert
             Assert.AreEqual(camera.Name, receivedCamera.Name);
+        }
+
+        [Test]
+        public void GetCamerasKeysIsEmptyIfNoCamerasProvidedTest()
+        {
+            // Arrange
+
+            // Act
+            List<string> camerasKeys = camerasContainer.GetCamerasKeys;
+
+            // Assert
+            Assert.IsEmpty(camerasKeys);
+        }
+
+        [Test]
+        public void GetCamerasKeysIsNotEmptyIfOneCameraIsProvidedTest()
+        {
+            // Arrange
+            AddCamera(camerasContainer, camera);
+
+            // Act
+            List<string> camerasKeys = camerasContainer.GetCamerasKeys;
+
+            // Assert
+            Assert.AreEqual(1, camerasKeys.Count);
+        }
+
+        [Test]
+        public void GetCamerasNamesIsEmptyIfNoCamerasProvidedTest()
+        {
+            // Arrange
+
+            // Act
+            List<string> camerasNames = camerasContainer.GetCamerasNames;
+
+            // Assert
+            Assert.IsEmpty(camerasNames);
+        }
+
+        [Test]
+        public void GetCamerasNamesIsNotEmptyIfOneCameraIsProvidedTest()
+        {
+            // Arrange
+            AddCamera(camerasContainer, camera);
+
+            // Act
+            List<string> camerasNames = camerasContainer.GetCamerasNames;
+
+            // Assert
+            Assert.AreEqual(1, camerasNames.Count);
+        }
+
+        [Test]
+        public void IsEmptyWithNoCamerasTest()
+        {
+            // Arrange
+
+            // Act
+            bool isEmpty = camerasContainer.IsEmpty();
+
+            // Assert
+            Assert.True(isEmpty);
+        }
+
+        [Test]
+        public void IsEmptyWithOneCameraTest()
+        {
+            // Arrange
+            AddCamera(camerasContainer, camera);
+
+            // Act
+            bool isEmpty = camerasContainer.IsEmpty();
+
+            // Assert
+            Assert.False(isEmpty);
+        }
+
+        [Test]
+        public void InitializeCamerasTest()
+        {
+            // Arrange
+            Device item = new Device();
+            item.Index = 1;
+            item.FullName = "Name";
+
+            List<Device> deviceList = new List<Device>();
+            deviceList.Add(item);
+
+            // Act
+            camerasContainer.InitializeCameras(deviceList);
+
+            // Assert
+            Assert.AreEqual(1, camerasContainer.CamerasNumber);
         }
 
         private void AddCamera(ICamerasContainer container, PylonCamera camera)
