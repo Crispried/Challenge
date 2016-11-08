@@ -8,7 +8,7 @@ using Challange.Domain.Abstract;
 
 namespace Challange.Domain.Services.Video.Abstract
 {
-    public interface IChallengeBuffer
+    public interface IChallengeBuffers
     {
         int MaxElementsInPastCollection { get; set; }
 

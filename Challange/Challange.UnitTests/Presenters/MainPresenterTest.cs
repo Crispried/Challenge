@@ -5,6 +5,7 @@ using Challange.Domain.Services.Replay;
 using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.StreamProcess.Abstract;
+using Challange.Domain.Services.Video.Abstract;
 using Challange.Domain.Servuces.Video.Concrete;
 using Challange.Presenter.Base;
 using Challange.Presenter.Presenters.CamerasPresenter;
@@ -35,6 +36,10 @@ namespace Challange.UnitTests.Presenters
         private ICamerasContainer camerasContainer;
         private IProcessStarter processStarter;
         private IZoomer zoomer;
+        private IChallengeBuffers challengeBuffers;
+        private IFpsContainer fpsContainer;
+        private IInternalChallengeTimer internalChallengeTimer;
+        private IChallengeObject challengeObject;
 
         private PlayerPanelSettings playerPanelSettings;
         private ChallengeSettings challengeSettings;
@@ -55,11 +60,18 @@ namespace Challange.UnitTests.Presenters
             camerasContainer = Substitute.For<ICamerasContainer>();
             processStarter = Substitute.For<IProcessStarter>();
             zoomer = Substitute.For<IZoomer>();
+            challengeBuffers = Substitute.For<IChallengeBuffers>();
+            fpsContainer = Substitute.For<IFpsContainer>();
+            internalChallengeTimer = Substitute.For<IInternalChallengeTimer>();
+            challengeObject = Substitute.For<IChallengeObject>();
+            
             presenter = new MainPresenter(controller, view,
                                     fileService, messageParser,
                                     settingsContext, nullSettingsContainer,
                                     cameraProvider, camerasContainer,
-                                    processStarter, zoomer);
+                                    processStarter, zoomer,
+                                    challengeBuffers, fpsContainer,
+                                    internalChallengeTimer, challengeObject);
             playerPanelSettings = InitializePlayerPanelSettings();
             challengeSettings = InitializeChallengeSettings();
             ftpSettings = InitializeFtpSettings();
@@ -254,7 +266,7 @@ namespace Challange.UnitTests.Presenters
 
         private InternalChallengeTimer InitializeInternalChallengeTimer()
         {
-            return new InternalChallengeTimer(1000, true);
+            return new InternalChallengeTimer();
         }
     }
 }

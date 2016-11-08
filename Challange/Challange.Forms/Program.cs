@@ -22,6 +22,8 @@ using Challange.Domain.Services.Replay;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 using Challange.Domain.Services.FileSystem;
+using Challange.Domain.Services.Video.Abstract;
+using Challange.Domain.Servuces.Video.Concrete;
 
 namespace Challange.Forms
 {
@@ -75,6 +77,10 @@ namespace Challange.Forms
                                 .RegisterService<ICameraProvider, PylonCameraProvider>()
                                 .RegisterService<ICamerasContainer, CamerasContainer>()
                                 .RegisterService<IProcessStarter, ProcessStarter>()
+                                .RegisterService<IChallengeBuffers, ChallengeBuffers>()
+                                .RegisterService<IFpsContainer, FpsContainer>()
+                                .RegisterService<IInternalChallengeTimer, InternalChallengeTimer>()
+                                .RegisterService<IChallengeObject, ChallengeObject>()
                                 .RegisterInstance(new ApplicationContext());
 
 

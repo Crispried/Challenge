@@ -120,7 +120,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
                 InitializeChallengeBuffers();
                 BindPlayersToCameras();
                 InitializeTimeAxisTimer();
-                InitializeInternalTimer();
+                InitializeFpsContainer();
+                EnableTimerEvent(InternalTimerEventForPastFrames);
                 StartDevices();
                 ChangeStreamingStatus(true);
             }
@@ -146,8 +147,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void CreateChallange()
         {
             var challengeTime = GetChallengeTime();
-            challenge = new ChallengeObject(
-                gameInformation.DirectoryName, challengeTime);
+            challenge.Initialize(gameInformation.DirectoryName, challengeTime);
             CreateDirectoryForChallenge();
             ChangeActivityOfEventForPastFrames(false);
             ChangeActivityOfEventForFutureFrames(true);

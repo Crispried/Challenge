@@ -14,12 +14,6 @@ namespace Challange.Domain.Servuces.Video.Concrete
         private Dictionary<string, IFps> fpses;
         private List<string> keys;
 
-        public FpsContainer(List<string> keys)
-        {
-            this.keys = keys;
-            InitializeFpses();
-        }
-
         public Dictionary<string, IFps> Fpses
         {
             get
@@ -36,8 +30,9 @@ namespace Challange.Domain.Servuces.Video.Concrete
             }
         }
 
-        private void InitializeFpses()
+        public void InitializeFpses(List<string> keys)
         {
+            this.keys = keys;
             fpses = new Dictionary<string, IFps>();
             foreach (var key in keys)
             {

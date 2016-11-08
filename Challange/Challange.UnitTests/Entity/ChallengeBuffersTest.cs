@@ -20,7 +20,7 @@ namespace Challange.UnitTests.Entity
         private IFpsContainer fpsContainer;
         private Bitmap bitmap;
         private ICamerasContainer camerasContainer;
-        private IChallengeBuffer buffers;
+        private IChallengeBuffers buffers;
         private List<Device> camerasInfo;
         private int maxElementsInPastCollection;
         private int maxElementsInFutureCollection;
@@ -43,7 +43,7 @@ namespace Challange.UnitTests.Entity
             fps.AddFrame(bitmap);
             maxElementsInPastCollection = 10;
             maxElementsInFutureCollection = 10;
-            buffers = Substitute.For<IChallengeBuffer>();
+            buffers = Substitute.For<IChallengeBuffers>();
             buffers.AddFutureFpses(fpsContainer);
             buffers.AddPastFpses(fpsContainer);
         }

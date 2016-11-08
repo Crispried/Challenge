@@ -19,9 +19,9 @@ namespace Challange.Domain.Servuces.Video.Concrete
         private int height;
         private ICamerasContainer camerasContainer;
 
-        private IChallengeBuffer challengeBuffers;
+        private IChallengeBuffers challengeBuffers;
 
-        public ChallengeWriter(IChallengeBuffer challengeBuffers,
+        public ChallengeWriter(IChallengeBuffers challengeBuffers,
             ICamerasContainer camerasContainer, string pathToVideos)
         {
             this.challengeBuffers = challengeBuffers;

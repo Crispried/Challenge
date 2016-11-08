@@ -1,4 +1,5 @@
 ﻿using Challange.Domain.Entities;
+using Challange.Domain.Services.Video.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,15 +9,15 @@ using System.Timers;
 
 namespace Challange.Domain.Servuces.Video.Concrete
 {
-    public class InternalChallengeTimer
+    public class InternalChallengeTimer : IInternalChallengeTimer
     {
         private Timer timer;
         private Delegate timerElapsedEventHandler;
 
-        public InternalChallengeTimer(double interval, bool autoReset)
+        public InternalChallengeTimer()
         {
-            timer = new Timer(interval);
-            timer.AutoReset = autoReset;
+            timer = new Timer(1000);
+            timer.AutoReset = true;
         }
 
         public Delegate TimerElapsedEventHandler

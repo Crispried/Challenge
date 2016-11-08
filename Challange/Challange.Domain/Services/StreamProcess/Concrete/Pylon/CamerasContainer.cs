@@ -15,9 +15,13 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
     {
         private List<Camera> camerasContainer;
 
-        public void InitializeCameras(List<Device> deviceList)
+        public CamerasContainer()
         {
             camerasContainer = new List<Camera>();
+        }
+
+        public void InitializeCameras(List<Device> deviceList)
+        {
             PylonCamera tmpCamera;
             foreach (var cameraInfo in deviceList)
             {

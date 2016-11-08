@@ -18,6 +18,7 @@ using Challange.Domain.Services.Replay;
 using Challange.Domain.Services.Message;
 using Challange.Domain.Services.FileSystem;
 using Challange.Domain.Servuces.Video.Concrete;
+using Challange.Domain.Services.Video.Abstract;
 
 namespace Challange.Presenter.Presenters.MainPresenter
 {
@@ -30,23 +31,23 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private ChallengeSettings challengeSetting;
         private FtpSettings ftpSetting;
         private RewindSettings rewindSetting;
+        private GameInformation gameInformation;
         private ISettingsContext settingsContext;
         private INullSettingsContainer nullSettingsContainer;
         private IProcessStarter processStarter;
         private IZoomer zoomer;
-        //
-        private GameInformation gameInformation;
+
+
         // video streaming
         private ICamerasContainer camerasContainer;
         private ICameraProvider cameraProvider;
 
-        // challenge
-        private ChallengeBuffers challengeBuffers;
         // this is temporary object which will keep fps objects
         // from all cameras which we create every second
-        private FpsContainer fpsContainer;
-        private InternalChallengeTimer internalChallengeTimer;
-        private ChallengeObject challenge;
+        private IFpsContainer fpsContainer;
+        private IChallengeBuffers challengeBuffers;
+        private IInternalChallengeTimer internalChallengeTimer;
+        private IChallengeObject challenge;
 
 
 
@@ -59,7 +60,11 @@ namespace Challange.Presenter.Presenters.MainPresenter
                              ICameraProvider cameraProvider,
                              ICamerasContainer camerasContainer,
                              IProcessStarter processStarter,
-                             IZoomer zoomer) : 
+                             IZoomer zoomer,
+                             IChallengeBuffers challengeBuffers,
+                             IFpsContainer fpsContainer,
+                             IInternalChallengeTimer internalChallengeTimer,
+                             IChallengeObject challenge) : 
                              base(controller, mainView)
         {
             this.fileService = fileService;
@@ -70,6 +75,10 @@ namespace Challange.Presenter.Presenters.MainPresenter
             this.camerasContainer = camerasContainer;
             this.processStarter = processStarter;
             this.zoomer = zoomer;
+            this.challengeBuffers = challengeBuffers;
+            this.fpsContainer = fpsContainer;
+            this.internalChallengeTimer = internalChallengeTimer;
+            this.challenge = challenge;
             SubscribePresenters();
             gameInformation = new GameInformation();
         }

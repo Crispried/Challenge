@@ -17,5 +17,7 @@ namespace Challange.Domain.Services.Video.Abstract
         IFps GetFpsByKey(string key);
 
         void RemoveFpsByKey(string key);
+
+        void InitializeFpses(List<string> keys);
     }
 }

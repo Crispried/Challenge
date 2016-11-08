@@ -32,7 +32,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
                 challengeBuffers.RemoveFirstFpsFromPastBuffer();
             }
             challengeBuffers.AddPastFpses(fpsContainer);
-            fpsContainer = new FpsContainer(camerasContainer.GetCamerasNames);
+            InitializeFpsContainer();
         }
 
         /// <summary>
@@ -43,13 +43,13 @@ namespace Challange.Presenter.Presenters.MainPresenter
             if (challengeBuffers.HaveToAddFutureFps())
             {
                 challengeBuffers.AddFutureFpses(fpsContainer);
-                fpsContainer = new FpsContainer(camerasContainer.GetCamerasNames);
+                fpsContainer.InitializeFpses(camerasContainer.GetCamerasNames);
             }
             else
             {
                 ChangeActivityOfEventForFutureFrames(false);
                 WriteChallangeAsVideo();
-                fpsContainer = new FpsContainer(camerasContainer.GetCamerasNames);
+                InitializeFpsContainer();
                 InitializeChallengeBuffers();
                 ChangeActivityOfEventForPastFrames(true);
             }
@@ -57,9 +57,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
         
         private void InitializeChallengeBuffers()
         {
-            challengeBuffers = new ChallengeBuffers(camerasContainer,
-                        challengeSetting.NumberOfPastFPS,
-                        challengeSetting.NumberOfFutureFPS);
+            challengeBuffers.MaxElementsInPastCollection = challengeSetting.NumberOfPastFPS;
+            challengeBuffers.MaxElementsInFutureCollection = challengeSetting.NumberOfFutureFPS;
         }
 
         /// <summary>
@@ -71,13 +70,11 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             if (isActive)
             {
-                internalChallengeTimer.EnableTimerEvent(InternalTimerEventForFutureFrames);
-                IsEventForFutureFramesActive = true;
+                EnableTimerEvent(InternalTimerEventForFutureFrames);
             }
             else
             {
-                internalChallengeTimer.DisableTimerEvent();
-                IsEventForFutureFramesActive = false;
+                DisableTimerEvent();
             }
         }
 
@@ -90,13 +87,11 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             if (isActive)
             {
-                internalChallengeTimer.EnableTimerEvent(InternalTimerEventForPastFrames);
-                IsEventForPastFramesActive = true;
+                EnableTimerEvent(InternalTimerEventForPastFrames);
             }
             else
             {
-                internalChallengeTimer.DisableTimerEvent();
-                IsEventForPastFramesActive = false;
+                DisableTimerEvent();
             }
         }
 
@@ -186,17 +181,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void InitializeTimeAxisTimer()
         {
             View.InitializeTimer();
-        }
-
-        /// <summary>
-        /// Initialize internal timer to create FPS object every second
-        /// </summary>
-        private void InitializeInternalTimer()
-        {
-            fpsContainer = new FpsContainer(camerasContainer.GetCamerasNames);
-            internalChallengeTimer = new InternalChallengeTimer(1000, true);
-            internalChallengeTimer.Start();
-            internalChallengeTimer.EnableTimerEvent(InternalTimerEventForPastFrames);
         }
 
         /// <summary>
@@ -355,6 +339,21 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             ChallengeMessage message = messageParser.GetMessage(type);
             View.ShowMessage(message);
+        }
+
+        private void InitializeFpsContainer()
+        {
+            fpsContainer.InitializeFpses(camerasContainer.GetCamerasNames);
+        }
+
+        private void EnableTimerEvent(Action action)
+        {
+            internalChallengeTimer.EnableTimerEvent(action);
+        }
+
+        private void DisableTimerEvent()
+        {
+            internalChallengeTimer.DisableTimerEvent();
         }
     }
 }

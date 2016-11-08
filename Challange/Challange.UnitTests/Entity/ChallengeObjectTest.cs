@@ -20,7 +20,8 @@ namespace Challange.UnitTests.Entity
         [SetUp]
         public void SetUp()
         {
-            challengeObject = new ChallengeObject(pathToRootDirectory, challengeFolderName);  
+            challengeObject = new ChallengeObject();
+            challengeObject.Initialize(pathToRootDirectory, challengeFolderName);
         }
 
         [Test]

@@ -12,6 +12,7 @@ using Challange.Domain.Abstract;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using NSubstitute;
 using Challange.Domain.Servuces.Video.Concrete;
+using Challange.Domain.Services.Video.Abstract;
 
 namespace Challange.UnitTests.Entity
 {
@@ -20,8 +21,8 @@ namespace Challange.UnitTests.Entity
     {
         private List<Device> camerasInfo;
         private ICamerasContainer camerasContainer;
-        private ChallengeBuffers challengeBuffers;
-        private FpsContainer fpsContainer;
+        private IChallengeBuffers challengeBuffers;
+        private IFpsContainer fpsContainer;
         private int maxElementsInPastCollection = 10;
         private int maxElementsInFutureCollection = 10;
         private Dictionary<string, string> camerasNames;
@@ -35,9 +36,8 @@ namespace Challange.UnitTests.Entity
         {
             camerasInfo = InitializeCamerasInfo();
             camerasContainer = Substitute.For<ICamerasContainer>();
-            challengeBuffers = new ChallengeBuffers(camerasContainer, maxElementsInPastCollection,
-                                                                        maxElementsInFutureCollection);
-            fpsContainer = new FpsContainer(camerasContainer.GetCamerasKeys);
+            challengeBuffers = Substitute.For<IChallengeBuffers>();
+            fpsContainer = Substitute.For<IFpsContainer>();
             bitmap = new Bitmap(@"bitmap/bitmap.jpg");
             fpsItem = fpsContainer.GetFpsByKey("FullName1");
             fpsItem.AddFrame(bitmap);

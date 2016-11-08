@@ -1,4 +1,5 @@
 ﻿using Challange.Domain.Entities;
+using Challange.Domain.Services.Video.Abstract;
 using Challange.Domain.Servuces.Video.Concrete;
 using NUnit.Framework;
 using System;
@@ -12,7 +13,7 @@ namespace Challange.UnitTests.Entity
     [TestFixture]
     class FpsContainerTest
     {
-        private FpsContainer fpsContainer;
+        private IFpsContainer fpsContainer;
 
         private string pathToImage = @"bitmap\bitmap.jpg";
 
@@ -26,7 +27,8 @@ namespace Challange.UnitTests.Entity
             };
 
             // Act
-            fpsContainer = new FpsContainer(keys);
+            fpsContainer = new FpsContainer();
+            fpsContainer.InitializeFpses(keys);
             // Assert
             Assert.IsNotNull(fpsContainer.Fpses);
             Assert.IsTrue(fpsContainer.Fpses.Count == keys.Count);
@@ -40,7 +42,8 @@ namespace Challange.UnitTests.Entity
             {
                 "1", "2"
             };
-            fpsContainer = new FpsContainer(keys);
+            fpsContainer = new FpsContainer();
+            fpsContainer.InitializeFpses(keys);
             // Act
             var fps = fpsContainer.GetFpsByKey("1");
             var image = new System.Drawing.Bitmap(pathToImage);

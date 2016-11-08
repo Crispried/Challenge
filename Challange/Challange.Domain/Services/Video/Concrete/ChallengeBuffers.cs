@@ -11,18 +11,15 @@ using Challange.Domain.Services.Video.Abstract;
 
 namespace Challange.Domain.Servuces.Video.Concrete
 {
-    public class ChallengeBuffers : IChallengeBuffer
+    public class ChallengeBuffers : IChallengeBuffers
     {
         private Dictionary<string, List<IFps>> pastCameraRecords;
         private Dictionary<string, List<IFps>> futureCameraRecords;
-        private int maxElementsInPastCollection;
-        private int maxElementsInFutureCollection;
+        private int maxElementsInPastCollection = 20;
+        private int maxElementsInFutureCollection = 20;
 
-        public ChallengeBuffers(ICamerasContainer camerasContainer,
-            int maxElementsInPastCollection, int maxElementsInFutureCollection)
+        public ChallengeBuffers(ICamerasContainer camerasContainer)
         {
-            this.maxElementsInPastCollection = maxElementsInPastCollection;
-            this.maxElementsInFutureCollection = maxElementsInFutureCollection;
             InitializeBuffers(camerasContainer);
         }
 

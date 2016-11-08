@@ -23,8 +23,7 @@ namespace Challange.UnitTests.Entity
         {
             interval = 100;
             autoReset = true;
-            internalChallengeTimer =
-                    new InternalChallengeTimer(interval, autoReset);
+            internalChallengeTimer = new InternalChallengeTimer();
             internalChallengeTimer.Start();
         }
 
