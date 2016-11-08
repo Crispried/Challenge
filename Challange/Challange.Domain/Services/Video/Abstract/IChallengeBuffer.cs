@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Challange.Domain.Entities;
+using Challange.Domain.Abstract;
 
-namespace Challange.Domain.Abstract
+namespace Challange.Domain.Services.Video.Abstract
 {
     public interface IChallengeBuffer
     {

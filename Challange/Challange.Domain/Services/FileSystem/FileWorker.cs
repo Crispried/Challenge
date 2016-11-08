@@ -2,7 +2,7 @@
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Challange.Domain.Infrastructure
+namespace Challange.Domain.Services.FileSystem
 {
     public class FileWorker : IFileWorker
     {

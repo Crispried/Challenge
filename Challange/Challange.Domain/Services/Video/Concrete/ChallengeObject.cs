@@ -1,11 +1,10 @@
-﻿using Challange.Domain.Infrastructure;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Challange.Domain.Entities
+namespace Challange.Domain.Servuces.Video.Concrete
 {
     public class ChallengeObject
     {

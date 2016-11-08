@@ -1,12 +1,4 @@
-﻿using Challange.Domain.Infrastructure;
-using Challange.Domain.Services.Settings;
-using Challange.Domain.Services.Settings.SettingParser;
-using Challange.Domain.Services.Settings.SettingTypes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Challange.Domain.Services.Settings.SettingTypes;
 
 namespace Challange.Presenter.Presenters.ChallengeSettingsPresenter
 {

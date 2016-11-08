@@ -1,6 +1,7 @@
 ﻿using Challange.Domain.Entities;
 using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings.SettingTypes;
+using Challange.Domain.Servuces.Video.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

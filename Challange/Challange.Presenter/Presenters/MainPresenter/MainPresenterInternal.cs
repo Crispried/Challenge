@@ -1,5 +1,4 @@
 ﻿using Challange.Domain.Entities;
-using Challange.Domain.Infrastructure;
 using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingParser;
@@ -7,6 +6,7 @@ using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using Challange.Domain.Services.StreamProcess.Concrete;
 using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
+using Challange.Domain.Servuces.Video.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

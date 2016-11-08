@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using Challange.Domain.Entities;
 using System.Timers;
-using Challange.Domain.Infrastructure;
 using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 using System.Drawing;
 using static PylonC.NETSupportLibrary.DeviceEnumerator;
@@ -17,6 +16,8 @@ using Challange.Domain.Services.StreamProcess.Abstract;
 using System.Linq;
 using Challange.Domain.Services.Replay;
 using Challange.Domain.Services.Message;
+using Challange.Domain.Services.FileSystem;
+using Challange.Domain.Servuces.Video.Concrete;
 
 namespace Challange.Presenter.Presenters.MainPresenter
 {
