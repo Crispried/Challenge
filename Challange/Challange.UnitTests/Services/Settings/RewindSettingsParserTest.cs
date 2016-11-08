@@ -77,5 +77,18 @@ namespace Challange.UnitTests.Services.SettingParsers
             // Assert
             Assert.AreEqual(path, parser.SettingsFilePath);
         }
+
+        [Test]
+        public void GetSettingsRetunsSettingsTestException()
+        {
+            // Arrange
+            parser.SettingsFilePath = null;
+
+            // Act
+            var settings = parser.GetSettings();
+
+            // Assert
+            Assert.Null(settings);
+        }
     }
 }
