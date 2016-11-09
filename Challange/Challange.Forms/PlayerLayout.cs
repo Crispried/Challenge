@@ -37,11 +37,15 @@ namespace Challange.Forms
         private Control challengePlayerPanel;
         private Form form;
 
-        public PlayerLayout(Form form)
+        public PlayerLayout()
         {
-            this.form = form;
             allPlayers = new List<PictureBox>();
             fullScreenButtonsList = new List<Button>();
+        }
+
+        public void BindForm(Form form)
+        {
+            this.form = form;
         }
 
         private void ShowFullScreen_Click(object sender, EventArgs e)

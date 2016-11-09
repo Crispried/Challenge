@@ -19,7 +19,7 @@ namespace Challange.Domain.Servuces.Video.Concrete
         {
             this.pathToRootDirectory = pathToRootDirectory;
             this.challengeFolderName = challengeFolderName;
-            this.pathToChallengeDirectory = pathToRootDirectory + @"/" + challengeFolderName;
+            pathToChallengeDirectory = pathToRootDirectory + @"/" + challengeFolderName.Replace(":", "_");
         }
 
         public string PathToRootDirectory

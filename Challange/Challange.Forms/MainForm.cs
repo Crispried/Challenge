@@ -79,6 +79,7 @@ namespace Challange.Forms
                             Invoke(OpenChallengePlayerForLastChallenge);
             allPlayers = new List<PictureBox>();
             fullScreenButtonsList = new List<Button>();
+            BindForm(this);
         }
 
         public void Player_MouseHover(object sender, EventArgs e)
@@ -88,6 +89,25 @@ namespace Challange.Forms
             {
                 SetBorderStyle(BorderStyle.Fixed3D, pictureBox);
             }
+        }
+
+        // Temporary solution
+        public void DrawPlayers(int numberOfPlayers, Control challengePlayerPanel)
+        {
+
+        }
+
+        public void InitializePlayers(Dictionary<string, Bitmap> initialData)
+        {
+
+        }
+
+
+        //
+
+        public void BindForm(Form form)
+        {
+            playerLayout.BindForm(form);
         }
 
         public void Player_MouseLeave(object sender, EventArgs e)

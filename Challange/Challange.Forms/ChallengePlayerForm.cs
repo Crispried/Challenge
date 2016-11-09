@@ -23,9 +23,22 @@ namespace Challange.Forms
         {
             InitializeComponent();
             this.playerLayout = playerLayout;
+            BindForm(this);
         }
 
         public event Action<string> OpenBroadcastForm;
+
+        // Temporary solution
+        public void DrawPlayers(int numberOfPlayers, Control challengePlayerPanel)
+        {
+
+        }
+        //
+
+        public void BindForm(Form form)
+        {
+            playerLayout.BindForm(form);
+        }
 
         public void DrawPlayers(int numberOfPlayers)
         {

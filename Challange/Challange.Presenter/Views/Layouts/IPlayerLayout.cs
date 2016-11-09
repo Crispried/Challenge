@@ -11,6 +11,8 @@ namespace Challange.Presenter.Views.Layouts
 {
     public interface IPlayerLayout : ILayout
     {
+        void BindForm(Form form);
+
         void DrawPlayers(int numberOfPlayers, Control challengePlayerPanel);
 
         void InitializePlayers(Dictionary<string, Bitmap> initialData);
