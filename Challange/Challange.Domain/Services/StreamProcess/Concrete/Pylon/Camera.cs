@@ -14,6 +14,7 @@ using Challange.Domain.Services.StreamProcess.Abstract;
 
 namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
 {
+    [ExcludeFromCodeCoverage]
     public class Camera : ICamera
     {
         private Bitmap currentFrame;
@@ -31,22 +32,18 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
         /// </summary>
         private string name;
 
-        private IPylonImageProvider imageProvider;
+        private ImageProvider imageProvider;
         private uint cameraIndex;
 
-        private IEventSubscriber eventSubscriber;
-
-        public Camera(uint cameraIndex, string fullName, IEventSubscriber eventSubscriber)
+        public Camera(uint cameraIndex, string fullName)
         {
             this.cameraIndex = cameraIndex;
-            this.eventSubscriber = eventSubscriber;
             this.name = cameraIndex.ToString();
             this.fullName = FilterFullName(fullName);
-            imageProvider = new PylonImageProvider();
-            eventSubscriber.AddEventHandler(imageProvider, "ImageReadyEvent", OnImageReadyEventCallback);
-        }
+            imageProvider = new ImageProvider();
 
-        [ExcludeFromCodeCoverage]
+            imageProvider.ImageReadyEvent += OnImageReadyEventCallback;
+        }
         private void OnImageReadyEventCallback()
         {
             try
@@ -107,7 +104,6 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
             }
         }
 
-//        public delegate void NewFrameEventHandler(Bitmap frame, string cameraName);
         public event EventHandler<NewFrameEventArgs> NewFrameEvent;
 
         protected void OnNewFrameEvent(Bitmap frame, string cameraName)
@@ -183,6 +179,8 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
             return name.GetHashCode() ^ fullName.GetHashCode();
         }
     }
+
+    [ExcludeFromCodeCoverage]
     public class NewFrameEventArgs : EventArgs
     {
         public Bitmap Frame { get; set; }

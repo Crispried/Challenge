@@ -3,7 +3,7 @@ using Challange.Domain.Entities;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.FileSystem;
 
-namespace Challange.UnitTests.Infrastructure
+namespace Challange.UnitTests.Services.FileSystem
 {
     [TestFixture]
     class FileWorkerTests : TestCase

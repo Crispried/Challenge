@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Challange.UnitTests.Entity
+namespace Challange.UnitTests.Services.Video
 {
     [TestFixture]
     class FpsContainerTest

@@ -8,6 +8,7 @@ using NUnit.Framework;
 using System.Timers;
 using System.Reflection;
 using System.Threading;
+using Challange.Domain.Services.Event;
 
 namespace Challange.UnitTests.Entity
 {
@@ -17,10 +18,12 @@ namespace Challange.UnitTests.Entity
         private System.Timers.Timer timer;
         private bool eventWasRaised;
         private double interval;
+        private EventSubscriber eventSubscriber;
 
         [SetUp]
         public void SetUp()
         {
+            eventSubscriber = new EventSubscriber();
             interval = 100;
             timer = new System.Timers.Timer(interval);
             timer.Start();
@@ -52,6 +55,24 @@ namespace Challange.UnitTests.Entity
             Assert.False(eventWasRaised);
         }
 
+        [Test]
+        public void SubscribeToEventUsingHandlerWithArgs()
+        {
+            // Arrange
+            eventWasRaised = false;
+            // Act
+            var handler = AddEventHandlerWithParameters();
+            // Assert
+            Thread.Sleep(Convert.ToInt16(interval * 2));
+            Assert.True(eventWasRaised);
+            timer.Enabled = false;
+        }
+
+        private void TimerElapsedWithParameters(object obj, EventArgs e)
+        {
+            eventWasRaised = true;
+        }
+
         private void TimerElapsed()
         {
             eventWasRaised = true;
@@ -59,14 +80,21 @@ namespace Challange.UnitTests.Entity
 
         private Delegate AddEventHandler()
         {
-            var timerEventHandler = EventSubscriber.AddEventHandler(timer,
+            var timerEventHandler = eventSubscriber.AddEventHandler(timer,
                                 "Elapsed", TimerElapsed);
+            return timerEventHandler;
+        }
+
+        private Delegate AddEventHandlerWithParameters()
+        {
+            var timerEventHandler = eventSubscriber.AddEventHandler(timer,
+                                "Elapsed", TimerElapsedWithParameters);
             return timerEventHandler;
         }
 
         private void RemoveEventHandler(Delegate handler)
         {
-            EventSubscriber.RemoveEventHandler(timer, "Elapsed", handler);
+            eventSubscriber.RemoveEventHandler(timer, "Elapsed", handler);
         }
     }
 }

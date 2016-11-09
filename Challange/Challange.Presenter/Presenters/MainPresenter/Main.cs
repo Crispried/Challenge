@@ -51,8 +51,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private IChallengeObject challenge;
         private IEventSubscriber eventSubscriber;
 
-
-
         public MainPresenter(IApplicationController controller,
                              IMainView mainView,
                              IFileService fileService,

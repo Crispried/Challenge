@@ -1,4 +1,5 @@
 ﻿using Challange.Domain.Entities;
+using Challange.Domain.Services.Event;
 using Challange.Domain.Services.StreamProcess.Concrete;
 using System;
 using System.Collections.Generic;

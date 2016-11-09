@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace Challange.Domain.Services.StreamProcess.Abstract
         /// <summary>
         /// returns all names of connected cameras
         /// </summary>
-        /// <returns>List of type Devuce</returns>
-        List<Device> GetConnectedCameras();
+        /// <returns>List of type camera</returns>
+        List<Camera> GetConnectedCameras();
     }
 }

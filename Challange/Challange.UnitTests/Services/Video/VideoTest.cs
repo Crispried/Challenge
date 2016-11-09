@@ -9,7 +9,7 @@ using System.Drawing;
 using Challange.Domain.Abstract;
 using Challange.Domain.Servuces.Video.Concrete;
 
-namespace Challange.UnitTests.Entity
+namespace Challange.UnitTests.Services.Video
 {
     [TestFixture]
     class VideoTest
@@ -28,7 +28,8 @@ namespace Challange.UnitTests.Entity
         public void FpsValueIsProperlyCounted()
         {
             // Arrange
-            Video video = new Video("Video", fpsList);
+            Challange.Domain.Servuces.Video.Concrete.Video video =
+                new Challange.Domain.Servuces.Video.Concrete.Video("Video", fpsList);
 
             // Act
 

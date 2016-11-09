@@ -8,7 +8,7 @@ using Challange.Domain.Entities;
 using System.Drawing;
 using Challange.Domain.Servuces.Video.Concrete;
 
-namespace Challange.UnitTests.Entity
+namespace Challange.UnitTests.Services.Video
 {
     [TestFixture]
     class ChallengeObjectTest

@@ -39,7 +39,7 @@ namespace Challange.Forms
             Environment.SetEnvironmentVariable("PYLON_GIGE_HEARTBEAT", "5000" /*ms*/);
 #endif
             Pylon.Initialize();
-            try
+          //  try
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
@@ -65,7 +65,6 @@ namespace Challange.Forms
                                 .RegisterService<IMessageParser, MessageParser>()
                                 .RegisterService<IZoomCalculator, ZoomCalculator>()
                                 .RegisterService<IZoomer, Zoomer>()
-                                .RegisterService<IPylonImageProvider, PylonImageProvider>()
                                 .RegisterService<ISettingsParser<PlayerPanelSettings>, PlayerPanelSettingsParser>()
                                 .RegisterService<ISettingsService<PlayerPanelSettings>, SettingsService<PlayerPanelSettings>>()
                                 .RegisterService<ISettingsParser<FtpSettings>, FtpSettingsParser>()
@@ -84,6 +83,7 @@ namespace Challange.Forms
                                 .RegisterService<IInternalChallengeTimer, InternalChallengeTimer>()
                                 .RegisterService<IChallengeObject, ChallengeObject>()
                                 .RegisterServiceAsSingleton<IEventSubscriber, EventSubscriber>()
+                                .RegisterService<System.Timers.Timer>()
                                 .RegisterInstance(new ApplicationContext());
 
 
@@ -91,10 +91,10 @@ namespace Challange.Forms
                 autofacAdapter.Build();
                 controller.Run<MainPresenter>();
             }
-            catch
+           // catch
             {
-                Pylon.Terminate();
-                throw;
+           //     Pylon.Terminate();
+           //     throw;
             }
             Pylon.Terminate();
         }

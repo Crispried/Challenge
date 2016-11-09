@@ -14,7 +14,7 @@ using NSubstitute;
 using Challange.Domain.Servuces.Video.Concrete;
 using Challange.Domain.Services.Video.Abstract;
 
-namespace Challange.UnitTests.Entity
+namespace Challange.UnitTests.Services.Video
 {
     [TestFixture]
     class ChallengeWriterTest : TestCase

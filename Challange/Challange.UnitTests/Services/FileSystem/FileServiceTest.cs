@@ -10,7 +10,7 @@ using Challange.Domain.Services.Settings.SettingTypes;
 using NSubstitute;
 using Challange.Domain.Services.FileSystem;
 
-namespace Challange.UnitTests.Infrastructure
+namespace Challange.UnitTests.Services.FileSystem
 {
     [TestFixture]
     class FileServiceTest : TestCase

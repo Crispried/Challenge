@@ -16,7 +16,7 @@ namespace Challange.UnitTests.Services.StreamProcess.Concrete.Pylon
         private uint index;
         private string fullName;
         private ICamera camera;
-        private IPylonImageProvider imageProvider;
+        private ImageProvider imageProvider;
 
         [SetUp]
         public void SetUp()
@@ -24,7 +24,7 @@ namespace Challange.UnitTests.Services.StreamProcess.Concrete.Pylon
             index = 1;
             fullName = "FullName";
             camera = Substitute.For<ICamera>();
-            imageProvider = Substitute.For<IPylonImageProvider>();
+            imageProvider = Substitute.For<ImageProvider>();
         }
 
         [Test]

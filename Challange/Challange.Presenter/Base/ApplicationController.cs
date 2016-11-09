@@ -27,6 +27,12 @@ namespace Challange.Presenter.Base
             return this;
         }
 
+        public IApplicationController RegisterService<TService>()
+        {
+            container.Register<TService>();
+            return this;
+        }
+
         public IApplicationController RegisterServiceAsSingleton<TService, TImplementation>()
         where TImplementation : class, TService
         {
