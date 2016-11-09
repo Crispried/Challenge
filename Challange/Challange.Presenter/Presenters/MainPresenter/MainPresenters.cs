@@ -116,7 +116,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void StartStream()
         {
             InitializeDevices();
-            if (IsDeviceListEmpty) // DONT FORGET BACK "!" !!!!!!!
+            if (camerasContainer.IsEmpty()) // DONT FORGET BACK "!" !!!!!!!
             {
                 InitializeChallengeBuffers();
                 BindPlayersToCameras();
