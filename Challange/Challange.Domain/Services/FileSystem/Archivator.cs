@@ -1,32 +1,22 @@
-﻿using System.IO.Compression;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.IO.Compression;
 
 namespace Challange.Domain.Services.FileSystem
 {
     public class Archivator
     {
-        private IFileService fileService;
-
-        public Archivator(IFileService fileService)
+        public void Archivate(string sourceDirectoryName, string destinationArchiveFileName)
         {
-            this.fileService = fileService;
-        }
-
-        public bool Archivate(string sourceDirectoryName, string destinationArchiveFileName)
-        {
-            if (!fileService.FileExists(destinationArchiveFileName))
+            try
             {
-                try
-                {
-                    CreateArchiveFromDirectory(sourceDirectoryName, destinationArchiveFileName);
-                }
-                catch
-                {
-                    return false;
-                }
+                CreateArchiveFromDirectory(sourceDirectoryName, destinationArchiveFileName);
             }
-            return true;
+            catch
+            {
+            }
         }
 
+        [ExcludeFromCodeCoverage]
         private void CreateArchiveFromDirectory(string from, string to)
         {
             ZipFile.CreateFromDirectory(from, to);

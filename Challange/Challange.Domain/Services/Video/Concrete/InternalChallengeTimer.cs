@@ -16,10 +16,9 @@ namespace Challange.Domain.Servuces.Video.Concrete
         private Delegate timerElapsedEventHandler;
         private IEventSubscriber eventSubscriber;
 
-        public InternalChallengeTimer(IEventSubscriber eventSubscriber)
+        public InternalChallengeTimer(Timer timer, IEventSubscriber eventSubscriber)
         {
-            timer = new Timer(1000);
-            timer.AutoReset = true;
+            this.timer = timer;
             this.eventSubscriber = eventSubscriber;
         }
 

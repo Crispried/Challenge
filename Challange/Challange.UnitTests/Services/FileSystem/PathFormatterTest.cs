@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using Challange.Domain.Services.FileSystem;
 
-namespace Challange.UnitTests.Infrastructure
+namespace Challange.UnitTests.Services.FileSystem
 {
     [TestFixture]
     class PathFormatterTest

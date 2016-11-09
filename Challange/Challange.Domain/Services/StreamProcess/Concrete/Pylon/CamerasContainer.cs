@@ -1,5 +1,6 @@
 ﻿using Challange.Domain.Abstract;
 using Challange.Domain.Entities;
+using Challange.Domain.Services.Event;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 using System;
@@ -21,17 +22,6 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
         {
             this.cameraProvider = cameraProvider;
             camerasContainer = new List<ICamera>();
-        }
-
-        public void InitializeCameras()
-        {
-            var deviceList = cameraProvider.GetConnectedCameras();
-            ICamera tmpCamera;
-            foreach (var cameraInfo in deviceList)
-            {
-                tmpCamera = new Camera(cameraInfo.Index, cameraInfo.FullName);
-                AddCamera(tmpCamera);
-            }
         }
 
         public int CamerasNumber
@@ -74,6 +64,11 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
                 }
                 return camerasNames;
             }
+        }
+
+        public void InitializeCameras()
+        {
+            var camerasContainer = cameraProvider.GetConnectedCameras();
         }
 
         public void SetCameraName(string fullName, string cameraName)

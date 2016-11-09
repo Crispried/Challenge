@@ -7,7 +7,7 @@ using NUnit.Framework;
 using System.IO;
 using Challange.Domain.Services.FileSystem;
 
-namespace Challange.UnitTests.Infrastructure
+namespace Challange.UnitTests.Services.FileSystem
 {
     [TestFixture]
     class ArchivatorTests : TestCase
@@ -25,7 +25,7 @@ namespace Challange.UnitTests.Infrastructure
         {
             processStarter = new ProcessStarter();
             fileService = new FileService(processStarter);
-            archivator = new Archivator(fileService);
+            archivator = new Archivator();
         }
 
         [Test]
@@ -37,11 +37,10 @@ namespace Challange.UnitTests.Infrastructure
         {
             // Arrange
             // Act
-            bool result = Archivate(incorrectInputDirectoryPath,
+            Archivate(incorrectInputDirectoryPath,
                                     incorrectOutputFilePath);
             // Assert
             Assert.IsFalse(fileService.FileExists(incorrectOutputFilePath));
-            Assert.IsFalse(result);
         }
             
         [Test]
@@ -49,20 +48,19 @@ namespace Challange.UnitTests.Infrastructure
         {
             // Arrange
             // Act
-            bool result = Archivate(correctInputDirectoryPath,
+            Archivate(correctInputDirectoryPath,
                                     correctOutputFilePath);
 
             // Assert
             Assert.IsTrue(fileService.FileExists(correctOutputFilePath));
-            Assert.IsTrue(result);
 
             // Delete
             fileService.DeleteFile(correctOutputFilePath);
         }
 
-        private bool Archivate(string from, string to)
+        private void Archivate(string from, string to)
         {
-            return archivator.Archivate(from, to);
+            archivator.Archivate(from, to);
         }
     }
 }

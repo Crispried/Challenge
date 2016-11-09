@@ -74,8 +74,6 @@
     <Compile Include="Services\Replay\IZoomer.cs" />
     <Compile Include="Services\StreamProcess\Abstract\ICamera.cs" />
     <Compile Include="Services\StreamProcess\Abstract\ICamerasContainer.cs" />
-    <Compile Include="Services\StreamProcess\Concrete\Pylon\IPylonImageProvider.cs" />
-    <Compile Include="Services\StreamProcess\Concrete\Pylon\PylonImageProvider.cs" />
     <Compile Include="Services\Video\Abstract\IChallengeObject.cs" />
     <Compile Include="Services\Video\Abstract\IFpsContainer.cs" />
     <Compile Include="Services\Video\Abstract\IChallengeBuffer.cs" />
