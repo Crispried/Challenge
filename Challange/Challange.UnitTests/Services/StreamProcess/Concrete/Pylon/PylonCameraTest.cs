@@ -26,6 +26,7 @@ namespace Challange.UnitTests.Services.StreamProcess.Concrete.Pylon
             imageProvider = Substitute.For<IPylonImageProvider>();
         }
 
+        // Does not work yet, have to deal with an event
         [Test]
         public void StartTest()
         {
