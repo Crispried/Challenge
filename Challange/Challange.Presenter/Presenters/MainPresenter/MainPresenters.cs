@@ -8,6 +8,7 @@ using System;
 using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using Challange.Domain.Servuces.Video.Concrete;
+using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 
 namespace Challange.Presenter.Presenters.MainPresenter
 {
@@ -193,8 +194,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
 
         public void OpenBroadcastForm(string cameraFullName)
         {
-            Camera cameraForBroadcasting = camerasContainer.GetCameraByKey(cameraFullName);
-            Controller.Run<BroadcastPresenter.BroadcastPresenter, Camera>(cameraForBroadcasting);
+            ICamera cameraForBroadcasting = camerasContainer.GetCameraByKey(cameraFullName);
+            Controller.Run<BroadcastPresenter.BroadcastPresenter, ICamera>(cameraForBroadcasting);
         }
 
         /// <summary>

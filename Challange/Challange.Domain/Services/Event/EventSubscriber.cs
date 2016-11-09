@@ -7,11 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace Challange.Domain.Entities
+namespace Challange.Domain.Services.Event
 {
-    public static class EventSubscriber
+    public class EventSubscriber : IEventSubscriber
     {
-        public static Delegate AddEventHandler(object item,
+        public Delegate AddEventHandler(object item,
                             string eventName, Action action)
         {
             var eventInfo = GetEventInfo(item.GetType(), eventName);
@@ -21,7 +21,7 @@ namespace Challange.Domain.Entities
             return handler;
         }
 
-        public static Delegate AddEventHandler(object item, string eventName, Action<object, EventArgs> action)
+        public Delegate AddEventHandler(object item, string eventName, Action<object, EventArgs> action)
         {
             var eventInfo = GetEventInfo(item.GetType(), eventName);
             var parameters = GetParameters(eventInfo);
@@ -31,19 +31,19 @@ namespace Challange.Domain.Entities
             return handler;
         }
 
-        public static void RemoveEventHandler(object item, string eventName,
+        public void RemoveEventHandler(object item, string eventName,
                                         Delegate handler)
         {
             var eventInfo = GetEventInfo(item.GetType(), eventName);
             eventInfo.RemoveEventHandler(item, handler);
         }
 
-        private static EventInfo GetEventInfo(Type type, string eventName)
+        private EventInfo GetEventInfo(Type type, string eventName)
         {
             return type.GetEvent(eventName);
         }
 
-        private static ParameterExpression[] GetParameters(EventInfo eventInfo)
+        private ParameterExpression[] GetParameters(EventInfo eventInfo)
         {
             return eventInfo.EventHandlerType
               .GetMethod("Invoke")
@@ -52,7 +52,7 @@ namespace Challange.Domain.Entities
               .ToArray();
         }
 
-        private static Delegate GetHandler(EventInfo eventInfo,
+        private Delegate GetHandler(EventInfo eventInfo,
                     Action action, ParameterExpression[] parameters)
         {
             return Expression.Lambda(
@@ -62,7 +62,7 @@ namespace Challange.Domain.Entities
               .Compile();
         }
 
-        private static Delegate GetHandler(EventInfo eventInfo,
+        private Delegate GetHandler(EventInfo eventInfo,
             Action<object, EventArgs> action, MethodInfo invoke, ParameterExpression[] parameters)
         {
             return Expression.Lambda(

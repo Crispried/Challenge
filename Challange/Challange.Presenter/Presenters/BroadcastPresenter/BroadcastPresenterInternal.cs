@@ -10,7 +10,7 @@ namespace Challange.Presenter.Presenters.BroadcastPresenter
         /// </summary>
         private void StartStream()
         {
-            EventSubscriber.AddEventHandler(camera, "NewFrameEvent", Camera_NewFrameEvent);
+            eventSubscriber.AddEventHandler(camera, "NewFrameEvent", Camera_NewFrameEvent);
             camera.Start();
         }
 

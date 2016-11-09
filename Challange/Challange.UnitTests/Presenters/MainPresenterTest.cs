@@ -1,4 +1,5 @@
 ﻿using Challange.Domain.Entities;
+using Challange.Domain.Services.Event;
 using Challange.Domain.Services.FileSystem;
 using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Replay;
@@ -40,6 +41,7 @@ namespace Challange.UnitTests.Presenters
         private IFpsContainer fpsContainer;
         private IInternalChallengeTimer internalChallengeTimer;
         private IChallengeObject challengeObject;
+        private IEventSubscriber eventSubscriber;
 
         private PlayerPanelSettings playerPanelSettings;
         private ChallengeSettings challengeSettings;
@@ -64,6 +66,7 @@ namespace Challange.UnitTests.Presenters
             fpsContainer = Substitute.For<IFpsContainer>();
             internalChallengeTimer = Substitute.For<IInternalChallengeTimer>();
             challengeObject = Substitute.For<IChallengeObject>();
+            eventSubscriber = Substitute.For<IEventSubscriber>();
             
             presenter = new MainPresenter(controller, view,
                                     fileService, messageParser,
@@ -71,7 +74,8 @@ namespace Challange.UnitTests.Presenters
                                     cameraProvider, camerasContainer,
                                     processStarter, zoomer,
                                     challengeBuffers, fpsContainer,
-                                    internalChallengeTimer, challengeObject);
+                                    internalChallengeTimer, challengeObject,
+                                    eventSubscriber);
             playerPanelSettings = InitializePlayerPanelSettings();
             challengeSettings = InitializeChallengeSettings();
             ftpSettings = InitializeFtpSettings();
@@ -120,7 +124,7 @@ namespace Challange.UnitTests.Presenters
             controller.DidNotReceiveWithAnyArgs().Run<GameInformationPresenter,
                                GameInformation>(null);
             cameraProvider.DidNotReceiveWithAnyArgs().GetConnectedCameras();
-            camerasContainer.DidNotReceiveWithAnyArgs().InitializeCameras(null);
+            camerasContainer.DidNotReceiveWithAnyArgs().InitializeCameras();
         }
 
         [Test]
@@ -137,7 +141,7 @@ namespace Challange.UnitTests.Presenters
             controller.ReceivedWithAnyArgs().Run<GameInformationPresenter,
                                GameInformation>(gameInformation);
             var connectedCameras = cameraProvider.Received().GetConnectedCameras();
-            camerasContainer.Received().InitializeCameras(connectedCameras);
+            camerasContainer.Received().InitializeCameras();
         }
 
         [Test]
@@ -219,7 +223,6 @@ namespace Challange.UnitTests.Presenters
             // Arrange
             // Act
             presenter.GameInformation = InitializeGameInformation();
-            presenter.InternalChallengeTimer = InitializeInternalChallengeTimer();
             //presenter.ChallengeSettings = InitializeChallengeSettings();
             view.CreateChallange += Raise.Event<Action>();
             // Assert
@@ -262,11 +265,6 @@ namespace Challange.UnitTests.Presenters
                 Part = "2"
             };
             return gameInformation;
-        }
-
-        private InternalChallengeTimer InitializeInternalChallengeTimer()
-        {
-            return new InternalChallengeTimer();
         }
     }
 }

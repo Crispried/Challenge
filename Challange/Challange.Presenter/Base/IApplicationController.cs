@@ -14,6 +14,9 @@ namespace Challange.Presenter.Base
         IApplicationController RegisterService<TService, TImplementation>()
                 where TImplementation : class, TService;
 
+        IApplicationController RegisterServiceAsSingleton<TService, TImplementation>()
+        where TImplementation : class, TService;
+
         IApplicationController RegisterLayoutToForm<TLayout, TImplementation>()
                 where TLayout : ILayout
                 where TImplementation : class, TLayout;

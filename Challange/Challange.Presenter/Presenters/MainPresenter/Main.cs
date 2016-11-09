@@ -19,6 +19,7 @@ using Challange.Domain.Services.Message;
 using Challange.Domain.Services.FileSystem;
 using Challange.Domain.Servuces.Video.Concrete;
 using Challange.Domain.Services.Video.Abstract;
+using Challange.Domain.Services.Event;
 
 namespace Challange.Presenter.Presenters.MainPresenter
 {
@@ -48,6 +49,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private IChallengeBuffers challengeBuffers;
         private IInternalChallengeTimer internalChallengeTimer;
         private IChallengeObject challenge;
+        private IEventSubscriber eventSubscriber;
 
 
 
@@ -64,7 +66,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
                              IChallengeBuffers challengeBuffers,
                              IFpsContainer fpsContainer,
                              IInternalChallengeTimer internalChallengeTimer,
-                             IChallengeObject challenge) : 
+                             IChallengeObject challenge,
+                             IEventSubscriber eventSubscriber) : 
                              base(controller, mainView)
         {
             this.fileService = fileService;
@@ -79,6 +82,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
             this.fpsContainer = fpsContainer;
             this.internalChallengeTimer = internalChallengeTimer;
             this.challenge = challenge;
+            this.eventSubscriber = eventSubscriber;
             SubscribePresenters();
             gameInformation = new GameInformation();
         }

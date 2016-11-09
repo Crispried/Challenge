@@ -7,14 +7,15 @@ using NUnit.Framework;
 using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 using PylonC.NETSupportLibrary;
 using NSubstitute;
+using Challange.Domain.Services.StreamProcess.Abstract;
 
 namespace Challange.UnitTests.Services.StreamProcess.Concrete.Pylon
 {
-    class PylonCameraTest
+    class CameraTest
     {
         private uint index;
         private string fullName;
-        private PylonCamera camera;
+        private ICamera camera;
         private IPylonImageProvider imageProvider;
 
         [SetUp]
@@ -22,7 +23,7 @@ namespace Challange.UnitTests.Services.StreamProcess.Concrete.Pylon
         {
             index = 1;
             fullName = "FullName";
-            camera = new PylonCamera(index, fullName);
+            camera = Substitute.For<ICamera>();
             imageProvider = Substitute.For<IPylonImageProvider>();
         }
 

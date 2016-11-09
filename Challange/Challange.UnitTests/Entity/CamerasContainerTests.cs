@@ -19,13 +19,15 @@ namespace Challange.UnitTests.Entity
         private PylonCamera camera;
         private ICamerasContainer camerasContainer;
         private List<Device> camerasInfo;
+        private ICameraProvider cameraProvider;
         private string pylonCameraName = "Pylon Camera";
 
         [SetUp]
         public void SetUp()
         {
             camerasInfo = InitializeCamerasInfo();
-            camerasContainer = new CamerasContainer();
+            cameraProvider = Substitute.For<ICameraProvider>();
+            camerasContainer = Substitute.For<ICamerasContainer>();
             camera = Substitute.For<PylonCamera>((uint)1, pylonCameraName);
         }
 
