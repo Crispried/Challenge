@@ -12,10 +12,6 @@ namespace Challange.Presenter.Views.Layouts
 {
     public interface IMainFormLayout : ILayout
     {
-        void BindForm(Form form);
-
-        void BindMainFormPlayerPanel(FlowLayoutPanel mainFormPlayerPanel);
-
-        void DrawPlayers(PlayerPanelSettings settings, int numberOfPlayers);
+        
     }
 }

@@ -24,7 +24,7 @@ namespace Challange.Forms
         private System.Windows.Forms.Timer timer;
         private List<PictureBox> allPlayers;
         private Dictionary<string, string> camerasNames;
-        private IMainFormLayout playerLayout;
+        private IPlayerLayout playerLayout;
 
         #region Full screen button
         private string pathToFullScreenImage = "../../Images/fullscreen.png";
@@ -50,7 +50,7 @@ namespace Challange.Forms
 
         private List<Button> fullScreenButtonsList;
 
-        public MainForm(ApplicationContext context, IMainFormLayout playerLayout)
+        public MainForm(ApplicationContext context, IPlayerLayout playerLayout)
         {
             this.context = context;
             this.playerLayout = playerLayout;
@@ -79,35 +79,15 @@ namespace Challange.Forms
                             Invoke(OpenChallengePlayerForLastChallenge);
             allPlayers = new List<PictureBox>();
             fullScreenButtonsList = new List<Button>();
-            BindForm(this);
-            BindMainFormPlayerPanel(playerPanel);
-        }
-
-        // Unneccessary argument
-        public void BindMainFormPlayerPanel(FlowLayoutPanel panel)
-        {
-            playerLayout.BindMainFormPlayerPanel(playerPanel);
         }
 
         public void Player_MouseHover(object sender, EventArgs e)
         {
             PictureBox pictureBox = (PictureBox)sender;
-            if(ShouldBeHovered() && HoverNotOnFirstSelectedElement(pictureBox))
+            if (ShouldBeHovered() && HoverNotOnFirstSelectedElement(pictureBox))
             {
                 SetBorderStyle(BorderStyle.Fixed3D, pictureBox);
             }
-        }
-
-        // Temporary solution
-        public void DrawPlayers(PlayerPanelSettings settings, int numberOfPlayers)
-        {
-            playerLayout.DrawPlayers(settings, numberOfPlayers);
-        }
-        //
-
-        public void BindForm(Form form)
-        {
-            playerLayout.BindForm(form);
         }
 
         public void Player_MouseLeave(object sender, EventArgs e)
@@ -115,7 +95,7 @@ namespace Challange.Forms
             PictureBox pictureBox = (PictureBox)sender;
             if (ShouldBeHovered())
             {
-                if(HoverNotOnFirstSelectedElement(pictureBox))
+                if (HoverNotOnFirstSelectedElement(pictureBox))
                 {
                     SetBorderStyle(BorderStyle.None, pictureBox);
                 }
@@ -125,7 +105,7 @@ namespace Challange.Forms
                 DisableBorderForAllPlayers();
             }
         }
-        
+
         private bool ShouldBeHovered()
         {
             return hoverIsActive == true && fullScreenMode == false;
@@ -288,7 +268,7 @@ namespace Challange.Forms
             // When you change camera name in textbox, we should be able to press esc and exit fullscreen mode as well
             pictureBoxToShowFullscreen.Controls.OfType<TextBox>().First().KeyDown += new KeyEventHandler(FullScreenForm_KeyPress);
         }
-        
+
         private void FullScreenForm_KeyPress(object sender, KeyEventArgs e)
         {
             if (EscapeKeyWasPressed(e))
@@ -325,7 +305,7 @@ namespace Challange.Forms
 
         private void PlayerPanel_Click(object sender, EventArgs e)
         {
-            if(fullScreenMode == false)
+            if (fullScreenMode == false)
             {
                 hoverIsActive = !hoverIsActive;
                 var clickedPlayer = sender as PictureBox;
@@ -476,10 +456,49 @@ namespace Challange.Forms
         }
 
         #region DrawPlayers
+        public void DrawPlayers(PlayerPanelSettings settings, int numberOfPlayers)
+        {
+            ClearPlayerPanelControls();
+            var playerSize = GetPlayerSize(settings);
+            var playerWidth = playerSize.Width;
+            var playerHeight = playerSize.Height;
+            for (int i = 0; i < numberOfPlayers; i++)
+            {
+                var player = InitializePlayer(playerWidth,
+                                    playerHeight, i.ToString());
+                player.Click += new EventHandler(PlayerPanel_Click);
+                player.MouseHover += new EventHandler(Player_MouseHover);
+                player.MouseLeave += new EventHandler(Player_MouseLeave);
+                DrawPlayer(player);
+                AddPlayerIntoPlayerList(player);
+            }
+        }
+
         private void ClearPlayerPanelControls()
         {
             playerPanel.Controls.Clear();
-        }        
+        }
+
+        private Size GetPlayerSize(PlayerPanelSettings settings)
+        {
+            Size size = new Size();
+            if (AutoSizeModeIsOn(settings))
+            {
+                size.Width = playerPanel.Width / autosizeWidthCoefficient;
+                size.Height = playerPanel.Height / autosizeHeightCoefficient;
+            }
+            else
+            {
+                size.Width = settings.PlayerWidth;
+                size.Height = settings.PlayerHeight;
+            }
+            return size;
+        }
+
+        private bool AutoSizeModeIsOn(PlayerPanelSettings settings)
+        {
+            return settings.AutosizeMode;
+        }
 
         private void AddPlayerIntoPlayerList(PictureBox player)
         {
@@ -650,7 +669,7 @@ namespace Challange.Forms
                     // value of our cameras names dictionary
                     tmpCameraNameTextBox.Text = currentCameraName;
                     // key of our cameras names dictionary
-                    tmpCameraNameTextBox.Tag = currentCameraName; 
+                    tmpCameraNameTextBox.Tag = currentCameraName;
                     tmpCameraNameTextBox.TextChanged +=
                             TmpCameraNameTextBox_TextChanged;
                 }
