@@ -1,4 +1,5 @@
 ﻿using Challange.Domain.Entities;
+using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Presenter.Views;
 using Challange.Presenter.Views.Layouts;
 using System;
@@ -37,6 +38,11 @@ namespace Challange.Forms
         private Control challengePlayerPanel;
         private Form form;
 
+        private FlowLayoutPanel mainFormPlayerPanel;
+
+        private const int autosizeWidthCoefficient = 5;
+        private const int autosizeHeightCoefficient = 3;
+
         public PlayerLayout()
         {
             allPlayers = new List<PictureBox>();
@@ -46,6 +52,11 @@ namespace Challange.Forms
         public void BindForm(Form form)
         {
             this.form = form;
+        }
+
+        public void BindMainFormPlayerPanel(FlowLayoutPanel mainFormPlayerPanel)
+        {
+            this.mainFormPlayerPanel = mainFormPlayerPanel;
         }
 
         private void ShowFullScreen_Click(object sender, EventArgs e)
@@ -167,7 +178,7 @@ namespace Challange.Forms
             challengePlayerPanel.Controls.SetChildIndex(player, index);
         }
 
-        public void DrawPlayers(int numberOfPlayers, Control challengePlayerPanel)
+        public void DrawChallengePlayerForm(int numberOfPlayers, Control challengePlayerPanel)
         {
             this.challengePlayerPanel = challengePlayerPanel;
             ClearPlayerPanelControls();
@@ -180,6 +191,45 @@ namespace Challange.Forms
                 DrawPlayer(player);
                 AddPlayerIntoPlayerList(player);
             }
+        }
+
+        public void DrawMainForm(PlayerPanelSettings settings, int numberOfPlayers)
+        {
+            ClearPlayerPanelControls();
+            var playerSize = GetPlayerSize(settings);
+            var playerWidth = playerSize.Width;
+            var playerHeight = playerSize.Height;
+            for (int i = 0; i < numberOfPlayers; i++)
+            {
+                var player = InitializePlayer(playerWidth,
+                                    playerHeight, i.ToString());
+                // player.Click += new EventHandler(PlayerPanel_Click);
+                // player.MouseHover += new EventHandler(Player_MouseHover);
+                // player.MouseLeave += new EventHandler(Player_MouseLeave);
+                DrawPlayer(player);
+                AddPlayerIntoPlayerList(player);
+            }
+        }
+
+        private Size GetPlayerSize(PlayerPanelSettings settings)
+        {
+            Size size = new Size();
+            if (AutoSizeModeIsOn(settings))
+            {
+                size.Width = mainFormPlayerPanel.Width / autosizeWidthCoefficient;
+                size.Height = mainFormPlayerPanel.Height / autosizeHeightCoefficient;
+            }
+            else
+            {
+                size.Width = settings.PlayerWidth;
+                size.Height = settings.PlayerHeight;
+            }
+            return size;
+        }
+
+        private bool AutoSizeModeIsOn(PlayerPanelSettings settings)
+        {
+            return settings.AutosizeMode;
         }
 
         private void ClearPlayerPanelControls()

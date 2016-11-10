@@ -15,11 +15,11 @@ using System.Windows.Forms;
 
 namespace Challange.Forms
 {
-    public partial class ChallengePlayerForm : Form, IChallengePlayerView, IPlayerLayout
+    public partial class ChallengePlayerForm : Form, IChallengePlayerView, IChallengePlayerFormLayout
     {
-        private IPlayerLayout playerLayout;
+        private IChallengePlayerFormLayout playerLayout;
 
-        public ChallengePlayerForm(IPlayerLayout playerLayout)
+        public ChallengePlayerForm(IChallengePlayerFormLayout playerLayout)
         {
             InitializeComponent();
             this.playerLayout = playerLayout;
@@ -28,12 +28,12 @@ namespace Challange.Forms
 
         public event Action<string> OpenBroadcastForm;
 
-        // Temporary solution
-        public void DrawPlayers(int numberOfPlayers, Control challengePlayerPanel)
+        // Unnecessary here
+        public void DrawChallengePlayerForm(int numberOfPlayers, Control challengePlayerPanel)
         {
-
+            DrawPlayers(numberOfPlayers);
         }
-        //
+        // End of unnecessary block
 
         public void BindForm(Form form)
         {
@@ -42,7 +42,7 @@ namespace Challange.Forms
 
         public void DrawPlayers(int numberOfPlayers)
         {
-            playerLayout.DrawPlayers(numberOfPlayers, challengePlayerPanel);
+            playerLayout.DrawChallengePlayerForm(numberOfPlayers, challengePlayerPanel);
         }
 
         public void InitializePlayers(Dictionary<string, Bitmap> initialData)

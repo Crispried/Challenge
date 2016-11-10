@@ -16,7 +16,7 @@ using Challange.Presenter.Views.Layouts;
 
 namespace Challange.Forms
 {
-    public partial class MainForm : Form, IMainView, IPlayerLayout
+    public partial class MainForm : Form, IMainView, IMainFormLayout
     {
         private readonly ApplicationContext context;
         private const int autosizeWidthCoefficient = 5;
@@ -24,7 +24,7 @@ namespace Challange.Forms
         private System.Windows.Forms.Timer timer;
         private List<PictureBox> allPlayers;
         private Dictionary<string, string> camerasNames;
-        private IPlayerLayout playerLayout;
+        private IMainFormLayout playerLayout;
 
         #region Full screen button
         private string pathToFullScreenImage = "../../Images/fullscreen.png";
@@ -50,7 +50,7 @@ namespace Challange.Forms
 
         private List<Button> fullScreenButtonsList;
 
-        public MainForm(ApplicationContext context, IPlayerLayout playerLayout)
+        public MainForm(ApplicationContext context, IMainFormLayout playerLayout)
         {
             this.context = context;
             this.playerLayout = playerLayout;
@@ -80,6 +80,13 @@ namespace Challange.Forms
             allPlayers = new List<PictureBox>();
             fullScreenButtonsList = new List<Button>();
             BindForm(this);
+            BindMainFormPlayerPanel(playerPanel);
+        }
+
+        // Unneccessary argument
+        public void BindMainFormPlayerPanel(FlowLayoutPanel panel)
+        {
+            playerLayout.BindMainFormPlayerPanel(playerPanel);
         }
 
         public void Player_MouseHover(object sender, EventArgs e)
@@ -92,17 +99,10 @@ namespace Challange.Forms
         }
 
         // Temporary solution
-        public void DrawPlayers(int numberOfPlayers, Control challengePlayerPanel)
+        public void DrawPlayers(PlayerPanelSettings settings, int numberOfPlayers)
         {
-
+            playerLayout.DrawPlayers(settings, numberOfPlayers);
         }
-
-        public void InitializePlayers(Dictionary<string, Bitmap> initialData)
-        {
-
-        }
-
-
         //
 
         public void BindForm(Form form)
@@ -476,49 +476,10 @@ namespace Challange.Forms
         }
 
         #region DrawPlayers
-        public void DrawPlayers(PlayerPanelSettings settings, int numberOfPlayers)
-        {
-            ClearPlayerPanelControls();
-            var playerSize = GetPlayerSize(settings);
-            var playerWidth = playerSize.Width;
-            var playerHeight = playerSize.Height;
-            for (int i = 0; i < numberOfPlayers; i++)
-            {
-                var player = InitializePlayer(playerWidth,
-                                    playerHeight, i.ToString());     
-                player.Click += new EventHandler(PlayerPanel_Click);
-                player.MouseHover += new EventHandler(Player_MouseHover);
-                player.MouseLeave += new EventHandler(Player_MouseLeave);
-                DrawPlayer(player);
-                AddPlayerIntoPlayerList(player);
-            }        
-        }
-
         private void ClearPlayerPanelControls()
         {
             playerPanel.Controls.Clear();
-        }
-
-        private Size GetPlayerSize(PlayerPanelSettings settings)
-        {
-            Size size = new Size();
-            if (AutoSizeModeIsOn(settings))
-            {
-                size.Width = playerPanel.Width / autosizeWidthCoefficient;
-                size.Height = playerPanel.Height / autosizeHeightCoefficient;
-            }
-            else
-            {
-                size.Width = settings.PlayerWidth;
-                size.Height = settings.PlayerHeight;
-            }
-            return size;
-        }
-
-        private bool AutoSizeModeIsOn(PlayerPanelSettings settings)
-        {
-            return settings.AutosizeMode;
-        }
+        }        
 
         private void AddPlayerIntoPlayerList(PictureBox player)
         {
