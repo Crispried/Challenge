@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace Challange.Forms
 {
-    class ChallengePlayerFormLayout : FormLayout, IChallengePlayerFormLayout
+    class ChallengePlayerFormLayout : IChallengePlayerFormLayout
     {
         
     }

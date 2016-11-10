@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Challange.Forms
 {
-    class MainFormLayout : FormLayout, IMainFormLayout
+    class MainFormLayout : IMainFormLayout
     {
         
     }
