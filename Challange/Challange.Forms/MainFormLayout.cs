@@ -17,19 +17,6 @@ namespace Challange.Forms
         private const int autosizeWidthCoefficient = 5;
         private const int autosizeHeightCoefficient = 3;
 
-        #region Full screen button
-        private string pathToFullScreenImage = "../../Images/fullscreen.png";
-        private int fullScreenButtonWidth = 20;
-        private int fullScreenButtonHeight = 20;
-        private int controlIndex;
-        private bool fullScreenMode = false;
-        #endregion
-
-        #region Broadcast button
-        private string pathToBroadcastImage = "../../Images/broadcast.png";
-        private int marginBetweenButtons = 3;
-        #endregion
-
         #region Player hover replacement
         private bool hoverIsActive = false;
         #endregion
@@ -43,16 +30,9 @@ namespace Challange.Forms
 
         private Dictionary<string, string> camerasNames;
 
-        // Not Sure What Is It And How To Initialize It?
-        private PictureBox pictureBoxToShowFullscreen;
-
-        private Form form;
-
-        private List<Button> fullScreenButtonsList;
 
         public MainFormLayout()
         {
-            fullScreenButtonsList = new List<Button>();
             allPlayers = new List<PictureBox>();
         }
 
@@ -65,18 +45,7 @@ namespace Challange.Forms
             set
             {
                 playerPanel = value;
-            }
-        }
-
-        public Form Form
-        {
-            get
-            {
-                return form;
-            }
-            set
-            {
-                form = value;
+                MainPanel = playerPanel;
             }
         }
 
@@ -119,192 +88,9 @@ namespace Challange.Forms
             return settings.AutosizeMode;
         }
 
-        private PictureBox InitializePlayer(int playerWidth, int playerHeight,
-                               string playerName)
-        {
-            return CreatePlayer(playerWidth, playerHeight);
-        }
-
-        private PictureBox CreatePlayer(int playerWidth, int playerHeight)
-        {
-            PictureBox pictureBox = new PictureBox();
-            pictureBox.BackColor = Color.Red;
-            pictureBox.Height = playerHeight;
-            pictureBox.Width = playerWidth;
-            pictureBox.Controls.Add(CreateTextBox(playerWidth));
-            pictureBox.Controls.Add(CreateFullScreenButton(playerWidth, playerHeight));
-            pictureBox.Controls.Add(CreateBroadcastButton(playerWidth, playerHeight));
-
-            return pictureBox;
-        }
-
-        private TextBox CreateTextBox(int playerWidth)
-        {
-            return new TextBox
-            {
-                Width = playerWidth,
-                MaxLength = 30
-            };
-        }
-
-        private Button CreateFullScreenButton(int playerWidth, int playerHeight)
-        {
-            Button showFullscreen = new Button
-            {
-                Width = fullScreenButtonWidth,
-                Height = fullScreenButtonHeight,
-                Location = CalculatePlayerButtonPosition(playerWidth, playerHeight),
-                BackgroundImage = Image.FromFile(pathToFullScreenImage),
-                BackgroundImageLayout = ImageLayout.Stretch,
-                FlatStyle = FlatStyle.Flat
-            };
-            showFullscreen.FlatAppearance.BorderSize = 0;
-            showFullscreen.Click += new EventHandler(ShowFullScreen_Click);
-
-            fullScreenButtonsList.Add(showFullscreen);
-            return showFullscreen;
-        }
-
-        private Button CreateBroadcastButton(int playerWidth, int playerHeight)
-        {
-            Button broadcastButton = new Button
-            {
-                Width = fullScreenButtonWidth,
-                Height = fullScreenButtonHeight,
-                Location = CalculatePlayerButtonPosition(playerWidth - (fullScreenButtonWidth + marginBetweenButtons), playerHeight),
-                BackgroundImage = Image.FromFile(pathToBroadcastImage),
-                BackgroundImageLayout = ImageLayout.Stretch,
-                FlatStyle = FlatStyle.Flat
-            };
-            broadcastButton.FlatAppearance.BorderSize = 0;
-            broadcastButton.Click += (sender, args)
-                            => form.Invoke(OpenBroadcastForm,
-                                (sender as Button).
-                                Parent.Controls.OfType<TextBox>().
-                                FirstOrDefault().Tag);
-            return broadcastButton;
-        }
-
-        public event Action<string> OpenBroadcastForm;
-
-        private Point CalculatePlayerButtonPosition(int playerWidth, int playerHeight)
-        {
-            return new Point(playerWidth - fullScreenButtonWidth, playerHeight - fullScreenButtonHeight);
-        }
-
-        private void ShowFullScreen_Click(object sender, EventArgs e)
-        {
-            pictureBoxToShowFullscreen = (PictureBox)((Button)sender).Parent;
-            // pictureBoxToShowFullscreen.Paint += new PaintEventHandler(imageBox_Paint);
-            controlIndex = GetControlIndexOfClickedPictureBox();
-            RemoveClickedPictureBoxFromPlayerPanel();
-            AddFullScreenPictureBoxToGeneralControls();
-            HideAllButtonsOnFullScreen();
-            ShowFullScreenMode();
-            ManageFullScreenEvents();
-        }
-
-        private int GetControlIndexOfClickedPictureBox()
-        {
-            return playerPanel.Controls.GetChildIndex(pictureBoxToShowFullscreen);
-        }
-
-        private void RemoveClickedPictureBoxFromPlayerPanel()
-        {
-            playerPanel.Controls.Remove(pictureBoxToShowFullscreen);
-        }
-
-        private void AddFullScreenPictureBoxToGeneralControls()
-        {
-            form.Controls.Add(pictureBoxToShowFullscreen);
-        }
-
-        private void HideAllButtonsOnFullScreen()
-        {
-            // Actually hides only "Show FullScreen" button
-            foreach (Button btn in pictureBoxToShowFullscreen.Controls.OfType<Button>())
-            {
-                btn.Hide();
-            }
-        }
-
-        private void ShowFullScreenMode()
-        {
-            fullScreenMode = true;
-            pictureBoxToShowFullscreen.Dock = DockStyle.Fill;
-            pictureBoxToShowFullscreen.BringToFront();
-            pictureBoxToShowFullscreen.Select();
-            MaximizeWindowState();
-        }
-
-        private void ManageFullScreenEvents()
-        {
-            pictureBoxToShowFullscreen.KeyDown += new KeyEventHandler(FullScreenForm_KeyPress);
-
-            // When you change camera name in textbox, we should be able to press esc and exit fullscreen mode as well
-            pictureBoxToShowFullscreen.Controls.OfType<TextBox>().First().KeyDown += new KeyEventHandler(FullScreenForm_KeyPress);
-        }
-
-        private void MaximizeWindowState()
-        {
-            form.WindowState = FormWindowState.Maximized;
-        }
-
-        private void FullScreenForm_KeyPress(object sender, KeyEventArgs e)
-        {
-            if (EscapeKeyWasPressed(e))
-            {
-                fullScreenMode = false;
-                AddFullScreenPictureBoxToPlayerPanelControls();
-                PlaceFullScreenPictureBoxOnOldPosition();
-                ShowAllButtonsAfterFullScreenExit();
-                ManageExitFullScreenEvents();
-            }
-        }
-
-        private bool EscapeKeyWasPressed(KeyEventArgs e)
-        {
-            return e.KeyCode == Keys.Escape;
-        }
-
-        private void AddFullScreenPictureBoxToPlayerPanelControls()
-        {
-            playerPanel.Controls.Add(pictureBoxToShowFullscreen);
-        }
-
-        private void PlaceFullScreenPictureBoxOnOldPosition()
-        {
-            SetChildIndex(pictureBoxToShowFullscreen, controlIndex);
-
-            // Now controls are not being removed after fullscreen mode exit
-            pictureBoxToShowFullscreen.Dock = DockStyle.None;
-        }
-
-        private void ShowAllButtonsAfterFullScreenExit()
-        {
-            foreach (Button btn in pictureBoxToShowFullscreen.Controls.OfType<Button>())
-            {
-                btn.Show();
-            }
-        }
-
-        private void ManageExitFullScreenEvents()
-        {
-            pictureBoxToShowFullscreen.KeyDown -= new KeyEventHandler(FullScreenForm_KeyPress);
-
-            // Disable the keydown event for picturebox when leaving the fullscreenmode
-            pictureBoxToShowFullscreen.Controls.OfType<TextBox>().First().KeyDown -= new KeyEventHandler(FullScreenForm_KeyPress);
-        }
-
-        private void SetChildIndex(PictureBox player, int index)
-        {
-            playerPanel.Controls.SetChildIndex(player,
-                                            index);
-        }
-
         private void PlayerPanel_Click(object sender, EventArgs e)
         {
-            if (fullScreenMode == false)
+            if (FullScreenMode == false)
             {
                 hoverIsActive = !hoverIsActive;
                 var clickedPlayer = sender as PictureBox;
@@ -336,7 +122,7 @@ namespace Challange.Forms
 
         private void DisableFullScreenButtonsClickEvent()
         {
-            foreach (Button fullScreenButton in fullScreenButtonsList)
+            foreach (Button fullScreenButton in FullScreenButtonsList)
             {
                 fullScreenButton.Click -= new EventHandler(ShowFullScreen_Click);
             }
@@ -344,7 +130,7 @@ namespace Challange.Forms
 
         private void SetCursor(Cursor cursorType)
         {
-            form.Cursor = cursorType;
+            Form.Cursor = cursorType;
         }
 
         private void SetBorderStyle(BorderStyle borderStyle, PictureBox clickedPlayer)
@@ -354,7 +140,7 @@ namespace Challange.Forms
 
         private void EnableFullScreenButtonsClickEvent()
         {
-            foreach (Button fullScreenButton in fullScreenButtonsList)
+            foreach (Button fullScreenButton in FullScreenButtonsList)
             {
                 fullScreenButton.Click += new EventHandler(ShowFullScreen_Click);
             }
@@ -389,7 +175,7 @@ namespace Challange.Forms
 
         private bool ShouldBeHovered()
         {
-            return hoverIsActive == true && fullScreenMode == false;
+            return hoverIsActive == true && FullScreenMode == false;
         }
 
         private bool HoverNotOnFirstSelectedElement(PictureBox pictureBox)
@@ -454,7 +240,7 @@ namespace Challange.Forms
             string key = currentTextBox.Tag.ToString();
             string cameraName = currentTextBox.Text;
             camerasNames[key] = cameraName;
-            form.Invoke(PassCamerasNamesToPresenterCallback, key, cameraName);
+            Form.Invoke(PassCamerasNamesToPresenterCallback, key, cameraName);
         }
 
         public event Action<string, string> PassCamerasNamesToPresenterCallback;
