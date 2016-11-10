@@ -85,6 +85,7 @@ namespace Challange.Forms
                                 .RegisterService<IChallengeObject, ChallengeObject>()
                                 .RegisterServiceAsSingleton<IEventSubscriber, EventSubscriber>()
                                 .RegisterService<System.Timers.Timer>()
+                                .RegisterService<IMainFormLayout, MainFormLayout>()
                                 .RegisterInstance(new ApplicationContext());
 
 

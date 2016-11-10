@@ -138,6 +138,7 @@
       <DependentUpon>ChallengePlayerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ChallengePlayerFormLayout.cs" />
+    <Compile Include="FormLayout.cs" />
     <Compile Include="FtpSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
