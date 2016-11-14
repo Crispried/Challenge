@@ -28,10 +28,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
         // settings
         private IFileService fileService;
         private IMessageParser messageParser;
-        private PlayerPanelSettings playerPanelSetting;
-        private ChallengeSettings challengeSetting;
-        private FtpSettings ftpSetting;
-        private RewindSettings rewindSetting;
         private GameInformation gameInformation;
         private ISettingsContext settingsContext;
         private INullSettingsContainer nullSettingsContainer;
@@ -41,7 +37,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
 
         // video streaming
         private ICamerasContainer camerasContainer;
-        private ICameraProvider cameraProvider;
 
         // this is temporary object which will keep fps objects
         // from all cameras which we create every second
@@ -57,7 +52,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
                              IMessageParser messageParser,
                              ISettingsContext settingsContext,
                              INullSettingsContainer nullSettingsContainer,
-                             ICameraProvider cameraProvider,
                              ICamerasContainer camerasContainer,
                              IProcessStarter processStarter,
                              IZoomer zoomer,
@@ -72,7 +66,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
             this.messageParser = messageParser;
             this.settingsContext = settingsContext;
             this.nullSettingsContainer = nullSettingsContainer;
-            this.cameraProvider = cameraProvider;
             this.camerasContainer = camerasContainer;
             this.processStarter = processStarter;
             this.zoomer = zoomer;
@@ -103,7 +96,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
             View.NewFrameCallback += AddNewFrame;
             View.OpenChallengePlayer += OpenChallengePlayer;
             View.MakeZoom += MakeZoom;
-            View.PassCamerasNamesToPresenterCallback += PassCamerasNamesToPresenter;
+            View.PassCamerasNamesToPresenterCallback += SaveCamerasNames;
             View.OpenChallengePlayerForLastChallenge += OpenChallengePlayerForLastChallenge;
             View.OpenBroadcastForm += OpenBroadcastForm;
         }
@@ -121,22 +114,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
             set
             {
                 internalChallengeTimer = value;
-            }
-        }
-
-        public ChallengeSettings ChallengeSettings
-        {
-            set
-            {
-                challengeSetting = value;
-            }
-        }
-
-        public FtpSettings FtpSettings
-        {
-            set
-            {
-                ftpSetting = value;
             }
         }
     }

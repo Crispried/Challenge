@@ -1,4 +1,5 @@
-﻿using Challange.Domain.Entities;
+﻿using Challange.Domain.Abstract;
+using Challange.Domain.Entities;
 using Challange.Domain.Services.Event;
 using Challange.Domain.Services.FileSystem;
 using Challange.Domain.Services.Message;
@@ -11,9 +12,11 @@ using Challange.Domain.Servuces.Video.Concrete;
 using Challange.Presenter.Base;
 using Challange.Presenter.Presenters.CamerasPresenter;
 using Challange.Presenter.Presenters.ChallengeSettingsPresenter;
+using Challange.Presenter.Presenters.FtpSettingsPresenter;
 using Challange.Presenter.Presenters.GameInformationPresenter;
 using Challange.Presenter.Presenters.MainPresenter;
 using Challange.Presenter.Presenters.PlayerPanelSettingsPresenter;
+using Challange.Presenter.Presenters.RewindSettingsPresenter;
 using Challange.Presenter.Views;
 using NSubstitute;
 using NUnit.Framework;
@@ -33,7 +36,6 @@ namespace Challange.UnitTests.Presenters
         private IFileService fileService;
         private ISettingsContext settingsContext;
         private INullSettingsContainer nullSettingsContainer;
-        private ICameraProvider cameraProvider;
         private ICamerasContainer camerasContainer;
         private IProcessStarter processStarter;
         private IZoomer zoomer;
@@ -57,7 +59,6 @@ namespace Challange.UnitTests.Presenters
             fileService = Substitute.For<IFileService>();
             messageParser = Substitute.For<IMessageParser>();
             settingsContext = Substitute.For<ISettingsContext>();
-            cameraProvider = Substitute.For<ICameraProvider>();
             nullSettingsContainer = Substitute.For<INullSettingsContainer>();
             camerasContainer = Substitute.For<ICamerasContainer>();
             processStarter = Substitute.For<IProcessStarter>();
@@ -71,7 +72,7 @@ namespace Challange.UnitTests.Presenters
             presenter = new MainPresenter(controller, view,
                                     fileService, messageParser,
                                     settingsContext, nullSettingsContainer,
-                                    cameraProvider, camerasContainer,
+                                    camerasContainer,
                                     processStarter, zoomer,
                                     challengeBuffers, fpsContainer,
                                     internalChallengeTimer, challengeObject,
@@ -123,8 +124,8 @@ namespace Challange.UnitTests.Presenters
             view.Received().ShowMessage(returnedMessage);
             controller.DidNotReceiveWithAnyArgs().Run<GameInformationPresenter,
                                GameInformation>(null);
-            cameraProvider.DidNotReceiveWithAnyArgs().GetConnectedCameras();
             camerasContainer.DidNotReceiveWithAnyArgs().InitializeCameras();
+            view.DidNotReceive().Show();
         }
 
         [Test]
@@ -140,29 +141,141 @@ namespace Challange.UnitTests.Presenters
             view.DidNotReceiveWithAnyArgs().ShowMessage(returnedMessage);
             controller.ReceivedWithAnyArgs().Run<GameInformationPresenter,
                                GameInformation>(gameInformation);
-            var connectedCameras = cameraProvider.Received().GetConnectedCameras();
+            camerasContainer.Received().InitializeCameras();
+            view.Received().Show();
+        }
+
+        [Test]
+        public void ShowDevicesList()
+        {
+            // Arrange
+            // Act
+            presenter.ShowDevicesList();
+            // Assert
+            controller.Received().Run<CamerasPresenter, ICamerasContainer>(camerasContainer); ;
+        }
+
+        [Test]
+        public void AddNewFrame()
+        {
+            // Arrange
+            view.CurrentFrameCameraName.Returns("");
+            view.CurrentFrame.Returns(default(System.Drawing.Bitmap));
+             IFps tempFps = Substitute.For<IFps>();
+            fpsContainer.GetFpsByKey("").Returns(tempFps);
+            // Act
+            presenter.AddNewFrame();
+            // Assert
+            var cameraName = view.Received().CurrentFrameCameraName;
+            var currentFrame = view.Received().CurrentFrame;       
+            fpsContainer.Received().GetFpsByKey(cameraName);
+            tempFps.ReceivedWithAnyArgs().AddFrame(currentFrame);
+        }
+
+        [Test]
+        public void MakeZoom()
+        {
+            // Arrange
+            var pictureBoxLocation = new System.Drawing.Point();
+            var delta = 1;
+            var mouseLocation = new System.Drawing.Point();
+            // Act
+            presenter.MakeZoom(pictureBoxLocation, delta, mouseLocation);
+            // Assert
+            ZoomData zoomData = zoomer.Received().MakeZoom(pictureBoxLocation, delta, mouseLocation);
+            view.Received().RedrawZoomedImage(zoomData);
+        }
+
+        [Test]
+        public void SaveCamerasNames()
+        {
+            // Arrange
+            var key = "test";
+            var cameraName = "1";
+            // Act
+            presenter.SaveCamerasNames(key, cameraName);
+            // Assert
+            camerasContainer.Received().SetCameraName(key, cameraName);
+        }
+
+        [Test]
+        public void ChangePlayerPanelSettings()
+        {
+            // Arrange
+            // Act
+            presenter.ChangePlayerPanelSettings();
+            // Assert
+            controller.Received().Run<PlayerPanelSettingsPresenter,
+                                PlayerPanelSettings>(settingsContext.PlayerPanelSetting);
+            view.Received().DrawPlayers(settingsContext.PlayerPanelSetting, camerasContainer.CamerasNumber);
+        }
+
+        [Test]
+        public void ChangeChallengeSettings()
+        {
+            // Arrange
+            // Act
+            presenter.ChangeChallengeSettings();
+            // Assert
+            controller.Received().Run<ChallengeSettingsPresenter,
+                                ChallengeSettings>(settingsContext.ChallengeSetting);
+        }
+
+        [Test]
+        public void ChangeFtpSettings()
+        {
+            // Arrange
+            // Act
+            presenter.ChangeFtpSettings();
+            // Assert
+            controller.Received().Run<FtpSettingsPresenter,
+                                FtpSettings>(settingsContext.FtpSetting);
+        }
+
+        [Test]
+        public void ChangeRewindSettings()
+        {
+            // Arrange
+            // Act
+            presenter.ChangeRewindSettings();
+            // Assert
+            controller.Received().Run<RewindSettingsPresenter,
+                                RewindSettings>(settingsContext.RewindSetting);
+        }
+
+        [Test]
+        public void StreamStartInitializeDevices()
+        {
+            // Arrange
+            // Act
+            presenter.StartStream();
+            // Assert
             camerasContainer.Received().InitializeCameras();
         }
 
         [Test]
-        public void StreamStart()
+        public void StreamStartIfCamerasContainerIsEmpty()
         {
             // Arrange
+            camerasContainer.IsEmpty().Returns(true);
+            camerasContainer.GetCamerasNames.Returns(new System.Collections.Generic.List<string>() { "a", "b" });
+
             // Act
-            view.StartStream += Raise.Event<Action>();
+            presenter.StartStream();
             // Assert
-            if (!presenter.IsDeviceListEmpty)
-            {
-                Assert.IsTrue(presenter.AreCamerasBindedToPlayers);
-                Assert.IsTrue(presenter.WasTimeAxisTimerInitialized);
-                Assert.IsTrue(presenter.WasRecordingFpsTimerInitialized);
-                Assert.IsTrue(presenter.IsCaptureDevicesEnable);
-                Assert.IsTrue(presenter.IsStreamProcessOn);
-            }
-            else
-            {
-                Assert.IsTrue(presenter.WasDeviceListEmptyMessageShowed);
-            }
+            challengeBuffers.DidNotReceiveWithAnyArgs().SetNumberOfPastAndFutureElements(0, 0);
+            var camerasNames = camerasContainer.DidNotReceive().GetCamerasNamesAsQueue;
+            view.DidNotReceiveWithAnyArgs().BindPlayersToCameras(camerasNames);
+            view.DidNotReceive().InitializeTimer();
+            fpsContainer.DidNotReceiveWithAnyArgs().InitializeFpses(null);
+            internalChallengeTimer.DidNotReceiveWithAnyArgs().EnableTimerEvent(default(Action));
+            camerasContainer.ReceivedWithAnyArgs().StartAllCameras(null, null);
+
+            //              ChangeStreamingStatus(true); NEED TO TEST
+
+            var returnedMessage =
+                messageParser.Received().GetMessage(MessageType.EmptyDeviceContainer);
+            view.Received().ShowMessage(returnedMessage);
         }
 
         [Test]
@@ -177,45 +290,11 @@ namespace Challange.UnitTests.Presenters
             Assert.IsFalse(presenter.IsStreamProcessOn);
         }
 
-        [Test]
-        public void ShowDevicesList()
-        {
-            // Arrange
-            // Act
-            // Assert
-            controller.ReceivedWithAnyArgs().Run<CamerasPresenter, ICamerasContainer>(null);;
-        }
 
-        [Test]
-        public void AddNewFrame()
-        {
-            // Arrange
-            // Act
-            view.NewFrameCallback += Raise.Event<Action>();
-            // Assert
-        }
 
-        [Test]
-        public void ChangePlayerPanelSettings()
-        {
-            // Arrange
-            // Act
-            view.OpenPlayerPanelSettings += Raise.Event<Action>();
-            // Assert
-            controller.Received().Run<PlayerPanelSettingsPresenter,
-                                PlayerPanelSettings>(playerPanelSettings);
-        }
 
-        [Test]
-        public void ChangeChallengeSettings()
-        {
-            // Arrange
-            // Act
-            view.OpenChallengeSettings += Raise.Event<Action>();
-            // Assert
-            controller.Received().Run<ChallengeSettingsPresenter,
-                                ChallengeSettings>(challengeSettings);
-        }
+
+
 
         [Test]
         public void CreateChallenge()

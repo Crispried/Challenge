@@ -46,7 +46,8 @@ namespace Challange.Forms
         private ComponentResourceManager resources =
                  new ComponentResourceManager(typeof(MainForm));
 
-        private Tuple<string, Bitmap> currentFrameInfo;
+        private string currentFrameCameraName;
+        private Bitmap currentFrame;
 
         private List<Button> fullScreenButtonsList;
 
@@ -144,11 +145,19 @@ namespace Challange.Forms
             }
         }
 
-        public Tuple<string, Bitmap> CurrentFrameInfo
+        public string CurrentFrameCameraName
         {
             get
             {
-                return currentFrameInfo;
+                return currentFrameCameraName;
+            }
+        }
+
+        public Bitmap CurrentFrame
+        {
+            get
+            {
+                return currentFrame;
             }
         }
 
@@ -660,7 +669,8 @@ namespace Challange.Forms
         {
             Bitmap frameClone = CloneFrame(frame);
             UpdatePlayersImage(cameraName, frameClone);
-            currentFrameInfo = Tuple.Create(cameraName, frameClone);
+            currentFrameCameraName = cameraName;
+            currentFrame = frameClone;
             Invoke(NewFrameCallback);
         }
 

@@ -44,7 +44,9 @@ namespace Challange.Presenter.Views
 
         event Action<string, string> PassCamerasNamesToPresenterCallback;
 
-        Tuple<string, Bitmap> CurrentFrameInfo { get; }
+        string CurrentFrameCameraName { get; }
+
+        Bitmap CurrentFrame { get; }
 
         Dictionary<string, string> CamerasNames { get; }
 

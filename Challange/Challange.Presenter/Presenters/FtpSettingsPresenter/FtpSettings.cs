@@ -11,17 +11,17 @@ namespace Challange.Presenter.Presenters.FtpSettingsPresenter
     {
         private FtpSettings ftpSettings;
         private IMessageParser messageParser;
-        private ISettingsService<FtpSettings> settingsService;
+        private ISettingsContext settingsContext;
 
         public FtpSettingsPresenter(
                 IApplicationController controller,
                 IFtpSettingsView ftpView,
                 IMessageParser messageParser,
-                ISettingsService<FtpSettings> settingsService) :
+                ISettingsContext settingsContext) :
                 base(controller, ftpView)
         {
             this.messageParser = messageParser;
-            this.settingsService = settingsService;
+            this.settingsContext = settingsContext;
             SubscribePresenters();
         }
 

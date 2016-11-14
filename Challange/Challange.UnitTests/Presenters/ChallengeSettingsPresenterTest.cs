@@ -25,7 +25,7 @@ namespace Challange.UnitTests.Presenters
         private IChallengeSettingsView view;
         private ChallengeSettings argument;
         private ChallengeSettings mock;
-        private ISettingsService<ChallengeSettings> settingsService;
+        private ISettingsContext settingsContext;
         private IMessageParser messageParser;
 
         [SetUp]
@@ -34,9 +34,9 @@ namespace Challange.UnitTests.Presenters
             controller = Substitute.For<IApplicationController>();
             view = Substitute.For<IChallengeSettingsView>();
             messageParser = Substitute.For<IMessageParser>();
-            settingsService =
-                Substitute.For<ISettingsService<ChallengeSettings>>();
-            presenter = new ChallengeSettingsPresenter(controller, view, messageParser, settingsService);
+            settingsContext =
+                Substitute.For<ISettingsContext>();
+            presenter = new ChallengeSettingsPresenter(controller, view, messageParser, settingsContext);
             mock = Substitute.For<ChallengeSettings>();
             argument = InitializeChallengeSettings();
             presenter.Run(mock);
@@ -60,7 +60,7 @@ namespace Challange.UnitTests.Presenters
             // Act
             // Assert
             presenter.ChangeChallengeSettings(argument);
-            settingsService.Received().SaveSetting(argument);
+            settingsContext.Received().SaveChallengeSetting(argument);
             mock.Received().SetSettings(argument);
             view.Received().Close();
             var returnedMessage = 
@@ -76,7 +76,7 @@ namespace Challange.UnitTests.Presenters
             // Act
             // Assert
             presenter.ChangeChallengeSettings(argument);
-            settingsService.DidNotReceiveWithAnyArgs().SaveSetting(argument);
+            settingsContext.DidNotReceiveWithAnyArgs().SaveChallengeSetting(argument);
             mock.DidNotReceiveWithAnyArgs().SetSettings(argument);
             view.DidNotReceive().Close();
             var returnedMessage = 

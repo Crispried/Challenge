@@ -19,7 +19,7 @@ namespace Challange.Presenter.Presenters.FtpSettingsPresenter
         /// <param name="newSettings"></param>
         private void SaveSettings(FtpSettings newSettings)
         {
-            settingsService.SaveSetting(newSettings);
+            settingsContext.SaveFtpSetting(newSettings);
         }
     }
 }

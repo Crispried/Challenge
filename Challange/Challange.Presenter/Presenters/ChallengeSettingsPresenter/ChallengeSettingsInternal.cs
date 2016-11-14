@@ -18,7 +18,7 @@ namespace Challange.Presenter.Presenters.ChallengeSettingsPresenter
         /// <param name="newSettings"></param>
         private void SaveSettings(ChallengeSettings newSettings)
         {
-            settingsService.SaveSetting(newSettings);
+            settingsContext.SaveChallengeSetting(newSettings);
         }
     }
 }

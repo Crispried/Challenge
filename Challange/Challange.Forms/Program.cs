@@ -85,6 +85,10 @@ namespace Challange.Forms
                                 .RegisterService<IChallengeObject, ChallengeObject>()
                                 .RegisterServiceAsSingleton<IEventSubscriber, EventSubscriber>()
                                 .RegisterService<System.Timers.Timer>()
+                                .RegisterService<PlayerPanelSettings>()
+                                .RegisterService<ChallengeSettings>()
+                                .RegisterService<FtpSettings>()
+                                .RegisterService<RewindSettings>()
                                 .RegisterInstance(new ApplicationContext());
 
 

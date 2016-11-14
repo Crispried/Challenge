@@ -14,19 +14,17 @@ namespace Challange.Presenter.Presenters.PlayerPanelSettingsPresenter
 
         private IMessageParser messageParser;
 
-        private ISettingsService<PlayerPanelSettings> settingsService;
+        private ISettingsContext settingsContext;
 
         public PlayerPanelSettingsPresenter(
                 IApplicationController controller,
                 IPlayerPanelSettingsView playerPanelSettingsView,
                 IMessageParser messageParser,
-                ISettingsService<PlayerPanelSettings> settingsService) :
+                ISettingsContext settingsContext) :
                 base(controller, playerPanelSettingsView)
         {
             this.messageParser = messageParser;
-            this.settingsService = settingsService;
-            //settingsService = new SettingsService<PlayerPanelSettings>(
-            //    new PlayerPanelSettingsParser(fileWorker));
+            this.settingsContext = settingsContext;
             SubscribePresenters();
         }
 

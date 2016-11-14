@@ -18,6 +18,8 @@ namespace Challange.Domain.Services.Video.Abstract
 
         Dictionary<string, List<IFps>> FutureCameraRecords { get; }
 
+        void SetNumberOfPastAndFutureElements(int maxElementsInPastCollection, int maxElementsInFutureCollection);
+
         List<IFps> GetPastCameraRecordsValueByKey(string key);
 
         List<IFps> GetFutureCameraRecordsValueByKey(string key);

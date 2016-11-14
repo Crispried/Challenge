@@ -17,17 +17,17 @@ namespace Challange.Presenter.Presenters.ChallengeSettingsPresenter
     {
         private ChallengeSettings challengeSettings;
         private IMessageParser messageParser;
-        private ISettingsService<ChallengeSettings> settingsService;
+        private ISettingsContext settingsContext;
 
         public ChallengeSettingsPresenter(
-        IApplicationController controller,
-        IChallengeSettingsView challengeSettingsView,
-        IMessageParser messageParser,
-        ISettingsService<ChallengeSettings> settingsService) :
+                IApplicationController controller,
+                IChallengeSettingsView challengeSettingsView,
+                IMessageParser messageParser,
+                ISettingsContext settingsContext) :
                 base(controller, challengeSettingsView)
         {
             this.messageParser = messageParser;
-            this.settingsService = settingsService;
+            this.settingsContext = settingsContext;
             SubscribePresenters();
         }
 

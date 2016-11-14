@@ -57,8 +57,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
         
         private void InitializeChallengeBuffers()
         {
-            challengeBuffers.MaxElementsInPastCollection = challengeSetting.NumberOfPastFPS;
-            challengeBuffers.MaxElementsInFutureCollection = challengeSetting.NumberOfFutureFPS;
+            challengeBuffers.SetNumberOfPastAndFutureElements(
+                settingsContext.ChallengeSetting.NumberOfPastFPS,
+                settingsContext.ChallengeSetting.NumberOfFutureFPS);
         }
 
         /// <summary>
@@ -100,10 +101,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void DrawPlayers()
         {
-            if (playerPanelSetting != null)
-            {
-                View.DrawPlayers(playerPanelSetting, camerasContainer.CamerasNumber);
-            }
+            View.DrawPlayers(settingsContext.PlayerPanelSetting, camerasContainer.CamerasNumber);
         }
         #region settings
         /// <summary>
@@ -111,10 +109,10 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void ReadAllSettings()
         {
-            playerPanelSetting = settingsContext.GetPlayerPanelSetting();
-            challengeSetting = settingsContext.GetChallengeSetting();
-            ftpSetting = settingsContext.GetFtpSetting();
-            rewindSetting = settingsContext.GetRewindSetting();
+            settingsContext.GetPlayerPanelSetting();
+            settingsContext.GetChallengeSetting();
+            settingsContext.GetFtpSetting();
+            settingsContext.GetRewindSetting();
         }
 
         /// <summary>
@@ -123,10 +121,10 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void CheckAllSettingsOnNull()
         {
-            nullSettingsContainer.CheckPlayerPanelSettingOnNull(playerPanelSetting);
-            nullSettingsContainer.CheckChallengeSettingOnNull(challengeSetting);
-            nullSettingsContainer.CheckFtpSettingOnNull(ftpSetting);
-            nullSettingsContainer.CheckRewindSettingOnNull(rewindSetting);
+            nullSettingsContainer.CheckPlayerPanelSettingOnNull(settingsContext.PlayerPanelSetting);
+            nullSettingsContainer.CheckChallengeSettingOnNull(settingsContext.ChallengeSetting);
+            nullSettingsContainer.CheckFtpSettingOnNull(settingsContext.FtpSetting);
+            nullSettingsContainer.CheckRewindSettingOnNull(settingsContext.RewindSetting);
         }
         #endregion
 
@@ -143,11 +141,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void BindPlayersToCameras()
         {
-            Queue<string> camerasNames = new Queue<string>();
-            foreach (string cameraName in camerasContainer.GetCamerasNames)
-            {
-                camerasNames.Enqueue(cameraName);
-            }
+            Queue<string> camerasNames = camerasContainer.GetCamerasNamesAsQueue;
             View.BindPlayersToCameras(camerasNames);
         }
 
@@ -156,11 +150,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void StartDevices()
         {
-            foreach (ICamera camera in camerasContainer.GetCameras)
-            {
-                eventSubscriber.AddEventHandler(camera, "NewFrameEvent", Camera_NewFrameEvent);
-                camera.Start();
-            }
+            camerasContainer.StartAllCameras(Camera_NewFrameEvent, eventSubscriber);
         }
 
         /// <summary>

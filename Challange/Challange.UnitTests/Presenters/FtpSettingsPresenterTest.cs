@@ -18,7 +18,7 @@ namespace Challange.UnitTests.Presenters
         private IFtpSettingsView view;
         private FtpSettings argument;
         private FtpSettings mock;
-        private ISettingsService<FtpSettings> settingsSerivce;
+        private ISettingsContext settingsContext;
         private IMessageParser messageParser;
 
         [SetUp]
@@ -27,9 +27,9 @@ namespace Challange.UnitTests.Presenters
             controller = Substitute.For<IApplicationController>();
             view = Substitute.For<IFtpSettingsView>();
             messageParser = Substitute.For<IMessageParser>();
-            settingsSerivce =
-                Substitute.For<ISettingsService<FtpSettings>>();
-            presenter = new FtpSettingsPresenter(controller, view, messageParser, settingsSerivce);
+            settingsContext =
+                Substitute.For<ISettingsContext>();
+            presenter = new FtpSettingsPresenter(controller, view, messageParser, settingsContext);
             mock = Substitute.For<FtpSettings>();
             argument = InitializeFtpSettings();
             presenter.Run(mock);
@@ -53,7 +53,7 @@ namespace Challange.UnitTests.Presenters
             // Act
             // Assert
             presenter.ChangeFtpSettings(argument);
-            settingsSerivce.Received().SaveSetting(argument);
+            settingsContext.Received().SaveFtpSetting(argument);
             mock.Received().SetSettings(argument);
             view.Received().Close();
             var returnedMessage = 
@@ -69,7 +69,7 @@ namespace Challange.UnitTests.Presenters
             // Act
             // Assert
             presenter.ChangeFtpSettings(argument);
-            settingsSerivce.DidNotReceiveWithAnyArgs().SaveSetting(argument);
+            settingsContext.DidNotReceiveWithAnyArgs().SaveFtpSetting(argument);
             mock.DidNotReceiveWithAnyArgs().SetSettings(argument);
             view.DidNotReceive().Close();
             var returnedMessage = 

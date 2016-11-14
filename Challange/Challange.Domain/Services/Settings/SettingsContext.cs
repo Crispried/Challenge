@@ -13,6 +13,10 @@ namespace Challange.Domain.Services.Settings
         private ISettingsService<ChallengeSettings> challengeSettingsService;
         private ISettingsService<FtpSettings> ftpSettingsService;
         private ISettingsService<RewindSettings> rewindSettingsService;
+        private PlayerPanelSettings playerPanelSetting;
+        private ChallengeSettings challengeSetting;
+        private FtpSettings ftpSetting;
+        private RewindSettings rewindSetting;
 
         public SettingsContext(ISettingsService<PlayerPanelSettings> playerPanelSettingsService,
                                ISettingsService<ChallengeSettings> challengeSettingsService,
@@ -25,43 +29,83 @@ namespace Challange.Domain.Services.Settings
             this.rewindSettingsService = rewindSettingsService;    
         }
 
+        public PlayerPanelSettings PlayerPanelSetting
+        {
+            get
+            {
+                return playerPanelSetting;
+            }
+        }
+
+        public ChallengeSettings ChallengeSetting
+        {
+            get
+            {
+                return challengeSetting;
+            }
+        }
+
+        public FtpSettings FtpSetting
+        {
+            get
+            {
+                return ftpSetting;
+            }
+        }
+
+        public RewindSettings RewindSetting
+        {
+            get
+            {
+                return rewindSetting;
+            }
+        }
+
         public PlayerPanelSettings GetPlayerPanelSetting()
         {
-            return playerPanelSettingsService.GetSetting();
+            playerPanelSetting = playerPanelSettingsService.GetSetting();
+            return playerPanelSetting;
         }
 
         public void SavePlayerPanelSetting(PlayerPanelSettings playerPanelSetting)
         {
+            this.playerPanelSetting = playerPanelSetting;
             playerPanelSettingsService.SaveSetting(playerPanelSetting);
         }
 
         public ChallengeSettings GetChallengeSetting()
         {
-            return challengeSettingsService.GetSetting();
+            challengeSetting = challengeSettingsService.GetSetting();
+            return challengeSetting;
         }
 
         public void SaveChallengeSetting(ChallengeSettings challengeSetting)
         {
+            this.challengeSetting = challengeSetting;
             challengeSettingsService.SaveSetting(challengeSetting);
         }
 
         public FtpSettings GetFtpSetting()
         {
-            return ftpSettingsService.GetSetting();
+            ftpSetting = ftpSettingsService.GetSetting();
+            return ftpSetting;
         }
 
         public void SaveFtpSetting(FtpSettings ftpSetting)
         {
+            this.ftpSetting = ftpSetting;
             ftpSettingsService.SaveSetting(ftpSetting);
         }
 
         public RewindSettings GetRewindSetting()
         {
-            return rewindSettingsService.GetSetting();
+            rewindSetting = rewindSettingsService.GetSetting();
+            return rewindSetting;
         }
 
         public void SaveRewindSetting(RewindSettings rewindSetting)
         {
+            this.rewindSetting = rewindSetting;
             rewindSettingsService.SaveSetting(rewindSetting);
         }
     }

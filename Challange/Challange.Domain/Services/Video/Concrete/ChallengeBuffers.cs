@@ -63,6 +63,13 @@ namespace Challange.Domain.Servuces.Video.Concrete
             }
         }
 
+        public void SetNumberOfPastAndFutureElements(int maxElementsInPastCollection,
+                                              int maxElementsInFutureCollection)
+        {
+            this.maxElementsInPastCollection = maxElementsInPastCollection;
+            this.maxElementsInFutureCollection = maxElementsInFutureCollection;
+        }
+
         public List<IFps> GetPastCameraRecordsValueByKey(string key)
         {
             return GetByValue(key, pastCameraRecords);

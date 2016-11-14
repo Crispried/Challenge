@@ -23,7 +23,7 @@ namespace Challange.UnitTests.Presenters
         private IRewindSettingsView view;
         private RewindSettings mock;
         private RewindSettings argument;
-        private ISettingsService<RewindSettings> settingService;
+        private ISettingsContext settingsContext;
         private IMessageParser messageParser;
 
         [SetUp]
@@ -32,10 +32,10 @@ namespace Challange.UnitTests.Presenters
             controller = Substitute.For<IApplicationController>();
             view = Substitute.For<IRewindSettingsView>();
             messageParser = Substitute.For<IMessageParser>();
-            settingService =
-                Substitute.For<ISettingsService<RewindSettings>>();
+            settingsContext =
+                Substitute.For<ISettingsContext>();
             presenter = new RewindSettingsPresenter(
-                controller, view, messageParser, settingService);
+                controller, view, messageParser, settingsContext);
             mock = Substitute.For<RewindSettings>();
             argument = InitializeRewindSettings();
             presenter.Run(mock);
@@ -52,14 +52,14 @@ namespace Challange.UnitTests.Presenters
         }
 
         [Test]
-        public void ChangePlayerPanelSettingsIfFormIsValid()
+        public void ChangeRewindSettingsIfFormIsValid()
         {
             // Arrange
             SetFormAsValid(true);
             // Act
             presenter.ChangeRewindSettings(argument);
             // Assert
-            settingService.DidNotReceiveWithAnyArgs().SaveSetting(argument);
+            settingsContext.DidNotReceiveWithAnyArgs().SaveRewindSetting(argument);
             mock.Received().SetSettings(argument);
             view.Received().Close();
             var returnedMessage = 
@@ -69,14 +69,14 @@ namespace Challange.UnitTests.Presenters
 
 
         [Test]
-        public void ChangePlayerPanelSettingsIfFormIsInvalid()
+        public void ChangeRewindSettingsIfFormIsInvalid()
         {
             // Arrange
             SetFormAsValid(false);
             // Act
             presenter.ChangeRewindSettings(argument);
             // Assert
-            settingService.DidNotReceiveWithAnyArgs().SaveSetting(argument);
+            settingsContext.DidNotReceiveWithAnyArgs().SaveRewindSetting(argument);
             mock.DidNotReceiveWithAnyArgs().SetSettings(argument);
             view.DidNotReceiveWithAnyArgs().Close();
             var returnedMessage =

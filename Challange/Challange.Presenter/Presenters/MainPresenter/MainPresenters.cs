@@ -47,8 +47,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         public void AddNewFrame()
         {
-            string cameraName = View.CurrentFrameInfo.Item1;
-            Bitmap currentFrame = View.CurrentFrameInfo.Item2;
+            string cameraName = View.CurrentFrameCameraName;
+            Bitmap currentFrame = View.CurrentFrame;
             IFps tempFPS = fpsContainer.GetFpsByKey(cameraName);
             tempFPS.AddFrame(currentFrame);
         }
@@ -67,7 +67,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// Get cameras names from view
         /// In order to pass them to ChallengeWriter
         /// </summary>
-        public void PassCamerasNamesToPresenter(string key, string cameraName)
+        public void SaveCamerasNames(string key, string cameraName)
         {
             camerasContainer.SetCameraName(key, cameraName);
         }
@@ -79,7 +79,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void ChangePlayerPanelSettings()
         {
             Controller.Run<PlayerPanelSettingsPresenter.PlayerPanelSettingsPresenter,
-                           PlayerPanelSettings>(playerPanelSetting);
+                           PlayerPanelSettings>(settingsContext.PlayerPanelSetting);
             DrawPlayers();
         }
 
@@ -89,7 +89,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void ChangeChallengeSettings()
         {
             Controller.Run<ChallengeSettingsPresenter.ChallengeSettingsPresenter,
-                            ChallengeSettings>(challengeSetting);
+                            ChallengeSettings>(settingsContext.ChallengeSetting);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void ChangeFtpSettings()
         {
             Controller.Run<FtpSettingsPresenter.FtpSettingsPresenter,
-                            FtpSettings>(ftpSetting);
+                            FtpSettings>(settingsContext.FtpSetting);
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void ChangeRewindSettings()
         {
             Controller.Run<RewindSettingsPresenter.RewindSettingsPresenter,
-                            RewindSettings>(rewindSetting);
+                            RewindSettings>(settingsContext.RewindSetting);
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void StartStream()
         {
             InitializeDevices();
-            if (camerasContainer.IsEmpty()) // DONT FORGET BACK "!" !!!!!!!
+            if (!camerasContainer.IsEmpty()) // DONT FORGET BACK "!" !!!!!!!
             {
                 InitializeChallengeBuffers();
                 BindPlayersToCameras();
@@ -152,7 +152,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
             CreateDirectoryForChallenge();
             ChangeActivityOfEventForPastFrames(false);
             ChangeActivityOfEventForFutureFrames(true);
-            SetUIAsChallengeRecordingOn(challengeSetting.NumberOfFutureFPS);
+            SetUIAsChallengeRecordingOn(settingsContext.ChallengeSetting.NumberOfFutureFPS);
             AddMarkerOnTimeAxis(challenge.PathToChallengeDirectory);
         }
 
@@ -172,7 +172,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
             string stringForTest = @"Team1_vs_Team2(21.10.2016)\00_00_10\";
             Controller.Run<ChallengePlayerPresenter.ChallengePlayerPresenter,
                Tuple<string, RewindSettings>>
-               (Tuple.Create(stringForTest, rewindSetting)); // pathToChallenge instead of stringForTest
+               (Tuple.Create(stringForTest, settingsContext.RewindSetting)); // pathToChallenge instead of stringForTest
         }
 
         /// <summary>

@@ -25,7 +25,7 @@ namespace Challange.Presenter.Presenters.PlayerPanelSettingsPresenter
         /// <param name="newSettings"></param>
         private void SaveSettings(PlayerPanelSettings newSettings)
         {
-            settingsService.SaveSetting(newSettings);
+            settingsContext.SavePlayerPanelSetting(newSettings);
         }
     }
 }

@@ -17,15 +17,15 @@ namespace Challange.Presenter.Presenters.RewindSettingsPresenter
 
         private IMessageParser messageParser;
 
-        private ISettingsService<RewindSettings> settingsService;
+        private ISettingsContext settingsContext;
         public RewindSettingsPresenter(IApplicationController controller,
                               IRewindSettingsView view,
                               IMessageParser messageParser,
-                              ISettingsService<RewindSettings> settingsService) :
+                              ISettingsContext settingsContext) :
                               base(controller, view)
         {
             this.messageParser = messageParser;
-            this.settingsService = settingsService;
+            this.settingsContext = settingsContext;
             SubscribePresenters();
         }
 

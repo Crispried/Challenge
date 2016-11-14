@@ -9,6 +9,14 @@ namespace Challange.Domain.Services.Settings
 {
     public interface ISettingsContext
     {
+        PlayerPanelSettings PlayerPanelSetting { get; }
+        
+        ChallengeSettings ChallengeSetting { get; }
+
+        FtpSettings FtpSetting { get; }
+
+        RewindSettings RewindSetting { get; }
+
         PlayerPanelSettings GetPlayerPanelSetting();
 
         void SavePlayerPanelSetting(PlayerPanelSettings playerPanelSetting);

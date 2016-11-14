@@ -10,6 +10,7 @@ using Challange.Domain.Entities;
 using static PylonC.NETSupportLibrary.DeviceEnumerator;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using NSubstitute;
+using Challange.Domain.Services.Event;
 
 namespace Challange.UnitTests.Services.StreamProcess
 {
@@ -88,13 +89,36 @@ namespace Challange.UnitTests.Services.StreamProcess
         }
 
         [Test]
-        public void GetCamerasNamesReturnCorrectValue()
+        public void GetCamerasNamesReturnsCorrectValue()
         {
             // Arrange
             var camera = new Camera(1, "name");
             AddCamera(camerasContainer, camera);
             // Act
             var camerasNames = camerasContainer.GetCamerasNames;
+            // Assert
+            Assert.True(camerasNames.Contains("1"));
+        }
+
+        [Test]
+        public void GetCamerasNamesAsQueueProperty()
+        {
+            // Arrange
+            var camerasContainerMock = Substitute.For<ICamerasContainer>();
+            // Act
+            var camerasNames = camerasContainerMock.GetCamerasNamesAsQueue;
+            // Assert
+            var test = camerasContainerMock.Received().GetCamerasNamesAsQueue;
+        }
+
+        [Test]
+        public void GetCamerasNamesAsQueueReturnsCorrectValue()
+        {
+            // Arrange
+            var camera = new Camera(1, "name");
+            AddCamera(camerasContainer, camera);
+            // Act
+            var camerasNames = camerasContainer.GetCamerasNamesAsQueue;
             // Assert
             Assert.True(camerasNames.Contains("1"));
         }
@@ -168,6 +192,22 @@ namespace Challange.UnitTests.Services.StreamProcess
 
             // Assert
             Assert.AreEqual(2, camerasContainer.CamerasNumber);
+        }
+
+        [Test]
+        public void StartAllCamerasTest()
+        {
+            // Arrange
+            AddCamera(camerasContainer, camera);
+            var handler = Substitute.For<Action<object, EventArgs>>();
+            var eventSubscriber = Substitute.For<IEventSubscriber>();
+
+            // Act
+            camerasContainer.StartAllCameras(handler, eventSubscriber);
+
+            // Assert
+            eventSubscriber.Received().AddEventHandler(camera, "NewFrameEvent", handler);
+            camera.Received().Start();
         }
 
         [Test]

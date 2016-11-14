@@ -14,7 +14,7 @@ namespace Challange.Presenter.Presenters.RewindSettingsPresenter
 
         private void SaveSettings(RewindSettings newSettings)
         {
-            settingsService.SaveSetting(newSettings);
+            settingsContext.SaveRewindSetting(newSettings);
         }
     }
 }

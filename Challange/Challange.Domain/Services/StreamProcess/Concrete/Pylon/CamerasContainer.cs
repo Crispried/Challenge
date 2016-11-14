@@ -66,6 +66,19 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
             }
         }
 
+        public Queue<string> GetCamerasNamesAsQueue
+        {
+            get
+            {
+                Queue<string> camerasNames = new Queue<string>();
+                foreach (var cameraName in camerasContainer)
+                {
+                    camerasNames.Enqueue(cameraName.Name);
+                }
+                return camerasNames;
+            }
+        }
+
         public void InitializeCameras()
         {
             var camerasContainer = cameraProvider.GetConnectedCameras();
@@ -100,6 +113,15 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
             foreach (ICamera camera in camerasContainer)
             {
                 camera.Stop();
+            }
+        }
+
+        public void StartAllCameras(Action<object, EventArgs> cameraEventHandler, IEventSubscriber eventSubscriber)
+        {
+            foreach (var camera in camerasContainer)
+            {
+                eventSubscriber.AddEventHandler(camera, "NewFrameEvent", cameraEventHandler);
+                camera.Start();
             }
         }
 
