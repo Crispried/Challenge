@@ -20,6 +20,7 @@ using Challange.Domain.Services.FileSystem;
 using Challange.Domain.Servuces.Video.Concrete;
 using Challange.Domain.Services.Video.Abstract;
 using Challange.Domain.Services.Event;
+using Challange.Presenter.Views.Layouts;
 
 namespace Challange.Presenter.Presenters.MainPresenter
 {
@@ -50,6 +51,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private IInternalChallengeTimer internalChallengeTimer;
         private IChallengeObject challenge;
         private IEventSubscriber eventSubscriber;
+        private IMainFormLayout mainFormLayout;
 
         public MainPresenter(IApplicationController controller,
                              IMainView mainView,
@@ -65,7 +67,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
                              IFpsContainer fpsContainer,
                              IInternalChallengeTimer internalChallengeTimer,
                              IChallengeObject challenge,
-                             IEventSubscriber eventSubscriber) : 
+                             IEventSubscriber eventSubscriber,
+                             IMainFormLayout mainFormLayout) : 
                              base(controller, mainView)
         {
             this.fileService = fileService;
@@ -81,6 +84,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
             this.internalChallengeTimer = internalChallengeTimer;
             this.challenge = challenge;
             this.eventSubscriber = eventSubscriber;
+            this.mainFormLayout = mainFormLayout;
             SubscribePresenters();
             gameInformation = new GameInformation();
         }
@@ -103,9 +107,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
             View.NewFrameCallback += AddNewFrame;
             View.OpenChallengePlayer += OpenChallengePlayer;
             View.MakeZoom += MakeZoom;
-            View.PassCamerasNamesToPresenterCallback += PassCamerasNamesToPresenter;
+            mainFormLayout.PassCamerasNamesToPresenterCallback += PassCamerasNamesToPresenter;
             View.OpenChallengePlayerForLastChallenge += OpenChallengePlayerForLastChallenge;
-            View.OpenBroadcastForm += OpenBroadcastForm;
+            mainFormLayout.OpenBroadcastForm += OpenBroadcastForm;
         }
         
         public GameInformation GameInformation

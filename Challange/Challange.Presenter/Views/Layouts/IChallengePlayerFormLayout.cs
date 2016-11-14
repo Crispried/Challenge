@@ -11,6 +11,12 @@ namespace Challange.Presenter.Views.Layouts
 {
     public interface IChallengePlayerFormLayout : ILayout
     {
+        void DrawPlayers(int numberOfPlayers);
 
+        Form Form { get; set; }
+
+        FlowLayoutPanel ChallengePlayerPanel { get; set; }
+
+        void InitializePlayers(Dictionary<string, Bitmap> initialData);
     }
 }
