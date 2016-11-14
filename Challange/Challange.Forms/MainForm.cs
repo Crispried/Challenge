@@ -59,9 +59,7 @@ namespace Challange.Forms
             layout.Form = this;
         }
 
-        // Unnecessary 
-        public event Action<string, string> PassCamerasNamesToPresenterCallback;
-        public event Action<string> OpenBroadcastForm;
+        // Unnecessary       
 
         public FlowLayoutPanel PlayerPanel
         {
@@ -194,7 +192,9 @@ namespace Challange.Forms
 
         public event Action<Point, int, Point> MakeZoom;
 
+        public event Action<string, string> PassCamerasNamesToPresenterCallback;
 
+        public event Action<string> OpenBroadcastForm;
         #endregion
 
         public void InitializeTimer()

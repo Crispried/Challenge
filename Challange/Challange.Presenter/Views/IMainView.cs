@@ -40,6 +40,10 @@ namespace Challange.Presenter.Views
 
         event Action<Point, int, Point> MakeZoom;
 
+        event Action<string, string> PassCamerasNamesToPresenterCallback;
+
+        event Action<string> OpenBroadcastForm;
+
         Tuple<string, Bitmap> CurrentFrameInfo { get; }
 
         string GetElapsedTime { get; }
