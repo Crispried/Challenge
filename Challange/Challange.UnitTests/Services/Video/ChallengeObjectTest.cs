@@ -30,7 +30,7 @@ namespace Challange.UnitTests.Services.Video
             // Arrange
 
             // Act
-            string expectedPath = "challengeRoot\\challengeFolder_folder\\";
+            string expectedPath = "challengeRoot/challengeFolder_folder";
 
             // Assert
             Assert.AreEqual(expectedPath, GetChallengeDirectoryPath());
