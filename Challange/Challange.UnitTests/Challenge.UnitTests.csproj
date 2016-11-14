@@ -117,6 +117,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Forms\ChallengePlayerFormTest.cs" />
+    <Compile Include="Forms\MainFormTest.cs" />
     <Compile Include="Services\Video\ChallengeBuffersTest.cs" />
     <Compile Include="Services\Video\ChallengeObjectTest.cs" />
     <Compile Include="Services\Video\ChallengeWriterTest.cs" />

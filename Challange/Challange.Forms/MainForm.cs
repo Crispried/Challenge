@@ -26,7 +26,7 @@ namespace Challange.Forms
         private ComponentResourceManager resources =
                  new ComponentResourceManager(typeof(MainForm));
 
-        private Tuple<string, Bitmap> currentFrameInfo;        
+        private Tuple<string, Bitmap> currentFrameInfo;
 
         public MainForm(ApplicationContext context, IMainFormLayout layout)
         {
@@ -147,7 +147,7 @@ namespace Challange.Forms
         //    Invoke(MakeZoom, pictureBoxLocation, e.Delta, mouseLocation);
         //}
 
-        private ZoomData zoomData;
+        // private ZoomData zoomData;
 
         public void RedrawZoomedImage(ZoomData zoomData)
         {
@@ -310,8 +310,8 @@ namespace Challange.Forms
 
         private void drawTestPlayersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // ClearPlayerPanelControls();
-            // DrawPlayers(new PlayerPanelSettings() { AutosizeMode = true }, 5);
+            // layout.ClearControls(playerPanel);
+            layout.DrawPlayers(new PlayerPanelSettings() { AutosizeMode = true }, 5);
         }
 
         public void ShowMessage(ChallengeMessage message)

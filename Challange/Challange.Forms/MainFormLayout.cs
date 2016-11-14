@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Challange.Forms
 {
-    class MainFormLayout : IMainFormLayout
+    class MainFormLayout : FormLayout, IMainFormLayout
     {
         private FlowLayoutPanel playerPanel;
 
@@ -54,7 +54,7 @@ namespace Challange.Forms
             var playerSize = GetPlayerSize(settings);
             var playerWidth = playerSize.Width;
             var playerHeight = playerSize.Height;
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < numberOfPlayers; i++)
             {
                 var player = InitializePlayer(playerWidth,
                                     playerHeight, i.ToString());
