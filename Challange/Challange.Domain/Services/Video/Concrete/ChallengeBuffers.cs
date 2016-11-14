@@ -72,12 +72,12 @@ namespace Challange.Domain.Servuces.Video.Concrete
 
         public List<IFps> GetPastCameraRecordsValueByKey(string key)
         {
-            return GetByValue(key, pastCameraRecords);
+            return GetKeyByValue(key, pastCameraRecords);
         }
 
         public List<IFps> GetFutureCameraRecordsValueByKey(string key)
         {
-            return GetByValue(key, futureCameraRecords);
+            return GetKeyByValue(key, futureCameraRecords);
         }
 
         public List<IFps> GetFirstPastValue()
@@ -110,10 +110,7 @@ namespace Challange.Domain.Servuces.Video.Concrete
             }
             foreach (var fpsToRemove in fpsesToRemove.Values)
             {
-                foreach (var frame in fpsToRemove.Frames)
-                {
-                    frame.Dispose();
-                }
+                fpsToRemove.DisposeFrames();
             }
         }
 
@@ -208,7 +205,7 @@ namespace Challange.Domain.Servuces.Video.Concrete
             dictionary.Add(key, value);
         }
 
-        private List<IFps> GetByValue(string key,
+        private List<IFps> GetKeyByValue(string key,
                         Dictionary<string, List<IFps>> dictionary)
         {
             List<IFps> value;

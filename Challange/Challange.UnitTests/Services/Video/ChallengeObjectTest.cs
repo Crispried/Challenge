@@ -7,13 +7,15 @@ using NUnit.Framework;
 using Challange.Domain.Entities;
 using System.Drawing;
 using Challange.Domain.Servuces.Video.Concrete;
+using Challange.Domain.Services.Video.Abstract;
+using NSubstitute;
 
 namespace Challange.UnitTests.Services.Video
 {
     [TestFixture]
     class ChallengeObjectTest
     {
-        private ChallengeObject challengeObject;
+        private IChallengeObject challengeObject;
         private string pathToRootDirectory = "challengeRoot";
         private string challengeFolderName = "challengeFolder:folder";
 
@@ -25,20 +27,41 @@ namespace Challange.UnitTests.Services.Video
         }
 
         [Test]
-        public void GetChallengeDirectoryPathReturnsFormattedPath()
+        public void GetPathToRootDirectoryTest()
         {
             // Arrange
-
             // Act
-            string expectedPath = "challengeRoot\\challengeFolder_folder\\";
-
             // Assert
-            Assert.AreEqual(expectedPath, GetChallengeDirectoryPath());
+            Assert.AreEqual(pathToRootDirectory, challengeObject.PathToRootDirectory);
         }
 
-        private string GetChallengeDirectoryPath()
+        [Test]
+        public void GetChallengeFolderNameTest()
         {
-            return challengeObject.PathToChallengeDirectory;
+            // Arrange
+            // Act
+            // Assert
+            Assert.AreEqual(challengeFolderName, challengeObject.ChallengeFolderName);
+        }
+
+        [Test]
+        public void GetPathToChallengeDirectory()
+        {
+            // Arrange
+            // Act
+            var path = pathToRootDirectory + @"/" + challengeFolderName.Replace(":", "_");
+            // Assert
+            Assert.AreEqual(path, challengeObject.PathToChallengeDirectory);
+        }
+
+        [Test]
+        public void SetPathToChallengeDirectory()
+        {
+            // Arrange
+            // Act
+            challengeObject.PathToChallengeDirectory = "bla";
+            // Assert
+            Assert.AreEqual("bla", challengeObject.PathToChallengeDirectory);
         }
     }
 }

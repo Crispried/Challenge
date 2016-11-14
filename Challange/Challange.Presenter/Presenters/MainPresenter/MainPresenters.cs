@@ -192,6 +192,15 @@ namespace Challange.Presenter.Presenters.MainPresenter
             }
         }
 
+        /// <summary>
+        /// Get cameras names from view
+        /// In order to pass them to ChallengeWriter
+        /// </summary>
+        public void PassCamerasNamesToPresenter(string key, string cameraName)
+        {
+            camerasContainer.SetCameraName(key, cameraName);
+        }
+
         public void OpenBroadcastForm(string cameraFullName)
         {
             ICamera cameraForBroadcasting = camerasContainer.GetCameraByKey(cameraFullName);

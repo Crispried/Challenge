@@ -48,8 +48,8 @@ namespace Challange.Forms
 
                 var controller = new ApplicationController(autofacAdapter)
                                 .RegisterView<IMainView, MainForm>()
-                                .RegisterLayoutToForm<IPlayerLayout, MainForm>()
-                                .RegisterLayoutToForm<IPlayerLayout, ChallengePlayerForm>()
+                                .RegisterLayoutToForm<IMainFormLayout, MainForm>()
+                                .RegisterLayoutToForm<IChallengePlayerFormLayout, ChallengePlayerForm>()
                                 .RegisterLayoutToImplementation<IPlayerLayout, PlayerLayout>()
                                 .RegisterView<IPlayerPanelSettingsView, PlayerPanelSettingsForm>()
                                 .RegisterView<IChallengeSettingsView, ChallangeSettingsForm>()
@@ -89,6 +89,8 @@ namespace Challange.Forms
                                 .RegisterService<ChallengeSettings>()
                                 .RegisterService<FtpSettings>()
                                 .RegisterService<RewindSettings>()
+                                .RegisterService<IMainFormLayout, MainFormLayout>()
+                                .RegisterService<IChallengePlayerFormLayout, ChallengePlayerFormLayout>()
                                 .RegisterInstance(new ApplicationContext());
 
 

@@ -12,5 +12,7 @@ namespace Challange.Domain.Abstract
         List<Bitmap> Frames { get; }
 
         void AddFrame(Bitmap frame);
+
+        void DisposeFrames();
     }
 }

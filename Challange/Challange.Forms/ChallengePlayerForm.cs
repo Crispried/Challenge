@@ -15,50 +15,69 @@ using System.Windows.Forms;
 
 namespace Challange.Forms
 {
-    public partial class ChallengePlayerForm : Form, IChallengePlayerView, IPlayerLayout
+    public partial class ChallengePlayerForm : Form, IChallengePlayerView, IChallengePlayerFormLayout
     {
-        private IPlayerLayout playerLayout;
+        private IChallengePlayerFormLayout layout;
 
-        public ChallengePlayerForm(IPlayerLayout playerLayout)
+        public ChallengePlayerForm(IChallengePlayerFormLayout layout)
         {
             InitializeComponent();
-            this.playerLayout = playerLayout;
-            BindForm(this);
+            this.layout = layout;
+            layout.ChallengePlayerPanel = challengePlayerPanel;
+            layout.Form = this;
         }
+
+        // Unnecessary
+        private Form form;
 
         public event Action<string> OpenBroadcastForm;
 
-        // Temporary solution
-        public void DrawPlayers(int numberOfPlayers, Control challengePlayerPanel)
+        public Form Form
         {
+            get
+            {
+                return form;
+            }
+            set
+            {
+                form = value;
+            }
+        }
 
+        public FlowLayoutPanel ChallengePlayerPanel
+        {
+            get
+            {
+                return challengePlayerPanel;
+            }
+            set
+            {
+                challengePlayerPanel = value;
+            }
         }
         //
 
-        public void BindForm(Form form)
-        {
-            playerLayout.BindForm(form);
-        }
-
         public void DrawPlayers(int numberOfPlayers)
         {
-            playerLayout.DrawPlayers(numberOfPlayers, challengePlayerPanel);
+            layout.DrawPlayers(numberOfPlayers);
         }
 
+        //public void RedrawZoomedImage(ZoomData zoomData)
+        //{
+        //    this.zoomData = zoomData;
+        //    pictureBoxToShowFullscreen.Refresh();
+        //}
+
+        // Was IChallengePlayerView.InitializePlayers
         public void InitializePlayers(Dictionary<string, Bitmap> initialData)
         {
-            playerLayout.InitializePlayers(initialData);
+            layout.InitializePlayers(initialData);
         }
 
         public void ShowMessage(ChallengeMessage message)
         {
             MessageBox.Show(message.Text, message.Caption,
                 message.MessageButtons, message.MessageIcon);
-        }
-
-        private void MaximizeWindowState()
-        {
-            WindowState = FormWindowState.Maximized;
         }
     }
 }

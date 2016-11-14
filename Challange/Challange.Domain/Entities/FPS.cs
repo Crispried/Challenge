@@ -29,6 +29,14 @@ namespace Challange.Domain.Entities
         {
             frames.Add(frame);
         }
+
+        public void DisposeFrames()
+        {
+            foreach (var frame in frames)
+            {
+                frame.Dispose();
+            }
+        }
     }
 
     public class NullFps : IFps
@@ -42,6 +50,11 @@ namespace Challange.Domain.Entities
         }
 
         public void AddFrame(Bitmap frame)
+        {
+
+        }
+
+        public void DisposeFrames()
         {
 
         }

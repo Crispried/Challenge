@@ -9,64 +9,46 @@ using Challange.Domain.Entities;
 namespace Challange.UnitTests.Entity
 {
     [TestFixture]
-    class GameInformationTest
+    class GameInformationTest : TestCase
     {
-        private string firstTeamName;
-        private string secondTeamName;
-        private string date;
         private GameInformation gameInfo;
 
         [SetUp]
         public void SetUp()
         {
-            firstTeamName = "FirstTeam";
-            secondTeamName = "SecondTeam";
-            date = DateTime.Now.ToString();
             gameInfo = new GameInformation();
         }
 
         [Test]
-        public void DirectoryNameIsProperlyFormattedWithDate()
+        public void DirectoryNamePropertyTest()
         {
             // Arrange
-            SetUpTeamNames();
-            SetUpDate();
+            string directoryName = "name";
 
             // Act
-            string expectedDirectoryName = firstTeamName + "_vs_" + 
-                                                secondTeamName + "(" + date + ")";
+            gameInfo.DirectoryName = directoryName;
 
             // Assert
-            Assert.AreEqual(expectedDirectoryName, GetFormattedDirectoryName());
+            Assert.AreEqual(directoryName, gameInfo.DirectoryName);
         }
 
         [Test]
-        public void DirectoryNameIsProperlyFormattedWithoutDate()
+        public void SetGameInformationTest()
         {
             // Arrange
-            SetUpTeamNames();
+            GameInformation gameInformation = InitializeGameInformation();
 
             // Act
-            string expectedDirectoryName = firstTeamName + "_vs_" + secondTeamName + "()";
+            gameInfo.SetGameInformation(gameInformation);
 
             // Assert
-            Assert.AreEqual(expectedDirectoryName, GetFormattedDirectoryName());
-        }
-
-        private void SetUpTeamNames()
-        {
-            gameInfo.FirstTeam = firstTeamName;
-            gameInfo.SecondTeam = secondTeamName;
-        }
-
-        private void SetUpDate()
-        {
-            gameInfo.Date = date;
-        }
-
-        private string GetFormattedDirectoryName()
-        {
-            return gameInfo.DirectoryName;
+            Assert.NotNull(gameInfo.FirstTeam);
+            Assert.NotNull(gameInfo.SecondTeam);
+            Assert.NotNull(gameInfo.Date);
+            Assert.NotNull(gameInfo.GameStart);
+            Assert.NotNull(gameInfo.Country);
+            Assert.NotNull(gameInfo.City);
+            Assert.NotNull(gameInfo.Part);
         }
     }
 }

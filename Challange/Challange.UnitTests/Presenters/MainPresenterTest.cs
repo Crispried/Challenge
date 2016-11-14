@@ -18,6 +18,7 @@ using Challange.Presenter.Presenters.MainPresenter;
 using Challange.Presenter.Presenters.PlayerPanelSettingsPresenter;
 using Challange.Presenter.Presenters.RewindSettingsPresenter;
 using Challange.Presenter.Views;
+using Challange.Presenter.Views.Layouts;
 using NSubstitute;
 using NUnit.Framework;
 using System;
@@ -44,6 +45,7 @@ namespace Challange.UnitTests.Presenters
         private IInternalChallengeTimer internalChallengeTimer;
         private IChallengeObject challengeObject;
         private IEventSubscriber eventSubscriber;
+        private IMainFormLayout mainFormLayout;
 
         private PlayerPanelSettings playerPanelSettings;
         private ChallengeSettings challengeSettings;
@@ -68,7 +70,8 @@ namespace Challange.UnitTests.Presenters
             internalChallengeTimer = Substitute.For<IInternalChallengeTimer>();
             challengeObject = Substitute.For<IChallengeObject>();
             eventSubscriber = Substitute.For<IEventSubscriber>();
-            
+            mainFormLayout = Substitute.For<IMainFormLayout>();
+
             presenter = new MainPresenter(controller, view,
                                     fileService, messageParser,
                                     settingsContext, nullSettingsContainer,
@@ -76,7 +79,7 @@ namespace Challange.UnitTests.Presenters
                                     processStarter, zoomer,
                                     challengeBuffers, fpsContainer,
                                     internalChallengeTimer, challengeObject,
-                                    eventSubscriber);
+                                    eventSubscriber, mainFormLayout);
             playerPanelSettings = InitializePlayerPanelSettings();
             challengeSettings = InitializeChallengeSettings();
             ftpSettings = InitializeFtpSettings();
@@ -301,7 +304,7 @@ namespace Challange.UnitTests.Presenters
         {
             // Arrange
             // Act
-            presenter.GameInformation = InitializeGameInformation();
+         //   presenter.GameInformation = InitializeGameInformation();
             //presenter.ChallengeSettings = InitializeChallengeSettings();
             view.CreateChallange += Raise.Event<Action>();
             // Assert

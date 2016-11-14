@@ -52,7 +52,7 @@ namespace Challange.UnitTests.Services.FileSystem
             Assert.True(Directory.Exists(path));
 
             // Delete
-            fileService.DeleteFile(path);
+            // fileService.DeleteFile(path);
         }
 
         [Test]

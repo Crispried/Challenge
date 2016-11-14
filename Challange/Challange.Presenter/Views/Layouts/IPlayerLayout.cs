@@ -13,8 +13,11 @@ namespace Challange.Presenter.Views.Layouts
     {
         void BindForm(Form form);
 
-        void DrawPlayers(int numberOfPlayers, Control challengePlayerPanel);
+        void DrawChallengePlayerForm(int numberOfPlayers, Control challengePlayerPanel);
 
         void InitializePlayers(Dictionary<string, Bitmap> initialData);
+
+        // Main Form
+        void BindMainFormPlayerPanel(FlowLayoutPanel panel);
     }
 }

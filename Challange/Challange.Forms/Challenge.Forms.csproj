@@ -137,6 +137,8 @@
     <Compile Include="ChallengePlayerForm.Designer.cs">
       <DependentUpon>ChallengePlayerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ChallengePlayerFormLayout.cs" />
+    <Compile Include="FormLayout.cs" />
     <Compile Include="FtpSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -149,6 +151,7 @@
     <Compile Include="GameInformationForm.Designer.cs">
       <DependentUpon>GameInformationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MainFormLayout.cs" />
     <Compile Include="PlayerLayout.cs" />
     <Compile Include="PlayerPanelSettingsForm.cs">
       <SubType>Form</SubType>
