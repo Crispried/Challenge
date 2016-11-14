@@ -17,7 +17,6 @@ namespace Challange.Forms
         private FlowLayoutPanel challengePlayerPanel;
 
         private List<Button> fullScreenButtonsList;
-
         private List<PictureBox> allPlayers;
 
         public ChallengePlayerFormLayout()

@@ -27,7 +27,6 @@ namespace Challange.Forms
         #endregion
 
         private List<PictureBox> allPlayers;
-
         private Dictionary<string, string> camerasNames;
 
 
