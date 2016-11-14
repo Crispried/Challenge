@@ -70,7 +70,6 @@ namespace Challange.UnitTests.Presenters
             internalChallengeTimer = Substitute.For<IInternalChallengeTimer>();
             challengeObject = Substitute.For<IChallengeObject>();
             eventSubscriber = Substitute.For<IEventSubscriber>();
-            mainFormLayout = Substitute.For<IMainFormLayout>();
 
             presenter = new MainPresenter(controller, view,
                                     fileService, messageParser,
@@ -79,7 +78,7 @@ namespace Challange.UnitTests.Presenters
                                     processStarter, zoomer,
                                     challengeBuffers, fpsContainer,
                                     internalChallengeTimer, challengeObject,
-                                    eventSubscriber, mainFormLayout);
+                                    eventSubscriber);
             playerPanelSettings = InitializePlayerPanelSettings();
             challengeSettings = InitializeChallengeSettings();
             ftpSettings = InitializeFtpSettings();

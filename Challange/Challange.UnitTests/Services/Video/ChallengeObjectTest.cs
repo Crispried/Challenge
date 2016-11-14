@@ -36,15 +36,6 @@ namespace Challange.UnitTests.Services.Video
         }
 
         [Test]
-        public void GetChallengeFolderNameTest()
-        {
-            // Arrange
-            // Act
-            // Assert
-            Assert.AreEqual(challengeFolderName, challengeObject.ChallengeFolderName);
-        }
-
-        [Test]
         public void GetPathToChallengeDirectory()
         {
             // Arrange
