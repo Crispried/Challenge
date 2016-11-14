@@ -26,43 +26,7 @@ namespace Challange.Forms
         private ComponentResourceManager resources =
                  new ComponentResourceManager(typeof(MainForm));
 
-        private Tuple<string, Bitmap> currentFrameInfo;
-
-        // Unnecessary 
-        public event Action<string, string> PassCamerasNamesToPresenterCallback;
-        public event Action<string> OpenBroadcastForm;
-
-        private Form form;
-
-        public FlowLayoutPanel PlayerPanel
-        {
-            get
-            {
-                return playerPanel;
-            }
-            set
-            {
-                playerPanel = value;
-            }
-        }
-
-        public Form Form
-        {
-            get
-            {
-                return form;
-            }
-            set
-            {
-                form = value;
-            }
-        }
-
-        public void UpdatePlayersImage(string cameraName, Bitmap frameClone)
-        {
-
-        }
-        // End of unnecessary
+        private Tuple<string, Bitmap> currentFrameInfo;        
 
         public MainForm(ApplicationContext context, IMainFormLayout layout)
         {
@@ -94,6 +58,40 @@ namespace Challange.Forms
             layout.PlayerPanel = playerPanel;
             layout.Form = this;
         }
+
+        // Unnecessary 
+        public event Action<string, string> PassCamerasNamesToPresenterCallback;
+        public event Action<string> OpenBroadcastForm;
+
+        public FlowLayoutPanel PlayerPanel
+        {
+            get
+            {
+                return layout.PlayerPanel;
+            }
+            set
+            {
+                layout.PlayerPanel = value;
+            }
+        }
+
+        public Form Form
+        {
+            get
+            {
+                return layout.Form;
+            }
+            set
+            {
+                layout.Form = value;
+            }
+        }
+
+        public void UpdatePlayersImage(string cameraName, Bitmap frameClone)
+        {
+            layout.UpdatePlayersImage(cameraName, frameClone);
+        }
+        // End of unnecessary
 
         public Tuple<string, Bitmap> CurrentFrameInfo
         {
