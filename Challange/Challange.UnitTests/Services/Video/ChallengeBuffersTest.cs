@@ -11,6 +11,7 @@ using Challange.Domain.Abstract;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using NSubstitute;
 using Challange.Domain.Services.Video.Abstract;
+using Challange.Domain.Servuces.Video.Concrete;
 
 namespace Challange.UnitTests.Services.Video
 {
@@ -25,10 +26,11 @@ namespace Challange.UnitTests.Services.Video
         private int maxElementsInPastCollection;
         private int maxElementsInFutureCollection;
         private string imagePath = @"bitmap\bitmap.jpg";
-        private string key1 = "FullName1";
-        private string key2 = "FullName2";
+        private string key1 = "One";
+        private string key2 = "Two";
         private string incorrectKey1 = "key1";
         private string incorrectKey2 = "key2";
+        private Dictionary<string, IFps> dictionary;
 
         [SetUp]
         public void SetUp()
@@ -36,14 +38,18 @@ namespace Challange.UnitTests.Services.Video
             camerasInfo = InitializeCamerasInfo();
             bitmap = new Bitmap(imagePath);
             camerasContainer = Substitute.For<ICamerasContainer>();
+            camerasContainer.GetCamerasKeys.Returns(new List<string> { "One", "Two" });
             fpsContainer = Substitute.For<IFpsContainer>();
+            dictionary = new Dictionary<string, IFps>();
+            dictionary.Add("One", fps);
+            fpsContainer.Fpses.Returns(dictionary);
             fps = fpsContainer.GetFpsByKey(key1);
             fps.AddFrame(bitmap);
             fps = fpsContainer.GetFpsByKey(key2);
             fps.AddFrame(bitmap);
             maxElementsInPastCollection = 10;
             maxElementsInFutureCollection = 10;
-            buffers = Substitute.For<IChallengeBuffers>();
+            buffers = new ChallengeBuffers(camerasContainer);
             buffers.AddFutureFpses(fpsContainer);
             buffers.AddPastFpses(fpsContainer);
         }
@@ -244,10 +250,8 @@ namespace Challange.UnitTests.Services.Video
             // Arrange
 
             // Act
-            buffers.RemoveFirstFpsFromPastBuffer();
 
             // Assert
-            // Make an assertion
         }
     }
 }
