@@ -33,6 +33,46 @@ namespace Challange.UnitTests.Services.Settings
         }
 
         [Test]
+        public void PlayerPanelSettingGetterTest()
+        {
+            // Arrange
+            var pps = settingsContext.GetPlayerPanelSetting();
+            // Act
+            // Assert
+            Assert.IsTrue(pps == settingsContext.PlayerPanelSetting);
+        }
+
+        [Test]
+        public void ChallengeSettingGetterTest()
+        {
+            // Arrange
+            var pps = settingsContext.GetChallengeSetting();
+            // Act
+            // Assert
+            Assert.IsTrue(pps == settingsContext.ChallengeSetting);
+        }
+
+        [Test]
+        public void FtpSettingGetterTest()
+        {
+            // Arrange
+            var pps = settingsContext.GetFtpSetting();
+            // Act
+            // Assert
+            Assert.IsTrue(pps == settingsContext.FtpSetting);
+        }
+
+        [Test]
+        public void RewindSettingGetterTest()
+        {
+            // Arrange
+            var pps = settingsContext.GetRewindSetting();
+            // Act
+            // Assert
+            Assert.IsTrue(pps == settingsContext.RewindSetting);
+        }
+
+        [Test]
         public void GetPlayerPanelSettingTest()
         {
             // Arrange

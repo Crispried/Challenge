@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Challange.Domain.Abstract;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Challange.Domain.Entities
 {
@@ -39,6 +40,7 @@ namespace Challange.Domain.Entities
         }
     }
 
+    [ExcludeFromCodeCoverage]
     public class NullFps : IFps
     {
         public List<Bitmap> Frames

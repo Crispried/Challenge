@@ -1,6 +1,7 @@
 ﻿using AForge.Video.FFMPEG;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Challange.Domain.Servuces.Video.Concrete
 {
+    [ExcludeFromCodeCoverage]
     public class ChallengeReader
     {
         private VideoFileReader reader;

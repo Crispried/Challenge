@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 using Challange.Domain.Abstract;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using Challange.Domain.Services.Video.Abstract;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Challange.Domain.Servuces.Video.Concrete
 {
+    [ExcludeFromCodeCoverage]
     public class ChallengeWriter
     {
         private List<Video> videos;

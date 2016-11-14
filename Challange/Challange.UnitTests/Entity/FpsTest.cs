@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using Challange.Domain.Entities;
 using System.Drawing;
+using NSubstitute;
 
 namespace Challange.UnitTests.Entity
 {
@@ -34,6 +35,17 @@ namespace Challange.UnitTests.Entity
 
             // Assert
             Assert.IsNotEmpty(fps.Frames);
+        }
+
+        [Test]
+        public void DisposeFramesTest()
+        {
+            // Arrange
+            AddFrame();
+            // Act
+            fps.DisposeFrames();
+            // Assert
+            Assert.IsTrue(fps.Frames[0].PixelFormat == System.Drawing.Imaging.PixelFormat.DontCare);
         }
 
         private void AddFrame()
