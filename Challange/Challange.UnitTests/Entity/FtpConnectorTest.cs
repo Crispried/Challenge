@@ -31,10 +31,10 @@ namespace Challange.UnitTests.Entity
         public void IsFtpConnectionSuccessfulReturnsTrue()
         {
             // Arrange
-            ftpConnector = new FtpConnector(validHostName, login, password);
+            ftpConnector = CreateFtpConnector(validHostName, login, password);
 
             // Act
-            bool success = ftpConnector.IsFtpConnectionSuccessful();
+            bool success = TestFtpConnection(ftpConnector);
 
             // Assert
             Assert.True(success);
@@ -44,13 +44,23 @@ namespace Challange.UnitTests.Entity
         public void IsFtpConnectionSuccessfulReturnsFalse()
         {
             // Arrange
-            ftpConnector = new FtpConnector(invalidHostName, login, password);
+            ftpConnector = CreateFtpConnector(invalidHostName, login, password);
 
             // Act
-            bool success = ftpConnector.IsFtpConnectionSuccessful();
+            bool success = TestFtpConnection(ftpConnector);
 
             // Assert
             Assert.False(success);
+        }
+
+        private FtpConnector CreateFtpConnector(string hostName, string login, string password)
+        {
+            return new FtpConnector(hostName, login, password);
+        }
+
+        private bool TestFtpConnection(FtpConnector ftpConnector)
+        {
+            return ftpConnector.IsFtpConnectionSuccessful();
         }
     }
 }
