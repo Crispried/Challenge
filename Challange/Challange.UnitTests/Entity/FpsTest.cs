@@ -42,8 +42,10 @@ namespace Challange.UnitTests.Entity
         {
             // Arrange
             AddFrame();
+
             // Act
             fps.DisposeFrames();
+
             // Assert
             Assert.IsTrue(fps.Frames[0].PixelFormat == System.Drawing.Imaging.PixelFormat.DontCare);
         }

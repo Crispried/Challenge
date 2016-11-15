@@ -25,7 +25,7 @@ namespace Challange.UnitTests.Entity
         }
 
         [Test]
-        public void AddFrameAddsFrame()
+        public void AddFrameTest()
         {
             // Arrange
 
@@ -33,6 +33,5 @@ namespace Challange.UnitTests.Entity
 
             // Assert
         }
-
     }
 }
