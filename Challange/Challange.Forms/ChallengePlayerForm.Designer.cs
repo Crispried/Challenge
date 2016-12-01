@@ -42,7 +42,7 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.DimGray;
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(36)))), ((int)(((byte)(43)))));
             this.panel1.Controls.Add(this.rewindForward);
             this.panel1.Controls.Add(this.rewindBackward);
             this.panel1.Controls.Add(this.startButton);
@@ -57,13 +57,15 @@
             // rewindForward
             // 
             this.rewindForward.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.rewindForward.BackColor = System.Drawing.Color.Transparent;
             this.rewindForward.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("rewindForward.BackgroundImage")));
             this.rewindForward.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.rewindForward.Location = new System.Drawing.Point(721, 35);
+            this.rewindForward.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.rewindForward.Location = new System.Drawing.Point(720, 35);
             this.rewindForward.Name = "rewindForward";
-            this.rewindForward.Size = new System.Drawing.Size(49, 50);
+            this.rewindForward.Size = new System.Drawing.Size(50, 50);
             this.rewindForward.TabIndex = 4;
-            this.rewindForward.UseVisualStyleBackColor = true;
+            this.rewindForward.UseVisualStyleBackColor = false;
             // 
             // rewindBackward
             // 
@@ -71,22 +73,26 @@
             this.rewindBackward.BackColor = System.Drawing.Color.Transparent;
             this.rewindBackward.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("rewindBackward.BackgroundImage")));
             this.rewindBackward.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.rewindBackward.Location = new System.Drawing.Point(651, 35);
+            this.rewindBackward.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.rewindBackward.Location = new System.Drawing.Point(642, 35);
             this.rewindBackward.Name = "rewindBackward";
-            this.rewindBackward.Size = new System.Drawing.Size(49, 50);
+            this.rewindBackward.Size = new System.Drawing.Size(50, 50);
             this.rewindBackward.TabIndex = 3;
             this.rewindBackward.UseVisualStyleBackColor = false;
             // 
             // startButton
             // 
             this.startButton.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.startButton.AutoSize = true;
+            this.startButton.BackColor = System.Drawing.Color.Transparent;
             this.startButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("startButton.BackgroundImage")));
             this.startButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.startButton.Location = new System.Drawing.Point(82, 35);
+            this.startButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.startButton.Location = new System.Drawing.Point(80, 35);
             this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(49, 50);
+            this.startButton.Size = new System.Drawing.Size(50, 50);
             this.startButton.TabIndex = 2;
-            this.startButton.UseVisualStyleBackColor = true;
+            this.startButton.UseVisualStyleBackColor = false;
             // 
             // stopButton
             // 
@@ -94,16 +100,18 @@
             this.stopButton.BackColor = System.Drawing.Color.Transparent;
             this.stopButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("stopButton.BackgroundImage")));
             this.stopButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.stopButton.Cursor = System.Windows.Forms.Cursors.Default;
+            this.stopButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.stopButton.Location = new System.Drawing.Point(12, 35);
             this.stopButton.Name = "stopButton";
-            this.stopButton.Size = new System.Drawing.Size(49, 50);
+            this.stopButton.Size = new System.Drawing.Size(50, 50);
             this.stopButton.TabIndex = 1;
             this.stopButton.UseVisualStyleBackColor = false;
             // 
             // challengeTrackBar
             // 
             this.challengeTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.challengeTrackBar.BackColor = System.Drawing.Color.DimGray;
+            this.challengeTrackBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(36)))), ((int)(((byte)(43)))));
             this.challengeTrackBar.Location = new System.Drawing.Point(3, 3);
             this.challengeTrackBar.Maximum = 50;
             this.challengeTrackBar.Name = "challengeTrackBar";
@@ -113,7 +121,7 @@
             // challengePlayerPanel
             // 
             this.challengePlayerPanel.AutoScroll = true;
-            this.challengePlayerPanel.BackColor = System.Drawing.Color.Black;
+            this.challengePlayerPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(36)))), ((int)(((byte)(43)))));
             this.challengePlayerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.challengePlayerPanel.Location = new System.Drawing.Point(0, 0);
             this.challengePlayerPanel.Name = "challengePlayerPanel";
@@ -124,6 +132,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(36)))), ((int)(((byte)(43)))));
             this.ClientSize = new System.Drawing.Size(782, 553);
             this.Controls.Add(this.challengePlayerPanel);
             this.Controls.Add(this.panel1);

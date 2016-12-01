@@ -7,8 +7,6 @@ namespace Challange.Presenter.Views
 {
     public interface IGameInformationView : IView
     {
-        event Action SetGameInformation;
-
-        GameInformation GameInformation { get; }
+        event Action<GameInformation> SetGameInformation;
     }
 }

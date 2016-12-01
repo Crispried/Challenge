@@ -10,7 +10,9 @@ using Challange.Domain.Services.StreamProcess.Abstract;
 using Challange.Domain.Services.Video.Abstract;
 using Challange.Domain.Servuces.Video.Concrete;
 using Challange.Presenter.Base;
+using Challange.Presenter.Presenters.BroadcastPresenter;
 using Challange.Presenter.Presenters.CamerasPresenter;
+using Challange.Presenter.Presenters.ChallengePlayerPresenter;
 using Challange.Presenter.Presenters.ChallengeSettingsPresenter;
 using Challange.Presenter.Presenters.FtpSettingsPresenter;
 using Challange.Presenter.Presenters.GameInformationPresenter;
@@ -45,7 +47,6 @@ namespace Challange.UnitTests.Presenters
         private IInternalChallengeTimer internalChallengeTimer;
         private IChallengeObject challengeObject;
         private IEventSubscriber eventSubscriber;
-        private IMainFormLayout mainFormLayout;
 
         private PlayerPanelSettings playerPanelSettings;
         private ChallengeSettings challengeSettings;
@@ -246,38 +247,57 @@ namespace Challange.UnitTests.Presenters
         }
 
         [Test]
-        public void StreamStartInitializeDevices()
-        {
-            // Arrange
-            // Act
-            presenter.StartStream();
-            // Assert
-            camerasContainer.Received().InitializeCameras();
-        }
-
-        [Test]
         public void StreamStartIfCamerasContainerIsEmpty()
         {
             // Arrange
             camerasContainer.IsEmpty().Returns(true);
             camerasContainer.GetCamerasNames.Returns(new System.Collections.Generic.List<string>() { "a", "b" });
-
             // Act
             presenter.StartStream();
             // Assert
+            camerasContainer.Received().InitializeCameras();
             challengeBuffers.DidNotReceiveWithAnyArgs().SetNumberOfPastAndFutureElements(0, 0);
             var camerasNames = camerasContainer.DidNotReceive().GetCamerasNamesAsQueue;
             view.DidNotReceiveWithAnyArgs().BindPlayersToCameras(camerasNames);
             view.DidNotReceive().InitializeTimer();
             fpsContainer.DidNotReceiveWithAnyArgs().InitializeFpses(null);
             internalChallengeTimer.DidNotReceiveWithAnyArgs().EnableTimerEvent(default(Action));
-            camerasContainer.ReceivedWithAnyArgs().StartAllCameras(null, null);
-
-            //              ChangeStreamingStatus(true); NEED TO TEST
-
+            camerasContainer.DidNotReceiveWithAnyArgs().StartAllCameras(null, null);
+            view.DidNotReceiveWithAnyArgs().ToggleChallengeButton(true);
+            view.DidNotReceiveWithAnyArgs().ToggleStartButton(false);
+            view.DidNotReceiveWithAnyArgs().ToggleStopButton(true); view.DidNotReceive().ToggleVisibilityOfViewLastChallengeButton();
             var returnedMessage =
                 messageParser.Received().GetMessage(MessageType.EmptyDeviceContainer);
             view.Received().ShowMessage(returnedMessage);
+        }
+
+        [Test]
+        public void StreamStartIfCamerasContainerIsNotEmpty()
+        {
+            // Arrange
+            camerasContainer.IsEmpty().Returns(false);
+            camerasContainer.GetCamerasNames.Returns(new System.Collections.Generic.List<string>() { "a", "b" });
+            settingsContext.ChallengeSetting.Returns(challengeSettings);
+            var past = settingsContext.ChallengeSetting.NumberOfPastFPS;
+            var future = settingsContext.ChallengeSetting.NumberOfFutureFPS;
+            // Act
+            presenter.StartStream();
+            // Assert
+            camerasContainer.Received().InitializeCameras();
+            challengeBuffers.Received().SetNumberOfPastAndFutureElements(past, future);
+            var camerasNames = camerasContainer.Received().GetCamerasNamesAsQueue;
+            view.Received().BindPlayersToCameras(camerasNames);
+            view.Received().InitializeTimer();
+            fpsContainer.Received().InitializeFpses(camerasContainer.GetCamerasNames);
+            internalChallengeTimer.ReceivedWithAnyArgs().EnableTimerEvent(default(Action));
+            camerasContainer.ReceivedWithAnyArgs().StartAllCameras(null, eventSubscriber);
+            view.Received().ToggleChallengeButton(true);
+            view.Received().ToggleStartButton(false);
+            view.Received().ToggleStopButton(true);
+            view.Received().ToggleVisibilityOfViewLastChallengeButton();
+            var returnedMessage =
+                messageParser.DidNotReceiveWithAnyArgs().GetMessage(default(MessageType));
+            view.DidNotReceiveWithAnyArgs().ShowMessage(returnedMessage);
         }
 
         [Test]
@@ -285,34 +305,33 @@ namespace Challange.UnitTests.Presenters
         {
             // Arrange
             // Act
-            view.StopStream += Raise.Event<Action>();
+            presenter.StopStream();
             // Assert
-            Assert.IsFalse(presenter.IsCaptureDevicesEnable);
-            Assert.IsTrue(presenter.WasTimeAxisResetted);
-            Assert.IsFalse(presenter.IsStreamProcessOn);
+            camerasContainer.Received().StopAllCameras();
+            view.Received().ResetTimeAxis();
+            view.Received().ToggleChallengeButton(false);
+            view.Received().ToggleStartButton(true);
+            view.Received().ToggleStopButton(false);
+            view.Received().ToggleVisibilityOfViewLastChallengeButton();
         }
-
-
-
-
-
-
 
         [Test]
         public void CreateChallenge()
         {
             // Arrange
+            settingsContext.ChallengeSetting.Returns(challengeSettings);
+            var future = settingsContext.ChallengeSetting.NumberOfFutureFPS;
             // Act
-         //   presenter.GameInformation = InitializeGameInformation();
-            //presenter.ChallengeSettings = InitializeChallengeSettings();
-            view.CreateChallange += Raise.Event<Action>();
+            presenter.CreateChallange();
             // Assert
-            Assert.IsTrue(presenter.ElapsedTimeWasGot);
-            Assert.IsTrue(presenter.DirectoryForChallengeWasCreated);
-            Assert.IsFalse(presenter.IsEventForPastFramesActive);
-            Assert.IsTrue(presenter.IsEventForFutureFramesActive);
-            Assert.IsFalse(presenter.IsChallengeButtonVisible);
-            Assert.IsTrue(presenter.MarkerWasAddedOntoTimeAxis);
+            var elapsedTime = view.Received().GetElapsedTime;
+            challengeObject.Received().Initialize(gameInformation.DirectoryName, elapsedTime);
+            fileService.Received().CreateDirectory(challengeObject.PathToChallengeDirectory);
+            internalChallengeTimer.Received().DisableTimerEvent();
+            internalChallengeTimer.ReceivedWithAnyArgs().EnableTimerEvent(null);
+            view.MakeChallengeButtonInvisibleOn(future);
+            view.MakeChallengeRecordingImageVisibleOn(future);
+            view.AddMarkerOnTimeAxis(challengeObject.PathToChallengeDirectory);
         }
 
         [Test]
@@ -320,8 +339,82 @@ namespace Challange.UnitTests.Presenters
         {
             // Arrange
             // Act
-            view.OpenGameFolder += Raise.Event<Action>();
+            presenter.OpenGameFolder();
             // Assert
+            fileService.Received().OpenFileOrFolder(gameInformation.DirectoryName);
+        }
+
+        [Test]
+        public void OpenChallengePlayer()
+        {
+            // Arrange
+            var path = @"Team1_vs_Team2(21.10.2016)\00_00_10\";
+            // Act
+            presenter.OpenChallengePlayer(path);
+            // Assert
+            controller.Received().
+                Run<ChallengePlayerPresenter, Tuple<string, RewindSettings>>(
+                Tuple.Create(path, settingsContext.RewindSetting));
+        }
+
+        [Test]
+        public void OpenChallengePlayerForLastChallengeIfChallengeIsNotNull()
+        {
+            // Arrange
+            challengeObject.PathToChallengeDirectory = @"Team1_vs_Team2(21.10.2016)\00_00_10\";
+            // Act
+            presenter.OpenChallengePlayerForLastChallenge();
+            // Assert
+            controller.Received().
+             Run<ChallengePlayerPresenter, Tuple<string, RewindSettings>>(
+             Tuple.Create(challengeObject.PathToChallengeDirectory, settingsContext.RewindSetting));
+            var returnedMessage = messageParser.DidNotReceiveWithAnyArgs().GetMessage(default(MessageType));
+            view.DidNotReceiveWithAnyArgs().ShowMessage(returnedMessage);
+        }
+
+        [Test]
+        public void OpenChallengePlayerForLastChallengeIfChallengeIsNull()
+        {
+            // Arrange
+            presenter = new MainPresenter(controller, view,
+                        fileService, messageParser,
+                        settingsContext, nullSettingsContainer,
+                        camerasContainer,
+                        processStarter, zoomer,
+                        challengeBuffers, fpsContainer,
+                        internalChallengeTimer, null,
+                        eventSubscriber);
+            // Act
+            presenter.OpenChallengePlayerForLastChallenge();
+            // Assert
+            controller.DidNotReceiveWithAnyArgs().
+             Run<ChallengePlayerPresenter, Tuple<string, RewindSettings>>(null);
+            var returnedMessage = messageParser.Received().GetMessage(MessageType.HaveNotRecordedAnyChallengeYet);
+            view.Received().ShowMessage(returnedMessage);
+        }
+
+        [Test]
+        public void PassCamerasNamesToPresenter()
+        {
+            // Arrange
+            var key = "key";
+            var cameraName = "cameraName";
+            // Act
+            presenter.PassCamerasNamesToPresenter(key, cameraName);
+            // Assert
+            camerasContainer.Received().SetCameraName(key, cameraName);
+        }
+
+        [Test]
+        public void OpenBroadcastForm()
+        {
+            // Arrange
+            var cameraFullName = "test";
+            // Act
+            presenter.OpenBroadcastForm(cameraFullName);
+            // Assert
+            var cameraForBroadcasting = camerasContainer.Received().GetCameraByKey(cameraFullName);
+            controller.ReceivedWithAnyArgs().Run<BroadcastPresenter, ICamera>(cameraForBroadcasting);
         }
 
         [Test]
@@ -329,23 +422,9 @@ namespace Challange.UnitTests.Presenters
         {
             // Arrange
             // Act
-            view.MainFormClosing += Raise.Event<Action>();
+            presenter.FormClosing();
             // Assert
-        }
-
-        private GameInformation InitializeGameInformation()
-        {
-            GameInformation gameInformation = new GameInformation()
-            {
-                FirstTeam = "Red",
-                SecondTeam = "Blue",
-                Date = "09.08.2016",
-                GameStart = "18:36:00",
-                Country = "England",
-                City = "London",
-                Part = "2"
-            };
-            return gameInformation;
+            camerasContainer.Received().StopAllCameras();
         }
     }
 }

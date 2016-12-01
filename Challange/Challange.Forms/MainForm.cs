@@ -302,7 +302,6 @@ namespace Challange.Forms
         public void DrawNewFrame(Bitmap frame, string cameraName)
         {
             Bitmap frameClone = CloneFrame(frame);
-            UpdatePlayersImage(cameraName, frameClone);
             currentFrameCameraName = cameraName;
             currentFrame = frameClone;
             layout.UpdatePlayersImage(cameraName, frameClone);
@@ -321,7 +320,7 @@ namespace Challange.Forms
 
         private void drawTestPlayersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // layout.ClearControls(playerPanel);
+           // layout.ClearControls(playerPanel);
             layout.DrawPlayers(new PlayerPanelSettings() { AutosizeMode = true }, 5);
         }
 

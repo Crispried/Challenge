@@ -13,9 +13,15 @@ namespace Challange.Presenter.Views
     {
         event Action<string> OpenBroadcastForm;
 
+        event Action StartAllPlayers;
+
+        event Action StopAllPlayers;
+
         void DrawPlayers(int numberOfPlayers);
 
         void InitializePlayers(Dictionary<string, Bitmap> initialData);
+
+        void DrawNewFrame(Bitmap frame, string videoName);
 
         void ShowMessage(ChallengeMessage message);
     }

@@ -95,7 +95,7 @@ namespace Challange.Forms
         private PictureBox CreatePlayer(int playerWidth, int playerHeight)
         {
             PictureBox pictureBox = new PictureBox();
-            pictureBox.BackColor = Color.Red;
+            pictureBox.BackColor = Color.FromArgb(56, 102, 200);
             pictureBox.Height = playerHeight;
             pictureBox.Width = playerWidth;
             pictureBox.Controls.Add(CreateTextBox(playerWidth));
@@ -110,8 +110,9 @@ namespace Challange.Forms
             return new TextBox
             {
                 Width = playerWidth,
-                MaxLength = 30
-            };
+                MaxLength = 30,
+                BackColor = Color.FromArgb(56, 102, 200)
+        };
         }
 
         private Button CreateFullScreenButton(int playerWidth, int playerHeight)

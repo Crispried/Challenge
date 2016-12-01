@@ -1,33 +1,25 @@
 ﻿using Challange.Domain.Abstract;
+using Challange.Domain.Services.Video.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// TODO: ChallengeReader provides List<Videos> 
 namespace Challange.Domain.Servuces.Video.Concrete
 {
     public class Video
     {
-        private List<IFps> fpsList;
+        private List<IFps> fpses;
         private string name;
         private int fpsValue;
 
-        public Video(string name, List<IFps> fpsList)
+        public Video(string name, List<IFps> fpses)
         {
             this.name = name;
-            this.fpsList = fpsList;
+            this.fpses = fpses;
             fpsValue = CountFps();
-        }
-
-        private int CountFps()
-        {
-            int sum = 0;
-            foreach (var fps in fpsList)
-            {
-                sum += fps.Frames.Count;
-            }
-            return sum/fpsList.Count;
         }
 
         public string Name
@@ -38,20 +30,33 @@ namespace Challange.Domain.Servuces.Video.Concrete
             }
         }
 
-        public List<IFps> FpsList
+        public List<IFps> Fpses
         {
             get
             {
-                return fpsList;
+                return fpses;
             }
         }
 
+        /// <summary>
+        /// frames per second value
+        /// </summary>
         public int FpsValue
         {
             get
             {
                 return fpsValue;
             }
+        }
+
+        private int CountFps()
+        {
+            int sum = 0;
+            foreach (var fps in fpses)
+            {
+                sum += fps.Frames.Count;
+            }
+            return sum/fpses.Count;
         }
     }
 }

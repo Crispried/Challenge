@@ -288,6 +288,7 @@ namespace Challange.Forms
         {
             return new TextBox
             {
+                Font = new Font("Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 204),
                 Width = playerWidth,
                 MaxLength = 30
             };

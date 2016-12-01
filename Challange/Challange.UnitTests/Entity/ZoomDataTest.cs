@@ -10,7 +10,7 @@ using System.Drawing;
 namespace Challange.UnitTests.Entity
 {
     [TestFixture]
-    class ZoomDataTest
+    class ZoomDataTest : TestCase
     {
         private ZoomData zoomData;
         private float zoom;

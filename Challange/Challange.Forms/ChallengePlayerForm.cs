@@ -25,12 +25,20 @@ namespace Challange.Forms
             this.layout = layout;
             layout.ChallengePlayerPanel = challengePlayerPanel;
             layout.Form = this;
+            startButton.Click += (sender, args)
+                            => Invoke(StartAllPlayers);
+            stopButton.Click += (sender, args)
+                            => Invoke(StopAllPlayers);
         }
 
         // Unnecessary
         private Form form;
 
         public event Action<string> OpenBroadcastForm;
+
+        public event Action StartAllPlayers;
+
+        public event Action StopAllPlayers;
 
         public Form Form
         {
@@ -60,6 +68,22 @@ namespace Challange.Forms
         public void DrawPlayers(int numberOfPlayers)
         {
             layout.DrawPlayers(numberOfPlayers);
+        }
+
+        public void DrawNewFrame(Bitmap frame, string videoName)
+        {
+            Bitmap frameClone = CloneFrame(frame);
+            UpdatePlayersImage(videoName, frameClone);
+        }
+
+        private Bitmap CloneFrame(Bitmap frame)
+        {
+            return frame.Clone(new Rectangle(0, 0, frame.Width, frame.Height), frame.PixelFormat);
+        }
+
+        public void UpdatePlayersImage(string videoName, Bitmap frame)
+        {
+            layout.UpdatePlayersImage(videoName, frame);
         }
 
         //public void RedrawZoomedImage(ZoomData zoomData)

@@ -12,7 +12,7 @@ using NSubstitute;
 namespace Challange.UnitTests.Services.Replay
 {
     [TestFixture]
-    class ZoomCalculatorTest
+    class ZoomCalculatorTest : TestCase
     {
         private ZoomCalculator zoomCalculator;
 

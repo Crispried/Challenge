@@ -10,7 +10,7 @@ using System.Windows.Forms;
 namespace Challange.UnitTests.Services.Message
 {
     [TestFixture]
-    class ChallengeMessageTest
+    class ChallengeMessageTest : TestCase
     {
         private ChallengeMessage challengeMessage;
 

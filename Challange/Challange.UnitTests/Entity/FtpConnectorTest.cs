@@ -10,7 +10,7 @@ using System.Drawing;
 namespace Challange.UnitTests.Entity
 {
     [TestFixture]
-    class FtpConnectorTest
+    class FtpConnectorTest : TestCase
     {
         private string validHostName;
         private string invalidHostName;

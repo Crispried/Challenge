@@ -1,6 +1,9 @@
 ﻿
+using System.Diagnostics.CodeAnalysis;
+
 namespace Challange.Presenter.Base
 {
+    [ExcludeFromCodeCoverage]
     public abstract class BasePresenter<TView> : IPresenter
             where TView : IView
     {
@@ -20,6 +23,7 @@ namespace Challange.Presenter.Base
         }
     }
 
+    [ExcludeFromCodeCoverage]
     public abstract class BasePresenter<TView, TArgument> : IPresenter<TArgument>
         where TView : IView
     {

@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 namespace Challange.UnitTests.Presenters
 {
     [TestFixture]
-    class BroadcastPresenterTest
+    class BroadcastPresenterTest : TestCase
     {
         private IApplicationController controller;
         private BroadcastPresenter presenter;

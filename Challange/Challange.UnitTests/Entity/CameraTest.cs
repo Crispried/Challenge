@@ -11,7 +11,7 @@ using Challange.Domain.Services.StreamProcess.Abstract;
 namespace Challange.UnitTests.Entity
 {
     [TestFixture]
-    class CameraTest
+    class CameraTest : TestCase
     {
         private ICamera camera;
         private string cameraName;

@@ -44,20 +44,13 @@ namespace Challange.Domain.Servuces.Video.Concrete
         {
             IFps fps;
             fpses.TryGetValue(key, out fps);
-
-            if(fps == null)
-            {
-                return new NullFps();
-            }
-
-            return fps;
+            return fps == null ? new NullFps() : fps;
         }
 
         public void RemoveFpsByKey(string key)
         {
             IFps fps;
             fpses.TryGetValue(key, out fps);
-
             if (fps != null)
             {
                 fpses.Remove(key);

@@ -11,11 +11,11 @@ namespace Challange.Presenter.Views.Layouts
 {
     public interface IChallengePlayerFormLayout : ILayout
     {
+        Form Form { get; set; }
+        FlowLayoutPanel ChallengePlayerPanel { get; set; }
         void DrawPlayers(int numberOfPlayers);
 
-        Form Form { get; set; }
-
-        FlowLayoutPanel ChallengePlayerPanel { get; set; }
+        void UpdatePlayersImage(string cameraName, Bitmap frame);
 
         void InitializePlayers(Dictionary<string, Bitmap> initialData);
     }

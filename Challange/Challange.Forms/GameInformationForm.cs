@@ -20,20 +20,12 @@ namespace Challange.Forms
         {
             InitializeComponent();
             startGameSettingsButton.Click += (sender, args)
-                => Invoke(SetGameInformation);
+                => Invoke(SetGameInformation, GetGameInformation());
         }
 
         public new void Show()
         {
             ShowDialog();
-        }
-
-        public GameInformation GameInformation
-        {
-            get
-            {
-                return GetGameInformation();
-            }
         }
 
         private GameInformation GetGameInformation()
@@ -51,6 +43,6 @@ namespace Challange.Forms
             return gameInformation;
         }
 
-        public event Action SetGameInformation;
+        public event Action<GameInformation> SetGameInformation;
     }
 }

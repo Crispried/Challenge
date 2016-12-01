@@ -3,9 +3,11 @@ using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingParser;
 using Challange.Domain.Services.Settings.SettingTypes;
+using Challange.Domain.Servuces.Video.Concrete;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Threading;
 
 namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
 {
@@ -52,6 +54,15 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
         private Dictionary<string, Bitmap> GetInitialData()
         {
             return challengeReader.GetInitialData();
+        }
+
+        private void PlayVideo(Video video)
+        {
+            for (int i = 0; i < video.Fpses[0].Frames.Count; i++)
+            {
+                View.DrawNewFrame(video.Fpses[0].Frames[i], video.Name);
+                Thread.Sleep(10);
+            }
         }
     }
 }

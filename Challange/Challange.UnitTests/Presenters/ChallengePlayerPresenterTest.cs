@@ -6,14 +6,16 @@ using NSubstitute;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Challange.UnitTests.Presenters
 {
+    [ExcludeFromCodeCoverage]
     [TestFixture]
-    public class ChallengePlayerPresenterTest
+    class ChallengePlayerPresenterTest : TestCase
     {
         private IApplicationController controller;
         private ChallengePlayerPresenter presenter;

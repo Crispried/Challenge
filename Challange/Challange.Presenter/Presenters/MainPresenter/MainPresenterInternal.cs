@@ -9,6 +9,7 @@ using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 using Challange.Domain.Servuces.Video.Concrete;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
 {
     public partial class MainPresenter
     {
+        [ExcludeFromCodeCoverage]
         /// <summary>
         /// event which adds and supply concrete number of FPS object
         /// in buffer for past frames
@@ -35,6 +37,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
             InitializeFpsContainer();
         }
 
+        [ExcludeFromCodeCoverage]
         /// <summary>
         /// Process frames for future collection
         /// </summary>
@@ -62,6 +65,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
                 settingsContext.ChallengeSetting.NumberOfFutureFPS);
         }
 
+        [ExcludeFromCodeCoverage]
         /// <summary>
         /// subscribe if isActive true
         /// unsubscribe if isActive false
@@ -79,6 +83,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
             }
         }
 
+        [ExcludeFromCodeCoverage]
         /// <summary>
         /// subscribe if isActive true
         /// unsubscribe if isActive false
@@ -153,6 +158,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
             camerasContainer.StartAllCameras(Camera_NewFrameEvent, eventSubscriber);
         }
 
+        [ExcludeFromCodeCoverage]
         /// <summary>
         /// Process new frame from device cameraFullName
         /// </summary>
@@ -214,7 +220,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void MakeChallengeRecordingImageVisibleOn(int numberOfSeconds)
         {
             View.MakeChallengeRecordingImageVisibleOn(numberOfSeconds);
-            IsChallengeRecordingImageVisible = true;
         }
 
         /// <summary>
@@ -225,7 +230,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void MakeChallengeButtonInvisibleOn(int numberOfSeconds)
         {
             View.MakeChallengeButtonInvisibleOn(numberOfSeconds);
-            IsChallengeButtonVisible = false;
         }      
 
         /// <summary>
@@ -234,7 +238,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void ResetTimeAxis()
         {
             View.ResetTimeAxis();
-            WasTimeAxisResetted = true;
         }
 
         /// <summary>
@@ -243,8 +246,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// <param name="state"></param>
         private void ChangeStreamingStatus(bool state)
         {
-            IsStreamProcessOn = state;
-            if (IsStreamProcessOn)
+            if (state)
             {
                 ChangeStateOfChallengeButton(true);
                 ChangeStateOfStartButton(false);
@@ -265,7 +267,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void AddMarkerOnTimeAxis(string pathToChallenge)
         {
             View.AddMarkerOnTimeAxis(pathToChallenge);
-            MarkerWasAddedOntoTimeAxis = true;
         }
 
         /// <summary>
@@ -274,11 +275,10 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// <returns></returns>
         private string GetChallengeTime()
         {
-            var elapsedTime = View.GetElapsedTime;
-            ElapsedTimeWasGot = true;
-            return elapsedTime;
+            return View.GetElapsedTime;
         }
 
+        [ExcludeFromCodeCoverage]
         /// <summary>
         /// Writes challenge videos in file system
         /// </summary>
@@ -290,7 +290,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
             challengeWriter.WriteChallenge();
             challengeBuffers.ClearBuffers();
         }
-        
+
+        [ExcludeFromCodeCoverage]
         private void SetChallengeDirectoryPath()
         {
             var pathToRootDirectory = challenge.PathToRootDirectory;
@@ -300,23 +301,11 @@ namespace Challange.Presenter.Presenters.MainPresenter
         }
 
         /// <summary>
-        /// Draws challenge recording image instead of Challenge button
-        /// </summary>
-        private void DrawChallengeRecordingImage()
-        {
-            View.DrawChallengeRecordingImage();
-        }
-
-        /// <summary>
         /// Stops capturing of devices
         /// </summary>
         public void StopCaptureDevice()
         {
-            if (camerasContainer != null)
-            {
-                camerasContainer.StopAllCameras();
-            }
-            IsCaptureDevicesEnable = false;
+            camerasContainer.StopAllCameras();
         }
 
         private void CreateDirectoryForChallenge()

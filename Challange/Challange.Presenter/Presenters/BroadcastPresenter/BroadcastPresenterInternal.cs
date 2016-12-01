@@ -1,6 +1,7 @@
 ﻿using Challange.Domain.Entities;
 using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Challange.Presenter.Presenters.BroadcastPresenter
 {
@@ -15,6 +16,7 @@ namespace Challange.Presenter.Presenters.BroadcastPresenter
             camera.Start();
         }
 
+        [ExcludeFromCodeCoverage]
         /// <summary>
         /// Process new frame from device cameraFullName
         /// </summary>

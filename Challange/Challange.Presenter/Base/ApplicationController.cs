@@ -1,9 +1,11 @@
 ﻿
 using Challange.Presenter.Presenters.MainPresenter;
 using Challange.Presenter.Views.Layouts;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Challange.Presenter.Base
 {
+    [ExcludeFromCodeCoverage]
     public class ApplicationController : IApplicationController
     {
         private IContainer container;

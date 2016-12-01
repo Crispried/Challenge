@@ -20,7 +20,7 @@ namespace Challange.Presenter.Views.Layouts
 
         void BindPlayersToCameras(Queue<string> camerasNames);
 
-        void UpdatePlayersImage(string cameraName, Bitmap frameClone);
+        void UpdatePlayersImage(string cameraName, Bitmap frame);
 
         event Action<string, string> PassCamerasNamesToPresenterCallback;
 

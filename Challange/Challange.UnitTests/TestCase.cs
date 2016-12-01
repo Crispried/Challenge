@@ -8,6 +8,7 @@ using static PylonC.NETSupportLibrary.DeviceEnumerator;
 using Challange.Domain.Entities;
 using System.IO;
 using Challange.Domain.Services.FileSystem;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Challange.UnitTests
 {

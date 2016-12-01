@@ -13,7 +13,7 @@ using Challange.Domain.Services.Event;
 namespace Challange.UnitTests.Entity
 {
     [TestFixture]
-    class EventSubscriberTest
+    class EventSubscriberTest : TestCase
     {
         private System.Timers.Timer timer;
         private bool eventWasRaised;

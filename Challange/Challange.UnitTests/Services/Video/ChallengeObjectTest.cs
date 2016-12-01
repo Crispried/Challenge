@@ -13,7 +13,7 @@ using NSubstitute;
 namespace Challange.UnitTests.Services.Video
 {
     [TestFixture]
-    class ChallengeObjectTest
+    class ChallengeObjectTest : TestCase
     {
         private IChallengeObject challengeObject;
         private string pathToRootDirectory = "challengeRoot";
@@ -33,6 +33,15 @@ namespace Challange.UnitTests.Services.Video
             // Act
             // Assert
             Assert.AreEqual(pathToRootDirectory, challengeObject.PathToRootDirectory);
+        }
+
+        [Test]
+        public void GetChallengeFolderNameTest()
+        {
+            // Arrange
+            // Act
+            // Assert
+            Assert.AreEqual(challengeFolderName, challengeObject.ChallengeFolderName);
         }
 
         [Test]

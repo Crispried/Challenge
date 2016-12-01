@@ -16,7 +16,7 @@ using Challange.Domain.Services.StreamProcess.Abstract;
 namespace Challange.UnitTests.Presenters
 {
     [TestFixture]
-    class CamerasPresenterTest
+    class CamerasPresenterTest : TestCase
     {
         private IApplicationController controller;
         private CamerasPresenter presenter;
@@ -64,18 +64,6 @@ namespace Challange.UnitTests.Presenters
         private void SetArgument()
         {
             argument = Substitute.For<ICamerasContainer>();
-        }
-
-        private Device CreateTestDevice()
-        {
-            Device device = Substitute.For<Device>();
-            device.FullName = "kurwa";
-            return device;
-        }
-
-        private void InitializeDevicesList()
-        {
-            argument.GetCamerasNames.Add("s");
         }
     }
 }

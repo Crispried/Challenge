@@ -72,12 +72,12 @@ namespace Challange.Domain.Servuces.Video.Concrete
 
         public List<IFps> GetPastCameraRecordsValueByKey(string key)
         {
-            return GetKeyByValue(key, pastCameraRecords);
+            return GetValueByKey(key, pastCameraRecords);
         }
 
         public List<IFps> GetFutureCameraRecordsValueByKey(string key)
         {
-            return GetKeyByValue(key, futureCameraRecords);
+            return GetValueByKey(key, futureCameraRecords);
         }
 
         public List<IFps> GetFirstPastValue()
@@ -105,7 +105,7 @@ namespace Challange.Domain.Servuces.Video.Concrete
             var fpsesToRemove = new Dictionary<string, IFps>();
             foreach (var pastFrames in pastCameraRecords)
             {
-                fpsesToRemove.Add(pastFrames.Key, pastFrames.Value[0]);
+                fpsesToRemove.Add(pastFrames.Key, pastFrames.Value.ElementAt(0));
                 pastFrames.Value.RemoveAt(0);
             }
             foreach (var fpsToRemove in fpsesToRemove.Values)
@@ -205,7 +205,7 @@ namespace Challange.Domain.Servuces.Video.Concrete
             dictionary.Add(key, value);
         }
 
-        private List<IFps> GetKeyByValue(string key,
+        private List<IFps> GetValueByKey(string key,
                         Dictionary<string, List<IFps>> dictionary)
         {
             List<IFps> value;
@@ -220,12 +220,12 @@ namespace Challange.Domain.Servuces.Video.Concrete
             pastCameraRecords = new Dictionary<string, List<IFps>>();
             foreach (string key in camerasContainer.GetCamerasKeys)
             {
-                pastCameraRecords.Add(key, new List<IFps>());
+                pastCameraRecords.Add(key, null);
             }
             futureCameraRecords = new Dictionary<string, List<IFps>>();
             foreach (string key in camerasContainer.GetCamerasKeys)
             {
-                futureCameraRecords.Add(key, new List<IFps>());
+                futureCameraRecords.Add(key, null);
             }
         }
     }

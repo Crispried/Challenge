@@ -6,6 +6,7 @@ using NSubstitute;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 namespace Challange.UnitTests.Services.Video
 {
     [TestFixture]
-    class InternalChallengeTimerTest
+    class InternalChallengeTimerTest : TestCase
     {
         private IInternalChallengeTimer internalChallengeTimer;
         private IEventSubscriber eventSubscriber;
@@ -28,6 +29,19 @@ namespace Challange.UnitTests.Services.Video
             timer = Substitute.For<System.Timers.Timer>();
             internalChallengeTimer = new InternalChallengeTimer(timer, eventSubscriber);
             internalChallengeTimer.Start();
+        }
+
+        [Test]
+        public void TimerElapsedEventHandler()
+        {
+            // Arramge
+            var testDelegate = Substitute.For<TestDelegate>();
+            // Act
+            internalChallengeTimer.TimerElapsedEventHandler = testDelegate;
+            var getter = internalChallengeTimer.TimerElapsedEventHandler;
+            // Assert
+            Assert.IsTrue(testDelegate.Equals(getter));
+            Assert.IsTrue(testDelegate.Equals(internalChallengeTimer.TimerElapsedEventHandler));
         }
 
         [Test]
@@ -48,11 +62,10 @@ namespace Challange.UnitTests.Services.Video
         public void TestTimerProperty()
         {
             // Arrange
-            var tempTimer = Substitute.For<IInternalChallengeTimer>();
             // Act
-            var call = tempTimer.Timer;
+            var getter = internalChallengeTimer.Timer;
             // Assert
-            var test = tempTimer.Received().Timer;
+            Assert.IsTrue(getter == internalChallengeTimer.Timer);
         }
 
         [Test]
@@ -85,6 +98,7 @@ namespace Challange.UnitTests.Services.Video
              eventSubscriber.Received().RemoveEventHandler(timer, "Elapsed", eventHandler);
         }
 
+        [ExcludeFromCodeCoverage]
         private void TimerHandler()
         {
 

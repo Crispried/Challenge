@@ -34,9 +34,7 @@ namespace Challange.Presenter.Presenters.GameInformationPresenter
 
         private void SubscribePresenters()
         {
-            View.SetGameInformation += () =>
-             PrepareApplication(
-                        View.GameInformation);
+            View.SetGameInformation += PrepareApplication;
         }
     }
 }

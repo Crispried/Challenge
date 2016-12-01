@@ -59,7 +59,7 @@ namespace Challange.UnitTests.Presenters
             // Act
             presenter.ChangeRewindSettings(argument);
             // Assert
-            settingsContext.DidNotReceiveWithAnyArgs().SaveRewindSetting(argument);
+            settingsContext.Received().SaveRewindSetting(argument);
             mock.Received().SetSettings(argument);
             view.Received().Close();
             var returnedMessage = 

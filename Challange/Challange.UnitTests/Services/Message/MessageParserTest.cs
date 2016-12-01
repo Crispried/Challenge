@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Challange.UnitTests.Services.Message
 {
     [TestFixture]
-    class MessageParserTest
+    class MessageParserTest : TestCase
     {
         MessageParser messageParser;
 

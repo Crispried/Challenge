@@ -11,7 +11,7 @@ using NSubstitute;
 namespace Challange.UnitTests.Entity
 {
     [TestFixture]
-    class FpsTest
+    class FpsTest : TestCase
     { 
         private Fps fps;
         private string imagePath;

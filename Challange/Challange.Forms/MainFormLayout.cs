@@ -244,9 +244,9 @@ namespace Challange.Forms
 
         public event Action<string, string> PassCamerasNamesToPresenterCallback;
 
-        public void UpdatePlayersImage(string cameraName, Bitmap frameClone)
+        public void UpdatePlayersImage(string cameraName, Bitmap frame)
         {
-            allPlayers.Where(player => GetPlayersTextBox(player).Tag.ToString() == cameraName).First().Image = frameClone;
+            allPlayers.Where(player => GetPlayersTextBox(player).Tag.ToString() == cameraName).First().Image = frame;
         }
 
         private void DrawPlayer(PictureBox player)

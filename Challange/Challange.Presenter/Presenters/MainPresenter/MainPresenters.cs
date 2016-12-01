@@ -170,9 +170,10 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void OpenChallengePlayer(string pathToChallenge)
         {
             string stringForTest = @"Team1_vs_Team2(21.10.2016)\00_00_10\";
+            pathToChallenge = stringForTest;
             Controller.Run<ChallengePlayerPresenter.ChallengePlayerPresenter,
                Tuple<string, RewindSettings>>
-               (Tuple.Create(stringForTest, settingsContext.RewindSetting)); // pathToChallenge instead of stringForTest
+               (Tuple.Create(pathToChallenge, settingsContext.RewindSetting)); // pathToChallenge instead of stringForTest
         }
 
         /// <summary>
@@ -180,7 +181,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         public void OpenChallengePlayerForLastChallenge()
         {
-            // challenge.GetChallengeDirectoryPath contains last one challenge folder
             if(challenge != null)
             {
                 OpenChallengePlayer(challenge.PathToChallengeDirectory);
@@ -188,7 +188,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
             else
             {
                 ShowMessage(MessageType.HaveNotRecordedAnyChallengeYet);
-                HaveNotRecordedAnyChallengeYetMessageShown = true;
             }
         }
 

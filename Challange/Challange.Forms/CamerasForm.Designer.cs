@@ -34,7 +34,7 @@
             // 
             // camerasListBox
             // 
-            this.camerasListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.camerasListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(36)))), ((int)(((byte)(43)))));
             this.camerasListBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.camerasListBox.Font = new System.Drawing.Font("Georgia", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.camerasListBox.FormattingEnabled = true;
@@ -42,17 +42,18 @@
             this.camerasListBox.Location = new System.Drawing.Point(0, 0);
             this.camerasListBox.Margin = new System.Windows.Forms.Padding(4);
             this.camerasListBox.Name = "camerasListBox";
-            this.camerasListBox.Size = new System.Drawing.Size(643, 311);
+            this.camerasListBox.Size = new System.Drawing.Size(582, 303);
             this.camerasListBox.TabIndex = 0;
             // 
             // noConnectedCameraLabel
             // 
             this.noConnectedCameraLabel.AutoSize = true;
-            this.noConnectedCameraLabel.BackColor = System.Drawing.Color.Transparent;
-            this.noConnectedCameraLabel.Font = new System.Drawing.Font("Georgia", 22.2F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.noConnectedCameraLabel.Location = new System.Drawing.Point(12, 96);
+            this.noConnectedCameraLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(36)))), ((int)(((byte)(43)))));
+            this.noConnectedCameraLabel.Font = new System.Drawing.Font("Tahoma", 22.2F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.noConnectedCameraLabel.ForeColor = System.Drawing.Color.White;
+            this.noConnectedCameraLabel.Location = new System.Drawing.Point(6, 106);
             this.noConnectedCameraLabel.Name = "noConnectedCameraLabel";
-            this.noConnectedCameraLabel.Size = new System.Drawing.Size(579, 86);
+            this.noConnectedCameraLabel.Size = new System.Drawing.Size(564, 92);
             this.noConnectedCameraLabel.TabIndex = 1;
             this.noConnectedCameraLabel.Text = "There are not any connected\r\ncameras :(";
             this.noConnectedCameraLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -62,12 +63,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(643, 311);
+            this.ClientSize = new System.Drawing.Size(582, 303);
             this.Controls.Add(this.noConnectedCameraLabel);
             this.Controls.Add(this.camerasListBox);
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.MaximumSize = new System.Drawing.Size(661, 358);
-            this.MinimumSize = new System.Drawing.Size(661, 358);
+            this.MaximumSize = new System.Drawing.Size(600, 350);
+            this.MinimumSize = new System.Drawing.Size(600, 350);
             this.Name = "CamerasForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "CamerasForm";

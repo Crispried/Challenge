@@ -20,7 +20,6 @@ namespace Challange.Domain.Servuces.Video.Concrete
         private int width;
         private int height;
         private ICamerasContainer camerasContainer;
-
         private IChallengeBuffers challengeBuffers;
 
         public ChallengeWriter(IChallengeBuffers challengeBuffers,
@@ -52,7 +51,7 @@ namespace Challange.Domain.Servuces.Video.Concrete
                     tmpFileName = pathToVideos + video.Name + ".mp4";
                     writer.Open(tmpFileName, width,
                         height, video.FpsValue, VideoCodec.MPEG4);
-                    foreach (var fps in video.FpsList)
+                    foreach (var fps in video.Fpses)
                     {
                         foreach (var frame in fps.Frames)
                         {
@@ -104,12 +103,12 @@ namespace Challange.Domain.Servuces.Video.Concrete
 
         private int GetWidth()
         {
-            return videos.First().FpsList[0].Frames[0].Width;
+            return videos.First().Fpses.ElementAt(0).Frames[0].Width;
         }
 
         private int GetHeight()
         {
-            return videos.First().FpsList[0].Frames[0].Height;
+            return videos.First().Fpses.ElementAt(0).Frames[0].Height;
         }
     }
 }

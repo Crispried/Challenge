@@ -158,7 +158,6 @@
     <Compile Include="Services\SettingTypes\PlayerPanelSettingsTest.cs" />
     <Compile Include="Services\SettingTypes\FtpSettingsTest.cs" />
     <Compile Include="Services\SettingTypes\ChallengeSettingsTest.cs" />
-    <Compile Include="Services\StreamProcess\Concrete\Pylon\CameraTest.cs" />
     <Compile Include="TestCase.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -179,9 +178,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Infrastructure\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

@@ -82,9 +82,6 @@ namespace Challange.UnitTests.Services.FileSystem
 
             // Assert
             processStarter.Received().StartProcess(path);
-
-            // Delete
-            fileService.DeleteFile(path);
         }
     }
 }

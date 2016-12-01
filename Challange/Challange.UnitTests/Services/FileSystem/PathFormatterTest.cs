@@ -4,7 +4,7 @@ using Challange.Domain.Services.FileSystem;
 namespace Challange.UnitTests.Services.FileSystem
 {
     [TestFixture]
-    class PathFormatterTest
+    class PathFormatterTest : TestCase
     {
         private IPathFormatter pathFormatter;
         private string directoryName = "Directory";

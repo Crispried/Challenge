@@ -70,12 +70,18 @@ namespace Challange.Forms
             {
                 tmpTextBox = GetPlayersTextBox(allPlayers[i]);
                 tmpTextBox.Text = initialData.ElementAt(i).Key;
+                tmpTextBox.Tag = initialData.ElementAt(i).Key;
                 allPlayers[i].Image = initialData.ElementAt(i).Value;
             }
         }
         private TextBox GetPlayersTextBox(PictureBox player)
         {
             return player.Controls.Cast<TextBox>().FirstOrDefault();
+        }
+
+        public void UpdatePlayersImage(string cameraName, Bitmap frame)
+        {
+            allPlayers.Where(player => GetPlayersTextBox(player).Tag.ToString() == cameraName).First().Image = frame;
         }
     }
 }

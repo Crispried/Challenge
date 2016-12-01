@@ -13,7 +13,7 @@ using Challange.Domain.Services.Message;
 namespace Challange.UnitTests.Services.Settings
 {
     [TestFixture]
-    class SettingsContextTest
+    class SettingsContextTest : TestCase
     {
         private ISettingsContext settingsContext;
         ISettingsService<PlayerPanelSettings> playerPanelSettingsService;
