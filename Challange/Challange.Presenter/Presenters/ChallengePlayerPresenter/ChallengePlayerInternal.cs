@@ -3,7 +3,7 @@ using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingParser;
 using Challange.Domain.Services.Settings.SettingTypes;
-using Challange.Domain.Servuces.Video.Concrete;
+using Challange.Domain.Services.Video.Concrete;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -58,10 +58,19 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
 
         private void PlayVideo(Video video)
         {
-            for (int i = 0; i < video.Fpses[0].Frames.Count; i++)
+            while (true)
             {
-                View.DrawNewFrame(video.Fpses[0].Frames[i], video.Name);
-                Thread.Sleep(10);
+                pauseEvent.WaitOne(Timeout.Infinite);
+
+                if (shutdownEvent.WaitOne(0))
+                    break;
+
+                if(video.NotEnd())
+                {
+                    View.DrawNewFrame(video.Frames[video.FrameIndex], video.Name);
+                    video.FrameIndex++;
+                }
+                Thread.Sleep(30);               
             }
         }
     }

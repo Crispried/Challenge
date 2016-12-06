@@ -7,7 +7,7 @@ using Challange.Domain.Abstract;
 using Challange.Domain.Entities;
 using Challange.Domain.Services.Video.Abstract;
 
-namespace Challange.Domain.Servuces.Video.Concrete
+namespace Challange.Domain.Services.Video.Concrete
 {
     public class FpsContainer : IFpsContainer
     {

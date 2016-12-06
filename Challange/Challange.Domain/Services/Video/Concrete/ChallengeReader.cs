@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Challange.Domain.Servuces.Video.Concrete
+namespace Challange.Domain.Services.Video.Concrete
 {
     [ExcludeFromCodeCoverage]
     public class ChallengeReader
@@ -39,19 +39,16 @@ namespace Challange.Domain.Servuces.Video.Concrete
 
         public List<Video> ReadAllChallenges()
         {
-            IFps tempFps;
-            List<IFps> fpses;
+            List<Bitmap> frames;
             for (int i = 0; i < challenges.Capacity; i++) // fileInfo.Count == challenge.Count
             {
                 reader.Open(filesInfo[i].FullName);
-                fpses = new List<IFps>();
-                tempFps = new Fps();
+                frames = new List<Bitmap>();
                 for (int j = 0; j < reader.FrameCount; j++)
                 {
-                    tempFps.AddFrame(reader.ReadVideoFrame());
+                    frames.Add(reader.ReadVideoFrame());
                 }
-                fpses.Add(tempFps);
-                challenges.Add(new Video(filesInfo[i].Name, fpses));
+                challenges.Add(new Video(filesInfo[i].Name, frames));
             }
             return challenges;
         }

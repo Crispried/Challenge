@@ -7,7 +7,6 @@ using NUnit.Framework;
 using Challange.Domain.Entities;
 using System.Drawing;
 using Challange.Domain.Abstract;
-using Challange.Domain.Servuces.Video.Concrete;
 using NSubstitute;
 
 namespace Challange.UnitTests.Services.Video
@@ -17,7 +16,7 @@ namespace Challange.UnitTests.Services.Video
     {
         private List<IFps> fpsList;
         private string bitmapPath;
-        private Challange.Domain.Servuces.Video.Concrete.Video video;
+        private Domain.Services.Video.Concrete.Video video;
 
         [SetUp]
         public void SetUp()
@@ -25,7 +24,7 @@ namespace Challange.UnitTests.Services.Video
             bitmapPath = @"bitmap/bitmap.jpg";
             fpsList = InitializeFpsList();
             var name = "1";
-            video = Substitute.For<Challange.Domain.Servuces.Video.Concrete.Video>(name, fpsList);
+            video = Substitute.For<Domain.Services.Video.Concrete.Video>(name, fpsList);
         }
 
         [Test]
@@ -52,13 +51,13 @@ namespace Challange.UnitTests.Services.Video
         public void FpsValueIsProperlyCounted()
         {
             // Arrange
-            Challange.Domain.Servuces.Video.Concrete.Video video =
-                new Challange.Domain.Servuces.Video.Concrete.Video("Video", fpsList);
+            Domain.Services.Video.Concrete.Video video =
+                new Domain.Services.Video.Concrete.Video("Video", fpsList);
 
             // Act
 
             // Assert
-            Assert.AreEqual(1, video.FpsValue);
+            Assert.AreEqual(1, video.DesiredFps);
         }
 
         private List<IFps> InitializeFpsList()

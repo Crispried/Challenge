@@ -10,7 +10,7 @@ using Challange.Domain.Services.StreamProcess.Abstract;
 using Challange.Domain.Services.Video.Abstract;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Challange.Domain.Servuces.Video.Concrete
+namespace Challange.Domain.Services.Video.Concrete
 {
     [ExcludeFromCodeCoverage]
     public class ChallengeWriter
@@ -19,16 +19,13 @@ namespace Challange.Domain.Servuces.Video.Concrete
         private string pathToVideos;
         private int width;
         private int height;
-        private ICamerasContainer camerasContainer;
-        private IChallengeBuffers challengeBuffers;
+        private int desiredFps;
 
-        public ChallengeWriter(IChallengeBuffers challengeBuffers,
-            ICamerasContainer camerasContainer, string pathToVideos)
+        public ChallengeWriter(List<Video> videos, string pathToVideos, int desiredFps = 30)
         {
-            this.challengeBuffers = challengeBuffers;
-            this.camerasContainer = camerasContainer;
             this.pathToVideos = pathToVideos;
-            videos = UnitePastAndFutureFrames();
+            this.videos = videos;
+            this.desiredFps = desiredFps;
             if(videos.Count != 0)
             {
                 width = GetWidth();
@@ -50,65 +47,34 @@ namespace Challange.Domain.Servuces.Video.Concrete
                 {
                     tmpFileName = pathToVideos + video.Name + ".mp4";
                     writer.Open(tmpFileName, width,
-                        height, video.FpsValue, VideoCodec.MPEG4);
-                    foreach (var fps in video.Fpses)
+                        height, desiredFps, VideoCodec.MPEG4);
+                    foreach (var frame in video.Frames)
                     {
-                        foreach (var frame in fps.Frames)
+                        try
                         {
-                            try
-                            {
-                                writer.WriteVideoFrame(frame);
-                            }
-                            catch
-                            {
+                            writer.WriteVideoFrame(frame);
+                        }
+                        catch
+                        {
 
-                            }
-                            finally
-                            {
-                                frame.Dispose();
-                            }
+                        }
+                        finally
+                        {
+                            frame.Dispose();
                         }
                     }
                 }
             }
         }
 
-        /// <summary>
-        /// Unites past and future frames collection in one
-        /// </summary>
-        /// <returns></returns>
-        private List<Video> UnitePastAndFutureFrames()
-        {
-            var videos = new List<Video>();
-            List<IFps> tempVideoFrames;
-            string currentVideoName;
-            foreach (var pastFrames in challengeBuffers.PastCameraRecords)
-            {
-                foreach (var futureFrames in challengeBuffers.FutureCameraRecords)
-                {
-                    if (pastFrames.Key == futureFrames.Key)
-                    {
-                        tempVideoFrames = new List<IFps>();
-                        tempVideoFrames.AddRange(pastFrames.Value);
-                        tempVideoFrames.AddRange(futureFrames.Value);
-                        currentVideoName = 
-                            camerasContainer.GetCameraByKey(pastFrames.Key).Name;
-                        videos.Add(new Video(currentVideoName, tempVideoFrames));
-                        break;
-                    }
-                }
-            }
-            return videos;
-        }
-
         private int GetWidth()
         {
-            return videos.First().Fpses.ElementAt(0).Frames[0].Width;
+            return videos.First().Frames.ElementAt(0).Width;
         }
 
         private int GetHeight()
         {
-            return videos.First().Fpses.ElementAt(0).Frames[0].Height;
+            return videos.First().Frames.ElementAt(0).Height;
         }
     }
 }

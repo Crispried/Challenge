@@ -1,6 +1,6 @@
 ﻿using Challange.Domain.Entities;
 using Challange.Domain.Services.Video.Abstract;
-using Challange.Domain.Servuces.Video.Concrete;
+using Challange.Domain.Services.Video.Concrete;
 using NSubstitute;
 using NUnit.Framework;
 using System;

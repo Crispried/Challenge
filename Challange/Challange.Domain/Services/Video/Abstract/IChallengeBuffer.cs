@@ -30,6 +30,8 @@ namespace Challange.Domain.Services.Video.Abstract
 
         void ClearBuffers();
 
+        List<Concrete.Video> ConvertToVideoContainer();
+
         void RemoveFirstFpsFromPastBuffer();
 
         void AddPastFpses(IFpsContainer fpsContainer);

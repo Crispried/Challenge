@@ -29,6 +29,12 @@ namespace Challange.Forms
                             => Invoke(StartAllPlayers);
             stopButton.Click += (sender, args)
                             => Invoke(StopAllPlayers);
+            rewindBackward.Click += (sender, args)
+                            => Invoke(RewindBackward);
+            rewindForward.Click += (sender, args)
+                            => Invoke(RewindForward);
+            this.FormClosing += (sender, args)
+                            => Invoke(OnFormClosing);
         }
 
         // Unnecessary
@@ -39,6 +45,12 @@ namespace Challange.Forms
         public event Action StartAllPlayers;
 
         public event Action StopAllPlayers;
+
+        public event Action RewindBackward;
+
+        public event Action RewindForward;
+
+        public new event Action OnFormClosing;
 
         public Form Form
         {

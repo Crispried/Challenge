@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using Challange.Domain.Entities;
 using System.Drawing;
-using Challange.Domain.Servuces.Video.Concrete;
 using Challange.Domain.Services.Video.Abstract;
 using NSubstitute;
+using Challange.Domain.Services.Video.Concrete;
 
 namespace Challange.UnitTests.Services.Video
 {

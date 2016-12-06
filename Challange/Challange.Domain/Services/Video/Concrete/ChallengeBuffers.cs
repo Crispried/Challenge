@@ -9,7 +9,7 @@ using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using Challange.Domain.Services.Video.Abstract;
 
-namespace Challange.Domain.Servuces.Video.Concrete
+namespace Challange.Domain.Services.Video.Concrete
 {
     public class ChallengeBuffers : IChallengeBuffers
     {
@@ -17,9 +17,11 @@ namespace Challange.Domain.Servuces.Video.Concrete
         private Dictionary<string, List<IFps>> futureCameraRecords;
         private int maxElementsInPastCollection = 20;
         private int maxElementsInFutureCollection = 20;
+        private ICamerasContainer camerasContainer;
 
         public ChallengeBuffers(ICamerasContainer camerasContainer)
         {
+            this.camerasContainer = camerasContainer;
             InitializeBuffers(camerasContainer);
         }
 
@@ -94,6 +96,30 @@ namespace Challange.Domain.Servuces.Video.Concrete
         {
             pastCameraRecords.Clear();
             futureCameraRecords.Clear();
+        }
+
+        public List<Video> ConvertToVideoContainer()
+        {
+            var videos = new List<Video>();
+            List<IFps> tempVideoFrames;
+            string currentVideoName;
+            foreach (var pastFrames in pastCameraRecords)
+            {
+                foreach (var futureFrames in futureCameraRecords)
+                {
+                    if (pastFrames.Key == futureFrames.Key)
+                    {
+                        tempVideoFrames = new List<IFps>();
+                        tempVideoFrames.AddRange(pastFrames.Value);
+                        tempVideoFrames.AddRange(futureFrames.Value);
+                        currentVideoName =
+                            camerasContainer.GetCameraByKey(pastFrames.Key).Name;
+                        videos.Add(new Video(currentVideoName, tempVideoFrames));
+                        break;
+                    }
+                }
+            }
+            return videos;
         }
 
         /// <summary>

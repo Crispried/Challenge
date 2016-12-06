@@ -11,7 +11,7 @@ using Challange.Domain.Abstract;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using NSubstitute;
 using Challange.Domain.Services.Video.Abstract;
-using Challange.Domain.Servuces.Video.Concrete;
+using Challange.Domain.Services.Video.Concrete;
 
 namespace Challange.UnitTests.Services.Video
 {

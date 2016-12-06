@@ -1,20 +1,9 @@
-﻿using Challange.Domain.Entities;
-using Challange.Domain.Services.Message;
-using Challange.Domain.Services.Settings;
-using Challange.Domain.Services.Settings.SettingParser;
-using Challange.Domain.Services.Settings.SettingTypes;
-using Challange.Domain.Services.StreamProcess.Abstract;
-using Challange.Domain.Services.StreamProcess.Concrete;
+﻿using Challange.Domain.Services.Message;
 using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
-using Challange.Domain.Servuces.Video.Concrete;
+using Challange.Domain.Services.Video.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
 
 namespace Challange.Presenter.Presenters.MainPresenter
 {
@@ -285,8 +274,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void WriteChallangeAsVideo()
         {
             SetChallengeDirectoryPath();
-            var challengeWriter = new ChallengeWriter(challengeBuffers,
-                                 camerasContainer, challenge.PathToChallengeDirectory);
+            var challengeWriter = new ChallengeWriter(
+                                  challengeBuffers.ConvertToVideoContainer(),
+                                  challenge.PathToChallengeDirectory);
             challengeWriter.WriteChallenge();
             challengeBuffers.ClearBuffers();
         }

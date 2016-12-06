@@ -3,12 +3,8 @@ using Challange.Domain.Entities;
 using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings.SettingTypes;
 using System.Drawing;
-using System.Collections.Generic;
 using System;
-using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.StreamProcess.Abstract;
-using Challange.Domain.Servuces.Video.Concrete;
-using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 
 namespace Challange.Presenter.Presenters.MainPresenter
 {

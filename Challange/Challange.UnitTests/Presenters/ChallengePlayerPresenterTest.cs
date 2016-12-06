@@ -27,7 +27,7 @@ namespace Challange.UnitTests.Presenters
         {
             controller = Substitute.For<IApplicationController>();
             view = Substitute.For<IChallengePlayerView>();
-            presenter = new ChallengePlayerPresenter(controller, view);
+           // presenter = new ChallengePlayerPresenter(controller, view);
             mock = Substitute.For<Tuple<string, RewindSettings>>();
             presenter.Run(mock);
         }

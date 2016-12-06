@@ -17,6 +17,12 @@ namespace Challange.Presenter.Views
 
         event Action StopAllPlayers;
 
+        event Action RewindBackward;
+
+        event Action RewindForward;
+
+        event Action OnFormClosing;
+
         void DrawPlayers(int numberOfPlayers);
 
         void InitializePlayers(Dictionary<string, Bitmap> initialData);

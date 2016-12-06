@@ -2,7 +2,7 @@
 using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingTypes;
-using Challange.Domain.Servuces.Video.Concrete;
+using Challange.Domain.Services.Video.Concrete;
 using Challange.Presenter.Base;
 using Challange.Presenter.Views;
 using System;
@@ -35,6 +35,8 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
 
         private List<Thread> threads;
 
+        private List<int> indexesOfFramesToPlay;
+
         public ChallengePlayerPresenter(IApplicationController controller,
                                         IChallengePlayerView mainView,
                                         IMessageParser messageParser,
@@ -51,6 +53,9 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
             View.OpenBroadcastForm += OpenBroadcastForm;
             View.StartAllPlayers += StartAllPlayers;
             View.StopAllPlayers += StopAllPlayers;
+            View.RewindBackward += RewindBackward;
+            View.RewindForward += RewindForward;
+            View.OnFormClosing += OnFormClosing;
         }
     }
 }
