@@ -1,30 +1,25 @@
 ﻿using Challange.Domain.Entities;
 using Challange.Domain.Services.Message;
+using Challange.Domain.Services.Settings.SettingTypes;
+using Challange.Forms.Widgets;
 using Challange.Presenter.Views;
 using Challange.Presenter.Views.Layouts;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Challange.Forms
 {
-    public partial class ChallengePlayerForm : Form, IChallengePlayerView, IChallengePlayerFormLayout
+    public partial class ChallengePlayerForm : Form, IChallengePlayerView
     {
-        private IChallengePlayerFormLayout layout;
+        private PlayerPanel _playerPanel;
 
-        public ChallengePlayerForm(IChallengePlayerFormLayout layout)
+        private ZoomData _zoomData;
+
+        public ChallengePlayerForm()
         {
             InitializeComponent();
-            this.layout = layout;
-            layout.ChallengePlayerPanel = challengePlayerPanel;
-            layout.Form = this;
             startButton.Click += (sender, args)
                             => Invoke(StartAllPlayers);
             stopButton.Click += (sender, args)
@@ -33,12 +28,10 @@ namespace Challange.Forms
                             => Invoke(RewindBackward);
             rewindForward.Click += (sender, args)
                             => Invoke(RewindForward);
-            this.FormClosing += (sender, args)
+            FormClosing += (sender, args)
                             => Invoke(OnFormClosing);
+            _playerPanel = new PlayerPanel(this, _zoomData, false, true, true, false);
         }
-
-        // Unnecessary
-        private Form form;
 
         public event Action<string> OpenBroadcastForm;
 
@@ -51,35 +44,19 @@ namespace Challange.Forms
         public event Action RewindForward;
 
         public new event Action OnFormClosing;
-
-        public Form Form
+        
+        public int PlaybackSpeed
         {
             get
             {
-                return form;
-            }
-            set
-            {
-                form = value;
+                return speedBar.Value;
             }
         }
 
-        public FlowLayoutPanel ChallengePlayerPanel
+        public void DrawPlayers(int numberOfPlayers, Dictionary<string, Bitmap> initialData)
         {
-            get
-            {
-                return challengePlayerPanel;
-            }
-            set
-            {
-                challengePlayerPanel = value;
-            }
-        }
-        //
-
-        public void DrawPlayers(int numberOfPlayers)
-        {
-            layout.DrawPlayers(numberOfPlayers);
+            _playerPanel.DrawPlayers(numberOfPlayers,
+                new PlayerPanelSettings() { AutosizeMode = true }, initialData);
         }
 
         public void DrawNewFrame(Bitmap frame, string videoName)
@@ -95,7 +72,7 @@ namespace Challange.Forms
 
         public void UpdatePlayersImage(string videoName, Bitmap frame)
         {
-            layout.UpdatePlayersImage(videoName, frame);
+            _playerPanel.UpdatePlayerImage(videoName, frame);
         }
 
         //public void RedrawZoomedImage(ZoomData zoomData)
@@ -103,12 +80,6 @@ namespace Challange.Forms
         //    this.zoomData = zoomData;
         //    pictureBoxToShowFullscreen.Refresh();
         //}
-
-        // Was IChallengePlayerView.InitializePlayers
-        public void InitializePlayers(Dictionary<string, Bitmap> initialData)
-        {
-            layout.InitializePlayers(initialData);
-        }
 
         public void ShowMessage(ChallengeMessage message)
         {

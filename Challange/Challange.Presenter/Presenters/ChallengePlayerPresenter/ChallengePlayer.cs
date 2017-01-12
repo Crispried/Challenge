@@ -23,8 +23,6 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
 
         private Dictionary<string, Bitmap> initialData;
 
-        private List<Video> challenges;
-
         private int numberOfVideos;
 
         private ChallengeReader challengeReader;

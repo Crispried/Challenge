@@ -35,20 +35,15 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
             View.ShowMessage(message);
         }
 
-        private void DrawPlayers(int numberOfVideos)
+        private void DrawPlayers(int numberOfVideos, Dictionary<string, Bitmap> initialData)
         {
-            View.DrawPlayers(numberOfVideos);
+            View.DrawPlayers(numberOfVideos, initialData);
         }
 
         private int GetNumberOfVideos(string pathToChallenge)
         {
             DirectoryInfo di = new DirectoryInfo(pathToChallenge);
             return di.GetFiles("*.mp4", SearchOption.TopDirectoryOnly).Length;
-        }
-
-        private void InitializePlayers(Dictionary<string, Bitmap> initialData)
-        {
-            View.InitializePlayers(initialData);
         }
 
         private Dictionary<string, Bitmap> GetInitialData()
@@ -70,7 +65,7 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
                     View.DrawNewFrame(video.Frames[video.FrameIndex], video.Name);
                     video.FrameIndex++;
                 }
-                Thread.Sleep(30);               
+                Thread.Sleep(View.PlaybackSpeed);               
             }
         }
     }

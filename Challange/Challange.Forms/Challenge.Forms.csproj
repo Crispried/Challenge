@@ -137,8 +137,6 @@
     <Compile Include="ChallengePlayerForm.Designer.cs">
       <DependentUpon>ChallengePlayerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChallengePlayerFormLayout.cs" />
-    <Compile Include="FormLayout.cs" />
     <Compile Include="FtpSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -151,8 +149,7 @@
     <Compile Include="GameInformationForm.Designer.cs">
       <DependentUpon>GameInformationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainFormLayout.cs" />
-    <Compile Include="PlayerLayout.cs" />
+    <Compile Include="Infrastructure\ControlsHelper.cs" />
     <Compile Include="PlayerPanelSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -173,6 +170,7 @@
     <Compile Include="RewindSettingsForm.Designer.cs">
       <DependentUpon>RewindSettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Widgets\PlayerPanel.cs" />
     <EmbeddedResource Include="BroadcastForm.resx">
       <DependentUpon>BroadcastForm.cs</DependentUpon>
     </EmbeddedResource>

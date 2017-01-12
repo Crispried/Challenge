@@ -13,15 +13,17 @@ using Challange.Domain.Entities;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.Message;
 using Challange.Presenter.Views.Layouts;
+using Challange.Forms.Widgets;
 
 namespace Challange.Forms
 {
-    public partial class MainForm : Form, IMainView, IMainFormLayout
+    public partial class MainForm : Form, IMainView
     {
         private readonly ApplicationContext context;
+
+        private PlayerPanel _playerPanel;
         
         private System.Windows.Forms.Timer timer;
-        private IMainFormLayout layout;
 
         private ComponentResourceManager resources =
                  new ComponentResourceManager(typeof(MainForm));
@@ -29,10 +31,9 @@ namespace Challange.Forms
         private string currentFrameCameraName;
         private Bitmap currentFrame;
 
-        public MainForm(ApplicationContext context, IMainFormLayout layout)
+        public MainForm(ApplicationContext context)
         {
             this.context = context;
-            this.layout = layout;
             InitializeComponent();
             playerPanelSettings.Click += (sender, args) =>
                             Invoke(OpenPlayerPanelSettings);
@@ -55,42 +56,9 @@ namespace Challange.Forms
             openDevicesListButton.Click += (sender, args) =>
                             Invoke(OpenDevicesList);
             viewLastChallengeButton.Click += (sender, args) =>
-                            Invoke(OpenChallengePlayerForLastChallenge);            
-            layout.PlayerPanel = playerPanel;
-            layout.Form = this;
+                            Invoke(OpenChallengePlayerForLastChallenge);
+            _playerPanel = new PlayerPanel(this, true, true, true, true);          
         }
-
-        // Unnecessary       
-
-        public FlowLayoutPanel PlayerPanel
-        {
-            get
-            {
-                return layout.PlayerPanel;
-            }
-            set
-            {
-                layout.PlayerPanel = value;
-            }
-        }
-
-        public Form Form
-        {
-            get
-            {
-                return layout.Form;
-            }
-            set
-            {
-                layout.Form = value;
-            }
-        }
-
-        public void UpdatePlayersImage(string cameraName, Bitmap frameClone)
-        {
-            layout.UpdatePlayersImage(cameraName, frameClone);
-        }
-        // End of unnecessary
 
         public string CurrentFrameCameraName
         {
@@ -115,14 +83,6 @@ namespace Challange.Forms
                 return elapsedTimeFromStart.Text;
             }
         }
-
-        //public Dictionary<string, string> CamerasNames
-        //{
-        //    get
-        //    {
-        //        return camerasNames;
-        //    }
-        //}
 
         #region events
         private void OnTimedEvent(Object source, EventArgs myEventArgs)
@@ -239,9 +199,15 @@ namespace Challange.Forms
         }
 
         #region DrawPlayers
-        public void DrawPlayers(PlayerPanelSettings settings, int numberOfPlayers)
+        public void DrawPlayers(PlayerPanelSettings settings,
+                                int numberOfPlayers, List<string> camerasNames)
         {
-            layout.DrawPlayers(settings, numberOfPlayers);
+            Dictionary<string, Bitmap> initialData = new Dictionary<string, Bitmap>();
+            foreach (var cameraName in camerasNames)
+            {
+                initialData.Add(cameraName, null);
+            }
+            _playerPanel.DrawPlayers(numberOfPlayers, settings, initialData);
         }
         #endregion
 
@@ -304,7 +270,7 @@ namespace Challange.Forms
             Bitmap frameClone = CloneFrame(frame);
             currentFrameCameraName = cameraName;
             currentFrame = frameClone;
-            layout.UpdatePlayersImage(cameraName, frameClone);
+            _playerPanel.UpdatePlayerImage(cameraName, frameClone);
             Invoke(NewFrameCallback);
         }
 
@@ -313,15 +279,16 @@ namespace Challange.Forms
             return frame.Clone(new Rectangle(0, 0, frame.Width, frame.Height), frame.PixelFormat);
         }
 
-        public void BindPlayersToCameras(Queue<string> camerasNames)
-        {
-            layout.BindPlayersToCameras(camerasNames);
-        }
-
         private void drawTestPlayersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           // layout.ClearControls(playerPanel);
-            layout.DrawPlayers(new PlayerPanelSettings() { AutosizeMode = true }, 5);
+            int numberOfPlayers = 5;
+            var randomData = new Dictionary<string, Bitmap>();
+            for (int i = 0; i < numberOfPlayers; i++)
+            {
+                randomData.Add(i.ToString(), null);
+            }
+            _playerPanel.DrawPlayers(numberOfPlayers,
+                new PlayerPanelSettings() { AutosizeMode = true }, randomData);
         }
 
         public void ShowMessage(ChallengeMessage message)

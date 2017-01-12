@@ -99,7 +99,10 @@
             this.saveChallangeSettingsButton.BackColor = System.Drawing.Color.Transparent;
             this.saveChallangeSettingsButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("saveChallangeSettingsButton.BackgroundImage")));
             this.saveChallangeSettingsButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.saveChallangeSettingsButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.saveChallangeSettingsButton.FlatAppearance.BorderSize = 0;
+            this.saveChallangeSettingsButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.saveChallangeSettingsButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.saveChallangeSettingsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.saveChallangeSettingsButton.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.saveChallangeSettingsButton.ForeColor = System.Drawing.Color.White;
             this.saveChallangeSettingsButton.Location = new System.Drawing.Point(313, 265);

@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.playerPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,19 +57,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.challengeRecordingImage)).BeginInit();
             this.toolBox.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // playerPanel
-            // 
-            this.playerPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.playerPanel.AutoScroll = true;
-            this.playerPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(36)))), ((int)(((byte)(43)))));
-            this.playerPanel.Location = new System.Drawing.Point(13, 85);
-            this.playerPanel.Margin = new System.Windows.Forms.Padding(4);
-            this.playerPanel.Name = "playerPanel";
-            this.playerPanel.Size = new System.Drawing.Size(980, 493);
-            this.playerPanel.TabIndex = 0;
             // 
             // contextMenuStrip1
             // 
@@ -174,7 +160,7 @@
             this.timeAxis.Controls.Add(this.addChallange);
             this.timeAxis.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.timeAxis.Location = new System.Drawing.Point(0, 586);
-            this.timeAxis.Margin = new System.Windows.Forms.Padding(4);
+            this.timeAxis.Margin = new System.Windows.Forms.Padding(10);
             this.timeAxis.Name = "timeAxis";
             this.timeAxis.Size = new System.Drawing.Size(1006, 135);
             this.timeAxis.TabIndex = 3;
@@ -198,7 +184,10 @@
             this.viewLastChallengeButton.BackColor = System.Drawing.Color.Transparent;
             this.viewLastChallengeButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("viewLastChallengeButton.BackgroundImage")));
             this.viewLastChallengeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.viewLastChallengeButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.viewLastChallengeButton.FlatAppearance.BorderSize = 0;
+            this.viewLastChallengeButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.viewLastChallengeButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.viewLastChallengeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.viewLastChallengeButton.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.viewLastChallengeButton.ForeColor = System.Drawing.Color.White;
             this.viewLastChallengeButton.Location = new System.Drawing.Point(0, 70);
@@ -238,7 +227,10 @@
             this.addChallange.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.addChallange.Cursor = System.Windows.Forms.Cursors.Default;
             this.addChallange.Enabled = false;
-            this.addChallange.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.addChallange.FlatAppearance.BorderSize = 0;
+            this.addChallange.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.addChallange.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.addChallange.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addChallange.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addChallange.ForeColor = System.Drawing.Color.White;
             this.addChallange.Location = new System.Drawing.Point(736, 70);
@@ -321,7 +313,7 @@
             this.Controls.Add(this.toolBox);
             this.Controls.Add(this.timeAxis);
             this.Controls.Add(this.menu);
-            this.Controls.Add(this.playerPanel);
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(1024, 768);
             this.Name = "MainForm";
@@ -340,8 +332,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.FlowLayoutPanel playerPanel;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.MenuStrip menu;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;

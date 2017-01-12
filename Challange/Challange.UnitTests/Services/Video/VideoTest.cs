@@ -37,29 +37,6 @@ namespace Challange.UnitTests.Services.Video
             Assert.IsTrue(getter == "1");
         }
 
-        [Test]
-        public void FpsListProperty()
-        {
-            // Arrange
-            // Act
-            var getter = video.Fpses;
-            // Assert
-            Assert.IsTrue(getter == fpsList);
-        }
-
-        [Test]
-        public void FpsValueIsProperlyCounted()
-        {
-            // Arrange
-            Domain.Services.Video.Concrete.Video video =
-                new Domain.Services.Video.Concrete.Video("Video", fpsList);
-
-            // Act
-
-            // Assert
-            Assert.AreEqual(1, video.DesiredFps);
-        }
-
         private List<IFps> InitializeFpsList()
         {
             IFps frame = new Fps();

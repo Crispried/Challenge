@@ -32,9 +32,8 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
             {
                 indexesOfFramesToPlay.Add(0);
             }
-            DrawPlayers(numberOfVideos);
             initialData = GetInitialData();
-            InitializePlayers(initialData);
+            DrawPlayers(numberOfVideos, initialData);
             threads = new List<Thread>(challengeReader.Challenges.Count);
             CreateThreads();
             View.Show();

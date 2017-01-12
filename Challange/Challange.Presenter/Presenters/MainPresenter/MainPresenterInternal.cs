@@ -95,7 +95,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void DrawPlayers()
         {
-            View.DrawPlayers(settingsContext.PlayerPanelSetting, camerasContainer.CamerasNumber);
+            var camerasNames = camerasContainer.GetCamerasNames;
+            View.DrawPlayers(settingsContext.PlayerPanelSetting, camerasContainer.CamerasNumber, camerasNames);
         }
         #region settings
         /// <summary>
@@ -128,15 +129,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private void InitializeDevices()
         {
             camerasContainer.InitializeCameras();
-        }
-
-        /// <summary>
-        /// Initializes player for each camera
-        /// </summary>
-        private void BindPlayersToCameras()
-        {
-            Queue<string> camerasNames = camerasContainer.GetCamerasNamesAsQueue;
-            View.BindPlayersToCameras(camerasNames);
         }
 
         /// <summary>

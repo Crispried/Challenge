@@ -60,7 +60,10 @@ namespace Challange.Forms
             this.savePlayerPanelSettingsButton.BackColor = System.Drawing.Color.Transparent;
             this.savePlayerPanelSettingsButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("savePlayerPanelSettingsButton.BackgroundImage")));
             this.savePlayerPanelSettingsButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.savePlayerPanelSettingsButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.savePlayerPanelSettingsButton.FlatAppearance.BorderSize = 0;
+            this.savePlayerPanelSettingsButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.savePlayerPanelSettingsButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.savePlayerPanelSettingsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.savePlayerPanelSettingsButton.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.savePlayerPanelSettingsButton.ForeColor = System.Drawing.Color.White;
             this.savePlayerPanelSettingsButton.Location = new System.Drawing.Point(314, 315);

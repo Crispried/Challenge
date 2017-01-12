@@ -23,9 +23,9 @@ namespace Challange.Presenter.Views
 
         event Action OnFormClosing;
 
-        void DrawPlayers(int numberOfPlayers);
+        int PlaybackSpeed { get; }
 
-        void InitializePlayers(Dictionary<string, Bitmap> initialData);
+        void DrawPlayers(int numberOfPlayers, Dictionary<string, Bitmap> initialData);
 
         void DrawNewFrame(Bitmap frame, string videoName);
 

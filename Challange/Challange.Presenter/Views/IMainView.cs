@@ -50,7 +50,7 @@ namespace Challange.Presenter.Views
 
         string GetElapsedTime { get; }
 
-        void DrawPlayers(PlayerPanelSettings settings, int numberOfPlayers);
+        void DrawPlayers(PlayerPanelSettings settings, int numberOfPlayers, List<string> camerasNames);
 
         void InitializeTimer();
 
@@ -69,8 +69,6 @@ namespace Challange.Presenter.Views
         void ToggleStopButton(bool state);
 
         void DrawNewFrame(Bitmap frame, string cameraName);
-
-        void BindPlayersToCameras(Queue<string> camerasNames);
 
         void DrawChallengeRecordingImage();
 

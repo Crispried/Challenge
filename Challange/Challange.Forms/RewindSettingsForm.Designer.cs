@@ -71,7 +71,10 @@
             this.saveRewindSettings.BackColor = System.Drawing.Color.Transparent;
             this.saveRewindSettings.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("saveRewindSettings.BackgroundImage")));
             this.saveRewindSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.saveRewindSettings.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.saveRewindSettings.FlatAppearance.BorderSize = 0;
+            this.saveRewindSettings.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.saveRewindSettings.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.saveRewindSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.saveRewindSettings.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.saveRewindSettings.ForeColor = System.Drawing.Color.White;
             this.saveRewindSettings.Location = new System.Drawing.Point(312, 265);

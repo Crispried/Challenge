@@ -74,9 +74,16 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         public void ChangePlayerPanelSettings()
         {
+            var oldPlayerPanelSettings =
+                (PlayerPanelSettings)settingsContext.PlayerPanelSetting.Clone();
             Controller.Run<PlayerPanelSettingsPresenter.PlayerPanelSettingsPresenter,
                            PlayerPanelSettings>(settingsContext.PlayerPanelSetting);
-            DrawPlayers();
+            // we want redraw players only if there were any changes
+            // in player panel settings
+            if (!oldPlayerPanelSettings.Equals(settingsContext.PlayerPanelSetting))
+            {
+                DrawPlayers();
+            }
         }
 
         /// <summary>
@@ -115,7 +122,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
             if (camerasContainer.IsEmpty()) // DONT FORGET BACK "!" !!!!!!!
             {
                 InitializeChallengeBuffers();
-                BindPlayersToCameras();
                 InitializeTimeAxisTimer();
                 InitializeFpsContainer();
                 EnableTimerEvent(InternalTimerEventForPastFrames);

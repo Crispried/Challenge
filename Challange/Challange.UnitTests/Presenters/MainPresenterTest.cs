@@ -144,6 +144,8 @@ namespace Challange.UnitTests.Presenters
             controller.ReceivedWithAnyArgs().Run<GameInformationPresenter,
                                GameInformation>(gameInformation);
             camerasContainer.Received().InitializeCameras();
+            var camerasNames = camerasContainer.Received().GetCamerasNames;
+            view.Received().DrawPlayers(settingsContext.PlayerPanelSetting, camerasContainer.CamerasNumber, camerasNames);
             view.Received().Show();
         }
 
@@ -209,7 +211,8 @@ namespace Challange.UnitTests.Presenters
             // Assert
             controller.Received().Run<PlayerPanelSettingsPresenter,
                                 PlayerPanelSettings>(settingsContext.PlayerPanelSetting);
-            view.Received().DrawPlayers(settingsContext.PlayerPanelSetting, camerasContainer.CamerasNumber);
+            var camerasNames = camerasContainer.Received().GetCamerasNames;
+            view.Received().DrawPlayers(settingsContext.PlayerPanelSetting, camerasContainer.CamerasNumber, camerasNames);
         }
 
         [Test]
