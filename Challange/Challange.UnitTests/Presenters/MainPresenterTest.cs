@@ -260,7 +260,6 @@ namespace Challange.UnitTests.Presenters
             camerasContainer.Received().InitializeCameras();
             challengeBuffers.DidNotReceiveWithAnyArgs().SetNumberOfPastAndFutureElements(0, 0);
             var camerasNames = camerasContainer.DidNotReceive().GetCamerasNamesAsQueue;
-            view.DidNotReceiveWithAnyArgs().BindPlayersToCameras(camerasNames);
             view.DidNotReceive().InitializeTimer();
             fpsContainer.DidNotReceiveWithAnyArgs().InitializeFpses(null);
             internalChallengeTimer.DidNotReceiveWithAnyArgs().EnableTimerEvent(default(Action));
@@ -288,7 +287,6 @@ namespace Challange.UnitTests.Presenters
             camerasContainer.Received().InitializeCameras();
             challengeBuffers.Received().SetNumberOfPastAndFutureElements(past, future);
             var camerasNames = camerasContainer.Received().GetCamerasNamesAsQueue;
-            view.Received().BindPlayersToCameras(camerasNames);
             view.Received().InitializeTimer();
             fpsContainer.Received().InitializeFpses(camerasContainer.GetCamerasNames);
             internalChallengeTimer.ReceivedWithAnyArgs().EnableTimerEvent(default(Action));
