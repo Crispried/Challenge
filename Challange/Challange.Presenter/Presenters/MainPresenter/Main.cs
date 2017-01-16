@@ -26,25 +26,25 @@ namespace Challange.Presenter.Presenters.MainPresenter
     public partial class MainPresenter : BasePresenter<IMainView>
     {
         // settings
-        private IFileService fileService;
-        private IMessageParser messageParser;
-        private GameInformation gameInformation;
-        private ISettingsContext settingsContext;
-        private INullSettingsContainer nullSettingsContainer;
-        private IProcessStarter processStarter;
-        private IZoomer zoomer;
+        private IFileService _fileService;
+        private IMessageParser _messageParser;
+        private ISettingsContext _settingsContext;
+        private INullSettingsContainer _nullSettingsContainer;
 
+        private GameInformation _gameInformation;
+        private IZoomer _zoomer;
 
         // video streaming
-        private ICamerasContainer camerasContainer;
+        private ICamerasProvider _camerasProvider;
+        private ICamerasContainer _camerasContainer;
 
         // this is temporary object which will keep fps objects
         // from all cameras which we create every second
-        private IFpsContainer fpsContainer;
-        private IChallengeBuffers challengeBuffers;
-        private IInternalChallengeTimer internalChallengeTimer;
-        private IChallengeObject challenge;
-        private IEventSubscriber eventSubscriber;
+        private IFpsContainer _fpsContainer;
+        private IChallengeBuffers _challengeBuffers;
+        private IInternalChallengeTimer _internalChallengeTimer;
+        private IChallengeObject _challenge;
+        private IEventSubscriber _eventSubscriber;
 
         public MainPresenter(IApplicationController controller,
                              IMainView mainView,
@@ -53,7 +53,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
                              ISettingsContext settingsContext,
                              INullSettingsContainer nullSettingsContainer,
                              ICamerasContainer camerasContainer,
-                             IProcessStarter processStarter,
+                             ICamerasProvider camerasProvider,
                              IZoomer zoomer,
                              IChallengeBuffers challengeBuffers,
                              IFpsContainer fpsContainer,
@@ -62,20 +62,20 @@ namespace Challange.Presenter.Presenters.MainPresenter
                              IEventSubscriber eventSubscriber) : 
                              base(controller, mainView)
         {
-            this.fileService = fileService;
-            this.messageParser = messageParser;
-            this.settingsContext = settingsContext;
-            this.nullSettingsContainer = nullSettingsContainer;
-            this.camerasContainer = camerasContainer;
-            this.processStarter = processStarter;
-            this.zoomer = zoomer;
-            this.challengeBuffers = challengeBuffers;
-            this.fpsContainer = fpsContainer;
-            this.internalChallengeTimer = internalChallengeTimer;
-            this.challenge = challenge;
-            this.eventSubscriber = eventSubscriber;
+            _fileService = fileService;
+            _messageParser = messageParser;
+            _settingsContext = settingsContext;
+            _nullSettingsContainer = nullSettingsContainer;
+            _camerasContainer = camerasContainer;
+            _camerasProvider = camerasProvider;
+            _zoomer = zoomer;
+            _challengeBuffers = challengeBuffers;
+            _fpsContainer = fpsContainer;
+            _internalChallengeTimer = internalChallengeTimer;
+            _challenge = challenge;
+            _eventSubscriber = eventSubscriber;
             SubscribePresenters();
-            gameInformation = new GameInformation();
+            _gameInformation = new GameInformation();
         }
 
         private void SubscribePresenters()

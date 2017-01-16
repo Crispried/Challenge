@@ -18,11 +18,11 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// <param name="e"></param>
         private void InternalTimerEventForPastFrames()
         {
-            if (challengeBuffers.HaveToRemovePastFps())
+            if (_challengeBuffers.HaveToRemovePastFps())
             {
-                challengeBuffers.RemoveFirstFpsFromPastBuffer();
+                _challengeBuffers.RemoveFirstFpsFromPastBuffer();
             }
-            challengeBuffers.AddPastFpses(fpsContainer);
+            _challengeBuffers.AddPastFpses(_fpsContainer);
             InitializeFpsContainer();
         }
 
@@ -32,10 +32,10 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void InternalTimerEventForFutureFrames()
         {
-            if (challengeBuffers.HaveToAddFutureFps())
+            if (_challengeBuffers.HaveToAddFutureFps())
             {
-                challengeBuffers.AddFutureFpses(fpsContainer);
-                fpsContainer.InitializeFpses(camerasContainer.GetCamerasNames);
+                _challengeBuffers.AddFutureFpses(_fpsContainer);
+                _fpsContainer.InitializeFpses(_camerasContainer.GetCamerasNames());
             }
             else
             {
@@ -49,9 +49,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
         
         private void InitializeChallengeBuffers()
         {
-            challengeBuffers.SetNumberOfPastAndFutureElements(
-                settingsContext.ChallengeSetting.NumberOfPastFPS,
-                settingsContext.ChallengeSetting.NumberOfFutureFPS);
+            _challengeBuffers.SetNumberOfPastAndFutureElements(
+                _settingsContext.ChallengeSetting.NumberOfPastFPS,
+                _settingsContext.ChallengeSetting.NumberOfFutureFPS);
         }
 
         [ExcludeFromCodeCoverage]
@@ -95,8 +95,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void DrawPlayers()
         {
-            var camerasNames = camerasContainer.GetCamerasNames;
-            View.DrawPlayers(settingsContext.PlayerPanelSetting, camerasContainer.CamerasNumber, camerasNames);
+            var camerasNames = _camerasContainer.GetCamerasNames();
+            View.DrawPlayers(_settingsContext.PlayerPanelSetting, _camerasContainer.CamerasNumber, camerasNames);
         }
         #region settings
         /// <summary>
@@ -104,10 +104,10 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void ReadAllSettings()
         {
-            settingsContext.GetPlayerPanelSetting();
-            settingsContext.GetChallengeSetting();
-            settingsContext.GetFtpSetting();
-            settingsContext.GetRewindSetting();
+            _settingsContext.GetPlayerPanelSetting();
+            _settingsContext.GetChallengeSetting();
+            _settingsContext.GetFtpSetting();
+            _settingsContext.GetRewindSetting();
         }
 
         /// <summary>
@@ -116,10 +116,10 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void CheckAllSettingsOnNull()
         {
-            nullSettingsContainer.CheckPlayerPanelSettingOnNull(settingsContext.PlayerPanelSetting);
-            nullSettingsContainer.CheckChallengeSettingOnNull(settingsContext.ChallengeSetting);
-            nullSettingsContainer.CheckFtpSettingOnNull(settingsContext.FtpSetting);
-            nullSettingsContainer.CheckRewindSettingOnNull(settingsContext.RewindSetting);
+            _nullSettingsContainer.CheckPlayerPanelSettingOnNull(_settingsContext.PlayerPanelSetting);
+            _nullSettingsContainer.CheckChallengeSettingOnNull(_settingsContext.ChallengeSetting);
+            _nullSettingsContainer.CheckFtpSettingOnNull(_settingsContext.FtpSetting);
+            _nullSettingsContainer.CheckRewindSettingOnNull(_settingsContext.RewindSetting);
         }
         #endregion
 
@@ -128,7 +128,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void InitializeDevices()
         {
-            camerasContainer.InitializeCameras();
+            _camerasProvider.InitializeCameras();
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void StartDevices()
         {
-            camerasContainer.StartAllCameras(Camera_NewFrameEvent, eventSubscriber);
+            _camerasProvider.StartAllCameras(Camera_NewFrameEvent, _eventSubscriber);
         }
 
         [ExcludeFromCodeCoverage]
@@ -267,19 +267,19 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             SetChallengeDirectoryPath();
             var challengeWriter = new ChallengeWriter(
-                                  challengeBuffers.ConvertToVideoContainer(),
-                                  challenge.PathToChallengeDirectory);
+                                  _challengeBuffers.ConvertToVideoContainer(),
+                                  _challenge.PathToChallengeDirectory);
             challengeWriter.WriteChallenge();
-            challengeBuffers.ClearBuffers();
+            _challengeBuffers.ClearBuffers();
         }
 
         [ExcludeFromCodeCoverage]
         private void SetChallengeDirectoryPath()
         {
-            var pathToRootDirectory = challenge.PathToRootDirectory;
-            var challengeFolderName = challenge.ChallengeFolderName;
-            challenge.PathToChallengeDirectory = pathToRootDirectory + @"\" +
-                fileService.FilterFolderName(challengeFolderName) + @"\";
+            var pathToRootDirectory = _challenge.PathToRootDirectory;
+            var challengeFolderName = _challenge.ChallengeFolderName;
+            _challenge.PathToChallengeDirectory = pathToRootDirectory + @"\" +
+                _fileService.FilterFolderName(challengeFolderName) + @"\";
         }
 
         /// <summary>
@@ -287,33 +287,33 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         public void StopCaptureDevice()
         {
-            camerasContainer.StopAllCameras();
+            _camerasProvider.StopAllCameras();
         }
 
         private void CreateDirectoryForChallenge()
         {
-            fileService.CreateDirectory(challenge.PathToChallengeDirectory);
+            _fileService.CreateDirectory(_challenge.PathToChallengeDirectory);
         }
 
         private void ShowMessage(MessageType type)
         {
-            ChallengeMessage message = messageParser.GetMessage(type);
+            ChallengeMessage message = _messageParser.GetMessage(type);
             View.ShowMessage(message);
         }
 
         private void InitializeFpsContainer()
         {
-            fpsContainer.InitializeFpses(camerasContainer.GetCamerasNames);
+            _fpsContainer.InitializeFpses(_camerasContainer.GetCamerasNames());
         }
 
         private void EnableTimerEvent(Action action)
         {
-            internalChallengeTimer.EnableTimerEvent(action);
+            _internalChallengeTimer.EnableTimerEvent(action);
         }
 
         private void DisableTimerEvent()
         {
-            internalChallengeTimer.DisableTimerEvent();
+            _internalChallengeTimer.DisableTimerEvent();
         }
     }
 }

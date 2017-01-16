@@ -103,6 +103,7 @@
   <ItemGroup>
     <Compile Include="Entity\ZoomDataTest.cs" />
     <Compile Include="Entity\FtpConnectorTest.cs" />
+    <Compile Include="Services\StreamProcess\Concrete\CamerasProviderTests.cs" />
     <Compile Include="Services\Video\ChallengeBuffersTest.cs" />
     <Compile Include="Services\Video\ChallengeObjectTest.cs" />
     <Compile Include="Entity\EventSubscriberTest.cs" />

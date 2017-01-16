@@ -74,6 +74,8 @@
     <Compile Include="Services\Replay\IZoomer.cs" />
     <Compile Include="Services\StreamProcess\Abstract\ICamera.cs" />
     <Compile Include="Services\StreamProcess\Abstract\ICamerasContainer.cs" />
+    <Compile Include="Services\StreamProcess\Abstract\IDevicesProvider.cs" />
+    <Compile Include="Services\StreamProcess\Concrete\Pylon\DevicesProvider.cs" />
     <Compile Include="Services\Video\Abstract\IChallengeObject.cs" />
     <Compile Include="Services\Video\Abstract\IFpsContainer.cs" />
     <Compile Include="Services\Video\Abstract\IChallengeBuffer.cs" />
@@ -119,7 +121,7 @@
     <Compile Include="Services\Settings\SettingTypes\RewindSettings.cs" />
     <Compile Include="Services\Settings\SettingParser\FtpSettingsParser.cs" />
     <Compile Include="Services\Settings\SettingTypes\FtpSettings.cs" />
-    <Compile Include="Services\StreamProcess\Abstract\ICameraProvider.cs" />
+    <Compile Include="Services\StreamProcess\Abstract\ICamerasProvider.cs" />
     <Compile Include="Services\Video\Concrete\ChallengeWriter.cs" />
     <Compile Include="Services\Settings\SettingParser\ChallengeSettingsParser.cs" />
     <Compile Include="Services\Settings\SettingTypes\ChallengeSettings.cs" />
@@ -132,7 +134,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Settings\SettingTypes\Setting.cs" />
     <Compile Include="Services\StreamProcess\Concrete\Pylon\CamerasContainer.cs" />
-    <Compile Include="Services\StreamProcess\Concrete\Pylon\PylonCameraProvider.cs" />
+    <Compile Include="Services\StreamProcess\Concrete\Pylon\CamerasProvider.cs" />
     <Compile Include="Services\Message\ChallengeMessage.cs" />
   </ItemGroup>
   <ItemGroup>

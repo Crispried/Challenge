@@ -1,5 +1,4 @@
 ﻿using Challange.Domain.Services.StreamProcess.Abstract;
-using PylonC.NETSupportLibrary;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -11,25 +10,25 @@ using static PylonC.NETSupportLibrary.DeviceEnumerator;
 namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
 {
     [ExcludeFromCodeCoverage]
-    public class PylonCameraProvider : ICameraProvider
+    public class DevicesProvider : IDevicesProvider
     {
-        public List<Camera> GetConnectedCameras()
+        public List<ICamera> GetConnectedCameras()
         {
-            List<Device> devices = null;
-            List<Camera> cameras = new List<Camera>();
             try
             {
-                devices = EnumerateDevices();
+                var devices = EnumerateDevices();
+                var cameras = new List<ICamera>();
                 foreach (var device in devices)
                 {
                     var camera = new Camera(device.Index, device.FullName);
                     cameras.Add(camera);
                 }
+                return cameras;
             }
             catch
             {
+                return new List<ICamera>();
             }
-            return cameras;
         }
     }
 }

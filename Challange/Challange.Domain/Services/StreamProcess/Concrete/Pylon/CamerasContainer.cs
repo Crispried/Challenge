@@ -14,21 +14,18 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
 {
     public class CamerasContainer : ICamerasContainer
     {
-        private List<ICamera> camerasContainer;
+        private List<ICamera> _camerasContainer;
 
-        private ICameraProvider cameraProvider;
-
-        public CamerasContainer(ICameraProvider cameraProvider)
+        public CamerasContainer()
         {
-            this.cameraProvider = cameraProvider;
-            camerasContainer = new List<ICamera>();
+            _camerasContainer = new List<ICamera>();
         }
 
         public int CamerasNumber
         {
             get
             {
-                return camerasContainer.Count;
+                return _camerasContainer.Count;
             }
         }
 
@@ -36,98 +33,62 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
         {
             get
             {
-                return camerasContainer;
+                return _camerasContainer;
             }
         }
 
-        public List<string> GetCamerasKeys
+        public List<string> GetCamerasKeys()
         {
-            get
+            List<string> camerasKeys = new List<string>();
+            foreach (var camera in _camerasContainer)
             {
-                List<string> camerasKeys = new List<string>();
-                foreach (var camera in camerasContainer)
-                {
-                    camerasKeys.Add(camera.FullName);
-                }
-                return camerasKeys;
+                camerasKeys.Add(camera.FullName);
             }
+            return camerasKeys;
         }
 
-        public List<string> GetCamerasNames
+        public List<string> GetCamerasNames()
         {
-            get
+            List<string> camerasNames = new List<string>();
+            foreach (var camera in _camerasContainer)
             {
-                List<string> camerasNames = new List<string>();
-                foreach (var camera in camerasContainer)
-                {
-                    camerasNames.Add(camera.Name);
-                }
-                return camerasNames;
+                camerasNames.Add(camera.Name);
             }
+            return camerasNames;
         }
 
-        public Queue<string> GetCamerasNamesAsQueue
+        public void SetCameraName(string fullName, string newCameraName)
         {
-            get
-            {
-                Queue<string> camerasNames = new Queue<string>();
-                foreach (var cameraName in camerasContainer)
-                {
-                    camerasNames.Enqueue(cameraName.Name);
-                }
-                return camerasNames;
-            }
-        }
-
-        public void InitializeCameras()
-        {
-            var camerasContainer = cameraProvider.GetConnectedCameras();
-        }
-
-        public void SetCameraName(string fullName, string cameraName)
-        {
-            var camera = camerasContainer.Find(cam => cam.FullName == fullName);
+            var camera = _camerasContainer.Find(cam => cam.FullName == fullName);
             if(camera != null)
             {
-                camera.Name = cameraName;
+                camera.Name = newCameraName;
             }
         }
 
         public void AddCamera(ICamera camera)
         {
-            camerasContainer.Add(camera);
+            _camerasContainer.Add(camera);
+        }
+
+        public void AddCameras(List<ICamera> cameras)
+        {
+            _camerasContainer.AddRange(cameras);
         }
 
         public void RemoveCamera(ICamera camera)
         {
-            camerasContainer.Remove(camera);
+            _camerasContainer.Remove(camera);
         }
 
         public bool IsEmpty()
         {
-            return camerasContainer.Count == 0;
-        }
-
-        public void StopAllCameras()
-        {
-            foreach (ICamera camera in camerasContainer)
-            {
-                camera.Stop();
-            }
-        }
-
-        public void StartAllCameras(Action<object, EventArgs> cameraEventHandler, IEventSubscriber eventSubscriber)
-        {
-            foreach (var camera in camerasContainer)
-            {
-                eventSubscriber.AddEventHandler(camera, "NewFrameEvent", cameraEventHandler);
-                camera.Start();
-            }
+            return _camerasContainer.Count == 0;
         }
 
         public ICamera GetCameraByKey(string key)
         {
-            return camerasContainer.Find(camera => camera.FullName == key);
+            return _camerasContainer.Find(camera => camera.FullName == key);
         }
     }
 }

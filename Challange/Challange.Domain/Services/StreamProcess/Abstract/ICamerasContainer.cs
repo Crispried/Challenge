@@ -13,29 +13,23 @@ namespace Challange.Domain.Services.StreamProcess.Abstract
 {
     public interface ICamerasContainer
     {
-        void InitializeCameras();
-
         int CamerasNumber { get; }
 
         List<ICamera> GetCameras { get; }
 
-        List<string> GetCamerasKeys { get; }
+        List<string> GetCamerasKeys();
 
-        List<string> GetCamerasNames { get; }
+        List<string> GetCamerasNames();
 
-        Queue<string> GetCamerasNamesAsQueue { get; }
+        void SetCameraName(string fullName, string newCameraName);
 
-        void SetCameraName(string key, string cameraFullName);
+        void AddCameras(List<ICamera> cameras);
 
         void AddCamera(ICamera camera);
 
         void RemoveCamera(ICamera camera);
 
-        bool IsEmpty();
-
-        void StopAllCameras();
-
-        void StartAllCameras(Action<object, EventArgs> cameraEventHandler, IEventSubscriber eventSubscriber);
+        bool IsEmpty();  
 
         ICamera GetCameraByKey(string key);
     }

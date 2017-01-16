@@ -14,14 +14,14 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             ReadAllSettings();
             CheckAllSettingsOnNull();
-            if (!nullSettingsContainer.IsEmpty())
+            if (!_nullSettingsContainer.IsEmpty())
             {
                 ShowMessage(MessageType.SettingsFilesParseProblem);
             }
             else
             {
                 Controller.Run<GameInformationPresenter.GameInformationPresenter,
-                               GameInformation>(gameInformation);
+                               GameInformation>(_gameInformation);
                 InitializeDevices();
                 DrawPlayers();
                 View.Show();
@@ -34,7 +34,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void ShowDevicesList()
         {
             Controller.Run<CamerasPresenter.CamerasPresenter,
-                ICamerasContainer>(camerasContainer);
+                ICamerasContainer>(_camerasContainer);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             string cameraName = View.CurrentFrameCameraName;
             Bitmap currentFrame = View.CurrentFrame;
-            IFps tempFPS = fpsContainer.GetFpsByKey(cameraName);
+            IFps tempFPS = _fpsContainer.GetFpsByKey(cameraName);
             tempFPS.AddFrame(currentFrame);
         }
 
@@ -55,7 +55,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         public void MakeZoom(Point pictureBoxLocation, int delta, Point mouseLocation)
         {
-            ZoomData zoomData = zoomer.MakeZoom(pictureBoxLocation, delta, mouseLocation);
+            ZoomData zoomData = _zoomer.MakeZoom(pictureBoxLocation, delta, mouseLocation);
             View.RedrawZoomedImage(zoomData);
         }
 
@@ -65,7 +65,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         public void SaveCamerasNames(string key, string cameraName)
         {
-            camerasContainer.SetCameraName(key, cameraName);
+            _camerasContainer.SetCameraName(key, cameraName);
         }
 
         /// <summary>
@@ -75,12 +75,12 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void ChangePlayerPanelSettings()
         {
             var oldPlayerPanelSettings =
-                (PlayerPanelSettings)settingsContext.PlayerPanelSetting.Clone();
+                (PlayerPanelSettings)_settingsContext.PlayerPanelSetting.Clone();
             Controller.Run<PlayerPanelSettingsPresenter.PlayerPanelSettingsPresenter,
-                           PlayerPanelSettings>(settingsContext.PlayerPanelSetting);
+                           PlayerPanelSettings>(_settingsContext.PlayerPanelSetting);
             // we want redraw players only if there were any changes
             // in player panel settings
-            if (!oldPlayerPanelSettings.Equals(settingsContext.PlayerPanelSetting))
+            if (!oldPlayerPanelSettings.Equals(_settingsContext.PlayerPanelSetting))
             {
                 DrawPlayers();
             }
@@ -92,7 +92,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void ChangeChallengeSettings()
         {
             Controller.Run<ChallengeSettingsPresenter.ChallengeSettingsPresenter,
-                            ChallengeSettings>(settingsContext.ChallengeSetting);
+                            ChallengeSettings>(_settingsContext.ChallengeSetting);
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void ChangeFtpSettings()
         {
             Controller.Run<FtpSettingsPresenter.FtpSettingsPresenter,
-                            FtpSettings>(settingsContext.FtpSetting);
+                            FtpSettings>(_settingsContext.FtpSetting);
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void ChangeRewindSettings()
         {
             Controller.Run<RewindSettingsPresenter.RewindSettingsPresenter,
-                            RewindSettings>(settingsContext.RewindSetting);
+                            RewindSettings>(_settingsContext.RewindSetting);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void StartStream()
         {
             InitializeDevices();
-            if (camerasContainer.IsEmpty()) // DONT FORGET BACK "!" !!!!!!!
+            if (_camerasContainer.IsEmpty()) // DONT FORGET BACK "!" !!!!!!!
             {
                 InitializeChallengeBuffers();
                 InitializeTimeAxisTimer();
@@ -150,12 +150,12 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void CreateChallange()
         {
             var challengeTime = GetChallengeTime();
-            challenge.Initialize(gameInformation.DirectoryName, challengeTime);
+            _challenge.Initialize(_gameInformation.DirectoryName, challengeTime);
             CreateDirectoryForChallenge();
             ChangeActivityOfEventForPastFrames(false);
             ChangeActivityOfEventForFutureFrames(true);
-            SetUIAsChallengeRecordingOn(settingsContext.ChallengeSetting.NumberOfFutureFPS);
-            AddMarkerOnTimeAxis(challenge.PathToChallengeDirectory);
+            SetUIAsChallengeRecordingOn(_settingsContext.ChallengeSetting.NumberOfFutureFPS);
+            AddMarkerOnTimeAxis(_challenge.PathToChallengeDirectory);
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         public void OpenGameFolder()
         {
-            fileService.OpenFileOrFolder(gameInformation.DirectoryName);
+            _fileService.OpenFileOrFolder(_gameInformation.DirectoryName);
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
             pathToChallenge = stringForTest;
             Controller.Run<ChallengePlayerPresenter.ChallengePlayerPresenter,
                Tuple<string, RewindSettings>>
-               (Tuple.Create(pathToChallenge, settingsContext.RewindSetting)); // pathToChallenge instead of stringForTest
+               (Tuple.Create(pathToChallenge, _settingsContext.RewindSetting)); // pathToChallenge instead of stringForTest
         }
 
         /// <summary>
@@ -183,9 +183,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         public void OpenChallengePlayerForLastChallenge()
         {
-            if(challenge != null)
+            if(_challenge != null)
             {
-                OpenChallengePlayer(challenge.PathToChallengeDirectory);
+                OpenChallengePlayer(_challenge.PathToChallengeDirectory);
             }
             else
             {
@@ -199,12 +199,12 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         public void PassCamerasNamesToPresenter(string key, string cameraName)
         {
-            camerasContainer.SetCameraName(key, cameraName);
+            _camerasContainer.SetCameraName(key, cameraName);
         }
 
         public void OpenBroadcastForm(string cameraFullName)
         {
-            ICamera cameraForBroadcasting = camerasContainer.GetCameraByKey(cameraFullName);
+            ICamera cameraForBroadcasting = _camerasContainer.GetCameraByKey(cameraFullName);
             Controller.Run<BroadcastPresenter.BroadcastPresenter, ICamera>(cameraForBroadcasting);
         }
 

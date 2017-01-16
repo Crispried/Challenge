@@ -43,7 +43,7 @@ namespace Challange.UnitTests.Presenters
             // Act
             // Assert
             view.DidNotReceive().ShowNoConnectedCamerasLabel();
-            view.ReceivedWithAnyArgs().FillCamerasListView(argument.GetCamerasNames);
+            view.ReceivedWithAnyArgs().FillCamerasListView(argument.GetCamerasNames());
             view.Received().Show();
         }
 
@@ -56,7 +56,7 @@ namespace Challange.UnitTests.Presenters
             presenter.Run(argument);
             // Act
             // Assert
-            view.DidNotReceive().FillCamerasListView(argument.GetCamerasNames);
+            view.DidNotReceive().FillCamerasListView(argument.GetCamerasNames());
             view.Received().ShowNoConnectedCamerasLabel();
             view.Received().Show();
         }

@@ -9,7 +9,7 @@ namespace Challange.Presenter.Presenters.CamerasPresenter
         /// </summary>
         private void FillCamerasListView()
         {
-            View.FillCamerasListView(connectedCameras.GetCamerasNames);
+            View.FillCamerasListView(connectedCameras.GetCamerasNames());
         }
 
         /// <summary>

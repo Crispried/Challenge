@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
-using Challange.Domain.Services.StreamProcess.Concrete;
 using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
-using Challange.Domain.Entities;
 using static PylonC.NETSupportLibrary.DeviceEnumerator;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using NSubstitute;
@@ -17,19 +13,14 @@ namespace Challange.UnitTests.Services.StreamProcess
     [TestFixture]
     class CamerasContainerTests : TestCase
     {
-        private Camera camera;
-        private ICamerasContainer camerasContainer;
-        private List<Device> camerasInfo;
-        private ICameraProvider cameraProvider;
-        private string pylonCameraName = "Pylon Camera";
+        private Camera _camera;
+        private ICamerasContainer _camerasContainer;
 
         [SetUp]
         public void SetUp()
         {
-            camerasInfo = InitializeCamerasInfo();
-            cameraProvider = Substitute.For<ICameraProvider>();
-            camerasContainer = new CamerasContainer(cameraProvider);
-            camera = Substitute.For<Camera>((uint)1, pylonCameraName);
+            _camerasContainer = new CamerasContainer();
+            _camera = Substitute.For<Camera>((uint)1, "Pylon Camera");
         }
 
         [Test]
@@ -55,37 +46,15 @@ namespace Challange.UnitTests.Services.StreamProcess
         }
 
         [Test]
-        public void GetCamerasKeysPropety()
-        {
-            // Arrange
-            var camerasContainerMock = Substitute.For<ICamerasContainer>();
-            // Act
-            var camerasKeys = camerasContainerMock.GetCamerasKeys;
-            // Assert
-            var test = camerasContainerMock.Received().GetCamerasKeys;
-        }
-
-        [Test]
         public void GetCamerasKeysReturnCorrectValue()
         {
             // Arrange
             var camera = new Camera(1, "name");
-            AddCamera(camerasContainer, camera);
+            AddCamera(_camerasContainer, camera);
             // Act
-            var camerasKeys = camerasContainer.GetCamerasKeys;
+            var camerasKeys = _camerasContainer.GetCamerasKeys();
             // Assert
             Assert.True(camerasKeys.Contains("name"));
-        }
-
-        [Test]
-        public void GetCamerasNamesProperty()
-        {
-            // Arrange
-            var camerasContainerMock = Substitute.For<ICamerasContainer>();
-            // Act
-            var camerasNames = camerasContainerMock.GetCamerasNames;
-            // Assert
-            var test = camerasContainerMock.Received().GetCamerasNames;
         }
 
         [Test]
@@ -93,44 +62,11 @@ namespace Challange.UnitTests.Services.StreamProcess
         {
             // Arrange
             var camera = new Camera(1, "name");
-            AddCamera(camerasContainer, camera);
+            AddCamera(_camerasContainer, camera);
             // Act
-            var camerasNames = camerasContainer.GetCamerasNames;
+            var camerasNames = _camerasContainer.GetCamerasNames();
             // Assert
             Assert.True(camerasNames.Contains("1"));
-        }
-
-        [Test]
-        public void GetCamerasNamesAsQueueProperty()
-        {
-            // Arrange
-            var camerasContainerMock = Substitute.For<ICamerasContainer>();
-            // Act
-            var camerasNames = camerasContainerMock.GetCamerasNamesAsQueue;
-            // Assert
-            var test = camerasContainerMock.Received().GetCamerasNamesAsQueue;
-        }
-
-        [Test]
-        public void GetCamerasNamesAsQueueReturnsCorrectValue()
-        {
-            // Arrange
-            var camera = new Camera(1, "name");
-            AddCamera(camerasContainer, camera);
-            // Act
-            var camerasNames = camerasContainer.GetCamerasNamesAsQueue;
-            // Assert
-            Assert.True(camerasNames.Contains("1"));
-        }
-
-        [Test]
-        public void InitializeCamerasTest()
-        {
-            // Arrange
-            // Act
-            camerasContainer.InitializeCameras();
-            // Assert
-            var cameras = cameraProvider.Received().GetConnectedCameras();
         }
 
         [Test]
@@ -138,13 +74,11 @@ namespace Challange.UnitTests.Services.StreamProcess
         {
             // Arrange
             string newCameraName = "CameraName";
-            AddCamera(camerasContainer, camera);
-
+            AddCamera(_camerasContainer, _camera);
             // Act
-            camerasContainer.SetCameraName("Pylon Camera", newCameraName);
-
+            _camerasContainer.SetCameraName("Pylon Camera", newCameraName);
             // Assert
-            Assert.AreEqual(camera.Name, newCameraName);
+            Assert.AreEqual(_camera.Name, newCameraName);
         }
 
         [Test]
@@ -153,10 +87,22 @@ namespace Challange.UnitTests.Services.StreamProcess
             // Arrange
 
             // Act
-            AddCamera(camerasContainer, camera);
+            AddCamera(_camerasContainer, _camera);
 
             // Assert
-            Assert.AreEqual(camerasContainer.GetCameras.ElementAt(0), camera);
+            Assert.AreEqual(_camerasContainer.GetCameras.ElementAt(0), _camera);
+        }
+
+        [Test]
+        public void AddCamerasAddsCamerasToContainer()
+        {
+            // Arrange
+            List<ICamera> cameras = new List<ICamera>() { _camera };
+            // Act
+            AddCameras(_camerasContainer, cameras);
+
+            // Assert
+            Assert.AreEqual(_camerasContainer.GetCameras.ElementAt(0), cameras[0]);
         }
 
         [Test]
@@ -165,11 +111,11 @@ namespace Challange.UnitTests.Services.StreamProcess
             // Arrange
 
             // Act
-            AddCamera(camerasContainer, camera);
-            RemoveCamera(camerasContainer, camera);
+            AddCamera(_camerasContainer, _camera);
+            RemoveCamera(_camerasContainer, _camera);
 
             // Assert
-            Assert.AreEqual(0, camerasContainer.CamerasNumber);
+            Assert.AreEqual(0, _camerasContainer.CamerasNumber);
         }
 
         [Test]
@@ -178,7 +124,7 @@ namespace Challange.UnitTests.Services.StreamProcess
             // Arrange
             // Act
             // Assert
-            Assert.AreEqual(0, camerasContainer.CamerasNumber);
+            Assert.AreEqual(0, _camerasContainer.CamerasNumber);
         }
 
         [Test]
@@ -187,42 +133,12 @@ namespace Challange.UnitTests.Services.StreamProcess
             // Arrange
 
             // Act
-            AddCamera(camerasContainer, camera);
-            AddCamera(camerasContainer, camera);
+            AddCamera(_camerasContainer, _camera);
+            AddCamera(_camerasContainer, _camera);
 
             // Assert
-            Assert.AreEqual(2, camerasContainer.CamerasNumber);
+            Assert.AreEqual(2, _camerasContainer.CamerasNumber);
         }
-
-        [Test]
-        public void StartAllCamerasTest()
-        {
-            // Arrange
-            AddCamera(camerasContainer, camera);
-            var handler = Substitute.For<Action<object, EventArgs>>();
-            var eventSubscriber = Substitute.For<IEventSubscriber>();
-
-            // Act
-            camerasContainer.StartAllCameras(handler, eventSubscriber);
-
-            // Assert
-            eventSubscriber.Received().AddEventHandler(camera, "NewFrameEvent", handler);
-            camera.Received().Start();
-        }
-
-        [Test]
-        public void StopAllCamerasTest()
-        {
-            // Arrange
-            AddCamera(camerasContainer, camera);
-
-            // Act
-            camerasContainer.StopAllCameras();
-
-            // Assert
-            camera.Received().Stop();
-        }
-
 
         [Test]
         public void IsEmptyWithNoCamerasTest()
@@ -230,7 +146,7 @@ namespace Challange.UnitTests.Services.StreamProcess
             // Arrange
 
             // Act
-            bool isEmpty = camerasContainer.IsEmpty();
+            bool isEmpty = _camerasContainer.IsEmpty();
 
             // Assert
             Assert.True(isEmpty);
@@ -240,10 +156,10 @@ namespace Challange.UnitTests.Services.StreamProcess
         public void IsEmptyWithOneCameraTest()
         {
             // Arrange
-            AddCamera(camerasContainer, camera);
+            AddCamera(_camerasContainer, _camera);
 
             // Act
-            bool isEmpty = camerasContainer.IsEmpty();
+            bool isEmpty = _camerasContainer.IsEmpty();
 
             // Assert
             Assert.False(isEmpty);
@@ -253,22 +169,27 @@ namespace Challange.UnitTests.Services.StreamProcess
         public void GetCameraByKeyTest()
         {
             // Arrange
-            string key = camera.FullName;
-            AddCamera(camerasContainer, camera);
+            string key = _camera.FullName;
+            AddCamera(_camerasContainer, _camera);
 
             // Act
-            ICamera receivedCamera = camerasContainer.GetCameraByKey(key);
+            ICamera receivedCamera = _camerasContainer.GetCameraByKey(key);
 
             // Assert
-            Assert.AreEqual(camera.Name, receivedCamera.Name);
+            Assert.AreEqual(_camera.Name, receivedCamera.Name);
         }
 
-        private void AddCamera(ICamerasContainer container, Camera camera)
+        private void AddCamera(ICamerasContainer container, ICamera camera)
         {
             container.AddCamera(camera);
         }
 
-        private void RemoveCamera(ICamerasContainer container, Camera camera)
+        private void AddCameras(ICamerasContainer container, List<ICamera> cameras)
+        {
+            container.AddCameras(cameras);
+        }
+
+        private void RemoveCamera(ICamerasContainer container, ICamera camera)
         {
             container.RemoveCamera(camera);
         }

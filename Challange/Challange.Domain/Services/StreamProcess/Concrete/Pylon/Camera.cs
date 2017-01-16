@@ -108,10 +108,7 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
 
         protected void OnNewFrameEvent(Bitmap frame, string cameraName)
         {
-            if (NewFrameEvent != null)
-            {
-                NewFrameEvent(this, new NewFrameEventArgs(frame, cameraName));
-            }
+            NewFrameEvent?.Invoke(this, new NewFrameEventArgs(frame, cameraName));
         }
 
         public void Start()

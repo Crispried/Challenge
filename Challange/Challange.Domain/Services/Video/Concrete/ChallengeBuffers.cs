@@ -244,12 +244,12 @@ namespace Challange.Domain.Services.Video.Concrete
         private void InitializeBuffers(ICamerasContainer camerasContainer)
         {
             pastCameraRecords = new Dictionary<string, List<IFps>>();
-            foreach (string key in camerasContainer.GetCamerasKeys)
+            foreach (string key in camerasContainer.GetCamerasKeys())
             {
                 pastCameraRecords.Add(key, null);
             }
             futureCameraRecords = new Dictionary<string, List<IFps>>();
-            foreach (string key in camerasContainer.GetCamerasKeys)
+            foreach (string key in camerasContainer.GetCamerasKeys())
             {
                 futureCameraRecords.Add(key, null);
             }

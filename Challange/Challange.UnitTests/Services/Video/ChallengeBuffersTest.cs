@@ -38,7 +38,7 @@ namespace Challange.UnitTests.Services.Video
             camerasInfo = InitializeCamerasInfo();
             bitmap = new Bitmap(imagePath);
             camerasContainer = Substitute.For<ICamerasContainer>();
-            camerasContainer.GetCamerasKeys.Returns(new List<string> { "One", "Two" });
+            camerasContainer.GetCamerasKeys().Returns(new List<string> { "One", "Two" });
             fpsContainer = Substitute.For<IFpsContainer>();
             dictionary = new Dictionary<string, IFps>();
             dictionary.Add("One", fps);
