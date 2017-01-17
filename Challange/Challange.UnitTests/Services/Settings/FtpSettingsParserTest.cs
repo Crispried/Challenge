@@ -18,75 +18,79 @@ namespace Challange.UnitTests.Services.SettingParsers
         private IFileWorker fileWorker;
         private FtpSettingsParser parser;
         private FtpSettings settings;
+        private const string settingsPath = @"Settings\ftp.xml";
 
         [SetUp]
         public void SetUp()
         {
-            fileWorker = new FileWorker();
+            fileWorker = Substitute.For<IFileWorker>();
             parser = new FtpSettingsParser(fileWorker);
             settings = InitializeFtpSettings();
         }
 
         [Test]
-        public void SettingsFilePathPropertyTest()
+        public void SaveSettingsCallsSerializeXml()
         {
             // Arrange
-            string path = "path";
-
             // Act
-            parser.SettingsFilePath = path;
-
+            parser.SaveSettings(settings);
             // Assert
-            Assert.AreEqual(path, parser.SettingsFilePath);
+            fileWorker.Received().SerializeXml(settings, settingsPath);
         }
 
         [Test]
         public void SaveSettingsRetunsTrueIfSettingsFileWasFound()
         {
             // Arrange
-
+            fileWorker.SerializeXml(default(object), default(string)).ReturnsForAnyArgs(true);
             // Act
-            bool settingsAreSaved = parser.SaveSettings(settings);
-
+            var settingsAreSaved = parser.SaveSettings(settings);
             // Assert
-            Assert.True(settingsAreSaved);
+            Assert.IsTrue(settingsAreSaved);
         }
 
         [Test]
         public void SaveSettingsRetunsFalseIfSettingsAreNull()
         {
             // Arrange
-            
+            fileWorker.SerializeXml(default(object), default(string)).ReturnsForAnyArgs(false);
             // Act
             bool settingsAreSaved = parser.SaveSettings(null);
-
             // Assert
             Assert.False(settingsAreSaved);
         }
 
         [Test]
-        public void GetSettingsRetunsSettingsTest()
+        public void GetSettingsCallsDeserializeXmlTest()
         {
             // Arrange
-
             // Act
-            FtpSettings settings = parser.GetSettings();
+            parser.GetSettings();
+            // Assert
+            fileWorker.Received().DeserializeXml<FtpSettings>(settingsPath);
+        }
 
+        [Test]
+        public void GetSettingsRetunsNotNullSettingsTest()
+        {
+            // Arrange
+            fileWorker.DeserializeXml<FtpSettings>(default(string)).ReturnsForAnyArgs(settings);
+            // Act
+            parser.GetSettings();
             // Assert
             Assert.NotNull(settings);
         }
 
         [Test]
-        public void GetSettingsRetunsSettingsTestException()
+        public void GetSettingsRetunsNullSettingsTest()
         {
             // Arrange
-            parser.SettingsFilePath = null;
-
+            var result = default(FtpSettings);
+            fileWorker.DeserializeXml<FtpSettings>(default(string)).ReturnsForAnyArgs(result);
             // Act
-            var settings = parser.GetSettings();
-
+            parser.GetSettings();
             // Assert
-            Assert.Null(settings);
+            Assert.IsNull(result);
         }
     }
 }

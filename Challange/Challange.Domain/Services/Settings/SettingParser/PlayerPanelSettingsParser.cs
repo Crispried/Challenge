@@ -33,16 +33,9 @@ namespace Challange.Domain.Services.Settings.SettingParser
 
         public PlayerPanelSettings GetSettings()
         {
-            try
-            {
-                PlayerPanelSettings settings = fileWorker.
-                        DeserializeXml<PlayerPanelSettings>(settingsFilePath);
-                return settings;
-            }
-            catch
-            {
-                return null;
-            }
+            PlayerPanelSettings settings = fileWorker.
+                    DeserializeXml<PlayerPanelSettings>(settingsFilePath);
+            return settings;
         }
     }
 }

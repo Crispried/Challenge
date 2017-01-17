@@ -18,49 +18,79 @@ namespace Challange.UnitTests.Services.SettingParsers
         private PlayerPanelSettingsParser parser;
         private IFileWorker fileWorker;
         private PlayerPanelSettings settings;
+        private const string settingsPath = @"Settings\player_panel.xml";
 
         [SetUp]
         public void SetUp()
         {
-            fileWorker = new FileWorker();
+            fileWorker = Substitute.For<IFileWorker>();
             parser = new PlayerPanelSettingsParser(fileWorker);
             settings = InitializePlayerPanelSettings();
+        }
+
+        [Test]
+        public void SaveSettingsCallsSerializeXml()
+        {
+            // Arrange
+            // Act
+            parser.SaveSettings(settings);
+            // Assert
+            fileWorker.Received().SerializeXml(settings, settingsPath);
         }
 
         [Test]
         public void SaveSettingsRetunsTrueIfSettingsFileWasFound()
         {
             // Arrange
-
+            fileWorker.SerializeXml(default(object), default(string)).ReturnsForAnyArgs(true);
             // Act
-            bool settingsAreSaved = parser.SaveSettings(settings);
-
+            var settingsAreSaved = parser.SaveSettings(settings);
             // Assert
-            Assert.True(settingsAreSaved);
+            Assert.IsTrue(settingsAreSaved);
         }
 
         [Test]
         public void SaveSettingsRetunsFalseIfSettingsAreNull()
         {
             // Arrange
-
+            fileWorker.SerializeXml(default(object), default(string)).ReturnsForAnyArgs(false);
             // Act
             bool settingsAreSaved = parser.SaveSettings(null);
-
             // Assert
             Assert.False(settingsAreSaved);
         }
 
         [Test]
-        public void GetSettingsRetunsSettingsTest()
+        public void GetSettingsCallsDeserializeXmlTest()
         {
             // Arrange
-
             // Act
-            PlayerPanelSettings settings = parser.GetSettings();
+            parser.GetSettings();
+            // Assert
+            fileWorker.Received().DeserializeXml<PlayerPanelSettings>(settingsPath);
+        }
 
+        [Test]
+        public void GetSettingsRetunsNotNullSettingsTest()
+        {
+            // Arrange
+            fileWorker.DeserializeXml<PlayerPanelSettings>(default(string)).ReturnsForAnyArgs(settings);
+            // Act
+            parser.GetSettings();
             // Assert
             Assert.NotNull(settings);
+        }
+
+        [Test]
+        public void GetSettingsRetunsNullSettingsTest()
+        {
+            // Arrange
+            var result = default(PlayerPanelSettings);
+            fileWorker.DeserializeXml<PlayerPanelSettings>(default(string)).ReturnsForAnyArgs(result);
+            // Act
+            parser.GetSettings();
+            // Assert
+            Assert.IsNull(result);
         }
 
         [Test]
@@ -74,19 +104,6 @@ namespace Challange.UnitTests.Services.SettingParsers
 
             // Assert
             Assert.AreEqual(path, parser.SettingsFilePath);
-        }
-
-        [Test]
-        public void GetSettingsRetunsSettingsTestException()
-        {
-            // Arrange
-            parser.SettingsFilePath = null;
-
-            // Act
-            var settings = parser.GetSettings();
-
-            // Assert
-            Assert.Null(settings);
         }
     }
 }

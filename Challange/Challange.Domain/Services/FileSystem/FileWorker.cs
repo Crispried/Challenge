@@ -29,14 +29,22 @@ namespace Challange.Domain.Services.FileSystem
 
         public ObjectType DeserializeXml<ObjectType>(string settingsFilePath)
         {
-            XmlSerializer serializer = new
+            ObjectType instance = default(ObjectType);
+            try
+            {
+                XmlSerializer serializer = new
                     XmlSerializer(typeof(ObjectType));
-            FileStream fs = new FileStream(settingsFilePath,
-                                            FileMode.Open);
-            XmlReader reader = XmlReader.Create(fs);
-            ObjectType instance;
-            instance = (ObjectType)serializer.Deserialize(reader);           
-            fs.Close();
+                FileStream fs = new FileStream(settingsFilePath,
+                                                FileMode.Open);
+                XmlReader reader = XmlReader.Create(fs);
+                
+                instance = (ObjectType)serializer.Deserialize(reader);
+                fs.Close();
+            }
+            catch
+            {
+
+            }
             return instance;
         }
     }

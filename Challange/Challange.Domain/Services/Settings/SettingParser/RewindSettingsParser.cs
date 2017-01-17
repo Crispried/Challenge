@@ -38,16 +38,9 @@ namespace Challange.Domain.Services.Settings.SettingParser
 
         public RewindSettings GetSettings()
         {
-            try
-            {
-                RewindSettings settings = fileWorker.
-                        DeserializeXml<RewindSettings>(settingsFilePath);
-                return settings;
-            }
-            catch
-            {
-                return null;
-            }
+            RewindSettings settings = fileWorker.
+                    DeserializeXml<RewindSettings>(settingsFilePath);
+            return settings;
         }
     }
 }

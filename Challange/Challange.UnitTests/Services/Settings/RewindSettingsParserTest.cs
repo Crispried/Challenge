@@ -18,49 +18,79 @@ namespace Challange.UnitTests.Services.SettingParsers
         private IFileWorker fileWorker;
         private RewindSettingsParser parser;
         private RewindSettings settings;
+        private const string settingsPath = @"Settings\rewind.xml";
 
         [SetUp]
         public void SetUp()
         {
-            fileWorker = new FileWorker();
+            fileWorker = Substitute.For<IFileWorker>();
             parser = new RewindSettingsParser(fileWorker);
             settings = InitializeRewindSettings();
+        }
+
+        [Test]
+        public void SaveSettingsCallsSerializeXml()
+        {
+            // Arrange
+            // Act
+            parser.SaveSettings(settings);
+            // Assert
+            fileWorker.Received().SerializeXml(settings, settingsPath);
         }
 
         [Test]
         public void SaveSettingsRetunsTrueIfSettingsFileWasFound()
         {
             // Arrange
-
+            fileWorker.SerializeXml(default(object), default(string)).ReturnsForAnyArgs(true);
             // Act
-            bool settingsAreSaved = parser.SaveSettings(settings);
-
+            var settingsAreSaved = parser.SaveSettings(settings);
             // Assert
-            Assert.True(settingsAreSaved);
+            Assert.IsTrue(settingsAreSaved);
         }
 
         [Test]
         public void SaveSettingsRetunsFalseIfSettingsAreNull()
         {
             // Arrange
-            
+            fileWorker.SerializeXml(default(object), default(string)).ReturnsForAnyArgs(false);
             // Act
             bool settingsAreSaved = parser.SaveSettings(null);
-
             // Assert
             Assert.False(settingsAreSaved);
         }
 
         [Test]
-        public void GetSettingsRetunsSettingsTest()
+        public void GetSettingsCallsDeserializeXmlTest()
         {
             // Arrange
-
             // Act
-            RewindSettings settings = parser.GetSettings();
+            parser.GetSettings();
+            // Assert
+            fileWorker.Received().DeserializeXml<RewindSettings>(settingsPath);
+        }
 
+        [Test]
+        public void GetSettingsRetunsNotNullSettingsTest()
+        {
+            // Arrange
+            fileWorker.DeserializeXml<RewindSettings>(default(string)).ReturnsForAnyArgs(settings);
+            // Act
+            parser.GetSettings();
             // Assert
             Assert.NotNull(settings);
+        }
+
+        [Test]
+        public void GetSettingsRetunsNullSettingsTest()
+        {
+            // Arrange
+            var result = default(RewindSettings);
+            fileWorker.DeserializeXml<RewindSettings>(default(string)).ReturnsForAnyArgs(result);
+            // Act
+            parser.GetSettings();
+            // Assert
+            Assert.IsNull(result);
         }
 
         // Test catch case
@@ -76,19 +106,6 @@ namespace Challange.UnitTests.Services.SettingParsers
 
             // Assert
             Assert.AreEqual(path, parser.SettingsFilePath);
-        }
-
-        [Test]
-        public void GetSettingsRetunsSettingsTestException()
-        {
-            // Arrange
-            parser.SettingsFilePath = null;
-
-            // Act
-            var settings = parser.GetSettings();
-
-            // Assert
-            Assert.Null(settings);
         }
     }
 }

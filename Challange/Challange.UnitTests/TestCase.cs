@@ -14,6 +14,7 @@ namespace Challange.UnitTests
 {
     class TestCase
     {
+        protected const string settingsPath = @"Settings\rewind.xml";
         protected PlayerPanelSettings InitializePlayerPanelSettings()
         {
             return new PlayerPanelSettings()

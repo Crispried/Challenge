@@ -37,16 +37,9 @@ namespace Challange.Domain.Services.Settings.SettingParser
 
         public FtpSettings GetSettings()
         {
-            try
-            {
-                FtpSettings settings = fileWorker.
-                    DeserializeXml<FtpSettings>(SettingsFilePath);
-                return settings;
-            }
-            catch
-            {
-                return null;
-            }
+            FtpSettings settings = fileWorker.
+                DeserializeXml<FtpSettings>(SettingsFilePath);
+            return settings;
         }
     }
 }

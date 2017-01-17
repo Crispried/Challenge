@@ -38,16 +38,9 @@ namespace Challange.Domain.Services.Settings.SettingParser
 
         public ChallengeSettings GetSettings()
         {
-            try
-            {
-                ChallengeSettings settings = fileWorker.
-                DeserializeXml<ChallengeSettings>(SettingsFilePath);
-                return settings;
-            }
-            catch
-            {
-                return null;
-            }
+            ChallengeSettings settings = fileWorker.
+            DeserializeXml<ChallengeSettings>(SettingsFilePath);
+            return settings;
         }
     }
 }
