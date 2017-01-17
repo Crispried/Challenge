@@ -1,15 +1,18 @@
-﻿using Challange.Domain.Services.FileSystem;
-using System;
+﻿using Challange.Domain.Services.FileSystem.Abstract;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Challange.Domain.Services.Message
 {
     public class MessageParser : IMessageParser
     {
+        private IFileWorker _fileWorker;
         private string defaultPathToFile = @"Message/message_info.xml";
+
+        public MessageParser(IFileWorker fileWorker)
+        {
+            _fileWorker = fileWorker;
+        }
 
         public ChallengeMessage GetMessage(MessageType type)
         {
@@ -18,9 +21,8 @@ namespace Challange.Domain.Services.Message
 
         public ChallengeMessage GetMessage(MessageType type, string pathToFile)
         {
-            FileWorker fileWorker = new FileWorker();
             List<ChallengeMessage> messages =
-                fileWorker.DeserializeXml<List<ChallengeMessage>>(pathToFile);
+                _fileWorker.DeserializeXml<List<ChallengeMessage>>(pathToFile);
             ChallengeMessage appropriateMessage =
                 messages.Where(m => m.MessageType == type).FirstOrDefault();
             return appropriateMessage;

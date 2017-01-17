@@ -1,15 +1,10 @@
 ﻿using Challange.Domain.Entities;
-using Challange.Domain.Services.FileSystem;
+using Challange.Domain.Services.FileSystem.Abstract;
 using Challange.Presenter.Base;
 using Challange.Presenter.Presenters.GameInformationPresenter;
 using Challange.Presenter.Views;
 using NSubstitute;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Challange.UnitTests.Presenters
 {
@@ -51,14 +46,15 @@ namespace Challange.UnitTests.Presenters
         public void PrepareApplication()
         {
             // Arrange
+            string directoryName = "blabla";
             // Act
-            // Assert
             presenter.PrepareApplication(argument);
+            // Assert
             argument.Received().SetGameInformation(argument);
-            argument.Received().DirectoryName = "blabla";
-            fileService.ReceivedWithAnyArgs().CreateDirectory("blabla");
-            pathFormatter.ReceivedWithAnyArgs().FormatPathToGameInformationFile("");
-            fileWorker.ReceivedWithAnyArgs().SerializeXml(argument, "");
+            argument.Received().DirectoryName = directoryName;
+            fileService.ReceivedWithAnyArgs().CreateDirectory(directoryName);
+            var path = pathFormatter.ReceivedWithAnyArgs().FormatPathToGameInformationFile(directoryName);
+            fileWorker.ReceivedWithAnyArgs().SerializeXml(argument, path);
             view.Received().Close();
         }
     }

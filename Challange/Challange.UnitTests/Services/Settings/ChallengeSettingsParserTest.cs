@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using NSubstitute;
-using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.Settings.SettingParser;
-using Challange.Domain.Services.FileSystem;
+using Challange.Domain.Services.FileSystem.Abstract;
 
 namespace Challange.UnitTests.Services.SettingParsers
 {

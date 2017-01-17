@@ -1,14 +1,15 @@
 ﻿using NUnit.Framework;
 using Challange.Domain.Entities;
 using Challange.Domain.Services.Settings.SettingTypes;
-using Challange.Domain.Services.FileSystem;
+using Challange.Domain.Services.FileSystem.Abstract;
+using Challange.Domain.Services.FileSystem.Concrete;
 
 namespace Challange.UnitTests.Services.FileSystem
 {
     [TestFixture]
     class FileWorkerTests : TestCase
     {
-        private FileWorker fileWorker;
+        private IFileWorker fileWorker;
         private string correctPathToGameInformation = @"test\XmlFormatterResult.xml";
         private string correctPathToSettings = @"test\settings.xml";
 

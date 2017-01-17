@@ -1,25 +1,13 @@
 ﻿using Challange.Presenter.Base;
 using Challange.Presenter.Views;
-using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.Settings;
-using Challange.Domain.Services.Settings.SettingParser;
-using AForge.Video.DirectShow;
-using System;
-using System.Collections.Generic;
 using Challange.Domain.Entities;
-using System.Timers;
-using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
-using System.Drawing;
-using static PylonC.NETSupportLibrary.DeviceEnumerator;
-using Challange.Domain.Services.StreamProcess.Concrete;
 using Challange.Domain.Services.StreamProcess.Abstract;
-using System.Linq;
 using Challange.Domain.Services.Replay;
 using Challange.Domain.Services.Message;
-using Challange.Domain.Services.FileSystem;
 using Challange.Domain.Services.Video.Abstract;
 using Challange.Domain.Services.Event;
-using Challange.Presenter.Views.Layouts;
+using Challange.Domain.Services.FileSystem.Abstract;
 
 namespace Challange.Presenter.Presenters.MainPresenter
 {

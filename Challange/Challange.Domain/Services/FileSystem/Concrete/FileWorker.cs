@@ -1,8 +1,9 @@
-﻿using System.IO;
+﻿using Challange.Domain.Services.FileSystem.Abstract;
+using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Challange.Domain.Services.FileSystem
+namespace Challange.Domain.Services.FileSystem.Concrete
 {
     public class FileWorker : IFileWorker
     {

@@ -93,12 +93,12 @@
     <Compile Include="Services\Video\Concrete\Video.cs" />
     <Compile Include="Entities\ZoomData.cs" />
     <Compile Include="Services\StreamProcess\Concrete\Pylon\Camera.cs" />
-    <Compile Include="Services\FileSystem\IFileService.cs" />
-    <Compile Include="Services\FileSystem\IFileWorker.cs" />
-    <Compile Include="Services\FileSystem\IPathFormatter.cs" />
-    <Compile Include="Services\FileSystem\IProcessStarter.cs" />
-    <Compile Include="Services\FileSystem\ProcessStarter.cs" />
-    <Compile Include="Services\FileSystem\PathFormatter.cs" />
+    <Compile Include="Services\FileSystem\Abstract\IFileService.cs" />
+    <Compile Include="Services\FileSystem\Abstract\IFileWorker.cs" />
+    <Compile Include="Services\FileSystem\Abstract\IPathFormatter.cs" />
+    <Compile Include="Services\FileSystem\Abstract\IProcessStarter.cs" />
+    <Compile Include="Services\FileSystem\Concrete\ProcessStarter.cs" />
+    <Compile Include="Services\FileSystem\Concrete\PathFormatter.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -127,9 +127,9 @@
     <Compile Include="Services\Settings\SettingTypes\ChallengeSettings.cs" />
     <Compile Include="Services\Settings\SettingTypes\PlayerPanelSettings.cs" />
     <Compile Include="Services\Settings\SettingParser\PlayerPanelSettingsParser.cs" />
-    <Compile Include="Services\FileSystem\Archivator.cs" />
-    <Compile Include="Services\FileSystem\FileWorker.cs" />
-    <Compile Include="Services\FileSystem\FileService.cs" />
+    <Compile Include="Services\FileSystem\Concrete\Archivator.cs" />
+    <Compile Include="Services\FileSystem\Concrete\FileWorker.cs" />
+    <Compile Include="Services\FileSystem\Concrete\FileService.cs" />
     <Compile Include="Services\Settings\SettingsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Settings\SettingTypes\Setting.cs" />
@@ -145,6 +145,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

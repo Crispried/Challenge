@@ -1,11 +1,11 @@
 ﻿using Challange.Domain.Entities;
-using Challange.Domain.Services.FileSystem;
-using Challange.Domain.Services.Settings.SettingTypes;
+using Challange.Domain.Services.FileSystem.Abstract;
 using Challange.Presenter.Base;
 using Challange.Presenter.Views;
 
 namespace Challange.Presenter.Presenters.GameInformationPresenter
 {
+    // TODO Remake FormatDirectoryName (use name formatter to make it testable)
     public partial class GameInformationPresenter :
                     BasePresenter<IGameInformationView, GameInformation>
     {

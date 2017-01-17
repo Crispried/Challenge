@@ -1,7 +1,8 @@
-﻿using System.Diagnostics;
+﻿using Challange.Domain.Services.FileSystem.Abstract;
+using System.Diagnostics;
 using System.IO;
 
-namespace Challange.Domain.Services.FileSystem
+namespace Challange.Domain.Services.FileSystem.Concrete
 {
     public class FileService : IFileService
     {

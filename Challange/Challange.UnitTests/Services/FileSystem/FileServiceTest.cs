@@ -1,14 +1,8 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
-using System.Threading.Tasks;
-using Challange.Domain.Entities;
-using Challange.Domain.Services.Settings.SettingTypes;
 using NSubstitute;
-using Challange.Domain.Services.FileSystem;
+using Challange.Domain.Services.FileSystem.Abstract;
+using Challange.Domain.Services.FileSystem.Concrete;
 
 namespace Challange.UnitTests.Services.FileSystem
 {

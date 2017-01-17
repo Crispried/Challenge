@@ -12,22 +12,7 @@ using System.Threading;
 namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
 {
     public partial class ChallengePlayerPresenter
-    {
-        #region settings
-        /// <summary>
-        /// read rewind settings from xml file
-        /// this action occures only when we run our form
-        /// </summary>
-        /// <returns></returns>
-        private RewindSettings GetRewindSettings()
-        {
-            var rewindSettingService =
-                 new SettingsService<RewindSettings>(
-                                new RewindSettingsParser(new FileWorker()));
-            return rewindSettingService.
-                        GetSetting();
-        }
-        #endregion
+    { 
 
         private void ShowMessage(MessageType type)
         {

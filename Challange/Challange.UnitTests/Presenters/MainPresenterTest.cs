@@ -1,7 +1,6 @@
 ﻿using Challange.Domain.Abstract;
 using Challange.Domain.Entities;
 using Challange.Domain.Services.Event;
-using Challange.Domain.Services.FileSystem;
 using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Replay;
 using Challange.Domain.Services.Settings;
@@ -23,6 +22,7 @@ using System.Collections.Generic;
 using NSubstitute;
 using NUnit.Framework;
 using System;
+using Challange.Domain.Services.FileSystem.Abstract;
 
 namespace Challange.UnitTests.Presenters
 {

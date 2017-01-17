@@ -1,6 +1,5 @@
-﻿using System;
-using Challange.Domain.Services.Settings.SettingTypes;
-using Challange.Domain.Services.FileSystem;
+﻿using Challange.Domain.Services.Settings.SettingTypes;
+using Challange.Domain.Services.FileSystem.Abstract;
 
 namespace Challange.Domain.Services.Settings.SettingParser
 {

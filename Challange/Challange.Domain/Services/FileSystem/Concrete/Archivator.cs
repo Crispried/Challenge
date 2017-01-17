@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.IO.Compression;
 
-namespace Challange.Domain.Services.FileSystem
+namespace Challange.Domain.Services.FileSystem.Concrete
 {
     public class Archivator
     {

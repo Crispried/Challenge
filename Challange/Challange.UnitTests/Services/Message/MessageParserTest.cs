@@ -1,4 +1,6 @@
-﻿using Challange.Domain.Services.Message;
+﻿using Challange.Domain.Services.FileSystem.Abstract;
+using Challange.Domain.Services.Message;
+using NSubstitute;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -11,26 +13,81 @@ namespace Challange.UnitTests.Services.Message
     [TestFixture]
     class MessageParserTest : TestCase
     {
-        MessageParser messageParser;
+        private IFileWorker _fileWorker;
+        private MessageParser messageParser;
 
         [SetUp]
         public void SetUp()
         {
-            messageParser = new MessageParser();
+            _fileWorker = Substitute.For<IFileWorker>();
+            messageParser = new MessageParser(_fileWorker);
         }
 
         [Test]
-        public void GetMessage()
+        public void GetMessageWithCustomPathCallsDeserializeXmlTest()
         {
             // Arrange
-            string pathToFile = @"Message/message_info.xml";
-            string caption = messageParser.GetMessage(MessageType.EmptyDeviceContainer).Caption;
-
+            string defaultPathToFile = @"Message/message_info.xml";
+            var messages = new List<ChallengeMessage>()
+            {
+                new ChallengeMessage() { MessageType = MessageType.EmptyDeviceContainer }
+            };
+            _fileWorker.DeserializeXml<List<ChallengeMessage>>(defaultPathToFile).Returns(messages);
             // Act
-            ChallengeMessage receivedMessage = messageParser.GetMessage(MessageType.EmptyDeviceContainer, pathToFile);
+            messageParser.GetMessage(MessageType.EmptyDeviceContainer, defaultPathToFile);
+            // Assert
+            _fileWorker.Received().DeserializeXml<List<ChallengeMessage>>(defaultPathToFile);
+        }
+
+        [Test]
+        public void GetMessageWithDefaultPathCallsDeserializeXmlTest()
+        {
+            // Arrange
+            string defaultPathToFile = @"Message/message_info.xml";
+            var messages = new List<ChallengeMessage>()
+            {
+                new ChallengeMessage() { MessageType = MessageType.EmptyDeviceContainer }
+            };
+            _fileWorker.DeserializeXml<List<ChallengeMessage>>(defaultPathToFile).Returns(messages);
+            // Act
+            messageParser.GetMessage(MessageType.EmptyDeviceContainer);
+            // Assert
+            _fileWorker.Received().DeserializeXml<List<ChallengeMessage>>(defaultPathToFile);
+        }
+
+        [Test]
+        public void GetMessageWithDefaultPathReturnsAppropriateMessageTest()
+        {
+            // Arrange
+            string defaultPathToFile = @"Message/message_info.xml";
+            var messages = new List<ChallengeMessage>()
+            {
+                new ChallengeMessage() { MessageType = MessageType.EmptyDeviceContainer }
+            };
+            _fileWorker.DeserializeXml<List<ChallengeMessage>>(defaultPathToFile).Returns(messages);
+            // Act
+            var message = messageParser.GetMessage(MessageType.EmptyDeviceContainer);
 
             // Assert
-            Assert.AreEqual(caption, receivedMessage.Caption);
+            Assert.IsTrue(message.MessageType == MessageType.EmptyDeviceContainer);
+        }
+
+        [Test]
+        public void GetMessageWithCustomPathReturnsAppropriateMessageTest()
+        {
+            // Arrange
+            string defaultPathToFile = @"Message/message_info.xml";
+            var messages = new List<ChallengeMessage>()
+            {
+                new ChallengeMessage() { MessageType = MessageType.EmptyDeviceContainer }
+            };
+            _fileWorker.DeserializeXml<List<ChallengeMessage>>(defaultPathToFile).Returns(messages);
+
+            // Act
+            var message = messageParser.GetMessage(MessageType.EmptyDeviceContainer, defaultPathToFile);
+
+            // Assert
+            Assert.IsTrue(message.MessageType == MessageType.EmptyDeviceContainer);
         }
     }
 }
