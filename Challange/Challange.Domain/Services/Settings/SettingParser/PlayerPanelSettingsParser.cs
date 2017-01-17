@@ -6,9 +6,9 @@ namespace Challange.Domain.Services.Settings.SettingParser
     public class PlayerPanelSettingsParser : ISettingsParser<PlayerPanelSettings>
     {
         private string settingsFilePath = @"Settings\player_panel.xml";
-        private IFileWorker fileWorker;
+        private IXmlWorker fileWorker;
 
-        public PlayerPanelSettingsParser(IFileWorker fileWorker)
+        public PlayerPanelSettingsParser(IXmlWorker fileWorker)
         {
             this.fileWorker = fileWorker;
         }

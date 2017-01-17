@@ -9,5 +9,7 @@ namespace Challange.Domain.Services.FileSystem.Abstract
     public interface IPathFormatter
     {
         string FormatPathToGameInformationFile(string directoryName);
+
+        string FilterFolderName(string name);
     }
 }

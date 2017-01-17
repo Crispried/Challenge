@@ -94,10 +94,8 @@
     <Compile Include="Entities\ZoomData.cs" />
     <Compile Include="Services\StreamProcess\Concrete\Pylon\Camera.cs" />
     <Compile Include="Services\FileSystem\Abstract\IFileService.cs" />
-    <Compile Include="Services\FileSystem\Abstract\IFileWorker.cs" />
+    <Compile Include="Services\FileSystem\Abstract\IXmlWorker.cs" />
     <Compile Include="Services\FileSystem\Abstract\IPathFormatter.cs" />
-    <Compile Include="Services\FileSystem\Abstract\IProcessStarter.cs" />
-    <Compile Include="Services\FileSystem\Concrete\ProcessStarter.cs" />
     <Compile Include="Services\FileSystem\Concrete\PathFormatter.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -127,8 +125,7 @@
     <Compile Include="Services\Settings\SettingTypes\ChallengeSettings.cs" />
     <Compile Include="Services\Settings\SettingTypes\PlayerPanelSettings.cs" />
     <Compile Include="Services\Settings\SettingParser\PlayerPanelSettingsParser.cs" />
-    <Compile Include="Services\FileSystem\Concrete\Archivator.cs" />
-    <Compile Include="Services\FileSystem\Concrete\FileWorker.cs" />
+    <Compile Include="Services\FileSystem\Concrete\XmlWorker.cs" />
     <Compile Include="Services\FileSystem\Concrete\FileService.cs" />
     <Compile Include="Services\Settings\SettingsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

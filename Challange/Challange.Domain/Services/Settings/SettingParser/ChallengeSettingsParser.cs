@@ -5,9 +5,9 @@ namespace Challange.Domain.Services.Settings.SettingParser
 {
     public class ChallengeSettingsParser : ISettingsParser<ChallengeSettings>
     {
-        private IFileWorker fileWorker;
+        private IXmlWorker fileWorker;
 
-        public ChallengeSettingsParser(IFileWorker fileWorker)
+        public ChallengeSettingsParser(IXmlWorker fileWorker)
         {
             this.fileWorker = fileWorker;
         }

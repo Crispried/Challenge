@@ -36,6 +36,7 @@ namespace Challange.UnitTests.Presenters
         private IMainView view;
         private IMessageParser messageParser;
         private IFileService fileService;
+        private IPathFormatter _pathFormatter;
         private ISettingsContext settingsContext;
         private INullSettingsContainer nullSettingsContainer;
         private ICamerasContainer camerasContainer;
@@ -59,6 +60,7 @@ namespace Challange.UnitTests.Presenters
             controller = Substitute.For<IApplicationController>();
             view = Substitute.For<IMainView>();
             fileService = Substitute.For<IFileService>();
+            _pathFormatter = Substitute.For<IPathFormatter>();
             messageParser = Substitute.For<IMessageParser>();
             settingsContext = Substitute.For<ISettingsContext>();
             nullSettingsContainer = Substitute.For<INullSettingsContainer>();
@@ -72,7 +74,7 @@ namespace Challange.UnitTests.Presenters
             eventSubscriber = Substitute.For<IEventSubscriber>();
 
             presenter = new MainPresenter(controller, view,
-                                    fileService, messageParser,
+                                    fileService, _pathFormatter, messageParser,
                                     settingsContext, nullSettingsContainer,
                                     camerasContainer, _camerasProvider,
                                     zoomer,

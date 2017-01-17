@@ -13,7 +13,7 @@ namespace Challange.Presenter.Presenters.GameInformationPresenter
 
         private IFileService fileService;
 
-        private IFileWorker fileWorker;
+        private IXmlWorker fileWorker;
 
         private IPathFormatter pathFormatter;
 
@@ -21,7 +21,7 @@ namespace Challange.Presenter.Presenters.GameInformationPresenter
         IApplicationController controller,
         IGameInformationView gameInformationView,
         IFileService fileService,
-        IFileWorker fileWorker,
+        IXmlWorker fileWorker,
         IPathFormatter pathFormatter
         ) :
                 base(controller, gameInformationView)

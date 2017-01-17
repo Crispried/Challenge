@@ -8,14 +8,10 @@ namespace Challange.Domain.Services.FileSystem.Abstract
 {
     public interface IFileService
     {
-        bool FileExists(string path);
+        bool CreateDirectory(string path);
 
-        void DeleteFile(string path);
+        bool OpenFileOrFolder(string fullName);
 
-        void CreateDirectory(string path);
-
-        string FilterFolderName(string name);
-
-        void OpenFileOrFolder(string fullName);
+        bool Archivate(string sourceDirectoryName, string destinationArchiveFileName);
     }
 }

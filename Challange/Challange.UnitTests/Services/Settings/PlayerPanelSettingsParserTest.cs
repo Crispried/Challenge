@@ -10,14 +10,14 @@ namespace Challange.UnitTests.Services.SettingParsers
     class PlayerPanelSettingsParserTest : TestCase
     {
         private PlayerPanelSettingsParser parser;
-        private IFileWorker fileWorker;
+        private IXmlWorker fileWorker;
         private PlayerPanelSettings settings;
         private const string settingsPath = @"Settings\player_panel.xml";
 
         [SetUp]
         public void SetUp()
         {
-            fileWorker = Substitute.For<IFileWorker>();
+            fileWorker = Substitute.For<IXmlWorker>();
             parser = new PlayerPanelSettingsParser(fileWorker);
             settings = InitializePlayerPanelSettings();
         }

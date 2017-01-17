@@ -1,41 +1,51 @@
 ﻿using Challange.Domain.Services.FileSystem.Abstract;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.IO.Compression;
 
 namespace Challange.Domain.Services.FileSystem.Concrete
 {
+    [ExcludeFromCodeCoverage]
     public class FileService : IFileService
     {
-        private IProcessStarter processStarter;
-
-        public FileService(IProcessStarter processStarter)
+        public bool CreateDirectory(string path)
         {
-            this.processStarter = processStarter;
+            try
+            {
+                Directory.CreateDirectory(path);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        public bool FileExists(string path)
+        public bool OpenFileOrFolder(string fullName)
         {
-            return File.Exists(path);
+            try
+            {
+                Process.Start(fullName);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        public void DeleteFile(string path)
+        public bool Archivate(string sourceDirectoryName, string destinationArchiveFileName)
         {
-            File.Delete(path);
-        }
-
-        public void CreateDirectory(string path)
-        {
-            Directory.CreateDirectory(path);
-        }
-
-        public string FilterFolderName(string name)
-        {
-            return name.Replace(':', '_');
-        }
-
-        public void OpenFileOrFolder(string fullName)
-        {
-            processStarter.StartProcess(fullName);
+            try
+            {
+                ZipFile.CreateFromDirectory(sourceDirectoryName, destinationArchiveFileName);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

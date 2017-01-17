@@ -16,7 +16,7 @@ namespace Challange.UnitTests.Presenters
         private IGameInformationView view;
         private GameInformation argument;
         private IFileService fileService;
-        private IFileWorker fileWorker;
+        private IXmlWorker fileWorker;
         private IPathFormatter pathFormatter;
 
         [SetUp]
@@ -25,7 +25,7 @@ namespace Challange.UnitTests.Presenters
             controller = Substitute.For<IApplicationController>();
             view = Substitute.For<IGameInformationView>();
             fileService = Substitute.For<IFileService>();
-            fileWorker = Substitute.For<IFileWorker>();
+            fileWorker = Substitute.For<IXmlWorker>();
             pathFormatter = Substitute.For<IPathFormatter>();
             presenter = new GameInformationPresenter(controller, view,
                                     fileService, fileWorker, pathFormatter);

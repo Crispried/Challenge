@@ -279,7 +279,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
             var pathToRootDirectory = _challenge.PathToRootDirectory;
             var challengeFolderName = _challenge.ChallengeFolderName;
             _challenge.PathToChallengeDirectory = pathToRootDirectory + @"\" +
-                _fileService.FilterFolderName(challengeFolderName) + @"\";
+                _pathFormatter.FilterFolderName(challengeFolderName) + @"\";
         }
 
         /// <summary>

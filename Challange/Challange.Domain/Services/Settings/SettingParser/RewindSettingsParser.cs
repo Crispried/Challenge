@@ -6,9 +6,9 @@ namespace Challange.Domain.Services.Settings.SettingParser
     public class RewindSettingsParser : ISettingsParser<RewindSettings>
     {
         private string settingsFilePath = @"Settings\rewind.xml";
-        private IFileWorker fileWorker;
+        private IXmlWorker fileWorker;
 
-        public RewindSettingsParser(IFileWorker fileWorker)
+        public RewindSettingsParser(IXmlWorker fileWorker)
         {
             this.fileWorker = fileWorker;
         }

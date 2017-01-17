@@ -14,6 +14,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
     public partial class MainPresenter : BasePresenter<IMainView>
     {
         // settings
+        private IPathFormatter _pathFormatter;
         private IFileService _fileService;
         private IMessageParser _messageParser;
         private ISettingsContext _settingsContext;
@@ -37,6 +38,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public MainPresenter(IApplicationController controller,
                              IMainView mainView,
                              IFileService fileService,
+                             IPathFormatter pathFormatter,
                              IMessageParser messageParser,
                              ISettingsContext settingsContext,
                              INullSettingsContainer nullSettingsContainer,
@@ -51,6 +53,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
                              base(controller, mainView)
         {
             _fileService = fileService;
+            _pathFormatter = pathFormatter;
             _messageParser = messageParser;
             _settingsContext = settingsContext;
             _nullSettingsContainer = nullSettingsContainer;

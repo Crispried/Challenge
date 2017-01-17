@@ -9,7 +9,7 @@ namespace Challange.UnitTests.Services.SettingParsers
     [TestFixture]
     class RewindSettingsParserTest : TestCase
     {
-        private IFileWorker fileWorker;
+        private IXmlWorker fileWorker;
         private RewindSettingsParser parser;
         private RewindSettings settings;
         private const string settingsPath = @"Settings\rewind.xml";
@@ -17,7 +17,7 @@ namespace Challange.UnitTests.Services.SettingParsers
         [SetUp]
         public void SetUp()
         {
-            fileWorker = Substitute.For<IFileWorker>();
+            fileWorker = Substitute.For<IXmlWorker>();
             parser = new RewindSettingsParser(fileWorker);
             settings = InitializeRewindSettings();
         }

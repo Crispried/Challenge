@@ -6,9 +6,9 @@ namespace Challange.Domain.Services.Settings.SettingParser
     public class FtpSettingsParser : ISettingsParser<FtpSettings>
     {
         private string settingsFilePath = @"Settings\ftp.xml";
-        private IFileWorker fileWorker;
+        private IXmlWorker fileWorker;
 
-        public FtpSettingsParser(IFileWorker fileWorker)
+        public FtpSettingsParser(IXmlWorker fileWorker)
         {
             this.fileWorker = fileWorker;
         }

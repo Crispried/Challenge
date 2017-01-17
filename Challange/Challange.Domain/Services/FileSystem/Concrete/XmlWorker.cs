@@ -1,11 +1,13 @@
 ﻿using Challange.Domain.Services.FileSystem.Abstract;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
 namespace Challange.Domain.Services.FileSystem.Concrete
 {
-    public class FileWorker : IFileWorker
+    [ExcludeFromCodeCoverage]
+    public class XmlWorker : IXmlWorker
     {
         public bool SerializeXml(object objectToSerialize, string outputPath)
         {

@@ -13,5 +13,10 @@ namespace Challange.Domain.Services.FileSystem.Concrete
         {
             return directoryName + @"\Game_Information.xml";
         }
+
+        public string FilterFolderName(string name)
+        {
+            return name.Replace(':', '_');
+        }
     }
 }

@@ -13,13 +13,13 @@ namespace Challange.UnitTests.Services.Message
     [TestFixture]
     class MessageParserTest : TestCase
     {
-        private IFileWorker _fileWorker;
+        private IXmlWorker _fileWorker;
         private MessageParser messageParser;
 
         [SetUp]
         public void SetUp()
         {
-            _fileWorker = Substitute.For<IFileWorker>();
+            _fileWorker = Substitute.For<IXmlWorker>();
             messageParser = new MessageParser(_fileWorker);
         }
 

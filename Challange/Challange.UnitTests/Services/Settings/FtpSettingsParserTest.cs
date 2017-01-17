@@ -9,7 +9,7 @@ namespace Challange.UnitTests.Services.SettingParsers
     [TestFixture]
     class FtpSettingsParserTest : TestCase
     {
-        private IFileWorker fileWorker;
+        private IXmlWorker fileWorker;
         private FtpSettingsParser parser;
         private FtpSettings settings;
         private const string settingsPath = @"Settings\ftp.xml";
@@ -17,7 +17,7 @@ namespace Challange.UnitTests.Services.SettingParsers
         [SetUp]
         public void SetUp()
         {
-            fileWorker = Substitute.For<IFileWorker>();
+            fileWorker = Substitute.For<IXmlWorker>();
             parser = new FtpSettingsParser(fileWorker);
             settings = InitializeFtpSettings();
         }

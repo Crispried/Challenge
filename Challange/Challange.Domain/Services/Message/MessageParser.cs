@@ -6,10 +6,10 @@ namespace Challange.Domain.Services.Message
 {
     public class MessageParser : IMessageParser
     {
-        private IFileWorker _fileWorker;
+        private IXmlWorker _fileWorker;
         private string defaultPathToFile = @"Message/message_info.xml";
 
-        public MessageParser(IFileWorker fileWorker)
+        public MessageParser(IXmlWorker fileWorker)
         {
             _fileWorker = fileWorker;
         }

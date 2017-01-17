@@ -9,7 +9,7 @@ namespace Challange.UnitTests.Services.SettingParsers
     [TestFixture]
     class ChallengeSettingsParserTest : TestCase
     {
-        private IFileWorker fileWorker;
+        private IXmlWorker fileWorker;
         private ChallengeSettingsParser parser;
         private ChallengeSettings settings;
         private const string settingsPath = @"Settings\challenge.xml";
@@ -17,7 +17,7 @@ namespace Challange.UnitTests.Services.SettingParsers
         [SetUp]
         public void SetUp()
         {
-            fileWorker = Substitute.For<IFileWorker>();
+            fileWorker = Substitute.For<IXmlWorker>();
             parser = new ChallengeSettingsParser(fileWorker);
             settings = InitializeChallengeSettings();
         }
