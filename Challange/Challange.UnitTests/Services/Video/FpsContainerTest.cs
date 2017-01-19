@@ -1,13 +1,7 @@
-﻿using Challange.Domain.Entities;
-using Challange.Domain.Services.Video.Abstract;
+﻿using Challange.Domain.Services.Video.Abstract;
 using Challange.Domain.Services.Video.Concrete;
-using NSubstitute;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Challange.UnitTests.Services.Video
 {
@@ -16,19 +10,10 @@ namespace Challange.UnitTests.Services.Video
     {
         private IFpsContainer fpsContainer;
 
-        private string pathToImage = @"bitmap\bitmap.jpg";
-
-        [Test]
-        public void GetKeys()
+        [SetUp]
+        public void SetUp()
         {
-            // Arrange
             fpsContainer = new FpsContainer();
-            var test = new List<string> { "1", "2" };
-            fpsContainer.InitializeFpses(test);
-            // Act
-            var propertyResult = fpsContainer.GetKeys;
-            // Assert
-            Assert.IsTrue(propertyResult == test);
         }
 
         [Test]
@@ -41,7 +26,6 @@ namespace Challange.UnitTests.Services.Video
             };
 
             // Act
-            fpsContainer = new FpsContainer();
             fpsContainer.InitializeFpses(keys);
             // Assert
             Assert.IsNotNull(fpsContainer.Fpses);
@@ -56,14 +40,11 @@ namespace Challange.UnitTests.Services.Video
             {
                 "1", "2"
             };
-            fpsContainer = new FpsContainer();
             fpsContainer.InitializeFpses(keys);
             // Act
             var fps = fpsContainer.GetFpsByKey("1");
-            var image = new System.Drawing.Bitmap(pathToImage);
-            fps.AddFrame(image);
             // Assert
-            Assert.IsTrue(fpsContainer.Fpses["1"].Frames[0] == image);
+            Assert.IsTrue(fps != null);
         }
 
         [Test]
@@ -74,7 +55,6 @@ namespace Challange.UnitTests.Services.Video
             {
                 "1", "2"
             };
-            fpsContainer = new FpsContainer();
             fpsContainer.InitializeFpses(keys);
             // Act
             var fps = fpsContainer.GetFpsByKey("3");
@@ -106,7 +86,6 @@ namespace Challange.UnitTests.Services.Video
             {
                 "1", "2"
             };
-            fpsContainer = new FpsContainer();
             fpsContainer.InitializeFpses(keys);
             // Act
             fpsContainer.RemoveFpsByKey("2");

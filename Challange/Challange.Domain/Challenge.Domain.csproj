@@ -79,13 +79,14 @@
     <Compile Include="Services\Video\Abstract\IChallengeObject.cs" />
     <Compile Include="Services\Video\Abstract\IFpsContainer.cs" />
     <Compile Include="Services\Video\Abstract\IChallengeBuffer.cs" />
-    <Compile Include="Abstract\IFps.cs" />
+    <Compile Include="Services\Video\Abstract\IFps.cs" />
     <Compile Include="Services\Video\Abstract\IInternalChallengeTimer.cs" />
+    <Compile Include="Services\Video\Abstract\IVideoContainer.cs" />
     <Compile Include="Services\Video\Concrete\ChallengeObject.cs" />
     <Compile Include="Services\Video\Concrete\ChallengeBuffers.cs" />
     <Compile Include="Services\Video\Concrete\ChallengeReader.cs" />
     <Compile Include="Services\Event\EventSubscriber.cs" />
-    <Compile Include="Entities\Fps.cs" />
+    <Compile Include="Services\Video\Concrete\Fps.cs" />
     <Compile Include="Services\Video\Concrete\FpsContainer.cs" />
     <Compile Include="Entities\FtpConnector.cs" />
     <Compile Include="Entities\GameInformation.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="Services\StreamProcess\Concrete\Pylon\CamerasContainer.cs" />
     <Compile Include="Services\StreamProcess\Concrete\Pylon\CamerasProvider.cs" />
     <Compile Include="Services\Message\ChallengeMessage.cs" />
+    <Compile Include="Services\Video\Concrete\VideoContainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

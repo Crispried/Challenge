@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 
 namespace Challange.Domain.Services.Settings.SettingTypes
@@ -20,7 +21,7 @@ namespace Challange.Domain.Services.Settings.SettingTypes
             PlayerHeight = settings.PlayerHeight;
         }
 
-        public bool Equals(PlayerPanelSettings playerPanelSettings)
+        public virtual bool Equals(PlayerPanelSettings playerPanelSettings)
         {
             if(playerPanelSettings == null)
             {
@@ -31,6 +32,7 @@ namespace Challange.Domain.Services.Settings.SettingTypes
                    (playerPanelSettings.PlayerWidth == PlayerWidth);
         }
 
+        [ExcludeFromCodeCoverage]
         public object Clone()
         {
             return this.MemberwiseClone();

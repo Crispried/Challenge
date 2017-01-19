@@ -45,7 +45,7 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
                 if (shutdownEvent.WaitOne(0))
                     break;
 
-                if(video.NotEnd())
+                if(!video.IsEnd())
                 {
                     View.DrawNewFrame(video.Frames[video.FrameIndex], video.Name);
                     video.FrameIndex++;

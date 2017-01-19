@@ -86,5 +86,18 @@ namespace Challange.UnitTests.Services.SettingParsers
             // Assert
             Assert.IsNull(result);
         }
+
+        [Test]
+        public void SettingsFilePathPropertyTest()
+        {
+            // Arrange
+            string path = "test_path";
+
+            // Act
+            parser.SettingsFilePath = path;
+
+            // Assert
+            Assert.AreEqual(path, parser.SettingsFilePath);
+        }
     }
 }

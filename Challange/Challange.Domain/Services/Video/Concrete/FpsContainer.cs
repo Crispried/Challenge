@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Challange.Domain.Abstract;
-using Challange.Domain.Entities;
+﻿using System.Collections.Generic;
 using Challange.Domain.Services.Video.Abstract;
 
 namespace Challange.Domain.Services.Video.Concrete
@@ -19,14 +13,6 @@ namespace Challange.Domain.Services.Video.Concrete
             get
             {
                 return fpses;
-            }
-        }
-
-        public List<string> GetKeys
-        {
-            get
-            {
-                return keys;
             }
         }
 

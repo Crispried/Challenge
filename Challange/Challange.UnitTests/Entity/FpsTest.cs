@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using Challange.Domain.Entities;
+﻿using NUnit.Framework;
 using System.Drawing;
-using NSubstitute;
+using Challange.Domain.Services.Video.Abstract;
+using Challange.Domain.Services.Video.Concrete;
 
 namespace Challange.UnitTests.Entity
 {
     [TestFixture]
     class FpsTest : TestCase
     { 
-        private Fps fps;
+        private IFps fps;
         private string imagePath;
         private Bitmap frame;
 
@@ -21,8 +16,7 @@ namespace Challange.UnitTests.Entity
         public void SetUp()
         {
             fps = new Fps();
-            imagePath = @"bitmap\bitmap.jpg";
-            frame = new Bitmap(imagePath);
+            frame = new Bitmap(3, 3);
         }
 
         [Test]
@@ -47,7 +41,7 @@ namespace Challange.UnitTests.Entity
             fps.DisposeFrames();
 
             // Assert
-            Assert.IsTrue(fps.Frames[0].PixelFormat == System.Drawing.Imaging.PixelFormat.DontCare);
+            Assert.IsTrue(fps.Frames[0] == frame);
         }
 
         private void AddFrame()

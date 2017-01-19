@@ -110,6 +110,7 @@
     <Compile Include="Services\Video\FpsContainerTest.cs" />
     <Compile Include="Entity\CameraTest.cs" />
     <Compile Include="Services\Video\InternalChallengeTimerTest.cs" />
+    <Compile Include="Services\Video\VideoContainerTest.cs" />
     <Compile Include="Services\Video\VideoTest.cs" />
     <Compile Include="Entity\FpsTest.cs" />
     <Compile Include="Entity\GameInformationTest.cs" />

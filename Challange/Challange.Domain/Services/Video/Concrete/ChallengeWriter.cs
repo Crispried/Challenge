@@ -1,12 +1,5 @@
 ﻿using AForge.Video.FFMPEG;
-using Challange.Domain.Entities;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Challange.Domain.Abstract;
-using Challange.Domain.Services.StreamProcess.Abstract;
 using Challange.Domain.Services.Video.Abstract;
 using System.Diagnostics.CodeAnalysis;
 
@@ -15,27 +8,25 @@ namespace Challange.Domain.Services.Video.Concrete
     [ExcludeFromCodeCoverage]
     public class ChallengeWriter
     {
-        private List<Video> videos;
+        private IVideoContainer _videoContainer;
         private string pathToVideos;
         private int width;
         private int height;
         private int desiredFps;
 
-        public ChallengeWriter(List<Video> videos, string pathToVideos, int desiredFps = 30)
+        public ChallengeWriter(IVideoContainer videoContainer, string pathToVideos, int desiredFps = 30)
         {
             this.pathToVideos = pathToVideos;
-            this.videos = videos;
+            _videoContainer = videoContainer;
             this.desiredFps = desiredFps;
-            if(videos.Count != 0)
-            {
-                width = GetWidth();
-                height = GetHeight();
-            }
         }
 
         public void WriteChallenge()
         {
-            WriteVideo();
+            if (!_videoContainer.IsEmpty())
+            {
+                WriteVideo();
+            }
         }
 
         private void WriteVideo()
@@ -43,11 +34,11 @@ namespace Challange.Domain.Services.Video.Concrete
             using (VideoFileWriter writer = new VideoFileWriter())
             {
                 string tmpFileName;
-                foreach (var video in videos)
+                foreach (var video in _videoContainer.Videos)
                 {
                     tmpFileName = pathToVideos + video.Name + ".mp4";
-                    writer.Open(tmpFileName, width,
-                        height, desiredFps, VideoCodec.MPEG4);
+                    writer.Open(tmpFileName, GetWidth(),
+                        GetHeight(), desiredFps, VideoCodec.MPEG4);
                     foreach (var frame in video.Frames)
                     {
                         try
@@ -69,12 +60,12 @@ namespace Challange.Domain.Services.Video.Concrete
 
         private int GetWidth()
         {
-            return videos.First().Frames.ElementAt(0).Width;
+            return _videoContainer.Videos.First().Frames.ElementAt(0).Width;
         }
 
         private int GetHeight()
         {
-            return videos.First().Frames.ElementAt(0).Height;
+            return _videoContainer.Videos.First().Frames.ElementAt(0).Height;
         }
     }
 }

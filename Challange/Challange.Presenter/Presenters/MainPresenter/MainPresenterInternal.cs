@@ -14,11 +14,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// event which adds and supply concrete number of FPS object
         /// in buffer for past frames
         /// </summary>
-        /// <param name="source"></param>
-        /// <param name="e"></param>
         private void InternalTimerEventForPastFrames()
         {
-            if (_challengeBuffers.HaveToRemovePastFps())
+            if (_challengeBuffers.HaveToRemovePastFps(_settingsContext.ChallengeSetting.NumberOfPastFPS))
             {
                 _challengeBuffers.RemoveFirstFpsFromPastBuffer();
             }
@@ -32,7 +30,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void InternalTimerEventForFutureFrames()
         {
-            if (_challengeBuffers.HaveToAddFutureFps())
+            if (_challengeBuffers.HaveToAddFutureFps(_settingsContext.ChallengeSetting.NumberOfFutureFPS))
             {
                 _challengeBuffers.AddFutureFpses(_fpsContainer);
                 _fpsContainer.InitializeFpses(_camerasContainer.GetCamerasNames());
@@ -42,17 +40,10 @@ namespace Challange.Presenter.Presenters.MainPresenter
                 ChangeActivityOfEventForFutureFrames(false);
                 WriteChallangeAsVideo();
                 InitializeFpsContainer();
-                InitializeChallengeBuffers();
+                _challengeBuffers.ClearBuffers();
                 ChangeActivityOfEventForPastFrames(true);
             }
-        }
-        
-        private void InitializeChallengeBuffers()
-        {
-            _challengeBuffers.SetNumberOfPastAndFutureElements(
-                _settingsContext.ChallengeSetting.NumberOfPastFPS,
-                _settingsContext.ChallengeSetting.NumberOfFutureFPS);
-        }
+        }       
 
         [ExcludeFromCodeCoverage]
         /// <summary>
@@ -267,10 +258,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
         {
             SetChallengeDirectoryPath();
             var challengeWriter = new ChallengeWriter(
-                                  _challengeBuffers.ConvertToVideoContainer(),
+                                  _videoContainer.ConvertToVideoContainer(_challengeBuffers),
                                   _challenge.PathToChallengeDirectory);
             challengeWriter.WriteChallenge();
-            _challengeBuffers.ClearBuffers();
         }
 
         [ExcludeFromCodeCoverage]

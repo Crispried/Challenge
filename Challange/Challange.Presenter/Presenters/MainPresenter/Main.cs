@@ -26,6 +26,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         // video streaming
         private ICamerasProvider _camerasProvider;
         private ICamerasContainer _camerasContainer;
+        private IVideoContainer _videoContainer;
 
         // this is temporary object which will keep fps objects
         // from all cameras which we create every second
@@ -43,6 +44,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
                              ISettingsContext settingsContext,
                              INullSettingsContainer nullSettingsContainer,
                              ICamerasContainer camerasContainer,
+                             IVideoContainer videoContainer,
                              ICamerasProvider camerasProvider,
                              IZoomer zoomer,
                              IChallengeBuffers challengeBuffers,
@@ -58,6 +60,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
             _settingsContext = settingsContext;
             _nullSettingsContainer = nullSettingsContainer;
             _camerasContainer = camerasContainer;
+            _videoContainer = videoContainer;
             _camerasProvider = camerasProvider;
             _zoomer = zoomer;
             _challengeBuffers = challengeBuffers;

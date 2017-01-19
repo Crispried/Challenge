@@ -10,12 +10,12 @@ namespace Challange.UnitTests.Services.SettingTypes
 {
     class PlayerPanelSettingsTest : TestCase
     {
-        private PlayerPanelSettings playerPanelSettings;
+        private PlayerPanelSettings _playerPanelSettings;
 
         [SetUp]
         public void SetUp()
         {
-            playerPanelSettings = new PlayerPanelSettings();
+            _playerPanelSettings = InitializePlayerPanelSettings();
         }
 
         [Test]
@@ -25,10 +25,10 @@ namespace Challange.UnitTests.Services.SettingTypes
             bool enabled = false;
 
             // Act
-            playerPanelSettings.AutosizeMode = enabled;
+            _playerPanelSettings.AutosizeMode = enabled;
 
             // Assert
-            Assert.AreEqual(enabled, playerPanelSettings.AutosizeMode);
+            Assert.AreEqual(enabled, _playerPanelSettings.AutosizeMode);
         }
 
         [Test]
@@ -38,10 +38,10 @@ namespace Challange.UnitTests.Services.SettingTypes
             int playerWidth = 100;
 
             // Act
-            playerPanelSettings.PlayerWidth = playerWidth;
+            _playerPanelSettings.PlayerWidth = playerWidth;
 
             // Assert
-            Assert.AreEqual(playerWidth, playerPanelSettings.PlayerWidth);
+            Assert.AreEqual(playerWidth, _playerPanelSettings.PlayerWidth);
         }
 
         [Test]
@@ -51,10 +51,10 @@ namespace Challange.UnitTests.Services.SettingTypes
             int playerHeight = 100;
 
             // Act
-            playerPanelSettings.PlayerHeight = playerHeight;
+            _playerPanelSettings.PlayerHeight = playerHeight;
 
             // Assert
-            Assert.AreEqual(playerHeight, playerPanelSettings.PlayerHeight);
+            Assert.AreEqual(playerHeight, _playerPanelSettings.PlayerHeight);
         }
 
         [Test]
@@ -64,12 +64,77 @@ namespace Challange.UnitTests.Services.SettingTypes
             PlayerPanelSettings newSettings = InitializePlayerPanelSettings();
 
             // Act
-            playerPanelSettings.SetSettings(newSettings);
+            _playerPanelSettings.SetSettings(newSettings);
 
             // Assert
-            Assert.AreEqual(playerPanelSettings.AutosizeMode, newSettings.AutosizeMode);
-            Assert.AreEqual(playerPanelSettings.PlayerWidth, newSettings.PlayerWidth);
-            Assert.AreEqual(playerPanelSettings.PlayerHeight, newSettings.PlayerHeight);
+            Assert.AreEqual(_playerPanelSettings.AutosizeMode, newSettings.AutosizeMode);
+            Assert.AreEqual(_playerPanelSettings.PlayerWidth, newSettings.PlayerWidth);
+            Assert.AreEqual(_playerPanelSettings.PlayerHeight, newSettings.PlayerHeight);
+        }
+
+        [Test]
+        public void EqualsReturnsTrueIfAutosizeModeIsFalseTest()
+        {
+            // Arrange
+            var playerPanelSettings = new PlayerPanelSettings()
+            {
+                AutosizeMode = false,
+                PlayerHeight = 480,
+                PlayerWidth = 640
+            };
+            // Act
+            var areEqual = _playerPanelSettings.Equals(playerPanelSettings);
+            // Assert
+            Assert.True(areEqual);
+        }
+
+        [Test]
+        public void EqualsReturnsTrueIfAutosizeModeIsTrueTest()
+        {
+            // Arrange
+            _playerPanelSettings = new PlayerPanelSettings()
+            {
+                AutosizeMode = true,
+                PlayerHeight = 480,
+                PlayerWidth = 640
+            };
+            var playerPanelSettings = new PlayerPanelSettings()
+            {
+                AutosizeMode = true,
+                PlayerHeight = 480,
+                PlayerWidth = 640
+            };
+            // Act
+            var areEqual = _playerPanelSettings.Equals(playerPanelSettings);
+            // Assert
+            Assert.True(areEqual);
+        }
+
+        [Test]
+        public void EqualsReturnsFalseTest()
+        {
+            // Arrange
+            var playerPanelSettings = new PlayerPanelSettings()
+            {
+                AutosizeMode = false,
+                PlayerHeight = 200,
+                PlayerWidth = 260
+            };
+            // Act
+            var areEqual = _playerPanelSettings.Equals(playerPanelSettings);
+            // Assert
+            Assert.False(areEqual);
+        }
+
+        [Test]
+        public void EqualsReturnsFalseOnNullTest()
+        {
+            // Arrange
+            PlayerPanelSettings playerPanelSettings = null;
+            // Act
+            var areEqual = _playerPanelSettings.Equals(playerPanelSettings);
+            // Assert
+            Assert.False(areEqual);
         }
     }
 }

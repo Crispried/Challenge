@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
-using Challange.Domain.Entities;
 using System.Drawing;
-using Challange.Domain.Abstract;
 using NSubstitute;
+using Challange.Domain.Services.Video.Abstract;
 
 namespace Challange.UnitTests.Services.Video
 {
@@ -15,39 +10,80 @@ namespace Challange.UnitTests.Services.Video
     class VideoTest : TestCase
     {
         private List<IFps> fpsList;
-        private string bitmapPath;
-        private Domain.Services.Video.Concrete.Video video;
+        private Domain.Services.Video.Concrete.Video videoWithFpsList;
+        private Domain.Services.Video.Concrete.Video videsWithBitmapList;
+        private Bitmap _bitmap;
 
         [SetUp]
         public void SetUp()
         {
-            bitmapPath = @"bitmap/bitmap.jpg";
-            fpsList = InitializeFpsList();
-            var name = "1";
-            video = Substitute.For<Domain.Services.Video.Concrete.Video>(name, fpsList);
+            _bitmap = new Bitmap(3, 3);
+            fpsList = Substitute.For<List<IFps>>();
+            var fps = Substitute.For<IFps>();
+            fps.AddFrame(new Bitmap(3, 3));
+            fps.AddFrame(new Bitmap(3, 3));
+            fpsList.Add(fps);
+            var frames = new List<Bitmap>()
+            {
+                _bitmap,
+                _bitmap
+            };
+            fps.Frames.Returns(frames);
+            videoWithFpsList = Substitute.For<Domain.Services.Video.Concrete.Video>("1", fpsList);
+            videsWithBitmapList = Substitute.For<Domain.Services.Video.Concrete.Video>("1", new List<Bitmap>() { _bitmap });
         }
 
         [Test]
-        public void NameProperty()
+        public void NamePropertyTest()
         {
             // Arrange
             // Act
-            var getter = video.Name;
+            var name = videoWithFpsList.Name;
             // Assert
-            Assert.IsTrue(getter == "1");
+            Assert.IsTrue(name == "1");
         }
 
-        private List<IFps> InitializeFpsList()
+        [Test]
+        public void FramesPropertyTest()
         {
-            IFps frame = new Fps();
-            Bitmap bitmap = new Bitmap(bitmapPath);
-            frame.AddFrame(bitmap);
-
-            List<IFps> fpsList = new List<IFps>();
-            fpsList.Add(frame);
-
-            return fpsList;
+            // Arrange
+            // Act
+            var frames = videsWithBitmapList.Frames;
+            // Assert
+            Assert.IsTrue(frames.Contains(_bitmap));
         }
 
+        [Test]
+        public void FrameIndexPropertyTest()
+        {
+            // Arrange
+            videoWithFpsList.FrameIndex = 2;
+            // Act
+            var frameIndex = videoWithFpsList.FrameIndex;
+            // Assert
+            Assert.IsTrue(frameIndex == 2);
+        }
+
+        [Test]
+        public void IsEndReturnsTrueTest()
+        {
+            // Arrange
+            videoWithFpsList.FrameIndex = 2;
+            // Act
+            var isEnd = videoWithFpsList.IsEnd();
+            // Assert
+            Assert.IsTrue(isEnd);
+        }
+
+        [Test]
+        public void IsEndReturnsFalseTest()
+        {
+            // Arrange
+            videoWithFpsList.FrameIndex = 3;
+            // Act
+            var isEnd = videoWithFpsList.IsEnd();
+            // Assert
+            Assert.IsFalse(isEnd);
+        }
     }
 }

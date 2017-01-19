@@ -1,11 +1,5 @@
-﻿using Challange.Domain.Entities;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Challange.Domain.Abstract;
-using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using Challange.Domain.Services.Video.Abstract;
 
@@ -15,38 +9,12 @@ namespace Challange.Domain.Services.Video.Concrete
     {
         private Dictionary<string, List<IFps>> pastCameraRecords;
         private Dictionary<string, List<IFps>> futureCameraRecords;
-        private int maxElementsInPastCollection = 20;
-        private int maxElementsInFutureCollection = 20;
         private ICamerasContainer camerasContainer;
 
         public ChallengeBuffers(ICamerasContainer camerasContainer)
         {
             this.camerasContainer = camerasContainer;
             InitializeBuffers(camerasContainer);
-        }
-
-        public int MaxElementsInPastCollection
-        {
-            get
-            {
-                return maxElementsInPastCollection;
-            }
-            set
-            {
-                maxElementsInPastCollection = value;
-            }
-        }
-
-        public int MaxElementsInFutureCollection
-        {
-            get
-            {
-                return maxElementsInFutureCollection;
-            }
-            set
-            {
-                maxElementsInFutureCollection = value;
-            }
         }
 
         public Dictionary<string, List<IFps>> PastCameraRecords
@@ -65,61 +33,33 @@ namespace Challange.Domain.Services.Video.Concrete
             }
         }
 
-        public void SetNumberOfPastAndFutureElements(int maxElementsInPastCollection,
-                                              int maxElementsInFutureCollection)
-        {
-            this.maxElementsInPastCollection = maxElementsInPastCollection;
-            this.maxElementsInFutureCollection = maxElementsInFutureCollection;
-        }
-
-        public List<IFps> GetPastCameraRecordsValueByKey(string key)
-        {
-            return GetValueByKey(key, pastCameraRecords);
-        }
-
-        public List<IFps> GetFutureCameraRecordsValueByKey(string key)
-        {
-            return GetValueByKey(key, futureCameraRecords);
-        }
-
-        public List<IFps> GetFirstPastValue()
-        {
-            return pastCameraRecords.Values.FirstOrDefault();
-        }
-
-        public List<IFps> GetFirstFutureValue()
-        {
-            return futureCameraRecords.Values.FirstOrDefault();          
-        }
-
         public void ClearBuffers()
         {
             pastCameraRecords.Clear();
             futureCameraRecords.Clear();
         }
 
-        public List<Video> ConvertToVideoContainer()
+        public Dictionary<string, List<IFps>> UniteBuffers()
         {
-            var videos = new List<Video>();
-            List<IFps> tempVideoFrames;
-            string currentVideoName;
+            var unitedBuffers = new Dictionary<string, List<IFps>>();
+            List<IFps> tempUnitedFpsList;
             foreach (var pastFrames in pastCameraRecords)
             {
                 foreach (var futureFrames in futureCameraRecords)
                 {
                     if (pastFrames.Key == futureFrames.Key)
                     {
-                        tempVideoFrames = new List<IFps>();
-                        tempVideoFrames.AddRange(pastFrames.Value);
-                        tempVideoFrames.AddRange(futureFrames.Value);
-                        currentVideoName =
-                            camerasContainer.GetCameraByKey(pastFrames.Key).Name;
-                        videos.Add(new Video(currentVideoName, tempVideoFrames));
+                        tempUnitedFpsList = new List<IFps>();
+                        tempUnitedFpsList.AddRange(pastFrames.Value);
+                        tempUnitedFpsList.AddRange(futureFrames.Value);
+                        var camera = camerasContainer.GetCameraByKey(pastFrames.Key);
+                        var cameraName = camera.Name;
+                        unitedBuffers.Add(cameraName, tempUnitedFpsList);
                         break;
                     }
                 }
             }
-            return videos;
+            return unitedBuffers;
         }
 
         /// <summary>
@@ -128,15 +68,9 @@ namespace Challange.Domain.Services.Video.Concrete
         /// </summary>
         public void RemoveFirstFpsFromPastBuffer()
         {
-            var fpsesToRemove = new Dictionary<string, IFps>();
-            foreach (var pastFrames in pastCameraRecords)
+            foreach (var pastCameraRecordFpsList in pastCameraRecords.Values)
             {
-                fpsesToRemove.Add(pastFrames.Key, pastFrames.Value.ElementAt(0));
-                pastFrames.Value.RemoveAt(0);
-            }
-            foreach (var fpsToRemove in fpsesToRemove.Values)
-            {
-                fpsToRemove.DisposeFrames();
+                pastCameraRecordFpsList.Remove(pastCameraRecordFpsList.FirstOrDefault());
             }
         }
 
@@ -145,7 +79,7 @@ namespace Challange.Domain.Services.Video.Concrete
         /// to necessary number of past FPS
         /// </summary>
         /// <returns></returns>
-        public bool HaveToRemovePastFps()
+        public bool HaveToRemovePastFps(int maxElementsInPastCollection)
         {
             var pastFrames = GetFirstPastValue();
             if (pastFrames != null)
@@ -160,7 +94,7 @@ namespace Challange.Domain.Services.Video.Concrete
         /// to necessary number of future FPS
         /// </summary>
         /// <returns></returns>
-        public bool HaveToAddFutureFps()
+        public bool HaveToAddFutureFps(int maxElementsInFutureCollection)
         {
             var futureFrames = GetFirstFutureValue();
             if(futureFrames != null)
@@ -170,25 +104,17 @@ namespace Challange.Domain.Services.Video.Concrete
             return false;
         }
 
-
         /// <summary>
         /// adds past fps objects into buffer for past frames
         /// </summary>
         public void AddPastFpses(IFpsContainer fpsContainer)
         {
-            List<IFps> temp;
             foreach (var fps in fpsContainer.Fpses)
             {
-                temp = GetPastCameraRecordsValueByKey(fps.Key);
-                if (temp != null)
+                var temp = GetPastCameraRecordsValueByKey(fps.Key);
+                if(temp != null)
                 {
                     temp.Add(fps.Value);
-                }
-                else
-                {
-                    temp = new List<IFps>();
-                    temp.Add(fps.Value);
-                    AddNewPastCameraRecord(fps.Key, temp);
                 }
             }
         }
@@ -198,37 +124,34 @@ namespace Challange.Domain.Services.Video.Concrete
         /// </summary>
         public void AddFutureFpses(IFpsContainer fpsContainer)
         {
-            List<IFps> temp;
             foreach (var fps in fpsContainer.Fpses)
             {
-                temp = GetFutureCameraRecordsValueByKey(fps.Key);
+                var temp = GetFutureCameraRecordsValueByKey(fps.Key);
                 if (temp != null)
                 {
                     temp.Add(fps.Value);
                 }
-                else
-                {
-                    temp = new List<IFps>();
-                    temp.Add(fps.Value);
-                    AddNewFutureCameraRecord(fps.Key, temp);
-                }
             }
         }
 
-        private void AddNewPastCameraRecord(string key, List<IFps> value)
+        private List<IFps> GetPastCameraRecordsValueByKey(string key)
         {
-            AddNewRecord(key, value, pastCameraRecords);
+            return GetValueByKey(key, pastCameraRecords);
         }
 
-        private void AddNewFutureCameraRecord(string key, List<IFps> value)
+        private List<IFps> GetFutureCameraRecordsValueByKey(string key)
         {
-            AddNewRecord(key, value, futureCameraRecords);
+            return GetValueByKey(key, futureCameraRecords);
         }
 
-        private void AddNewRecord(string key, List<IFps> value,
-                            Dictionary<string, List<IFps>> dictionary)
+        private List<IFps> GetFirstPastValue()
         {
-            dictionary.Add(key, value);
+            return pastCameraRecords.Values.FirstOrDefault();
+        }
+
+        private List<IFps> GetFirstFutureValue()
+        {
+            return futureCameraRecords.Values.FirstOrDefault();
         }
 
         private List<IFps> GetValueByKey(string key,
@@ -244,14 +167,11 @@ namespace Challange.Domain.Services.Video.Concrete
         private void InitializeBuffers(ICamerasContainer camerasContainer)
         {
             pastCameraRecords = new Dictionary<string, List<IFps>>();
-            foreach (string key in camerasContainer.GetCamerasKeys())
-            {
-                pastCameraRecords.Add(key, null);
-            }
             futureCameraRecords = new Dictionary<string, List<IFps>>();
             foreach (string key in camerasContainer.GetCamerasKeys())
             {
-                futureCameraRecords.Add(key, null);
+                pastCameraRecords.Add(key, new List<IFps>());
+                futureCameraRecords.Add(key, new List<IFps>());
             }
         }
     }

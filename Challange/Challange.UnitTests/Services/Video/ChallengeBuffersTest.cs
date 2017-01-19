@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
-using Challange.Domain.Entities;
-using System.Drawing;
-using static PylonC.NETSupportLibrary.DeviceEnumerator;
-using Challange.Domain.Abstract;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using NSubstitute;
 using Challange.Domain.Services.Video.Abstract;
@@ -17,227 +9,103 @@ namespace Challange.UnitTests.Services.Video
 {
     class ChallengeBuffersTest : TestCase
     {
-        private IFps fps;
         private IFpsContainer fpsContainer;
-        private Bitmap bitmap;
         private ICamerasContainer camerasContainer;
         private IChallengeBuffers buffers;
-        private List<Device> camerasInfo;
-        private int maxElementsInPastCollection;
-        private int maxElementsInFutureCollection;
-        private string imagePath = @"bitmap\bitmap.jpg";
-        private string key1 = "One";
-        private string key2 = "Two";
-        private string incorrectKey1 = "key1";
-        private string incorrectKey2 = "key2";
-        private Dictionary<string, IFps> dictionary;
 
         [SetUp]
         public void SetUp()
         {
-            camerasInfo = InitializeCamerasInfo();
-            bitmap = new Bitmap(imagePath);
+            
             camerasContainer = Substitute.For<ICamerasContainer>();
             camerasContainer.GetCamerasKeys().Returns(new List<string> { "One", "Two" });
-            fpsContainer = Substitute.For<IFpsContainer>();
-            dictionary = new Dictionary<string, IFps>();
-            dictionary.Add("One", fps);
-            fpsContainer.Fpses.Returns(dictionary);
-            fps = fpsContainer.GetFpsByKey(key1);
-            fps.AddFrame(bitmap);
-            fps = fpsContainer.GetFpsByKey(key2);
-            fps.AddFrame(bitmap);
-            maxElementsInPastCollection = 10;
-            maxElementsInFutureCollection = 10;
             buffers = new ChallengeBuffers(camerasContainer);
-            buffers.AddFutureFpses(fpsContainer);
-            buffers.AddPastFpses(fpsContainer);
-        }
 
-        [Test]
-        public void GetPastCameraRecordsValueByKeyReturnProperValue()
-        {
-            // Arrange
-
-            // Act
-            List<IFps> outputFpsList1 = buffers.GetPastCameraRecordsValueByKey(key1);
-            List<IFps> outputFpsList2 = buffers.GetPastCameraRecordsValueByKey(key1);
-
-            // Assert
-            Assert.NotNull(outputFpsList1);
-            Assert.NotNull(outputFpsList2);
-        }
-
-        [Test]
-        public void GetPastCameraRecordsValueByKeyReturnNull()
-        {
-            // Arrange
-            // Act
-            List<IFps> outputFpsList1 =
-                buffers.GetPastCameraRecordsValueByKey(incorrectKey1);
-            List<IFps> outputFpsList2 =
-                buffers.GetPastCameraRecordsValueByKey(incorrectKey2);
-            // Assert
-            Assert.Null(outputFpsList1);
-            Assert.Null(outputFpsList2);
-        }
-
-        [Test]
-        public void GetFutureCameraRecordsValueByKeyReturnProperValue()
-        {
-            // Arrange
-            // Act
-            List<IFps> outputFpsList1 = buffers.GetFutureCameraRecordsValueByKey(key1);
-            List<IFps> outputFpsList2 = buffers.GetFutureCameraRecordsValueByKey(key2);
-            // Assert
-            Assert.NotNull(outputFpsList1);
-            Assert.NotNull(outputFpsList2);
-        }
-
-        [Test]
-        public void GetFutureCameraRecordsValueByKeyReturnNull()
-        {
-            // Arrange
-            // Act
-            List<IFps> outputFpsList1 =
-                buffers.GetFutureCameraRecordsValueByKey(incorrectKey1);
-            List<IFps> outputFpsList2 =
-                buffers.GetFutureCameraRecordsValueByKey(incorrectKey2);
-            // Assert
-            Assert.Null(outputFpsList1);
-            Assert.Null(outputFpsList2);
-        }
-
-        [Test]
-        public void GetFirstPastValueReturnsFirstValue()
-        {
-            // Arrange
-            // Act
-            List<IFps> outputFpsList = buffers.GetFirstPastValue();
-            // Assert
-            Assert.True(outputFpsList ==
-                buffers.PastCameraRecords.Values.ElementAt(0));
-        }
-
-        [Test]
-        public void GetFirstFutureValueReturnsFirstValue()
-        {
-            // Arrange
-            // Act
-            List<IFps> outputFpsList = buffers.GetFirstFutureValue();
-
-            // Assert
-            Assert.True(outputFpsList ==
-                buffers.FutureCameraRecords.Values.ElementAt(0));
-        }
-
-        [Test]
-        public void MaxElementsInPastCollectionPropertyTest()
-        {
-            // Arrange
-            int maxElements = 1;
-            buffers.MaxElementsInPastCollection = maxElements;
-
-            // Act
-            int receivedMaxElements = buffers.MaxElementsInPastCollection;
-
-            // Assert
-            Assert.AreEqual(maxElements, receivedMaxElements);
-        }
-
-        [Test]
-        public void MaxElementsInFutureCollectionPropertyTest()
-        {
-            // Arrange
-            int maxElements = 1;
-            buffers.MaxElementsInFutureCollection = maxElements;
-
-            // Act
-            int receivedMaxElements = buffers.MaxElementsInFutureCollection;
-
-            // Assert
-            Assert.AreEqual(maxElements, receivedMaxElements);
-        }
-
-        [Test]
-        public void SetNumberOfPastAndFutureFramesTest()
-        {
-            // Arrange
-            // Act
-            buffers.SetNumberOfPastAndFutureElements(5, 5);
-            // Assert
-            Assert.IsTrue(buffers.MaxElementsInFutureCollection == 5);
-            Assert.IsTrue(buffers.MaxElementsInPastCollection == 5);
+            fpsContainer = Substitute.For<IFpsContainer>();
+            var fpses = new Dictionary<string, IFps>();
+            fpses.Add("One", Substitute.For<IFps>());
+            fpses.Add("Two", Substitute.For<IFps>());
+            fpsContainer.Fpses.Returns(fpses);
         }
 
         [Test]
         public void RemoveFirstFpsFromPastBufferTest()
         {
             // Arrange
-            buffers.PastCameraRecords.Clear();
-            var firstFpsToDispose = Substitute.For<IFps>();
-            var secondFpsToDispose = Substitute.For<IFps>();
-            var thirdFps = Substitute.For<IFps>();
-            var fourthFps = Substitute.For<IFps>();
-            buffers.PastCameraRecords.Add("1", new List<IFps>() { firstFpsToDispose, thirdFps });
-            buffers.PastCameraRecords.Add("2", new List<IFps>() { secondFpsToDispose, fourthFps });
+            buffers.AddPastFpses(fpsContainer);
             // Act
             buffers.RemoveFirstFpsFromPastBuffer();
             // Assert
-            Assert.IsFalse(buffers.PastCameraRecords["1"].Contains(firstFpsToDispose));
-            Assert.IsFalse(buffers.PastCameraRecords["2"].Contains(secondFpsToDispose));
-            firstFpsToDispose.Received().DisposeFrames();
-            secondFpsToDispose.Received().DisposeFrames();
-        }
-
-        [Test]
-        public void HaveToAddFutureFpsReturnsFalseTest()
-        {
-            // Arrange
-            buffers.FutureCameraRecords.Clear();
-
-            // Act
-            bool result = buffers.HaveToAddFutureFps();
-
-            // Assert
-            Assert.False(result);
+            foreach (var pastCameraRecordValue in buffers.PastCameraRecords.Values)
+            {
+                Assert.IsTrue(pastCameraRecordValue.Count == 0);
+            }
         }
 
         [Test]
         public void HaveToAddFutureFpsReturnsTrueTest()
         {
             // Arrange
-            buffers.MaxElementsInFutureCollection = 2;
-
             // Act
-            bool result = buffers.HaveToAddFutureFps();
+            bool result = buffers.HaveToAddFutureFps(2);
 
             // Assert
             Assert.True(result);
         }
 
         [Test]
-        public void HaveToRemovePastFpsReturnsTrue()
+        public void HaveToAddFutureFpsReturnsFalseTest()
         {
             // Arrange
-            buffers.MaxElementsInPastCollection = 1;
-
+            buffers.AddFutureFpses(fpsContainer);
             // Act
-            bool result = buffers.HaveToRemovePastFps();
+            bool result = buffers.HaveToAddFutureFps(1);
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Test]
+        public void HaveToAddFutureFpsReturnsFalseOnNullTest()
+        {
+            // Arrange
+            buffers.ClearBuffers();
+            // Act
+            bool result = buffers.HaveToAddFutureFps(1);
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Test]
+        public void HaveToRemovePastFpsReturnsTrueTest()
+        {
+            // Arrange
+            buffers.AddPastFpses(fpsContainer);
+            // Act
+            bool result = buffers.HaveToRemovePastFps(1);
 
             // Assert
             Assert.True(result);
         }
 
         [Test]
-        public void HaveToRemovePastFpsReturnsFalse()
+        public void HaveToRemovePastFpsReturnsFalseTest()
         {
             // Arrange
-            buffers.PastCameraRecords.Clear();
-
             // Act
-            bool result = buffers.HaveToRemovePastFps();
+            bool result = buffers.HaveToRemovePastFps(2);
+            // Assert
+            Assert.False(result);
+        }
 
+        [Test]
+        public void HaveToRemovePastFpsReturnsFalseOnNullTest()
+        {
+            // Arrange
+            buffers.ClearBuffers();
+            // Act
+            bool result = buffers.HaveToRemovePastFps(2);
             // Assert
             Assert.False(result);
         }
@@ -246,39 +114,90 @@ namespace Challange.UnitTests.Services.Video
         public void ClearBuffersTest()
         {
             // Arrange
-
             // Act
             buffers.ClearBuffers();
-
             // Assert
             Assert.IsEmpty(buffers.PastCameraRecords);
             Assert.IsEmpty(buffers.FutureCameraRecords);
         }
 
         [Test]
-        public void AddPastFpsesTest()
+        public void AddPastFpsesIfValueWasFoundTest()
         {
             // Arrange
-            var dictionary = new Dictionary<string, IFps>();
-            dictionary.Add("Bla", fps);
-            fpsContainer.Fpses.Returns(dictionary);
             // Act
             buffers.AddPastFpses(fpsContainer);
             // Assert
-            Assert.IsTrue(buffers.PastCameraRecords.ContainsKey("Bla"));
+            Assert.IsTrue(buffers.PastCameraRecords.ContainsKey("One"));
+            Assert.IsTrue(buffers.PastCameraRecords.ContainsKey("Two"));
         }
 
         [Test]
-        public void AddFutureFpsesTest()
+        public void AddPastFpsesIfValueWasNotFoundTest()
         {
             // Arrange
-            var dictionary = new Dictionary<string, IFps>();
-            dictionary.Add("Bla", fps);
-            fpsContainer.Fpses.Returns(dictionary);
+            var fpses = new Dictionary<string, IFps>();
+            fpses.Add("Three", Substitute.For<IFps>());
+            fpsContainer.Fpses.Returns(fpses);
+            // Act
+            buffers.AddPastFpses(fpsContainer);
+            // Assert
+            Assert.IsFalse(buffers.PastCameraRecords.ContainsKey("Three"));
+        }
+
+        [Test]
+        public void AddFutureFpsesIfValueWasFoundTest()
+        {
+            // Arrange
             // Act
             buffers.AddFutureFpses(fpsContainer);
             // Assert
-            Assert.IsTrue(buffers.FutureCameraRecords.ContainsKey("Bla"));
+            Assert.IsTrue(buffers.FutureCameraRecords.ContainsKey("One"));
+            Assert.IsTrue(buffers.FutureCameraRecords.ContainsKey("Two"));
+        }
+
+        [Test]
+        public void AddFutureFpsesIfValueWasNotFoundTest()
+        {
+            // Arrange
+            var fpses = new Dictionary<string, IFps>();
+            fpses.Add("Three", Substitute.For<IFps>());
+            fpsContainer.Fpses.Returns(fpses);
+            // Act
+            buffers.AddPastFpses(fpsContainer);
+            // Assert
+            Assert.IsFalse(buffers.FutureCameraRecords.ContainsKey("Three"));
+        }
+
+        [Test]
+        public void UniteBuffersNotEmptyBuffersTest()
+        {
+            // Arrange
+            var camera1 = Substitute.For<ICamera>();
+            camera1.Name = "lol";
+            var camera2 = Substitute.For<ICamera>();
+            camera2.Name = "gol";
+            camerasContainer.GetCameraByKey(default(string)).ReturnsForAnyArgs(camera1, camera2);
+            // Act
+            var unitedBuffers = buffers.UniteBuffers();
+            // Assert
+            camerasContainer.ReceivedWithAnyArgs().GetCameraByKey(default(string));
+            var cameraName1 = camera1.Received().Name;
+            var cameraName2 = camera2.Received().Name;
+            Assert.IsTrue(unitedBuffers.Count == 2);
+            Assert.IsTrue(unitedBuffers.ContainsKey("lol"));
+            Assert.IsTrue(unitedBuffers.ContainsKey("gol"));
+        }
+
+        [Test]
+        public void UniteBuffersEmptyBuffersTest()
+        {
+            // Arrange
+            buffers.ClearBuffers();
+            // Act
+            var unitedBuffers = buffers.UniteBuffers();
+            // Assert
+            Assert.IsTrue(unitedBuffers.Count == 0);
         }
     }
 }

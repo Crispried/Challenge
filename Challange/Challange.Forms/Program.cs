@@ -74,6 +74,7 @@ namespace Challange.Forms
                                 .RegisterService<ICamerasProvider, CamerasProvider>()
                                 .RegisterService<IDevicesProvider, DevicesProvider>()
                                 .RegisterService<ICamerasContainer, CamerasContainer>()
+                                .RegisterService<IVideoContainer, VideoContainer>()
                                 .RegisterService<IChallengeBuffers, ChallengeBuffers>()
                                 .RegisterService<IFpsContainer, FpsContainer>()
                                 .RegisterService<IInternalChallengeTimer, InternalChallengeTimer>()

@@ -1,10 +1,10 @@
-﻿using Challange.Domain.Abstract;
-using Challange.Domain.Entities;
+﻿using Challange.Domain.Entities;
 using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings.SettingTypes;
 using System.Drawing;
 using System;
 using Challange.Domain.Services.StreamProcess.Abstract;
+using Challange.Domain.Services.Video.Abstract;
 
 namespace Challange.Presenter.Presenters.MainPresenter
 {
@@ -80,7 +80,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
                            PlayerPanelSettings>(_settingsContext.PlayerPanelSetting);
             // we want redraw players only if there were any changes
             // in player panel settings
-            if (!oldPlayerPanelSettings.Equals(_settingsContext.PlayerPanelSetting))
+            if (!_settingsContext.PlayerPanelSetting.Equals(oldPlayerPanelSettings))
             {
                 DrawPlayers();
             }
@@ -119,9 +119,8 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void StartStream()
         {
             InitializeDevices();
-            if (_camerasContainer.IsEmpty()) // DONT FORGET BACK "!" !!!!!!!
+            if (!_camerasContainer.IsEmpty()) // DONT FORGET BACK "!" !!!!!!!
             {
-                InitializeChallengeBuffers();
                 InitializeTimeAxisTimer();
                 InitializeFpsContainer();
                 EnableTimerEvent(InternalTimerEventForPastFrames);
@@ -171,8 +170,10 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         public void OpenChallengePlayer(string pathToChallenge)
         {
+            // remove these 2 strings
             string stringForTest = @"Team1_vs_Team2(21.10.2016)\00_00_10\";
             pathToChallenge = stringForTest;
+            //
             Controller.Run<ChallengePlayerPresenter.ChallengePlayerPresenter,
                Tuple<string, RewindSettings>>
                (Tuple.Create(pathToChallenge, _settingsContext.RewindSetting)); // pathToChallenge instead of stringForTest

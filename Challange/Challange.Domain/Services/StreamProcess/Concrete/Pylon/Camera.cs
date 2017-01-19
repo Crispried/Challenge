@@ -1,13 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Challange.Domain.Abstract;
-using Challange.Domain.Services.Event;
-using System.Runtime.CompilerServices;
-using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 using System.Diagnostics.CodeAnalysis;
 using PylonC.NETSupportLibrary;
 using Challange.Domain.Services.StreamProcess.Abstract;

@@ -1,36 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Challange.Domain.Entities;
-using Challange.Domain.Abstract;
+﻿using System.Collections.Generic;
 
 namespace Challange.Domain.Services.Video.Abstract
 {
     public interface IChallengeBuffers
     {
-        int MaxElementsInPastCollection { get; set; }
-
-        int MaxElementsInFutureCollection { get; set; }
-
         Dictionary<string, List<IFps>> PastCameraRecords { get; }
 
-        Dictionary<string, List<IFps>> FutureCameraRecords { get; }
-
-        void SetNumberOfPastAndFutureElements(int maxElementsInPastCollection, int maxElementsInFutureCollection);
-
-        List<IFps> GetPastCameraRecordsValueByKey(string key);
-
-        List<IFps> GetFutureCameraRecordsValueByKey(string key);
-
-        List<IFps> GetFirstPastValue();
-
-        List<IFps> GetFirstFutureValue();
+        Dictionary<string, List<IFps>> FutureCameraRecords { get; }     
 
         void ClearBuffers();
 
-        List<Concrete.Video> ConvertToVideoContainer();
+        Dictionary<string, List<IFps>> UniteBuffers();
 
         void RemoveFirstFpsFromPastBuffer();
 
@@ -38,8 +18,8 @@ namespace Challange.Domain.Services.Video.Abstract
 
         void AddFutureFpses(IFpsContainer fpsContainer);
 
-        bool HaveToRemovePastFps();
+        bool HaveToRemovePastFps(int maxElementsInPastCollection);
 
-        bool HaveToAddFutureFps();
+        bool HaveToAddFutureFps(int maxElementsInFutureCollection);
     }
 }

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Challange.Domain.Abstract;
 using System.Diagnostics.CodeAnalysis;
+using Challange.Domain.Services.Video.Abstract;
 
-namespace Challange.Domain.Entities
+namespace Challange.Domain.Services.Video.Concrete
 {
     public class Fps : IFps
     {

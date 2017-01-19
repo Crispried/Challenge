@@ -5,10 +5,6 @@ using NSubstitute;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static PylonC.NETSupportLibrary.DeviceEnumerator;
 
 namespace Challange.UnitTests.Services.StreamProcess.Concrete
 {
@@ -75,16 +71,6 @@ namespace Challange.UnitTests.Services.StreamProcess.Concrete
             // Assert
             var a = _camerasContainer.Received().GetCameras;
             cameras[0].Received().Stop();
-        }
-
-        private void AddCamera(ICamerasContainer container, ICamera camera)
-        {
-            container.AddCamera(camera);
-        }
-
-        private void RemoveCamera(ICamerasContainer container, ICamera camera)
-        {
-            container.RemoveCamera(camera);
         }
     }
 }

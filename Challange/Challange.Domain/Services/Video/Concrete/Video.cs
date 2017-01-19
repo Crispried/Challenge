@@ -1,11 +1,6 @@
-﻿using Challange.Domain.Abstract;
-using Challange.Domain.Services.Video.Abstract;
-using System;
+﻿using Challange.Domain.Services.Video.Abstract;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Challange.Domain.Services.Video.Concrete
 {
@@ -56,9 +51,9 @@ namespace Challange.Domain.Services.Video.Concrete
             return result;
         }
 
-        public bool NotEnd()
+        public bool IsEnd()
         {
-            return FrameIndex != frames.Count;
+            return FrameIndex == frames.Count;
         }
     }
 }
