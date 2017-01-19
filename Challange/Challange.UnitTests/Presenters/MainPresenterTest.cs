@@ -1,7 +1,4 @@
-﻿using Challange.Domain.Entities;
-using Challange.Domain.Services.Event;
-using Challange.Domain.Services.Message;
-using Challange.Domain.Services.Replay;
+﻿using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.StreamProcess.Abstract;
@@ -22,6 +19,10 @@ using NSubstitute;
 using NUnit.Framework;
 using System;
 using Challange.Domain.Services.FileSystem.Abstract;
+using Challange.Domain.Services.Event.Abstract;
+using Challange.Domain.Services.Zoom.Abstract;
+using Challange.Domain.Services.Zoom.Concrete;
+using Challange.Domain.Services.Challenge;
 
 namespace Challange.UnitTests.Presenters
 {

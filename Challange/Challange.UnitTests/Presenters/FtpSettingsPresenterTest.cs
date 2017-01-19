@@ -1,4 +1,4 @@
-﻿using Challange.Domain.Entities;
+﻿using Challange.Domain.Services.Ftp.Concrete;
 using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingTypes;
@@ -81,11 +81,11 @@ namespace Challange.UnitTests.Presenters
         public void TestFtpConnectionSuccess()
         {
             // Arrange
-            var ftpConnector = Substitute.For<FtpConnector>(argument.FtpAddress,
+            var ftpConnector = Substitute.For<FtpWorker>(argument.FtpAddress,
                                 argument.UserName, argument.Password);
             // Act
-            // Assert
             presenter.TestFtpConnection(argument);
+            // Assert
             ftpConnector.Received().IsFtpConnectionSuccessful();
             var returnedMessage = 
                 messageParser.Received().GetMessage(MessageType.TestFtpConnectionSuccessed);
@@ -96,11 +96,11 @@ namespace Challange.UnitTests.Presenters
         public void TestFtpConnectionFailed()
         {
             // Arrange
-            var ftpConnector = Substitute.For<FtpConnector>(null,
+            var ftpConnector = Substitute.For<FtpWorker>(null,
                                 null, null);
             // Act
-            // Assert
             presenter.TestFtpConnection(mock);
+            // Assert
             ftpConnector.Received().IsFtpConnectionSuccessful();
             var returnedMessage =
                 messageParser.Received().GetMessage(MessageType.TestFtpConnectionFailed);

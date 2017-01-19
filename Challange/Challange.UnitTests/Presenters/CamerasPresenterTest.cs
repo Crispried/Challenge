@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
 using Challange.Presenter.Base;
 using Challange.Presenter.Views;
 using NSubstitute;
-using Moq;
 using Challange.Presenter.Presenters.CamerasPresenter;
 using static PylonC.NETSupportLibrary.DeviceEnumerator;
-using Challange.Domain.Entities;
 using Challange.Domain.Services.StreamProcess.Abstract;
 
 namespace Challange.UnitTests.Presenters

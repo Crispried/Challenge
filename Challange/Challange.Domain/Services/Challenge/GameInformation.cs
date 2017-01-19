@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Challange.Domain.Entities
+﻿namespace Challange.Domain.Services.Challenge
 {
     public class GameInformation
     {

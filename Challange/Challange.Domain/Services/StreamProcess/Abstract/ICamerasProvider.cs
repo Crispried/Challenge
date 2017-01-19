@@ -1,11 +1,5 @@
-﻿using Challange.Domain.Services.Event;
-using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
+﻿using Challange.Domain.Services.Event.Abstract;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static PylonC.NETSupportLibrary.DeviceEnumerator;
 
 namespace Challange.Domain.Services.StreamProcess.Abstract
 {

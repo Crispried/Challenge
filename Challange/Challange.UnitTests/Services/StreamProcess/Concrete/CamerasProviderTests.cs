@@ -1,4 +1,4 @@
-﻿using Challange.Domain.Services.Event;
+﻿using Challange.Domain.Services.Event.Abstract;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 using NSubstitute;

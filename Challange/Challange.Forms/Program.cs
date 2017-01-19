@@ -16,14 +16,16 @@ using Challange.Presenter.Presenters.FtpSettingsPresenter;
 using Challange.Presenter.Presenters.ChallengeSettingsPresenter;
 using Challange.Presenter.Presenters.PlayerPanelSettingsPresenter;
 using Challange.Presenter.Presenters.RewindSettingsPresenter;
-using Challange.Domain.Services.Replay;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 using Challange.Domain.Services.Video.Abstract;
-using Challange.Domain.Services.Event;
 using Challange.Domain.Services.Video.Concrete;
 using Challange.Domain.Services.FileSystem.Abstract;
 using Challange.Domain.Services.FileSystem.Concrete;
+using Challange.Domain.Services.Zoom.Abstract;
+using Challange.Domain.Services.Zoom.Concrete;
+using Challange.Domain.Services.Event.Abstract;
+using Challange.Domain.Services.Event.Concrete;
 
 namespace Challange.Forms
 {

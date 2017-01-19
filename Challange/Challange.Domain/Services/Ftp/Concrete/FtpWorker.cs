@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Challange.Domain.Services.Ftp.Abstract;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Challange.Domain.Entities
+namespace Challange.Domain.Services.Ftp.Concrete
 {
-    public class FtpConnector
+    public class FtpWorker : IFtpWorker
     {
         private string hostName;
 
@@ -15,7 +11,7 @@ namespace Challange.Domain.Entities
 
         private string password;
 
-        public FtpConnector(string hostName, string login, string password)
+        public FtpWorker(string hostName, string login, string password)
         {
             this.hostName = hostName;
             this.login = login;

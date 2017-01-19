@@ -1,16 +1,10 @@
-﻿using Challange.Domain.Entities;
-using Challange.Domain.Services.Event;
+﻿using Challange.Domain.Services.Event.Abstract;
 using Challange.Domain.Services.Video.Abstract;
 using Challange.Domain.Services.Video.Concrete;
 using NSubstitute;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Challange.UnitTests.Services.Video
 {

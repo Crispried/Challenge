@@ -70,8 +70,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Services\Event\IEventSubscriber.cs" />
-    <Compile Include="Services\Replay\IZoomer.cs" />
+    <Compile Include="Services\Event\Abstract\IEventSubscriber.cs" />
+    <Compile Include="Services\Ftp\Abstract\IFtpWorker.cs" />
+    <Compile Include="Services\Zoom\Abstract\IZoomer.cs" />
     <Compile Include="Services\StreamProcess\Abstract\ICamera.cs" />
     <Compile Include="Services\StreamProcess\Abstract\ICamerasContainer.cs" />
     <Compile Include="Services\StreamProcess\Abstract\IDevicesProvider.cs" />
@@ -85,14 +86,14 @@
     <Compile Include="Services\Video\Concrete\ChallengeObject.cs" />
     <Compile Include="Services\Video\Concrete\ChallengeBuffers.cs" />
     <Compile Include="Services\Video\Concrete\ChallengeReader.cs" />
-    <Compile Include="Services\Event\EventSubscriber.cs" />
+    <Compile Include="Services\Event\Concrete\EventSubscriber.cs" />
     <Compile Include="Services\Video\Concrete\Fps.cs" />
     <Compile Include="Services\Video\Concrete\FpsContainer.cs" />
-    <Compile Include="Entities\FtpConnector.cs" />
-    <Compile Include="Entities\GameInformation.cs" />
+    <Compile Include="Services\Ftp\Concrete\FtpWorker.cs" />
+    <Compile Include="Services\Challenge\GameInformation.cs" />
     <Compile Include="Services\Video\Concrete\InternalChallengeTimer.cs" />
     <Compile Include="Services\Video\Concrete\Video.cs" />
-    <Compile Include="Entities\ZoomData.cs" />
+    <Compile Include="Services\Zoom\Concrete\ZoomData.cs" />
     <Compile Include="Services\StreamProcess\Concrete\Pylon\Camera.cs" />
     <Compile Include="Services\FileSystem\Abstract\IFileService.cs" />
     <Compile Include="Services\FileSystem\Abstract\IXmlWorker.cs" />
@@ -112,9 +113,9 @@
     <Compile Include="Services\Settings\SettingParser\ISettingsParser.cs" />
     <Compile Include="Services\Message\MessageParser.cs" />
     <Compile Include="Services\Message\MessageType.cs" />
-    <Compile Include="Services\Replay\IZoomCalculator.cs" />
-    <Compile Include="Services\Replay\ZoomCalculator.cs" />
-    <Compile Include="Services\Replay\Zoomer.cs" />
+    <Compile Include="Services\Zoom\Abstract\IZoomCalculator.cs" />
+    <Compile Include="Services\Zoom\Concrete\ZoomCalculator.cs" />
+    <Compile Include="Services\Zoom\Concrete\Zoomer.cs" />
     <Compile Include="Services\Settings\SettingParser\RewindSettingsParser.cs" />
     <Compile Include="Services\Settings\SettingsEnum.cs" />
     <Compile Include="Services\Settings\SettingTypes\RewindSettings.cs" />

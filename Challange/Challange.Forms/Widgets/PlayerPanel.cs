@@ -1,13 +1,11 @@
-﻿using Challange.Domain.Entities;
-using Challange.Domain.Services.Settings.SettingTypes;
+﻿using Challange.Domain.Services.Settings.SettingTypes;
+using Challange.Domain.Services.Zoom.Concrete;
 using Challange.Forms.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Challange.Forms.Widgets

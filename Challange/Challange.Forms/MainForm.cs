@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Threading;
 using System.ComponentModel;
-using System.Drawing.Drawing2D;
 using ChallangeMarker;
 using Challange.Presenter.Views;
-using Challange.Domain.Entities;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.Message;
-using Challange.Presenter.Views.Layouts;
 using Challange.Forms.Widgets;
+using Challange.Domain.Services.Zoom.Concrete;
 
 namespace Challange.Forms
 {

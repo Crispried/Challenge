@@ -1,9 +1,4 @@
-﻿using Challange.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Challange.Domain.Services.Challenge;
 
 namespace Challange.Presenter.Presenters.GameInformationPresenter
 {

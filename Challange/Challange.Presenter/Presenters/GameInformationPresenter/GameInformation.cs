@@ -1,4 +1,4 @@
-﻿using Challange.Domain.Entities;
+﻿using Challange.Domain.Services.Challenge;
 using Challange.Domain.Services.FileSystem.Abstract;
 using Challange.Presenter.Base;
 using Challange.Presenter.Views;
@@ -6,8 +6,6 @@ using Challange.Presenter.Views;
 namespace Challange.Presenter.Presenters.GameInformationPresenter
 {
     // TODO Remake FormatDirectoryName (use name formatter to make it testable)
-    // TODO Make FtpConnector as service
-    // TODO Make ZoomData part of service
     // TODO Make GameInformation as service
     public partial class GameInformationPresenter :
                     BasePresenter<IGameInformationView, GameInformation>

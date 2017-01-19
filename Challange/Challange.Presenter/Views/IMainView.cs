@@ -4,9 +4,7 @@ using Challange.Domain.Services.Settings.SettingTypes;
 using System.Drawing;
 using System.Collections.Generic;
 using Challange.Domain.Services.Message;
-using System.Windows.Forms;
-using Challange.Domain.Services.Replay;
-using Challange.Domain.Entities;
+using Challange.Domain.Services.Zoom.Concrete;
 
 namespace Challange.Presenter.Views
 {

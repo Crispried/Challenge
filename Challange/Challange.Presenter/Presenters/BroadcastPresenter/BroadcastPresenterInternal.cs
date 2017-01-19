@@ -1,5 +1,4 @@
-﻿using Challange.Domain.Entities;
-using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
+﻿using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
 using System;
 using System.Diagnostics.CodeAnalysis;
 

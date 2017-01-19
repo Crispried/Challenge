@@ -1,5 +1,4 @@
-﻿using Challange.Domain.Entities;
-using Challange.Domain.Services.Message;
+﻿using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Presenter.Base;

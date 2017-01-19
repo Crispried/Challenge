@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using Challange.Domain.Services.Replay;
-using Challange.Domain.Entities;
+﻿using NUnit.Framework;
 using System.Drawing;
 using NSubstitute;
+using Challange.Domain.Services.Zoom.Abstract;
+using Challange.Domain.Services.Zoom.Concrete;
 
-namespace Challange.UnitTests.Services.Replay
+namespace Challange.UnitTests.Services.Zoom
 {
     [TestFixture]
     class ZoomerTest : TestCase
     {
-        private Zoomer zoomer;
+        private IZoomer zoomer;
         private IZoomCalculator zoomCalculator;
 
         [SetUp]
@@ -58,7 +53,7 @@ namespace Challange.UnitTests.Services.Replay
             // Arrange
 
             // Act
-            float receivedImgx = zoomer.Imgx;
+            float receivedImgx = zoomer.ImgX;
 
             // Assert
             Assert.AreEqual(0, receivedImgx);
@@ -70,7 +65,7 @@ namespace Challange.UnitTests.Services.Replay
             // Arrange
 
             // Act
-            float receivedImgy = zoomer.Imgy;
+            float receivedImgy = zoomer.ImgY;
 
             // Assert
             Assert.AreEqual(0, receivedImgy);
@@ -168,8 +163,8 @@ namespace Challange.UnitTests.Services.Replay
             ZoomData zoomData = MakeZoom();
 
             // Assert
-            Assert.AreEqual(1f, zoomer.Imgx);
-            Assert.AreEqual(1f, zoomer.Imgy);
+            Assert.AreEqual(1f, zoomer.ImgX);
+            Assert.AreEqual(1f, zoomer.ImgY);
         }
 
         private ZoomData MakeZoom(Point pictureBoxLocation = new Point(), int delta = 1, Point mouseLocation = new Point())

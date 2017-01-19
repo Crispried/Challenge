@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using Challange.Domain.Entities;
-using System.Drawing;
+﻿using NUnit.Framework;
+using Challange.Domain.Services.Ftp.Abstract;
+using Challange.Domain.Services.Ftp.Concrete;
 
-namespace Challange.UnitTests.Entity
+namespace Challange.UnitTests.Services.Ftp
 {
     [TestFixture]
-    class FtpConnectorTest : TestCase
+    class FtpWorkerTest : TestCase
     {
         private string validHostName;
         private string invalidHostName;
         private string login;
         private string password;
-        private FtpConnector ftpConnector;
+        private IFtpWorker _ftpWorker;
 
         [SetUp]
         public void SetUp()
@@ -31,10 +26,10 @@ namespace Challange.UnitTests.Entity
         public void IsFtpConnectionSuccessfulReturnsTrue()
         {
             // Arrange
-            ftpConnector = CreateFtpConnector(validHostName, login, password);
+            _ftpWorker = CreateFtpConnector(validHostName, login, password);
 
             // Act
-            bool success = TestFtpConnection(ftpConnector);
+            bool success = TestFtpConnection(_ftpWorker);
 
             // Assert
             Assert.True(success);
@@ -44,21 +39,21 @@ namespace Challange.UnitTests.Entity
         public void IsFtpConnectionSuccessfulReturnsFalse()
         {
             // Arrange
-            ftpConnector = CreateFtpConnector(invalidHostName, login, password);
+            _ftpWorker = CreateFtpConnector(invalidHostName, login, password);
 
             // Act
-            bool success = TestFtpConnection(ftpConnector);
+            bool success = TestFtpConnection(_ftpWorker);
 
             // Assert
             Assert.False(success);
         }
 
-        private FtpConnector CreateFtpConnector(string hostName, string login, string password)
+        private FtpWorker CreateFtpConnector(string hostName, string login, string password)
         {
-            return new FtpConnector(hostName, login, password);
+            return new FtpWorker(hostName, login, password);
         }
 
-        private bool TestFtpConnection(FtpConnector ftpConnector)
+        private bool TestFtpConnection(IFtpWorker ftpConnector)
         {
             return ftpConnector.IsFtpConnectionSuccessful();
         }

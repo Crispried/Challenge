@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Challange.Domain.Services.Settings.SettingTypes;
-using static PylonC.NETSupportLibrary.DeviceEnumerator;
-using Challange.Domain.Entities;
-using System.IO;
-using Challange.Domain.Services.FileSystem;
-using System.Diagnostics.CodeAnalysis;
+﻿using Challange.Domain.Services.Settings.SettingTypes;
+using Challange.Domain.Services.Challenge;
 
 namespace Challange.UnitTests
 {

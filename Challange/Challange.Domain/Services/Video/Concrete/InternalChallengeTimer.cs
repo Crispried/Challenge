@@ -1,11 +1,6 @@
-﻿using Challange.Domain.Entities;
-using Challange.Domain.Services.Event;
+﻿using Challange.Domain.Services.Event.Abstract;
 using Challange.Domain.Services.Video.Abstract;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 
 namespace Challange.Domain.Services.Video.Concrete

@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Challange.Domain.Entities;
 using NUnit.Framework;
-using System.Timers;
-using System.Reflection;
 using System.Threading;
-using Challange.Domain.Services.Event;
+using Challange.Domain.Services.Event.Abstract;
+using Challange.Domain.Services.Event.Concrete;
 
-namespace Challange.UnitTests.Entity
+namespace Challange.UnitTests.Services.Event
 {
     [TestFixture]
     class EventSubscriberTest : TestCase
@@ -18,7 +12,7 @@ namespace Challange.UnitTests.Entity
         private System.Timers.Timer timer;
         private bool eventWasRaised;
         private double interval;
-        private EventSubscriber eventSubscriber;
+        private IEventSubscriber eventSubscriber;
 
         [SetUp]
         public void SetUp()

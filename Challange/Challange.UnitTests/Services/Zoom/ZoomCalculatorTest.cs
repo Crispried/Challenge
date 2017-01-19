@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Challange.Domain.Services.Zoom.Abstract;
+using Challange.Domain.Services.Zoom.Concrete;
 using NUnit.Framework;
-using Challange.Domain.Services.Replay;
-using Challange.Domain.Entities;
 using System.Drawing;
-using NSubstitute;
 
-namespace Challange.UnitTests.Services.Replay
+namespace Challange.UnitTests.Services.Zoom
 {
     [TestFixture]
     class ZoomCalculatorTest : TestCase
     {
-        private ZoomCalculator zoomCalculator;
+        private IZoomCalculator zoomCalculator;
 
         [SetUp]
         public void SetUp()

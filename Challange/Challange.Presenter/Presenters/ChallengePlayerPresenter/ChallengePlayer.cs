@@ -1,5 +1,4 @@
-﻿using Challange.Domain.Entities;
-using Challange.Domain.Services.Message;
+﻿using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.Video.Concrete;
@@ -8,10 +7,7 @@ using Challange.Presenter.Views;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
 {

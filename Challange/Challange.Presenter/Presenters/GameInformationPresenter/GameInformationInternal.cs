@@ -1,4 +1,4 @@
-﻿using Challange.Domain.Entities;
+﻿using Challange.Domain.Services.Challenge;
 
 namespace Challange.Presenter.Presenters.GameInformationPresenter
 {

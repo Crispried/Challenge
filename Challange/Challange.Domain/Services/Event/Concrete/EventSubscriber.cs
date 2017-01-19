@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using Challange.Domain.Services.Event.Abstract;
+using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
 
-namespace Challange.Domain.Services.Event
+namespace Challange.Domain.Services.Event.Concrete
 {
     public class EventSubscriber : IEventSubscriber
     {

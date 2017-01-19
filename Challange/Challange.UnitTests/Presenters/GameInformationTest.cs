@@ -1,4 +1,4 @@
-﻿using Challange.Domain.Entities;
+﻿using Challange.Domain.Services.Challenge;
 using Challange.Domain.Services.FileSystem.Abstract;
 using Challange.Presenter.Base;
 using Challange.Presenter.Presenters.GameInformationPresenter;

@@ -1,9 +1,8 @@
-﻿using Challange.Domain.Entities;
-using Challange.Domain.Services.Message;
+﻿using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings.SettingTypes;
+using Challange.Domain.Services.Zoom.Concrete;
 using Challange.Forms.Widgets;
 using Challange.Presenter.Views;
-using Challange.Presenter.Views.Layouts;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

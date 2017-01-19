@@ -1,19 +1,12 @@
-﻿using Challange.Domain.Entities;
-using System;
-using System.Collections.Generic;
+﻿using Challange.Domain.Services.Zoom.Abstract;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace Challange.Domain.Services.Replay
+namespace Challange.Domain.Services.Zoom.Concrete
 {
     public class Zoomer : IZoomer
     {
-        private int imgx = 0;
-        private int imgy = 0;
+        private int _imgX = 0;
+        private int _imgY = 0;
         private float zoom = 1;
         private float minZoom = 1;
         private IZoomCalculator zoomCalculator;
@@ -47,19 +40,19 @@ namespace Challange.Domain.Services.Replay
             }
         }
 
-        public float Imgx
+        public float ImgX
         {
             get
             {
-                return imgx;
+                return _imgX;
             }
         }
 
-        public float Imgy
+        public float ImgY
         {
             get
             {
-                return imgy;
+                return _imgY;
             }
         }
 
@@ -76,11 +69,11 @@ namespace Challange.Domain.Services.Replay
                 zoom = zoomCalculator.CalculatePositiveZoom(zoom);
             }
 
-            Point newLocation = zoomCalculator.CalculateNewImageLocation(zoom, imgx, imgy, oldzoom, mouseLocation, pictureBoxLocation);
-            imgx = newLocation.X;
-            imgy = newLocation.Y;
+            Point newLocation = zoomCalculator.CalculateNewImageLocation(zoom, _imgX, _imgY, oldzoom, mouseLocation, pictureBoxLocation);
+            _imgX = newLocation.X;
+            _imgY = newLocation.Y;
 
-            return new ZoomData(zoom, imgx, imgy);
+            return new ZoomData(zoom, _imgX, _imgY);
         }
 
         private bool MouseIsScrollingUp(int delta)

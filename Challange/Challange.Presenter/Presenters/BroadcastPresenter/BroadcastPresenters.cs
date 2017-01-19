@@ -1,6 +1,4 @@
-﻿using Challange.Domain.Entities;
-using Challange.Domain.Services.StreamProcess.Abstract;
-using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
+﻿using Challange.Domain.Services.StreamProcess.Abstract;
 
 namespace Challange.Presenter.Presenters.BroadcastPresenter
 {

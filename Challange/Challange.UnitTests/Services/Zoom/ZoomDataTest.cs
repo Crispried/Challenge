@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using Challange.Domain.Entities;
-using System.Drawing;
+﻿using NUnit.Framework;
+using Challange.Domain.Services.Zoom.Concrete;
 
-namespace Challange.UnitTests.Entity
+namespace Challange.UnitTests.Services.Zoom
 {
     [TestFixture]
     class ZoomDataTest : TestCase

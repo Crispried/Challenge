@@ -3,7 +3,7 @@ using System.Drawing;
 using Challange.Domain.Services.Video.Abstract;
 using Challange.Domain.Services.Video.Concrete;
 
-namespace Challange.UnitTests.Entity
+namespace Challange.UnitTests.Services.Video
 {
     [TestFixture]
     class FpsTest : TestCase

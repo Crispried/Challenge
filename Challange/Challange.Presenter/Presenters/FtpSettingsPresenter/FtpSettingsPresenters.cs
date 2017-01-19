@@ -1,4 +1,5 @@
-﻿using Challange.Domain.Entities;
+﻿using Challange.Domain.Services.Ftp.Abstract;
+using Challange.Domain.Services.Ftp.Concrete;
 using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings.SettingTypes;
 
@@ -34,11 +35,11 @@ namespace Challange.Presenter.Presenters.FtpSettingsPresenter
 
         public void TestFtpConnection(FtpSettings ftpSettings)
         {
-            FtpConnector ftpConnector = new FtpConnector(
+            IFtpWorker ftpWorker = new FtpWorker(
                                     ftpSettings.FtpAddress,
                                     ftpSettings.UserName,
                                     ftpSettings.Password);
-            bool ftpConnectionSuccess = ftpConnector.IsFtpConnectionSuccessful();
+            bool ftpConnectionSuccess = ftpWorker.IsFtpConnectionSuccessful();
             ChallengeMessage message = ftpConnectionSuccess ?
                 messageParser.GetMessage(MessageType.TestFtpConnectionSuccessed) :
                 messageParser.GetMessage(MessageType.TestFtpConnectionFailed);

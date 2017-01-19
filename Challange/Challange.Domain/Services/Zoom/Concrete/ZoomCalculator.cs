@@ -1,14 +1,8 @@
-﻿using Challange.Domain.Entities;
+﻿using Challange.Domain.Services.Zoom.Abstract;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace Challange.Domain.Services.Replay
+namespace Challange.Domain.Services.Zoom.Concrete
 {
     public class ZoomCalculator : IZoomCalculator
     {

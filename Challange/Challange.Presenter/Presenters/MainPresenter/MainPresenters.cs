@@ -1,10 +1,11 @@
-﻿using Challange.Domain.Entities;
-using Challange.Domain.Services.Message;
+﻿using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings.SettingTypes;
 using System.Drawing;
 using System;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using Challange.Domain.Services.Video.Abstract;
+using Challange.Domain.Services.Zoom.Concrete;
+using Challange.Domain.Services.Challenge;
 
 namespace Challange.Presenter.Presenters.MainPresenter
 {

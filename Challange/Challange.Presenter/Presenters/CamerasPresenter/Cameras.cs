@@ -1,5 +1,4 @@
-﻿using Challange.Domain.Entities;
-using Challange.Domain.Services.StreamProcess.Abstract;
+﻿using Challange.Domain.Services.StreamProcess.Abstract;
 using Challange.Presenter.Base;
 using Challange.Presenter.Views;
 
