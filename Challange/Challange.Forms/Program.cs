@@ -42,7 +42,7 @@ namespace Challange.Forms
             Environment.SetEnvironmentVariable("PYLON_GIGE_HEARTBEAT", "5000" /*ms*/);
 #endif
             Pylon.Initialize();
-          //  try
+            try
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
@@ -99,10 +99,10 @@ namespace Challange.Forms
                 autofacAdapter.Build();
                 controller.Run<MainPresenter>();
             }
-           // catch
+            catch
             {
-           //     Pylon.Terminate();
-           //     throw;
+                Pylon.Terminate();
+                throw;
             }
             Pylon.Terminate();
         }
