@@ -65,6 +65,17 @@ namespace Challange.UnitTests.Services.Video
         }
 
         [Test]
+        public void GetCurrentFrameTest()
+        {
+            // Arrange
+            videoWithFpsList.FrameIndex = 1;
+            // Act
+            var currentFrame = videoWithFpsList.GetCurrentFrame();
+            // Assert
+            Assert.IsTrue(currentFrame == _bitmap);
+        }
+
+        [Test]
         public void IsEndReturnsTrueTest()
         {
             // Arrange
@@ -84,6 +95,20 @@ namespace Challange.UnitTests.Services.Video
             var isEnd = videoWithFpsList.IsEnd();
             // Assert
             Assert.IsFalse(isEnd);
+        }
+
+        [Test]
+        public void CloneTest()
+        {
+            // Arrange
+            var videoName = "TestVideo";
+            var videoFrames = new List<Bitmap>();
+            var video = new Domain.Services.Video.Concrete.Video(videoName, videoFrames);
+            // Act
+            var clone = video.Clone();
+            // Assert
+            Assert.IsTrue(clone.Name == video.Name);
+            Assert.IsTrue(clone.Frames == video.Frames);
         }
     }
 }

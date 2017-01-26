@@ -1,4 +1,5 @@
 ﻿using Challange.Domain.Services.Video.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -51,9 +52,19 @@ namespace Challange.Domain.Services.Video.Concrete
             return result;
         }
 
+        public Bitmap GetCurrentFrame()
+        {
+            return frames[FrameIndex];
+        }
+
         public bool IsEnd()
         {
             return FrameIndex == frames.Count;
+        }
+
+        public virtual Video Clone()
+        {
+            return new Video(name, frames);
         }
     }
 }

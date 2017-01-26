@@ -61,15 +61,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
         }
 
         /// <summary>
-        /// Get cameras names from view
-        /// In order to pass them to ChallengeWriter
-        /// </summary>
-        public void SaveCamerasNames(string key, string cameraName)
-        {
-            _camerasContainer.SetCameraName(key, cameraName);
-        }
-
-        /// <summary>
         /// Shows the form which allows to change player panel settings
         /// after that it redraws player panel with new settings
         /// </summary>
@@ -207,7 +198,10 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void OpenBroadcastForm(string cameraFullName)
         {
             ICamera cameraForBroadcasting = _camerasContainer.GetCameraByKey(cameraFullName);
-            Controller.Run<BroadcastPresenter.BroadcastPresenter, ICamera>(cameraForBroadcasting);
+            Controller.Run<BroadcastPresenter.BroadcastPresenter,
+                Tuple<object, BroadcastPresenter.BroadcastType>>(
+                Tuple.Create((object)cameraForBroadcasting,
+                BroadcastPresenter.BroadcastType.Stream));
         }
 
         /// <summary>

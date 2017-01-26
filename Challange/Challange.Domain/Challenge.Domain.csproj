@@ -72,6 +72,10 @@
   <ItemGroup>
     <Compile Include="Services\Event\Abstract\IEventSubscriber.cs" />
     <Compile Include="Services\Ftp\Abstract\IFtpWorker.cs" />
+    <Compile Include="Services\PlayVideo\Abstract\IVideoPlayer.cs" />
+    <Compile Include="Services\PlayVideo\Concrete\VideoPlayer.cs" />
+    <Compile Include="Services\Video\Abstract\IChallengeReader.cs" />
+    <Compile Include="Services\Video\Abstract\IChallengeWriter.cs" />
     <Compile Include="Services\Zoom\Abstract\IZoomer.cs" />
     <Compile Include="Services\StreamProcess\Abstract\ICamera.cs" />
     <Compile Include="Services\StreamProcess\Abstract\ICamerasContainer.cs" />

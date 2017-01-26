@@ -9,6 +9,10 @@ namespace Challange.Domain.Services.StreamProcess.Abstract
 
         void StopAllCameras();
 
-        void StartAllCameras(Action<object, EventArgs> cameraEventHandler, IEventSubscriber eventSubscriber);
+        void StartAllCameras(Action<object, EventArgs> cameraEventHandler);
+
+        void StartCamera(ICamera camera, Action<object, EventArgs> cameraEventHandler);
+
+        void StopCamera(ICamera camera);
     }
 }

@@ -29,6 +29,11 @@ namespace Challange.Forms.Infrastructure
             return parent.Controls.GetChildIndex(child);
         }
 
+        public static Control GetParentControl(Control child)
+        {
+            return child.Parent;
+        }
+
         public static void SetChildIndex(Control parent, Control child, int index)
         {
             parent.Controls.SetChildIndex(child, index);

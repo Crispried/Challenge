@@ -1,6 +1,9 @@
-﻿using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
+﻿using Challange.Domain.Services.StreamProcess.Abstract;
+using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
+using Challange.Domain.Services.Video.Concrete;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 
 namespace Challange.Presenter.Presenters.BroadcastPresenter
 {
@@ -9,10 +12,25 @@ namespace Challange.Presenter.Presenters.BroadcastPresenter
         /// <summary>
         /// Subscribes camera on NewFrameEvent and starts it
         /// </summary>
-        private void StartStream()
+        private void StartBroadcasting()
         {
-            eventSubscriber.AddEventHandler(camera, "NewFrameEvent", Camera_NewFrameEvent);
-            camera.Start();
+            if(broadcastType == BroadcastType.Stream)
+            {
+                var camera = (ICamera)objectToBroadcast;
+                _camerasProvider.StartCamera(camera, Camera_NewFrameEvent);
+            }
+            else if(broadcastType == BroadcastType.Replay)
+            {
+                var video = (Video)objectToBroadcast;
+                _videoPlayer.DrawAction = DrawAction;
+                _videoPlayer.PlayVideo(video);
+            }
+        }
+
+        [ExcludeFromCodeCoverage]
+        private void DrawAction(Bitmap frame, string videoName)
+        {
+            View.DrawNewFrame(frame, videoName);
         }
 
         [ExcludeFromCodeCoverage]

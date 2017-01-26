@@ -40,7 +40,6 @@ namespace Challange.Presenter.Views
 
         event Action<string> OpenBroadcastForm; // where string should be cameraFullName
 
-        event Action<string, string> PassCamerasNamesToPresenterCallback;
 
         string CurrentFrameCameraName { get; }
 

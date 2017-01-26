@@ -34,7 +34,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private IChallengeBuffers _challengeBuffers;
         private IInternalChallengeTimer _internalChallengeTimer;
         private IChallengeObject _challenge;
-        private IEventSubscriber _eventSubscriber;
+        private IChallengeWriter _challengeWriter;
 
         public MainPresenter(IApplicationController controller,
                              IMainView mainView,
@@ -46,12 +46,12 @@ namespace Challange.Presenter.Presenters.MainPresenter
                              ICamerasContainer camerasContainer,
                              IVideoContainer videoContainer,
                              ICamerasProvider camerasProvider,
+                             IChallengeWriter challengeWriter,
                              IZoomer zoomer,
                              IChallengeBuffers challengeBuffers,
                              IFpsContainer fpsContainer,
                              IInternalChallengeTimer internalChallengeTimer,
-                             IChallengeObject challenge,
-                             IEventSubscriber eventSubscriber) : 
+                             IChallengeObject challenge) : 
                              base(controller, mainView)
         {
             _fileService = fileService;
@@ -62,12 +62,12 @@ namespace Challange.Presenter.Presenters.MainPresenter
             _camerasContainer = camerasContainer;
             _videoContainer = videoContainer;
             _camerasProvider = camerasProvider;
+            _challengeWriter = challengeWriter;
             _zoomer = zoomer;
             _challengeBuffers = challengeBuffers;
             _fpsContainer = fpsContainer;
             _internalChallengeTimer = internalChallengeTimer;
             _challenge = challenge;
-            _eventSubscriber = eventSubscriber;
             SubscribePresenters();
             _gameInformation = new GameInformation();
         }
@@ -90,7 +90,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
             View.NewFrameCallback += AddNewFrame;
             View.OpenChallengePlayer += OpenChallengePlayer;
             View.MakeZoom += MakeZoom;
-            View.PassCamerasNamesToPresenterCallback += SaveCamerasNames;
             View.OpenChallengePlayerForLastChallenge += OpenChallengePlayerForLastChallenge;
             View.OpenBroadcastForm += OpenBroadcastForm;
         }

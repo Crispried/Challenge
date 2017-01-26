@@ -23,8 +23,11 @@ namespace Challange.Forms
 
         public void DrawNewFrame(Bitmap frame, string fullCameraName)
         {
-            Bitmap frameClone = CloneFrame(frame);
-            broadcastPictureBox.Image = frameClone;
+            lock (frame)
+            {
+                Bitmap frameClone = CloneFrame(frame);
+                broadcastPictureBox.Image = frameClone;
+            }
         }
 
         private Bitmap CloneFrame(Bitmap frame)

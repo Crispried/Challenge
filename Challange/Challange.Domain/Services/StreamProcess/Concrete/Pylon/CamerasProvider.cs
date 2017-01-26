@@ -8,12 +8,15 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
     {
         private ICamerasContainer _camerasContainer;
         private IDevicesProvider _devicesProvider;
+        private IEventSubscriber _eventSubscriber;
 
         public CamerasProvider(ICamerasContainer camerasContainer,
-                               IDevicesProvider devicesProvider)
+                               IDevicesProvider devicesProvider,
+                               IEventSubscriber eventSubscriber)
         {
             _camerasContainer = camerasContainer;
             _devicesProvider = devicesProvider;
+            _eventSubscriber = eventSubscriber;
         }
 
         public void InitializeCameras()
@@ -30,13 +33,24 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
             }
         }
 
-        public void StartAllCameras(Action<object, EventArgs> cameraEventHandler, IEventSubscriber eventSubscriber)
+        public void StartAllCameras(Action<object, EventArgs> cameraEventHandler)
         {
             foreach (var camera in _camerasContainer.GetCameras)
             {
-                eventSubscriber.AddEventHandler(camera, "NewFrameEvent", cameraEventHandler);
+                _eventSubscriber.AddEventHandler(camera, "NewFrameEvent", cameraEventHandler);
                 camera.Start();
             }
+        }
+
+        public void StartCamera(ICamera camera, Action<object, EventArgs> cameraEventHandler)
+        {
+            _eventSubscriber.AddEventHandler(camera, "NewFrameEvent", cameraEventHandler);
+            camera.Start();
+        }
+
+        public void StopCamera(ICamera camera)
+        {
+            camera.Stop();
         }
     }
 }

@@ -3,109 +3,73 @@ using Challange.Domain.Services.Video.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 using System.Threading;
 
 namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
 {
-    [ExcludeFromCodeCoverage]
     public partial class ChallengePlayerPresenter
     {
-        ManualResetEvent shutdownEvent = new ManualResetEvent(false);
-
-        private ManualResetEvent pauseEvent = new ManualResetEvent(true);
-
         public override void Run(Tuple<string, RewindSettings> argument)
         {
-            pathToChallenge = argument.Item1;
+            _challengeReader.ReadAllChallenges(argument.Item1); // if return null
+            // show message that there weren't found any challenges in the folder
             rewindSettings = argument.Item2;
-            challengeReader = new ChallengeReader(pathToChallenge);
-            challengeReader.ReadAllChallenges();
-            numberOfVideos = GetNumberOfVideos(pathToChallenge);
-            indexesOfFramesToPlay = new List<int>(numberOfVideos);
-            for (int i = 0; i < indexesOfFramesToPlay.Capacity; i++)
-            {
-                indexesOfFramesToPlay.Add(0);
-            }
-            initialData = GetInitialData();
-            DrawPlayers(numberOfVideos, initialData);
-            threads = new List<Thread>(challengeReader.Challenges.Count);
-            CreateThreads();
+            _videoPlayer.DrawAction = DrawAction;
+            View.DrawPlayers(_challengeReader.NumberOfVideos, _challengeReader.GetVideoNames());
+            PlayAllVideos(); 
             View.Show();
         }
 
-        public void OpenBroadcastForm(string cameraFullName)
+        public void OpenBroadcastForm(string videoName)
         {
-
+            var video = _challengeReader.Challenges.Find(vid => vid.Name == videoName);
+            var copyOfVideo = video.Clone();
+            Controller.Run<BroadcastPresenter.BroadcastPresenter,
+                Tuple<object, BroadcastPresenter.BroadcastType>>(
+                Tuple.Create((object)copyOfVideo,
+                BroadcastPresenter.BroadcastType.Replay));
         }
 
-        private void CreateThreads()
+        public void PlayAllVideos()
         {
-            for (int i = 0; i < threads.Capacity; i++)
-            {
-                int capture = i;
-                Thread thread = new Thread(() => PlayVideo(challengeReader.Challenges[capture]));
-                threads.Add(thread);
-            }
-            for (int i = 0; i < threads.Count; i++)
-            {
-                threads[i].Start();
-            }
+            _videoPlayer.PlayVideos(_challengeReader.Challenges);
         }
 
         public void StartAllPlayers()
         {
-            pauseEvent.Set();
+            _videoPlayer.StartAllPlayers();
         }
 
         public void StopAllPlayers()
         {
-            pauseEvent.Reset();
+            _videoPlayer.StopAllPlayers();
         }
 
         public void RewindBackward()
         {
-            for (int i = 0; i < challengeReader.Challenges.Count; i++)
+            for (int i = 0; i < _challengeReader.Challenges.Count; i++)
             {
-                if(challengeReader.Challenges[i].FrameIndex - rewindSettings.Backward < 0)
-                {
-                    challengeReader.Challenges[i].FrameIndex = 0;
-                }
-                else
-                {
-                    challengeReader.Challenges[i].FrameIndex -= rewindSettings.Backward;
-                }          
-                View.DrawNewFrame(challengeReader.Challenges[i].Frames[challengeReader.Challenges[i].FrameIndex], challengeReader.Challenges[i].Name);
+                _videoPlayer.RewindBackward(_challengeReader.Challenges[i], rewindSettings.Backward);                     
             }
         }
 
         public void RewindForward()
         {
-            for (int i = 0; i < challengeReader.Challenges.Count; i++)
+            for (int i = 0; i < _challengeReader.Challenges.Count; i++)
             {
-                if (challengeReader.Challenges[i].FrameIndex + rewindSettings.Forward >= challengeReader.Challenges[i].Frames.Count)
-                {
-                    challengeReader.Challenges[i].FrameIndex = challengeReader.Challenges[i].Frames.Count - 1;
-                }
-                else
-                {
-                    challengeReader.Challenges[i].FrameIndex += rewindSettings.Forward;
-                }
-                View.DrawNewFrame(challengeReader.Challenges[i].Frames[challengeReader.Challenges[i].FrameIndex], challengeReader.Challenges[i].Name);
+                _videoPlayer.RewindForward(_challengeReader.Challenges[i], rewindSettings.Forward);
             }
         }
 
         public void OnFormClosing()
         {
-            // Signal the shutdown event
-            shutdownEvent.Set();
+            _videoPlayer.ClosePlayers();
+        }
 
-            // Make sure to resume any paused threads
-            pauseEvent.Set();
-            for (int i = 0; i < threads.Count; i++)
-            {
-                // Wait for the thread to exit
-                threads[i].Join();
-            }
+        public void PlaybackSpeedChanged(int newPlaybackSpeed)
+        {
+            _videoPlayer.PlaybackSpeed = newPlaybackSpeed;
         }
     }
 }

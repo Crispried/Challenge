@@ -42,12 +42,12 @@ namespace Challange.UnitTests.Presenters
         private ICamerasContainer camerasContainer;
         private IVideoContainer _videoContainer;
         private ICamerasProvider _camerasProvider;
+        private IChallengeWriter _challengeWriter;
         private IZoomer zoomer;
         private IChallengeBuffers challengeBuffers;
         private IFpsContainer fpsContainer;
         private IInternalChallengeTimer internalChallengeTimer;
         private IChallengeObject challengeObject;
-        private IEventSubscriber eventSubscriber;
 
         private PlayerPanelSettings playerPanelSettings;
         private ChallengeSettings challengeSettings;
@@ -68,21 +68,20 @@ namespace Challange.UnitTests.Presenters
             camerasContainer = Substitute.For<ICamerasContainer>();
             _videoContainer = Substitute.For<IVideoContainer>();
             _camerasProvider = Substitute.For<ICamerasProvider>();
+            _challengeWriter = Substitute.For<IChallengeWriter>();
             zoomer = Substitute.For<IZoomer>();
             challengeBuffers = Substitute.For<IChallengeBuffers>();
             fpsContainer = Substitute.For<IFpsContainer>();
             internalChallengeTimer = Substitute.For<IInternalChallengeTimer>();
             challengeObject = Substitute.For<IChallengeObject>();
-            eventSubscriber = Substitute.For<IEventSubscriber>();
 
             presenter = new MainPresenter(controller, view,
                                     fileService, _pathFormatter, messageParser,
                                     _settingsContext, nullSettingsContainer,
                                     camerasContainer, _videoContainer,
-                                    _camerasProvider, zoomer,
+                                    _camerasProvider, _challengeWriter, zoomer,
                                     challengeBuffers, fpsContainer,
-                                    internalChallengeTimer, challengeObject,
-                                    eventSubscriber);
+                                    internalChallengeTimer, challengeObject);
             playerPanelSettings = InitializePlayerPanelSettings();
             challengeSettings = InitializeChallengeSettings();
             ftpSettings = InitializeFtpSettings();
@@ -148,8 +147,8 @@ namespace Challange.UnitTests.Presenters
             controller.ReceivedWithAnyArgs().Run<GameInformationPresenter,
                                GameInformation>(gameInformation);
             _camerasProvider.Received().InitializeCameras();
-            var camerasNames = camerasContainer.Received().GetCamerasNames();
-            view.Received().DrawPlayers(_settingsContext.PlayerPanelSetting, camerasContainer.CamerasNumber, camerasNames);
+            var camerasKeys = camerasContainer.Received().GetCamerasKeys();
+            view.Received().DrawPlayers(_settingsContext.PlayerPanelSetting, camerasContainer.CamerasNumber, camerasKeys);
             view.Received().Show();
         }
 
@@ -195,18 +194,6 @@ namespace Challange.UnitTests.Presenters
         }
 
         [Test]
-        public void SaveCamerasNames()
-        {
-            // Arrange
-            var key = "test";
-            var cameraName = "1";
-            // Act
-            presenter.SaveCamerasNames(key, cameraName);
-            // Assert
-            camerasContainer.Received().SetCameraName(key, cameraName);
-        }
-
-        [Test]
         public void ChangePlayerPanelSettingsIfShoudNotRedrawPlayersTest()
         {
             // Arrange
@@ -233,8 +220,8 @@ namespace Challange.UnitTests.Presenters
             // Assert
             controller.Received().Run<PlayerPanelSettingsPresenter,
                                 PlayerPanelSettings>(_settingsContext.PlayerPanelSetting);
-            var camerasNames = camerasContainer.Received().GetCamerasNames();
-            view.Received().DrawPlayers(_settingsContext.PlayerPanelSetting, camerasContainer.CamerasNumber, camerasNames);
+            var camerasKeys = camerasContainer.Received().GetCamerasKeys();
+            view.Received().DrawPlayers(_settingsContext.PlayerPanelSetting, camerasContainer.CamerasNumber, camerasKeys);
         }
 
         [Test]
@@ -284,7 +271,7 @@ namespace Challange.UnitTests.Presenters
             view.DidNotReceive().InitializeTimer();
             fpsContainer.DidNotReceiveWithAnyArgs().InitializeFpses(null);
             internalChallengeTimer.DidNotReceiveWithAnyArgs().EnableTimerEvent(default(Action));
-            _camerasProvider.DidNotReceiveWithAnyArgs().StartAllCameras(null, null);
+            _camerasProvider.DidNotReceiveWithAnyArgs().StartAllCameras(null);
             view.DidNotReceiveWithAnyArgs().ToggleChallengeButton(true);
             view.DidNotReceiveWithAnyArgs().ToggleStartButton(false);
             view.DidNotReceiveWithAnyArgs().ToggleStopButton(true); view.DidNotReceive().ToggleVisibilityOfViewLastChallengeButton();
@@ -310,7 +297,7 @@ namespace Challange.UnitTests.Presenters
             view.Received().InitializeTimer();
             fpsContainer.Received().InitializeFpses(camerasContainer.GetCamerasNames());
             internalChallengeTimer.ReceivedWithAnyArgs().EnableTimerEvent(default(Action));
-            _camerasProvider.ReceivedWithAnyArgs().StartAllCameras(null, eventSubscriber);
+            _camerasProvider.ReceivedWithAnyArgs().StartAllCameras(null);
             view.Received().ToggleChallengeButton(true);
             view.Received().ToggleStartButton(false);
             view.Received().ToggleStopButton(true);
@@ -401,10 +388,9 @@ namespace Challange.UnitTests.Presenters
                         fileService, _pathFormatter, messageParser,
                         _settingsContext, nullSettingsContainer,
                         camerasContainer, _videoContainer,
-                        _camerasProvider, zoomer,
+                        _camerasProvider, _challengeWriter, zoomer,
                         challengeBuffers, fpsContainer,
-                        internalChallengeTimer, challengeObject,
-                        eventSubscriber);
+                        internalChallengeTimer, challengeObject);
             // Act
             presenter.OpenChallengePlayerForLastChallenge();
             // Assert
@@ -435,7 +421,7 @@ namespace Challange.UnitTests.Presenters
             presenter.OpenBroadcastForm(cameraFullName);
             // Assert
             var cameraForBroadcasting = camerasContainer.Received().GetCameraByKey(cameraFullName);
-            controller.ReceivedWithAnyArgs().Run<BroadcastPresenter, ICamera>(cameraForBroadcasting);
+            controller.ReceivedWithAnyArgs().Run<BroadcastPresenter, Tuple<object, BroadcastType>>(Tuple.Create((object)cameraForBroadcasting, BroadcastType.Stream));
         }
 
         [Test]

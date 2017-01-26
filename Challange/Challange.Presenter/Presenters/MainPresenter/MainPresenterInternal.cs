@@ -86,7 +86,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void DrawPlayers()
         {
-            var camerasNames = _camerasContainer.GetCamerasNames();
+            var camerasNames = _camerasContainer.GetCamerasKeys();
             View.DrawPlayers(_settingsContext.PlayerPanelSetting, _camerasContainer.CamerasNumber, camerasNames);
         }
         #region settings
@@ -127,7 +127,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void StartDevices()
         {
-            _camerasProvider.StartAllCameras(Camera_NewFrameEvent, _eventSubscriber);
+            _camerasProvider.StartAllCameras(Camera_NewFrameEvent);
         }
 
         [ExcludeFromCodeCoverage]
@@ -250,21 +250,19 @@ namespace Challange.Presenter.Presenters.MainPresenter
             return View.GetElapsedTime;
         }
 
-        [ExcludeFromCodeCoverage]
+        [ExcludeFromCodeCoverage] // TODO include in test
         /// <summary>
         /// Writes challenge videos in file system
         /// </summary>
         private void WriteChallangeAsVideo()
         {
             SetChallengeDirectoryPath();
-            var challengeWriter = new ChallengeWriter(
-                                  _videoContainer.ConvertToVideoContainer(_challengeBuffers),
-                                  _challenge.PathToChallengeDirectory);
-            challengeWriter.WriteChallenge();
+            _challengeWriter.WriteChallenge(_videoContainer.ConvertToVideoContainer(_challengeBuffers),
+                                           _challenge.PathToChallengeDirectory);
         }
 
         [ExcludeFromCodeCoverage]
-        private void SetChallengeDirectoryPath()
+        private void SetChallengeDirectoryPath() // TODO include in test
         {
             var pathToRootDirectory = _challenge.PathToRootDirectory;
             var challengeFolderName = _challenge.ChallengeFolderName;

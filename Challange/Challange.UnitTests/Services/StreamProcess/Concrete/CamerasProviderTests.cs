@@ -14,6 +14,7 @@ namespace Challange.UnitTests.Services.StreamProcess.Concrete
         private ICamerasProvider _cameraProvider;
         private ICamerasContainer _camerasContainer;
         private IDevicesProvider _devicesProvider;
+        private IEventSubscriber _eventSubscriber;
         private ICamera _camera;
 
         [SetUp]
@@ -21,7 +22,9 @@ namespace Challange.UnitTests.Services.StreamProcess.Concrete
         {
             _camerasContainer = Substitute.For<ICamerasContainer>();
             _devicesProvider = Substitute.For<IDevicesProvider>();
-            _cameraProvider = new CamerasProvider(_camerasContainer, _devicesProvider);
+            _eventSubscriber = Substitute.For<IEventSubscriber>();
+            _cameraProvider = new CamerasProvider(_camerasContainer, _devicesProvider,
+                                                  _eventSubscriber);
             _camera = Substitute.For<ICamera>();
         }
 
@@ -46,14 +49,11 @@ namespace Challange.UnitTests.Services.StreamProcess.Concrete
             cameras.Add(_camera);
             _camerasContainer.GetCameras.Returns(cameras);
             var handler = Substitute.For<Action<object, EventArgs>>();
-            var eventSubscriber = Substitute.For<IEventSubscriber>();
-
             // Act
-            _cameraProvider.StartAllCameras(handler, eventSubscriber);
-
+            _cameraProvider.StartAllCameras(handler);
             // Assert
             var a = _camerasContainer.Received().GetCameras;
-            eventSubscriber.Received().AddEventHandler(cameras[0], "NewFrameEvent", handler);
+            _eventSubscriber.Received().AddEventHandler(cameras[0], "NewFrameEvent", handler);
             cameras[0].Received().Start();
         }
 
@@ -71,6 +71,30 @@ namespace Challange.UnitTests.Services.StreamProcess.Concrete
             // Assert
             var a = _camerasContainer.Received().GetCameras;
             cameras[0].Received().Stop();
+        }
+
+        [Test]
+        public void StartCameraTest()
+        {
+            // Arrange
+            var camera = Substitute.For<ICamera>();
+            var handler = Substitute.For<Action<object, EventArgs>>();
+              // Act
+              _cameraProvider.StartCamera(camera, handler);
+            // Assert
+            _eventSubscriber.Received().AddEventHandler(camera, "NewFrameEvent", handler);
+            camera.Received().Start();
+        }
+
+        [Test]
+        public void StopCameraTest()
+        {
+            // Arrange
+            var camera = Substitute.For<ICamera>();
+            // Act
+            _cameraProvider.StopCamera(camera);
+            // Assert
+            camera.Received().Stop();
         }
     }
 }

@@ -6,39 +6,27 @@ using System.Diagnostics.CodeAnalysis;
 namespace Challange.Domain.Services.Video.Concrete
 {
     [ExcludeFromCodeCoverage]
-    public class ChallengeWriter
+    public class ChallengeWriter : IChallengeWriter
     {
-        private IVideoContainer _videoContainer;
-        private string pathToVideos;
-        private int width;
-        private int height;
-        private int desiredFps;
-
-        public ChallengeWriter(IVideoContainer videoContainer, string pathToVideos, int desiredFps = 30)
+        public void WriteChallenge(IVideoContainer videoContainer, string pathToVideos,
+                                   int desiredFps = 30)
         {
-            this.pathToVideos = pathToVideos;
-            _videoContainer = videoContainer;
-            this.desiredFps = desiredFps;
-        }
-
-        public void WriteChallenge()
-        {
-            if (!_videoContainer.IsEmpty())
+            if (!videoContainer.IsEmpty())
             {
-                WriteVideo();
+                WriteVideo(videoContainer, pathToVideos, desiredFps);
             }
         }
 
-        private void WriteVideo()
+        private void WriteVideo(IVideoContainer videoContainer, string pathToVideos, int desiredFps)
         {
             using (VideoFileWriter writer = new VideoFileWriter())
             {
                 string tmpFileName;
-                foreach (var video in _videoContainer.Videos)
+                foreach (var video in videoContainer.Videos)
                 {
                     tmpFileName = pathToVideos + video.Name + ".mp4";
-                    writer.Open(tmpFileName, GetWidth(),
-                        GetHeight(), desiredFps, VideoCodec.MPEG4);
+                    writer.Open(tmpFileName, GetWidth(videoContainer),
+                        GetHeight(videoContainer), desiredFps, VideoCodec.MPEG4);
                     foreach (var frame in video.Frames)
                     {
                         try
@@ -58,14 +46,14 @@ namespace Challange.Domain.Services.Video.Concrete
             }
         }
 
-        private int GetWidth()
+        private int GetWidth(IVideoContainer videoContainer)
         {
-            return _videoContainer.Videos.First().Frames.ElementAt(0).Width;
+            return videoContainer.Videos.First().Frames.ElementAt(0).Width;
         }
 
-        private int GetHeight()
+        private int GetHeight(IVideoContainer videoContainer)
         {
-            return _videoContainer.Videos.First().Frames.ElementAt(0).Height;
+            return videoContainer.Videos.First().Frames.ElementAt(0).Height;
         }
     }
 }

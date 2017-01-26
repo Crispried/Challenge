@@ -5,18 +5,18 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
 {
     public class CamerasContainer : ICamerasContainer
     {
-        private List<ICamera> _camerasContainer;
+        private List<ICamera> cameras;
 
         public CamerasContainer()
         {
-            _camerasContainer = new List<ICamera>();
+            cameras = new List<ICamera>();
         }
 
         public int CamerasNumber
         {
             get
             {
-                return _camerasContainer.Count;
+                return cameras.Count;
             }
         }
 
@@ -24,14 +24,14 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
         {
             get
             {
-                return _camerasContainer;
+                return cameras;
             }
         }
 
         public List<string> GetCamerasKeys()
         {
             List<string> camerasKeys = new List<string>();
-            foreach (var camera in _camerasContainer)
+            foreach (var camera in cameras)
             {
                 camerasKeys.Add(camera.FullName);
             }
@@ -41,7 +41,7 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
         public List<string> GetCamerasNames()
         {
             List<string> camerasNames = new List<string>();
-            foreach (var camera in _camerasContainer)
+            foreach (var camera in cameras)
             {
                 camerasNames.Add(camera.Name);
             }
@@ -50,7 +50,7 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
 
         public void SetCameraName(string fullName, string newCameraName)
         {
-            var camera = _camerasContainer.Find(cam => cam.FullName == fullName);
+            var camera = cameras.Find(cam => cam.FullName == fullName);
             if(camera != null)
             {
                 camera.Name = newCameraName;
@@ -59,27 +59,27 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
 
         public void AddCamera(ICamera camera)
         {
-            _camerasContainer.Add(camera);
+            cameras.Add(camera);
         }
 
         public void AddCameras(List<ICamera> cameras)
         {
-            _camerasContainer.AddRange(cameras);
+            this.cameras.AddRange(cameras);
         }
 
         public void RemoveCamera(ICamera camera)
         {
-            _camerasContainer.Remove(camera);
+            cameras.Remove(camera);
         }
 
         public bool IsEmpty()
         {
-            return _camerasContainer.Count == 0;
+            return cameras.Count == 0;
         }
 
         public ICamera GetCameraByKey(string key)
         {
-            return _camerasContainer.Find(camera => camera.FullName == key);
+            return cameras.Find(camera => camera.FullName == key);
         }
     }
 }

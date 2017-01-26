@@ -11,6 +11,7 @@ using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.Message;
 using Challange.Forms.Widgets;
 using Challange.Domain.Services.Zoom.Concrete;
+using Challange.Forms.Infrastructure;
 
 namespace Challange.Forms
 {
@@ -53,8 +54,8 @@ namespace Challange.Forms
             openDevicesListButton.Click += (sender, args) =>
                             Invoke(OpenDevicesList);
             viewLastChallengeButton.Click += (sender, args) =>
-                            Invoke(OpenChallengePlayerForLastChallenge);
-            _playerPanel = new PlayerPanel(this, true, true, true, true);          
+                            Invoke(OpenChallengePlayerForLastChallenge);            
+            _playerPanel = new PlayerPanel(this, true, true, true, true);    
         }
 
         public string CurrentFrameCameraName
@@ -82,6 +83,13 @@ namespace Challange.Forms
         }
 
         #region events
+        private void OnBroadcastButtonClick(object source, EventArgs args)
+        {
+            Button button = (Button)source;
+            var playerName = ControlsHelper.GetParentControl(button).Tag;
+            Invoke(OpenBroadcastForm, playerName);
+        }
+
         private void OnTimedEvent(Object source, EventArgs myEventArgs)
         {
             challengeTimeAxis.UpdateTimeAxis();
@@ -158,8 +166,6 @@ namespace Challange.Forms
 
         public event Action<Point, int, Point> MakeZoom;
 
-        public event Action<string, string> PassCamerasNamesToPresenterCallback;
-
         public event Action<string> OpenBroadcastForm;
         #endregion
 
@@ -205,6 +211,7 @@ namespace Challange.Forms
                 initialData.Add(cameraName, null);
             }
             _playerPanel.DrawPlayers(numberOfPlayers, settings, initialData);
+            _playerPanel.SubscribeBroadcastButtonToClickEvent(OnBroadcastButtonClick);
         }
         #endregion
 

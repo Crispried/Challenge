@@ -1,4 +1,5 @@
 ﻿using AForge.Video.FFMPEG;
+using Challange.Domain.Services.Video.Abstract;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
@@ -8,20 +9,17 @@ using System.Linq;
 namespace Challange.Domain.Services.Video.Concrete
 {
     [ExcludeFromCodeCoverage]
-    public class ChallengeReader
+    public class ChallengeReader : IChallengeReader
     {
         private VideoFileReader reader;
-        private string pathToChallenges;
         private List<Video> challenges;
         private FileInfo[] filesInfo;
+        private int _numberOfVideos;
 
-        public ChallengeReader(string pathToChallenges)
+        public ChallengeReader()
         {
             reader = new VideoFileReader();
-            this.pathToChallenges = pathToChallenges;
-            DirectoryInfo di = new DirectoryInfo(pathToChallenges);
-            filesInfo = di.GetFiles("*.mp4", SearchOption.TopDirectoryOnly);
-            challenges = new List<Video>(filesInfo.Count());
+            challenges = new List<Video>();
         }
 
         public List<Video> Challenges
@@ -32,10 +30,20 @@ namespace Challange.Domain.Services.Video.Concrete
             }
         }
 
-        public List<Video> ReadAllChallenges()
+        public int NumberOfVideos
         {
+            get
+            {
+                return _numberOfVideos;
+            }
+        }
+
+        public List<Video> ReadAllChallenges(string pathToChallenges)
+        {
+            DirectoryInfo di = new DirectoryInfo(pathToChallenges);
+            filesInfo = di.GetFiles("*.mp4", SearchOption.TopDirectoryOnly);
             List<Bitmap> frames;
-            for (int i = 0; i < challenges.Capacity; i++) // fileInfo.Count == challenge.Count
+            for (int i = 0; i < filesInfo.Length; i++)
             {
                 reader.Open(filesInfo[i].FullName);
                 frames = new List<Bitmap>();
@@ -45,22 +53,18 @@ namespace Challange.Domain.Services.Video.Concrete
                 }
                 challenges.Add(new Video(filesInfo[i].Name, frames));
             }
+            _numberOfVideos = filesInfo.Length;
             return challenges;
         }
 
-        public Dictionary<string, Bitmap> GetInitialData()
+        public List<string> GetVideoNames()
         {
-            Dictionary<string, Bitmap> result = new Dictionary<string, Bitmap>();
-            DirectoryInfo di = new DirectoryInfo(pathToChallenges);
-            Bitmap tmpImage;
-            var filesInfo = di.GetFiles("*.mp4", SearchOption.TopDirectoryOnly);
-            foreach (var fileInfo in filesInfo)
+            List<string> videoNames = new List<string>();
+            foreach (var challenge in challenges)
             {
-                reader.Open(fileInfo.FullName);
-                tmpImage = reader.ReadVideoFrame();
-                result.Add(fileInfo.Name, tmpImage);
+                videoNames.Add(challenge.Name);
             }
-            return result;
+            return videoNames;
         }
     }
 }

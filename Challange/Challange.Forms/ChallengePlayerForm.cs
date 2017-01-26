@@ -1,6 +1,7 @@
 ﻿using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.Zoom.Concrete;
+using Challange.Forms.Infrastructure;
 using Challange.Forms.Widgets;
 using Challange.Presenter.Views;
 using System;
@@ -29,6 +30,8 @@ namespace Challange.Forms
                             => Invoke(RewindForward);
             FormClosing += (sender, args)
                             => Invoke(OnFormClosing);
+            speedBar.ValueChanged += (sender, args)
+                            => Invoke(OnPlaybackSpeedChanged, speedBar.Value);
             _playerPanel = new PlayerPanel(this, _zoomData, false, true, true, false);
         }
 
@@ -43,7 +46,10 @@ namespace Challange.Forms
         public event Action RewindForward;
 
         public new event Action OnFormClosing;
-        
+
+        public event Action<int> OnPlaybackSpeedChanged;
+
+
         public int PlaybackSpeed
         {
             get
@@ -52,16 +58,25 @@ namespace Challange.Forms
             }
         }
 
-        public void DrawPlayers(int numberOfPlayers, Dictionary<string, Bitmap> initialData)
+        public void DrawPlayers(int numberOfPlayers, List<string> videoNames)
         {
+            Dictionary<string, Bitmap> initialData = new Dictionary<string, Bitmap>();
+            foreach (var videoName in videoNames)
+            {
+                initialData.Add(videoName, null);
+            }
             _playerPanel.DrawPlayers(numberOfPlayers,
                 new PlayerPanelSettings() { AutosizeMode = true }, initialData);
+            _playerPanel.SubscribeBroadcastButtonToClickEvent(OnBroadcastButtonClick);
         }
 
         public void DrawNewFrame(Bitmap frame, string videoName)
         {
-            Bitmap frameClone = CloneFrame(frame);
-            UpdatePlayersImage(videoName, frameClone);
+            lock (frame)
+            {
+                Bitmap frameClone = CloneFrame(frame);
+                UpdatePlayersImage(videoName, frameClone);
+            }
         }
 
         private Bitmap CloneFrame(Bitmap frame)
@@ -79,6 +94,13 @@ namespace Challange.Forms
         //    this.zoomData = zoomData;
         //    pictureBoxToShowFullscreen.Refresh();
         //}
+
+        private void OnBroadcastButtonClick(object source, EventArgs args)
+        {
+            Button button = (Button)source;
+            var playerName = ControlsHelper.GetParentControl(button).Tag;
+            Invoke(OpenBroadcastForm, playerName);
+        }
 
         public void ShowMessage(ChallengeMessage message)
         {

@@ -6,7 +6,6 @@ using Challange.Presenter.Views;
 namespace Challange.Presenter.Presenters.GameInformationPresenter
 {
     // TODO Remake FormatDirectoryName (use name formatter to make it testable)
-    // TODO Make GameInformation as service
     public partial class GameInformationPresenter :
                     BasePresenter<IGameInformationView, GameInformation>
     {

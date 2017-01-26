@@ -1,6 +1,8 @@
 ﻿using Challange.Domain.Services.Message;
+using Challange.Domain.Services.PlayVideo.Abstract;
 using Challange.Domain.Services.Settings;
 using Challange.Domain.Services.Settings.SettingTypes;
+using Challange.Domain.Services.Video.Abstract;
 using Challange.Domain.Services.Video.Concrete;
 using Challange.Presenter.Base;
 using Challange.Presenter.Views;
@@ -15,30 +17,22 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
     {
         private RewindSettings rewindSettings;
 
-        private string pathToChallenge;
+        private IVideoPlayer _videoPlayer;
 
-        private Dictionary<string, Bitmap> initialData;
+        private IChallengeReader _challengeReader;
 
-        private int numberOfVideos;
-
-        private ChallengeReader challengeReader;
-
-        private IMessageParser messageParser;
-
-        private ISettingsContext settingsContext;
-
-        private List<Thread> threads;
-
-        private List<int> indexesOfFramesToPlay;
+        private IMessageParser _messageParser;
 
         public ChallengePlayerPresenter(IApplicationController controller,
                                         IChallengePlayerView mainView,
                                         IMessageParser messageParser,
-                                        ISettingsContext settingsContext) : 
+                                        IVideoPlayer videoPlayer,
+                                        IChallengeReader challengeReader) : 
                                         base(controller, mainView)
         {
-            this.messageParser = messageParser;
-            this.settingsContext = settingsContext;
+            _messageParser = messageParser;
+            _videoPlayer = videoPlayer;
+            _challengeReader = challengeReader;
             SubscribePresenters();
         }
 
@@ -50,6 +44,7 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
             View.RewindBackward += RewindBackward;
             View.RewindForward += RewindForward;
             View.OnFormClosing += OnFormClosing;
+            View.OnPlaybackSpeedChanged += PlaybackSpeedChanged;
         }
     }
 }

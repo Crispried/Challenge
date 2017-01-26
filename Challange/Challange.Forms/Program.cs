@@ -26,6 +26,8 @@ using Challange.Domain.Services.Zoom.Abstract;
 using Challange.Domain.Services.Zoom.Concrete;
 using Challange.Domain.Services.Event.Abstract;
 using Challange.Domain.Services.Event.Concrete;
+using Challange.Domain.Services.PlayVideo.Abstract;
+using Challange.Domain.Services.PlayVideo.Concrete;
 
 namespace Challange.Forms
 {
@@ -81,6 +83,9 @@ namespace Challange.Forms
                                 .RegisterService<IFpsContainer, FpsContainer>()
                                 .RegisterService<IInternalChallengeTimer, InternalChallengeTimer>()
                                 .RegisterService<IChallengeObject, ChallengeObject>()
+                                .RegisterService<IVideoPlayer, VideoPlayer>()
+                                .RegisterService<IChallengeReader, ChallengeReader>()
+                                .RegisterService<IChallengeWriter, ChallengeWriter>()
                                 .RegisterServiceAsSingleton<IEventSubscriber, EventSubscriber>()
                                 .RegisterService<System.Timers.Timer>()
                                 .RegisterService<PlayerPanelSettings>()
