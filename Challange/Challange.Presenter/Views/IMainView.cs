@@ -36,10 +36,7 @@ namespace Challange.Presenter.Views
 
         event Action OpenChallengePlayerForLastChallenge; // where string is path to last challenge
 
-        event Action<Point, int, Point> MakeZoom;
-
         event Action<string> OpenBroadcastForm; // where string should be cameraFullName
-
 
         string CurrentFrameCameraName { get; }
 

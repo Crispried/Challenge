@@ -1,4 +1,5 @@
 ﻿using Challange.Domain.Services.Message;
+using Challange.Domain.Services.Zoom.Concrete;
 using Challange.Presenter.Base;
 using System;
 using System.Collections.Generic;
@@ -25,10 +26,14 @@ namespace Challange.Presenter.Views
 
         event Action<int> OnPlaybackSpeedChanged;
 
+        event Action<Point, int, Point> MakeZoom;
+
         void DrawPlayers(int numberOfPlayers, List<string> videoNames);
 
         void DrawNewFrame(Bitmap frame, string videoName);
 
         void ShowMessage(ChallengeMessage message);
+
+        void SetZoomData(ZoomData zoomData);
     }
 }

@@ -51,16 +51,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
         }
 
         /// <summary>
-        /// Zooms in/out replayed videos in the fullscreen mode
-        /// according to the mouse position
-        /// </summary>
-        public void MakeZoom(Point pictureBoxLocation, int delta, Point mouseLocation)
-        {
-            ZoomData zoomData = _zoomer.MakeZoom(pictureBoxLocation, delta, mouseLocation);
-            View.RedrawZoomedImage(zoomData);
-        }
-
-        /// <summary>
         /// Shows the form which allows to change player panel settings
         /// after that it redraws player panel with new settings
         /// </summary>
@@ -111,7 +101,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void StartStream()
         {
             InitializeDevices();
-            if (!_camerasContainer.IsEmpty()) // DONT FORGET BACK "!" !!!!!!!
+            if (_camerasContainer.IsEmpty()) // DONT FORGET BACK "!" !!!!!!!
             {
                 InitializeTimeAxisTimer();
                 InitializeFpsContainer();

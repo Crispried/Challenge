@@ -7,8 +7,9 @@ namespace Challange.Domain.Services.Zoom.Concrete
     {
         private int _imgX = 0;
         private int _imgY = 0;
-        private float zoom = 1;
-        private float minZoom = 1;
+        private float zoom = 1.0F;
+        private float _minZoom = 1.0F;
+        private float _maxZoom = 3.0F;
         private IZoomCalculator zoomCalculator;
 
         public Zoomer(IZoomCalculator zoomCalculator)
@@ -20,11 +21,11 @@ namespace Challange.Domain.Services.Zoom.Concrete
         {
             get
             {
-                return minZoom;
+                return _minZoom;
             }
             set
             {
-                minZoom = value;
+                _minZoom = value;
             }
         }
 
@@ -62,11 +63,11 @@ namespace Challange.Domain.Services.Zoom.Concrete
 
             if(MouseIsScrollingDown(delta))
             {
-                zoom = zoomCalculator.CalculateNegativeZoom(zoom, minZoom);
+                zoom = zoomCalculator.CalculateNegativeZoom(zoom, _minZoom);
             }
             else if(MouseIsScrollingUp(delta))
             {
-                zoom = zoomCalculator.CalculatePositiveZoom(zoom);
+                zoom = zoomCalculator.CalculatePositiveZoom(zoom, _maxZoom);
             }
 
             Point newLocation = zoomCalculator.CalculateNewImageLocation(zoom, _imgX, _imgY, oldzoom, mouseLocation, pictureBoxLocation);

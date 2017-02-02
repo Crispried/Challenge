@@ -21,7 +21,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
         private INullSettingsContainer _nullSettingsContainer;
 
         private GameInformation _gameInformation;
-        private IZoomer _zoomer;
 
         // video streaming
         private ICamerasProvider _camerasProvider;
@@ -47,7 +46,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
                              IVideoContainer videoContainer,
                              ICamerasProvider camerasProvider,
                              IChallengeWriter challengeWriter,
-                             IZoomer zoomer,
                              IChallengeBuffers challengeBuffers,
                              IFpsContainer fpsContainer,
                              IInternalChallengeTimer internalChallengeTimer,
@@ -63,7 +61,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
             _videoContainer = videoContainer;
             _camerasProvider = camerasProvider;
             _challengeWriter = challengeWriter;
-            _zoomer = zoomer;
             _challengeBuffers = challengeBuffers;
             _fpsContainer = fpsContainer;
             _internalChallengeTimer = internalChallengeTimer;
@@ -89,7 +86,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
             View.CreateChallange += CreateChallange;
             View.NewFrameCallback += AddNewFrame;
             View.OpenChallengePlayer += OpenChallengePlayer;
-            View.MakeZoom += MakeZoom;
             View.OpenChallengePlayerForLastChallenge += OpenChallengePlayerForLastChallenge;
             View.OpenBroadcastForm += OpenBroadcastForm;
         }

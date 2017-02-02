@@ -27,7 +27,7 @@ namespace Challange.Domain.Services.Zoom.Concrete
             }
         }
 
-        public float GetImgX
+        public int GetImgX
         {
             get
             {
@@ -35,7 +35,7 @@ namespace Challange.Domain.Services.Zoom.Concrete
             }
         }
 
-        public float GetImgY
+        public int GetImgY
         {
             get
             {

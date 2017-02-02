@@ -135,7 +135,7 @@ namespace Challange.Forms
         //        e.Graphics.ScaleTransform(zoomData.Zoom, zoomData.Zoom);
         //        e.Graphics.DrawImage(pictureBoxToShowFullscreen.Image, zoomData.GetImgX, zoomData.GetImgY);
         //    }
-        //}               
+        //}
         #endregion
 
         public event Action OpenPlayerPanelSettings;
@@ -163,8 +163,6 @@ namespace Challange.Forms
         public event Action<string> OpenChallengePlayer;
 
         public event Action OpenChallengePlayerForLastChallenge;
-
-        public event Action<Point, int, Point> MakeZoom;
 
         public event Action<string> OpenBroadcastForm;
         #endregion

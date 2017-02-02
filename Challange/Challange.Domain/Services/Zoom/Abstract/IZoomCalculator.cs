@@ -4,7 +4,7 @@ namespace Challange.Domain.Services.Zoom.Abstract
 {
     public interface IZoomCalculator
     {
-        float CalculatePositiveZoom(float zoom);
+        float CalculatePositiveZoom(float zoom, float maxZoom);
 
         float CalculateNegativeZoom(float zoom, float minZoom);
 

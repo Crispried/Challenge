@@ -6,22 +6,14 @@ namespace Challange.Domain.Services.Zoom.Concrete
 {
     public class ZoomCalculator : IZoomCalculator
     {
-        public float CalculatePositiveZoom(float zoom)
+        public float CalculatePositiveZoom(float zoom, float maxZoom)
         {
-            return zoom += 0.1F;
+            return Math.Min(zoom + 0.1F, maxZoom); 
         }
 
         public float CalculateNegativeZoom(float zoom, float minZoom)
         {
-            if (zoom > minZoom)
-            {
-                zoom = Math.Max(zoom - 0.1F, 0.01F);
-            }
-            else
-            {
-                zoom = minZoom;
-            }
-            return zoom;
+            return Math.Max(zoom - 0.1F, minZoom); 
         }
 
         public Point CalculateNewImageLocation(float zoom, float imgx, float imgy, 
