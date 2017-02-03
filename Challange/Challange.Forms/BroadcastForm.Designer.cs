@@ -39,6 +39,7 @@
             this.broadcastPictureBox.Margin = new System.Windows.Forms.Padding(4);
             this.broadcastPictureBox.Name = "broadcastPictureBox";
             this.broadcastPictureBox.Size = new System.Drawing.Size(739, 506);
+            this.broadcastPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.broadcastPictureBox.TabIndex = 0;
             this.broadcastPictureBox.TabStop = false;
             // 

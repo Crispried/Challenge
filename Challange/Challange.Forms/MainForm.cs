@@ -10,7 +10,6 @@ using Challange.Presenter.Views;
 using Challange.Domain.Services.Settings.SettingTypes;
 using Challange.Domain.Services.Message;
 using Challange.Forms.Widgets;
-using Challange.Domain.Services.Zoom.Concrete;
 using Challange.Forms.Infrastructure;
 
 namespace Challange.Forms
@@ -102,42 +101,6 @@ namespace Challange.Forms
             elapsedTimeFromStart.Text = challengeTimeAxis.ElapsedTimeFromStart;
         }
 
-        #region fullScreen
-
-        //protected override void OnMouseWheel(MouseEventArgs e)
-        //{
-        //    MouseEventArgs mouseEventArgs = e as MouseEventArgs;
-        //    Point mouseLocation = new Point();
-        //    Point pictureBoxLocation = new Point();
-
-        //    mouseLocation.X = mouseEventArgs.Location.X;
-        //    mouseLocation.Y = mouseEventArgs.Location.Y;
-
-        //    pictureBoxLocation.X = pictureBoxToShowFullscreen.Location.X;
-        //    pictureBoxLocation.Y = pictureBoxToShowFullscreen.Location.Y;
-
-        //    Invoke(MakeZoom, pictureBoxLocation, e.Delta, mouseLocation);
-        //}
-
-        // private ZoomData zoomData;
-
-        public void RedrawZoomedImage(ZoomData zoomData)
-        {
-            // this.zoomData = zoomData;
-            // pictureBoxToShowFullscreen.Refresh();
-        }
-
-        //private void imageBox_Paint(object sender, PaintEventArgs e)
-        //{
-        //    if (zoomData != null)
-        //    {
-        //        e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-        //        e.Graphics.ScaleTransform(zoomData.Zoom, zoomData.Zoom);
-        //        e.Graphics.DrawImage(pictureBoxToShowFullscreen.Image, zoomData.GetImgX, zoomData.GetImgY);
-        //    }
-        //}
-        #endregion
-
         public event Action OpenPlayerPanelSettings;
 
         public event Action OpenChallengeSettings;
@@ -209,7 +172,7 @@ namespace Challange.Forms
                 initialData.Add(cameraName, null);
             }
             _playerPanel.DrawPlayers(numberOfPlayers, settings, initialData);
-            _playerPanel.SubscribeBroadcastButtonToClickEvent(OnBroadcastButtonClick);
+            _playerPanel.SetBroadcastButtonClickEventHandler(OnBroadcastButtonClick);
         }
         #endregion
 

@@ -4,7 +4,6 @@ using Challange.Domain.Services.Settings.SettingTypes;
 using System.Drawing;
 using System.Collections.Generic;
 using Challange.Domain.Services.Message;
-using Challange.Domain.Services.Zoom.Concrete;
 
 namespace Challange.Presenter.Views
 {
@@ -67,8 +66,6 @@ namespace Challange.Presenter.Views
         void DrawChallengeRecordingImage();
 
         void ShowMessage(ChallengeMessage message);
-
-        void RedrawZoomedImage(ZoomData zoomData);
 
         void ToggleVisibilityOfViewLastChallengeButton();
     }

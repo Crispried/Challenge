@@ -1,6 +1,5 @@
 ﻿using Challange.Domain.Services.Message;
 using Challange.Domain.Services.Settings.SettingTypes;
-using Challange.Domain.Services.Zoom.Concrete;
 using Challange.Forms.Infrastructure;
 using Challange.Forms.Widgets;
 using Challange.Presenter.Views;
@@ -45,18 +44,7 @@ namespace Challange.Forms
 
         public new event Action OnFormClosing;
 
-        public event Action<Point, int, Point> MakeZoom;
-
         public event Action<int> OnPlaybackSpeedChanged;
-
-
-        public int PlaybackSpeed
-        {
-            get
-            {
-                return speedBar.Value;
-            }
-        }
 
         public void DrawPlayers(int numberOfPlayers, List<string> videoNames)
         {
@@ -65,10 +53,9 @@ namespace Challange.Forms
             {
                 initialData.Add(videoName, null);
             }
+            _playerPanel.SetBroadcastButtonClickEventHandler(OnBroadcastButtonClick);
             _playerPanel.DrawPlayers(numberOfPlayers,
                 new PlayerPanelSettings() { AutosizeMode = true }, initialData);
-            _playerPanel.SubscribeBroadcastButtonToClickEvent(OnBroadcastButtonClick);
-            _playerPanel.OnMouseWheelCallback += OnMouseWheelCallback;
         }
 
         public void DrawNewFrame(Bitmap frame, string videoName)
@@ -89,47 +76,6 @@ namespace Challange.Forms
         {
             _playerPanel.UpdatePlayerImage(videoName, frame);
         }
-
-        public void SetZoomData(ZoomData zoomData)
-        {
-            _playerPanel.SetZoomData(zoomData.Zoom, zoomData.GetImgX, zoomData.GetImgY);
-        }
-
-        private void OnMouseWheelCallback(Point pictureBoxLocation, int delta, Point mouseLocation)
-        {
-            Invoke(MakeZoom, pictureBoxLocation, delta, mouseLocation);
-        }
-
-        //public void RedrawZoomedImage(ZoomData zoomData)
-        //{
-        //    this.zoomData = zoomData;
-        //    pictureBoxToShowFullscreen.Refresh();
-        //}
-
-        //protected override void OnMouseWheel(MouseEventArgs e)
-        //{
-        //    MouseEventArgs mouseEventArgs = e as MouseEventArgs;
-        //    Point mouseLocation = new Point();
-        //    Point pictureBoxLocation = new Point();
-
-        //    mouseLocation.X = mouseEventArgs.Location.X;
-        //    mouseLocation.Y = mouseEventArgs.Location.Y;
-
-        //    pictureBoxLocation.X = pictureBoxToShowFullscreen.Location.X;
-        //    pictureBoxLocation.Y = pictureBoxToShowFullscreen.Location.Y;
-
-        //    Invoke(MakeZoom, pictureBoxLocation, e.Delta, mouseLocation);
-        //}
-
-        //private void fullScreenPlayer_Paint(object sender, PaintEventArgs e)
-        //{
-        //    if (_zoomData != null)
-        //    {
-        //        e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-        //        e.Graphics.ScaleTransform(_zoomData.Zoom, _zoomData.Zoom);
-        //        e.Graphics.DrawImage(_pictureBoxToShowFullscreen.Image, _zoomData.GetImgX, _zoomData.GetImgY);
-        //    }
-        //}
 
         private void OnBroadcastButtonClick(object source, EventArgs args)
         {

@@ -1,12 +1,9 @@
 ﻿using Challange.Domain.Services.Settings.SettingTypes;
-using Challange.Domain.Services.Zoom.Concrete;
 using Challange.Forms.Infrastructure;
 using Cyotek.Windows.Forms;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -40,6 +37,7 @@ namespace Challange.Forms.Widgets
         private bool _possibleToMovePlayers;
         private bool _possibleToRenamePlayers;
         #endregion
+        private int _defaultZoom = 100;
 
         #region Constructors
         public PlayerPanel(Form parentForm, bool possibleToMovePlayers = false,
@@ -80,7 +78,6 @@ namespace Challange.Forms.Widgets
             }
         }
 
-        private Bitmap _tempImage;
         public void UpdatePlayerImage(string cameraName, Bitmap frame)
         {
             if (!_fullScreenMode)
@@ -92,41 +89,15 @@ namespace Challange.Forms.Widgets
                 if(_imageBoxToShowFullscreen.Tag.ToString() == cameraName)
                 {
                     _imageBoxToShowFullscreen.Image = frame;
-                    _tempImage = frame;
-                    if (_zoom != 0)
-                    {
-                        //var bitmap = new Bitmap(frame.Width, frame.Height, PixelFormat.Format24bppRgb);
-                        //var graph = Graphics.FromImage(bitmap);
-                        //graph.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                        //graph.ScaleTransform(_zoom, _zoom);
-                        //graph.DrawImage(frame, _imgX, _imgY);
-                        //graph.Dispose();
-
-                        //_pictureBoxToShowFullscreen.Image = bitmap;
-                        //_tempImage = frame;
-                        //_imageBoxToShowFullscreen.Refresh();
-             
-                    }
-                    else
-                    {
-                       // _pictureBoxToShowFullscreen.Image = frame;
-                    }
                 }
             }
         }
 
         private void FullScreen_Paint(object sender, PaintEventArgs e)
         {
-            //if(_tempImage != null)
-            //{
-            //    e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            //    e.Graphics.ScaleTransform(_zoom, _zoom);
-            //    _tempImage.SetResolution(e.Graphics.DpiX, e.Graphics.DpiY);
-            //    e.Graphics.DrawImage(_tempImage, _imgX, _imgY);
-            //}
-            if (_imageBoxToShowFullscreen.Zoom < 18)
+            if (_imageBoxToShowFullscreen.Zoom < _defaultZoom)
             {
-                _imageBoxToShowFullscreen.Zoom = 18;
+                _imageBoxToShowFullscreen.Zoom = _defaultZoom;
             }
         }
 
@@ -179,7 +150,7 @@ namespace Challange.Forms.Widgets
                 BackColor = Color.FromArgb(56, 102, 200),
                 Height = playerSize.Height,
                 Width = playerSize.Width,
-                SizeMode = PictureBoxSizeMode.Zoom
+                SizeMode = PictureBoxSizeMode.StretchImage
             };
             // there aren't any default image, if its null user will see back color
             if (initialImage != null)
@@ -323,7 +294,7 @@ namespace Challange.Forms.Widgets
         #region Picture box buttons
         private ImageBox _imageBoxToShowFullscreen;
         private PictureBox _pictureBoxToShowFullscreen;
-        private int _fullScreenPlayerIndex;
+
         private Button CreateFullScreenButton()
         {
             Button showFullscreen = new Button
@@ -351,30 +322,15 @@ namespace Challange.Forms.Widgets
                 {
                     Tag = _pictureBoxToShowFullscreen.Tag,
                     BackColor = Color.FromArgb(56, 102, 200),
-                    SelectionMode = ImageBoxSelectionMode.Zoom
+                    SelectionMode = ImageBoxSelectionMode.Zoom,
+                    GridDisplayMode = ImageBoxGridDisplayMode.Image,
+                    Image = new Bitmap(_pictureBoxToShowFullscreen.Image)
                 };
-                _imageBoxToShowFullscreen.ZoomToFit();
-                _fullScreenPlayerIndex = ControlsHelper.GetControlIndex(_playerPanel, _pictureBoxToShowFullscreen);
-           //     ControlsHelper.RemoveControl(_playerPanel, _imageBoxToShowFullscreen);
+                //_imageBoxToShowFullscreen.ZoomToFit();
                 ControlsHelper.AddControl(_parentForm, _imageBoxToShowFullscreen);
-           //     ChangeFullScreenButtonVisibility(false);
                 ShowFullScreenMode();
-                ManageFullScreenEvents(true);
+                ManageFullScreenEvents();
             }
-        }
-
-        public event Action<Point, int, Point> OnMouseWheelCallback; // arguments are neccessary for zooming
-
-        private void OnMouseWheel(object sender, MouseEventArgs e)
-        {
-            MouseEventArgs mouseEventArgs = e as MouseEventArgs;
-            Point mouseLocation = new Point();
-            Point pictureBoxLocation = new Point();
-            mouseLocation.X = mouseEventArgs.Location.X;
-            mouseLocation.Y = mouseEventArgs.Location.Y;
-            pictureBoxLocation.X = _imageBoxToShowFullscreen.Location.X;
-            pictureBoxLocation.Y = _imageBoxToShowFullscreen.Location.Y;
-            _parentForm.Invoke(OnMouseWheelCallback, pictureBoxLocation, e.Delta, mouseLocation);
         }
 
         private void ShowFullScreenMode()
@@ -384,11 +340,9 @@ namespace Challange.Forms.Widgets
             _imageBoxToShowFullscreen.BringToFront();
             _imageBoxToShowFullscreen.Select();
             ControlsHelper.SetWindowState(_parentForm, FormWindowState.Maximized);
-           // _pictureBoxToShowFullscreen.ImageLocation = new Point((_parentForm.Width / 2 - _pictureBoxToShowFullscreen.Width / 2), (_parentForm.Height / 2 - _pictureBoxToShowFullscreen.Height / 2));
-            var broadcastButton = ControlsHelper.GetFirstControlWithName<Button>(
-                                    _pictureBoxToShowFullscreen, "broadcast");
             CalculateCurrentButtonPosition(_imageBoxToShowFullscreen.Size);
-            broadcastButton.Location = CalculatePlayerButtonPosition(ref _currentButtonPosition);
+            var broadcastButton = CreateBroadcastButton();
+            _imageBoxToShowFullscreen.Controls.Add(broadcastButton);
         }
 
         private void FullScreenForm_KeyPress(object sender, KeyEventArgs e)
@@ -396,47 +350,23 @@ namespace Challange.Forms.Widgets
             if (e.KeyCode == Keys.Escape)
             {
                 _fullScreenMode = false;
-                // ControlsHelper.AddControl(_playerPanel, _imageBoxToShowFullscreen);
-                //   ControlsHelper.SetChildIndex(_playerPanel, _imageBoxToShowFullscreen,
-                //                             _fullScreenPlayerIndex);
-                //  ControlsHelper.SetDock(_imageBoxToShowFullscreen, DockStyle.None);
-                _imageBoxToShowFullscreen.Dispose();
-               // ChangeFullScreenButtonVisibility(true);
-               // var broadcastButton = ControlsHelper.GetFirstControlWithName<Button>(
-                          //           _imageBoxToShowFullscreen, "broadcast");
-              //  CalculateCurrentButtonPosition(_imageBoxToShowFullscreen.Size);
-               // broadcastButton.Location = CalculatePlayerButtonPosition(ref _currentButtonPosition);
-                ManageFullScreenEvents(false);
+                _imageBoxToShowFullscreen.Image?.Dispose();
+                _imageBoxToShowFullscreen.Hide();
+                ManageFullScreenEvents();
             }
         }
 
-        private void ManageFullScreenEvents(bool enabled)
+        private void ManageFullScreenEvents()
         {
-            if (enabled)
+            if (_fullScreenMode)
             {
                 _parentForm.KeyDown += new KeyEventHandler(FullScreenForm_KeyPress);
                 _imageBoxToShowFullscreen.Paint += new PaintEventHandler(FullScreen_Paint);
-               // _imageBoxToShowFullscreen.MouseWheel += new MouseEventHandler(OnMouseWheel);
             }
             else
             {
                 _imageBoxToShowFullscreen.Paint -= new PaintEventHandler(FullScreen_Paint);
                 _parentForm.KeyDown -= new KeyEventHandler(FullScreenForm_KeyPress);
-              //  _imageBoxToShowFullscreen.MouseWheel -= new MouseEventHandler(OnMouseWheel);
-            }
-        }
-
-        private void ChangeFullScreenButtonVisibility(bool visible)
-        {
-            Button fullScreenButton = ControlsHelper.GetFirstControlWithName<Button>(
-                                        _imageBoxToShowFullscreen, _fullScreenButtonTag);
-            if (visible)
-            {
-                ControlsHelper.ShowControl(fullScreenButton);
-            }
-            else
-            {
-                ControlsHelper.HideControl(fullScreenButton);
             }
         }
 
@@ -454,48 +384,20 @@ namespace Challange.Forms.Widgets
                 Name = _broadcastButtonTag
             };
             broadcastButton.FlatAppearance.BorderSize = 0;
+            broadcastButton.Click += new EventHandler(_broadcastButtonClickEventHandler);
             return broadcastButton;
         }
 
         private EventHandler _broadcastButtonClickEventHandler;
-        public void SubscribeBroadcastButtonToClickEvent(EventHandler handler)
+        public void SetBroadcastButtonClickEventHandler(EventHandler handler)
         {
             _broadcastButtonClickEventHandler = handler;
-            Button tmpButton;
-            foreach (var player in _allPlayers)
-            {
-                tmpButton = ControlsHelper.GetFirstControlWithName<Button>(player, _broadcastButtonTag);
-                tmpButton.Click += handler;
-            }
-        }
-
-        public void UnsubscribeBroadcastButtonFromClickEvent()
-        {
-            Button tmpButton;
-            foreach (var player in _allPlayers)
-            {
-                tmpButton = ControlsHelper.GetFirstControlWithName<Button>(player, _broadcastButtonTag);
-                tmpButton.Click -= _broadcastButtonClickEventHandler;
-            }
         }
 
         private Point CalculatePlayerButtonPosition(ref Point position)
         {
             position.X = position.X - _playerButtonWidth - _marginBetweenButtons;
             return position;
-        }
-        #endregion
-
-        #region zoom
-        private float _zoom = 1;
-        private int _imgX;
-        private int _imgY;
-
-        public void SetZoomData(float zoom, int imgX, int imgY)
-        {
-            _zoom = zoom;
-            _imgX = imgX;
-            _imgY = imgY;
         }
         #endregion
     }

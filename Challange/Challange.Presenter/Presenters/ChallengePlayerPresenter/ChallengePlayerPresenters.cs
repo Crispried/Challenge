@@ -1,11 +1,5 @@
 ﻿using Challange.Domain.Services.Settings.SettingTypes;
-using Challange.Domain.Services.Video.Concrete;
-using Challange.Domain.Services.Zoom.Concrete;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
-using System.Threading;
 
 namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
 {
@@ -71,16 +65,6 @@ namespace Challange.Presenter.Presenters.ChallengePlayerPresenter
         public void PlaybackSpeedChanged(int newPlaybackSpeed)
         {
             _videoPlayer.PlaybackSpeed = newPlaybackSpeed;
-        }
-
-        /// <summary>
-        /// Zooms in/out replayed videos in the fullscreen mode
-        /// according to the mouse position
-        /// </summary>
-        public void MakeZoom(Point pictureBoxLocation, int delta, Point mouseLocation)
-        {
-            ZoomData zoomData = _zoomer.MakeZoom(pictureBoxLocation, delta, mouseLocation);
-            View.SetZoomData(zoomData);
         }
     }
 }

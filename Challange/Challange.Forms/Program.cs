@@ -22,8 +22,6 @@ using Challange.Domain.Services.Video.Abstract;
 using Challange.Domain.Services.Video.Concrete;
 using Challange.Domain.Services.FileSystem.Abstract;
 using Challange.Domain.Services.FileSystem.Concrete;
-using Challange.Domain.Services.Zoom.Abstract;
-using Challange.Domain.Services.Zoom.Concrete;
 using Challange.Domain.Services.Event.Abstract;
 using Challange.Domain.Services.Event.Concrete;
 using Challange.Domain.Services.PlayVideo.Abstract;
@@ -63,8 +61,6 @@ namespace Challange.Forms
                                 .RegisterService<IFileService, FileService>()
                                 .RegisterService<IPathFormatter, PathFormatter>()
                                 .RegisterService<IMessageParser, MessageParser>()
-                                .RegisterService<IZoomCalculator, ZoomCalculator>()
-                                .RegisterService<IZoomer, Zoomer>()
                                 .RegisterService<ISettingsParser<PlayerPanelSettings>, PlayerPanelSettingsParser>()
                                 .RegisterService<ISettingsService<PlayerPanelSettings>, SettingsService<PlayerPanelSettings>>()
                                 .RegisterService<ISettingsParser<FtpSettings>, FtpSettingsParser>()

@@ -19,9 +19,6 @@ using NSubstitute;
 using NUnit.Framework;
 using System;
 using Challange.Domain.Services.FileSystem.Abstract;
-using Challange.Domain.Services.Event.Abstract;
-using Challange.Domain.Services.Zoom.Abstract;
-using Challange.Domain.Services.Zoom.Concrete;
 using Challange.Domain.Services.Challenge;
 
 namespace Challange.UnitTests.Presenters
@@ -43,7 +40,6 @@ namespace Challange.UnitTests.Presenters
         private IVideoContainer _videoContainer;
         private ICamerasProvider _camerasProvider;
         private IChallengeWriter _challengeWriter;
-        private IZoomer zoomer;
         private IChallengeBuffers challengeBuffers;
         private IFpsContainer fpsContainer;
         private IInternalChallengeTimer internalChallengeTimer;
@@ -69,7 +65,6 @@ namespace Challange.UnitTests.Presenters
             _videoContainer = Substitute.For<IVideoContainer>();
             _camerasProvider = Substitute.For<ICamerasProvider>();
             _challengeWriter = Substitute.For<IChallengeWriter>();
-            zoomer = Substitute.For<IZoomer>();
             challengeBuffers = Substitute.For<IChallengeBuffers>();
             fpsContainer = Substitute.For<IFpsContainer>();
             internalChallengeTimer = Substitute.For<IInternalChallengeTimer>();
@@ -79,7 +74,7 @@ namespace Challange.UnitTests.Presenters
                                     fileService, _pathFormatter, messageParser,
                                     _settingsContext, nullSettingsContainer,
                                     camerasContainer, _videoContainer,
-                                    _camerasProvider, _challengeWriter, zoomer,
+                                    _camerasProvider, _challengeWriter,
                                     challengeBuffers, fpsContainer,
                                     internalChallengeTimer, challengeObject);
             playerPanelSettings = InitializePlayerPanelSettings();
@@ -177,20 +172,6 @@ namespace Challange.UnitTests.Presenters
             var currentFrame = view.Received().CurrentFrame;       
             fpsContainer.Received().GetFpsByKey(cameraName);
             tempFps.ReceivedWithAnyArgs().AddFrame(currentFrame);
-        }
-
-        [Test]
-        public void MakeZoom()
-        {
-            // Arrange
-            var pictureBoxLocation = new System.Drawing.Point();
-            var delta = 1;
-            var mouseLocation = new System.Drawing.Point();
-            // Act
-            presenter.MakeZoom(pictureBoxLocation, delta, mouseLocation);
-            // Assert
-            ZoomData zoomData = zoomer.Received().MakeZoom(pictureBoxLocation, delta, mouseLocation);
-            view.Received().RedrawZoomedImage(zoomData);
         }
 
         [Test]
@@ -388,7 +369,7 @@ namespace Challange.UnitTests.Presenters
                         fileService, _pathFormatter, messageParser,
                         _settingsContext, nullSettingsContainer,
                         camerasContainer, _videoContainer,
-                        _camerasProvider, _challengeWriter, zoomer,
+                        _camerasProvider, _challengeWriter,
                         challengeBuffers, fpsContainer,
                         internalChallengeTimer, challengeObject);
             // Act

@@ -4,7 +4,6 @@ using System.Drawing;
 using System;
 using Challange.Domain.Services.StreamProcess.Abstract;
 using Challange.Domain.Services.Video.Abstract;
-using Challange.Domain.Services.Zoom.Concrete;
 using Challange.Domain.Services.Challenge;
 
 namespace Challange.Presenter.Presenters.MainPresenter
@@ -101,7 +100,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void StartStream()
         {
             InitializeDevices();
-            if (_camerasContainer.IsEmpty()) // DONT FORGET BACK "!" !!!!!!!
+            if (!_camerasContainer.IsEmpty()) // DONT FORGET BACK "!" !!!!!!!
             {
                 InitializeTimeAxisTimer();
                 InitializeFpsContainer();

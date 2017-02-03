@@ -102,7 +102,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Services\Zoom\ZoomDataTest.cs" />
     <Compile Include="Services\Ftp\FtpWorkerTest.cs" />
     <Compile Include="Services\StreamProcess\Concrete\CamerasProviderTests.cs" />
     <Compile Include="Services\Video\ChallengeBuffersTest.cs" />
@@ -125,8 +124,6 @@
     <Compile Include="Presenters\RewindSettingsPresenterTest.cs" />
     <Compile Include="Services\Message\ChallengeMessageTest.cs" />
     <Compile Include="Services\Message\MessageParserTest.cs" />
-    <Compile Include="Services\Zoom\ZoomCalculatorTest.cs" />
-    <Compile Include="Services\Zoom\ZoomerTest.cs" />
     <Compile Include="Services\Settings\SettingsContextTest.cs" />
     <Compile Include="Services\Settings\RewindSettingsParserTest.cs" />
     <Compile Include="Services\Settings\FtpSettingsParserTest.cs" />
