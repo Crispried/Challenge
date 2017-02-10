@@ -36,14 +36,13 @@ namespace Challange.UnitTests.Presenters
         private IPathFormatter _pathFormatter;
         private ISettingsContext _settingsContext;
         private INullSettingsContainer nullSettingsContainer;
-        private ICamerasContainer camerasContainer;
         private IVideoContainer _videoContainer;
         private ICamerasProvider _camerasProvider;
         private IChallengeWriter _challengeWriter;
-        private IChallengeBuffers challengeBuffers;
-        private IFpsContainer fpsContainer;
-        private IInternalChallengeTimer internalChallengeTimer;
-        private IChallengeObject challengeObject;
+        private IChallengeBuffers _challengeBuffers;
+        private IFpsContainer _fpsContainer;
+        private IInternalChallengeTimer _internalChallengeTimer;
+        private IChallengeObject _challengeObject;
 
         private PlayerPanelSettings playerPanelSettings;
         private ChallengeSettings challengeSettings;
@@ -61,26 +60,26 @@ namespace Challange.UnitTests.Presenters
             messageParser = Substitute.For<IMessageParser>();
             _settingsContext = Substitute.For<ISettingsContext>();
             nullSettingsContainer = Substitute.For<INullSettingsContainer>();
-            camerasContainer = Substitute.For<ICamerasContainer>();
             _videoContainer = Substitute.For<IVideoContainer>();
             _camerasProvider = Substitute.For<ICamerasProvider>();
             _challengeWriter = Substitute.For<IChallengeWriter>();
-            challengeBuffers = Substitute.For<IChallengeBuffers>();
-            fpsContainer = Substitute.For<IFpsContainer>();
-            internalChallengeTimer = Substitute.For<IInternalChallengeTimer>();
-            challengeObject = Substitute.For<IChallengeObject>();
+            _challengeBuffers = Substitute.For<IChallengeBuffers>();
+            _fpsContainer = Substitute.For<IFpsContainer>();
+            _internalChallengeTimer = Substitute.For<IInternalChallengeTimer>();
+            _challengeObject = Substitute.For<IChallengeObject>();
 
             presenter = new MainPresenter(controller, view,
                                     fileService, _pathFormatter, messageParser,
                                     _settingsContext, nullSettingsContainer,
-                                    camerasContainer, _videoContainer,
+                                    _videoContainer,
                                     _camerasProvider, _challengeWriter,
-                                    challengeBuffers, fpsContainer,
-                                    internalChallengeTimer, challengeObject);
+                                    _challengeBuffers, _fpsContainer,
+                                    _internalChallengeTimer, _challengeObject);
             playerPanelSettings = InitializePlayerPanelSettings();
             challengeSettings = InitializeChallengeSettings();
             ftpSettings = InitializeFtpSettings();
             rewindSettings = InitializeRewindSettings();
+            _camerasProvider.CamerasContainer.Returns(Substitute.For<ICamerasContainer>());
             gameInformation = Substitute.For<GameInformation>();
         }
 
@@ -142,8 +141,9 @@ namespace Challange.UnitTests.Presenters
             controller.ReceivedWithAnyArgs().Run<GameInformationPresenter,
                                GameInformation>(gameInformation);
             _camerasProvider.Received().InitializeCameras();
-            var camerasKeys = camerasContainer.Received().GetCamerasKeys();
-            view.Received().DrawPlayers(_settingsContext.PlayerPanelSetting, camerasContainer.CamerasNumber, camerasKeys);
+            var camerasKeys = _camerasProvider.CamerasContainer.Received().GetCamerasKeys();
+            view.Received().DrawPlayers(_settingsContext.PlayerPanelSetting,
+                                        _camerasProvider.CamerasContainer.CamerasNumber, camerasKeys);
             view.Received().Show();
         }
 
@@ -154,7 +154,7 @@ namespace Challange.UnitTests.Presenters
             // Act
             presenter.ShowDevicesList();
             // Assert
-            controller.Received().Run<CamerasPresenter, ICamerasContainer>(camerasContainer); ;
+            controller.Received().Run<CamerasPresenter, ICamerasContainer>(_camerasProvider.CamerasContainer); ;
         }
 
         [Test]
@@ -164,13 +164,13 @@ namespace Challange.UnitTests.Presenters
             view.CurrentFrameCameraName.Returns("");
             view.CurrentFrame.Returns(default(System.Drawing.Bitmap));
              IFps tempFps = Substitute.For<IFps>();
-            fpsContainer.GetFpsByKey("").Returns(tempFps);
+            _fpsContainer.GetFpsByKey("").Returns(tempFps);
             // Act
             presenter.AddNewFrame();
             // Assert
             var cameraName = view.Received().CurrentFrameCameraName;
             var currentFrame = view.Received().CurrentFrame;       
-            fpsContainer.Received().GetFpsByKey(cameraName);
+            _fpsContainer.Received().GetFpsByKey(cameraName);
             tempFps.ReceivedWithAnyArgs().AddFrame(currentFrame);
         }
 
@@ -201,8 +201,9 @@ namespace Challange.UnitTests.Presenters
             // Assert
             controller.Received().Run<PlayerPanelSettingsPresenter,
                                 PlayerPanelSettings>(_settingsContext.PlayerPanelSetting);
-            var camerasKeys = camerasContainer.Received().GetCamerasKeys();
-            view.Received().DrawPlayers(_settingsContext.PlayerPanelSetting, camerasContainer.CamerasNumber, camerasKeys);
+            var camerasKeys = _camerasProvider.CamerasContainer.Received().GetCamerasKeys();
+            view.Received().DrawPlayers(_settingsContext.PlayerPanelSetting,
+                                        _camerasProvider.CamerasContainer.CamerasNumber, camerasKeys);
         }
 
         [Test]
@@ -242,16 +243,15 @@ namespace Challange.UnitTests.Presenters
         public void StreamStartIfCamerasContainerIsEmpty()
         {
             // Arrange
-            camerasContainer.IsEmpty().Returns(true);
-            camerasContainer.GetCamerasNames().Returns(new List<string>() { "a", "b" });
+            _camerasProvider.CamerasContainer.IsEmpty().Returns(true);
+            _camerasProvider.CamerasContainer.GetCamerasNames().Returns(new List<string>() { "a", "b" });
             // Act
             presenter.StartStream();
             // Assert
-            _camerasProvider.Received().InitializeCameras();
-            var camerasNames = camerasContainer.DidNotReceive().GetCamerasNames();
+            var camerasNames = _camerasProvider.CamerasContainer.DidNotReceive().GetCamerasNames();
             view.DidNotReceive().InitializeTimer();
-            fpsContainer.DidNotReceiveWithAnyArgs().InitializeFpses(null);
-            internalChallengeTimer.DidNotReceiveWithAnyArgs().EnableTimerEvent(default(Action));
+            _fpsContainer.DidNotReceiveWithAnyArgs().InitializeFpses(null);
+            _internalChallengeTimer.DidNotReceiveWithAnyArgs().EnableTimerEvent(default(Action));
             _camerasProvider.DidNotReceiveWithAnyArgs().StartAllCameras(null);
             view.DidNotReceiveWithAnyArgs().ToggleChallengeButton(true);
             view.DidNotReceiveWithAnyArgs().ToggleStartButton(false);
@@ -265,19 +265,18 @@ namespace Challange.UnitTests.Presenters
         public void StreamStartIfCamerasContainerIsNotEmpty()
         {
             // Arrange
-            camerasContainer.IsEmpty().Returns(false);
-            camerasContainer.GetCamerasNames().Returns(new List<string>() { "a", "b" });
+            _camerasProvider.CamerasContainer.IsEmpty().Returns(false);
+            _camerasProvider.CamerasContainer.GetCamerasNames().Returns(new List<string>() { "a", "b" });
             _settingsContext.ChallengeSetting.Returns(challengeSettings);
             var past = _settingsContext.ChallengeSetting.NumberOfPastFPS;
             var future = _settingsContext.ChallengeSetting.NumberOfFutureFPS;
             // Act
             presenter.StartStream();
             // Assert
-            _camerasProvider.Received().InitializeCameras();
-            var camerasNames = camerasContainer.Received().GetCamerasNames();
+            var camerasNames = _camerasProvider.CamerasContainer.Received().GetCamerasNames();
             view.Received().InitializeTimer();
-            fpsContainer.Received().InitializeFpses(camerasContainer.GetCamerasNames());
-            internalChallengeTimer.ReceivedWithAnyArgs().EnableTimerEvent(default(Action));
+            _fpsContainer.Received().InitializeFpses(_camerasProvider.CamerasContainer.GetCamerasNames());
+            _internalChallengeTimer.ReceivedWithAnyArgs().EnableTimerEvent(default(Action));
             _camerasProvider.ReceivedWithAnyArgs().StartAllCameras(null);
             view.Received().ToggleChallengeButton(true);
             view.Received().ToggleStartButton(false);
@@ -313,13 +312,23 @@ namespace Challange.UnitTests.Presenters
             presenter.CreateChallange();
             // Assert
             var elapsedTime = view.Received().GetElapsedTime;
-            challengeObject.Received().Initialize(gameInformation.DirectoryName, elapsedTime);
-            fileService.Received().CreateDirectory(challengeObject.PathToChallengeDirectory);
-            internalChallengeTimer.Received().DisableTimerEvent();
-            internalChallengeTimer.ReceivedWithAnyArgs().EnableTimerEvent(null);
+            _challengeObject.Received().Initialize(gameInformation.DirectoryName, elapsedTime);
+
+            var pathToRootDirectory = _challengeObject.Received().PathToRootDirectory;
+            var challengeFolderName = _challengeObject.Received().ChallengeFolderName;
+            _challengeObject.PathToChallengeDirectory =
+                _pathFormatter.Received().FormatPath(pathToRootDirectory, challengeFolderName);
+
+            fileService.Received().CreateDirectory(_challengeObject.PathToChallengeDirectory);
+
+            _internalChallengeTimer.Received().DisableTimerEvent();
+
+            _internalChallengeTimer.Received().EnableTimerEvent(presenter.InternalTimerEventForFutureFrames);
+
             view.MakeChallengeButtonInvisibleOn(future);
             view.MakeChallengeRecordingImageVisibleOn(future);
-            view.AddMarkerOnTimeAxis(challengeObject.PathToChallengeDirectory);
+
+            view.AddMarkerOnTimeAxis(_challengeObject.PathToChallengeDirectory);
         }
 
         [Test]
@@ -349,13 +358,13 @@ namespace Challange.UnitTests.Presenters
         public void OpenChallengePlayerForLastChallengeIfChallengeIsNotNull()
         {
             // Arrange
-            challengeObject.PathToChallengeDirectory = @"Team1_vs_Team2(21.10.2016)\00_00_10\";
+            _challengeObject.PathToChallengeDirectory = @"Team1_vs_Team2(21.10.2016)\00_00_10\";
             // Act
             presenter.OpenChallengePlayerForLastChallenge();
             // Assert
             controller.Received().
              Run<ChallengePlayerPresenter, Tuple<string, RewindSettings>>(
-             Tuple.Create(challengeObject.PathToChallengeDirectory, _settingsContext.RewindSetting));
+             Tuple.Create(_challengeObject.PathToChallengeDirectory, _settingsContext.RewindSetting));
             var returnedMessage = messageParser.DidNotReceiveWithAnyArgs().GetMessage(default(MessageType));
             view.DidNotReceiveWithAnyArgs().ShowMessage(returnedMessage);
         }
@@ -364,14 +373,14 @@ namespace Challange.UnitTests.Presenters
         public void OpenChallengePlayerForLastChallengeIfChallengeIsNull()
         {
             // Arrange
-            challengeObject = null;
+            _challengeObject = null;
             presenter = new MainPresenter(controller, view,
                         fileService, _pathFormatter, messageParser,
                         _settingsContext, nullSettingsContainer,
-                        camerasContainer, _videoContainer,
+                        _videoContainer,
                         _camerasProvider, _challengeWriter,
-                        challengeBuffers, fpsContainer,
-                        internalChallengeTimer, challengeObject);
+                        _challengeBuffers, _fpsContainer,
+                        _internalChallengeTimer, _challengeObject);
             // Act
             presenter.OpenChallengePlayerForLastChallenge();
             // Assert
@@ -382,15 +391,15 @@ namespace Challange.UnitTests.Presenters
         }
 
         [Test]
-        public void PassCamerasNamesToPresenter()
+        public void CameraNameChangedTest()
         {
             // Arrange
             var key = "key";
             var cameraName = "cameraName";
             // Act
-            presenter.PassCamerasNamesToPresenter(key, cameraName);
+            presenter.CameraNameChanged(key, cameraName);
             // Assert
-            camerasContainer.Received().SetCameraName(key, cameraName);
+            _camerasProvider.CamerasContainer.Received().SetCameraName(key, cameraName);
         }
 
         [Test]
@@ -401,7 +410,7 @@ namespace Challange.UnitTests.Presenters
             // Act
             presenter.OpenBroadcastForm(cameraFullName);
             // Assert
-            var cameraForBroadcasting = camerasContainer.Received().GetCameraByKey(cameraFullName);
+            var cameraForBroadcasting = _camerasProvider.CamerasContainer.Received().GetCameraByKey(cameraFullName);
             controller.ReceivedWithAnyArgs().Run<BroadcastPresenter, Tuple<object, BroadcastType>>(Tuple.Create((object)cameraForBroadcasting, BroadcastType.Stream));
         }
 
@@ -413,6 +422,73 @@ namespace Challange.UnitTests.Presenters
             presenter.FormClosing();
             // Assert
             _camerasProvider.Received().StopAllCameras();
+        }
+
+        [Test]
+        public void InternalTimerEventForPastFramesIfHaveToRemovePastFpsTest()
+        {
+            // Arrange
+            var challengeSettings = InitializeChallengeSettings();
+            _settingsContext.ChallengeSetting.Returns(challengeSettings);
+            _challengeBuffers.HaveToRemovePastFps(challengeSettings.NumberOfPastFPS).Returns(true);
+            // Act
+            presenter.InternalTimerEventForPastFrames();
+            // Assert
+            _challengeBuffers.Received().RemoveFirstFpsFromPastBuffer();
+            _challengeBuffers.Received().AddPastFpses(_fpsContainer);
+            _fpsContainer.Received().InitializeFpses(_camerasProvider.CamerasContainer.GetCamerasNames());
+        }
+
+        [Test]
+        public void InternalTimerEventForPastFramesIfHaveNotToRemovePastFpsTest()
+        {
+            // Arrange
+            var challengeSettings = InitializeChallengeSettings();
+            _settingsContext.ChallengeSetting.Returns(challengeSettings);
+            _challengeBuffers.HaveToRemovePastFps(challengeSettings.NumberOfPastFPS).Returns(false);
+            // Act
+            presenter.InternalTimerEventForPastFrames();
+            // Assert
+            _challengeBuffers.Received().AddPastFpses(_fpsContainer);
+            _fpsContainer.Received().InitializeFpses(_camerasProvider.CamerasContainer.GetCamerasNames());
+        }
+
+        [Test]
+        public void InternalTimerEventForFutureFramesIfHaveToAddFutureFpsTest()
+        {
+            // Arrange
+            var challengeSettings = InitializeChallengeSettings();
+            _settingsContext.ChallengeSetting.Returns(challengeSettings);
+            _challengeBuffers.HaveToAddFutureFps(challengeSettings.NumberOfFutureFPS).Returns(true);
+            // Act
+            presenter.InternalTimerEventForFutureFrames();
+            // Assert
+            _challengeBuffers.Received().AddFutureFpses(_fpsContainer);
+            _fpsContainer.Received().InitializeFpses(_camerasProvider.CamerasContainer.GetCamerasNames());
+            _internalChallengeTimer.DidNotReceive().DisableTimerEvent();
+            _challengeWriter.DidNotReceiveWithAnyArgs().WriteChallenge(null, null);
+            _challengeBuffers.DidNotReceive().ClearBuffers();
+            _internalChallengeTimer.DidNotReceive().EnableTimerEvent(presenter.InternalTimerEventForPastFrames);
+        }
+
+        [Test]
+        public void InternalTimerEventForFutureFramesIfHaveNotToAddFutureFpsTest()
+        {
+            // Arrange
+            var challengeSettings = InitializeChallengeSettings();
+            _settingsContext.ChallengeSetting.Returns(challengeSettings);
+            _challengeBuffers.HaveToAddFutureFps(challengeSettings.NumberOfFutureFPS).Returns(false);
+            // Act
+            presenter.InternalTimerEventForFutureFrames();
+            // Assert
+            _challengeBuffers.DidNotReceive().AddFutureFpses(_fpsContainer);
+            _fpsContainer.Received().InitializeFpses(_camerasProvider.CamerasContainer.GetCamerasNames());
+            _internalChallengeTimer.Received().DisableTimerEvent();
+            _challengeWriter.Received().WriteChallenge(
+                _videoContainer.ConvertToVideoContainer(null),
+                                _challengeObject.PathToChallengeDirectory);
+            _challengeBuffers.Received().ClearBuffers();
+            _internalChallengeTimer.Received().EnableTimerEvent(presenter.InternalTimerEventForPastFrames);
         }
     }
 }

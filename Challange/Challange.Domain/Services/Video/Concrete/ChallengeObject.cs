@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Challange.Domain.Services.Video.Concrete
 {
+    // TODO format path in constructor
     public class ChallengeObject : IChallengeObject
     {
         private string pathToRootDirectory;

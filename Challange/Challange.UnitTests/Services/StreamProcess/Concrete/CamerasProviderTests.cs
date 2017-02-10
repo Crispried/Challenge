@@ -11,7 +11,7 @@ namespace Challange.UnitTests.Services.StreamProcess.Concrete
     [TestFixture]
     class CamerasProviderTests : TestCase
     {
-        private ICamerasProvider _cameraProvider;
+        private ICamerasProvider _camerasProvider;
         private ICamerasContainer _camerasContainer;
         private IDevicesProvider _devicesProvider;
         private IEventSubscriber _eventSubscriber;
@@ -23,9 +23,19 @@ namespace Challange.UnitTests.Services.StreamProcess.Concrete
             _camerasContainer = Substitute.For<ICamerasContainer>();
             _devicesProvider = Substitute.For<IDevicesProvider>();
             _eventSubscriber = Substitute.For<IEventSubscriber>();
-            _cameraProvider = new CamerasProvider(_camerasContainer, _devicesProvider,
+            _camerasProvider = new CamerasProvider(_camerasContainer, _devicesProvider,
                                                   _eventSubscriber);
             _camera = Substitute.For<ICamera>();
+        }
+
+        [Test]
+        public void GetCamerasContainerProperty()
+        {
+            // Arrange
+            // Act
+            var camerasContainer = _camerasProvider.CamerasContainer;
+            // Assert
+            Assert.IsTrue(camerasContainer == _camerasContainer);
         }
 
         [Test]
@@ -35,7 +45,7 @@ namespace Challange.UnitTests.Services.StreamProcess.Concrete
             var cameras = new List<ICamera>() { _camera };
             _devicesProvider.GetConnectedCameras().Returns(cameras);
             // Act
-            _cameraProvider.InitializeCameras();
+            _camerasProvider.InitializeCameras();
             // Assert
             _devicesProvider.Received().GetConnectedCameras();
             _camerasContainer.Received().AddCameras(cameras);
@@ -50,7 +60,7 @@ namespace Challange.UnitTests.Services.StreamProcess.Concrete
             _camerasContainer.GetCameras.Returns(cameras);
             var handler = Substitute.For<Action<object, EventArgs>>();
             // Act
-            _cameraProvider.StartAllCameras(handler);
+            _camerasProvider.StartAllCameras(handler);
             // Assert
             var a = _camerasContainer.Received().GetCameras;
             _eventSubscriber.Received().AddEventHandler(cameras[0], "NewFrameEvent", handler);
@@ -66,7 +76,7 @@ namespace Challange.UnitTests.Services.StreamProcess.Concrete
             _camerasContainer.GetCameras.Returns(cameras);
 
             // Act
-            _cameraProvider.StopAllCameras();
+            _camerasProvider.StopAllCameras();
 
             // Assert
             var a = _camerasContainer.Received().GetCameras;
@@ -80,7 +90,7 @@ namespace Challange.UnitTests.Services.StreamProcess.Concrete
             var camera = Substitute.For<ICamera>();
             var handler = Substitute.For<Action<object, EventArgs>>();
               // Act
-              _cameraProvider.StartCamera(camera, handler);
+              _camerasProvider.StartCamera(camera, handler);
             // Assert
             _eventSubscriber.Received().AddEventHandler(camera, "NewFrameEvent", handler);
             camera.Received().Start();
@@ -92,7 +102,7 @@ namespace Challange.UnitTests.Services.StreamProcess.Concrete
             // Arrange
             var camera = Substitute.For<ICamera>();
             // Act
-            _cameraProvider.StopCamera(camera);
+            _camerasProvider.StopCamera(camera);
             // Assert
             camera.Received().Stop();
         }

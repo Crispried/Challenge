@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Challange.Domain.Services.StreamProcess.Abstract;
+using System.Collections.Generic;
 
 namespace Challange.Domain.Services.Video.Abstract
 {
@@ -10,7 +11,7 @@ namespace Challange.Domain.Services.Video.Abstract
 
         void ClearBuffers();
 
-        Dictionary<string, List<IFps>> UniteBuffers();
+        Dictionary<string, List<IFps>> UniteBuffers(ICamerasContainer camerasContainer);
 
         void RemoveFirstFpsFromPastBuffer();
 

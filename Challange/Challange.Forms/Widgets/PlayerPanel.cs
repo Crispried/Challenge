@@ -259,35 +259,14 @@ namespace Challange.Forms.Widgets
                 MaxLength = 30
             };
             textBox.ReadOnly = _possibleToRenamePlayers ? false : true;
+            textBox.TextChanged += new EventHandler(_textBoxTextChangedEventHandler);
             return textBox;
         }
 
         private EventHandler _textBoxTextChangedEventHandler;
-        public void SubscribeTextBoxesToTextChangedEvent(EventHandler handler)
+        public void SetTextChangedEventHandler(EventHandler handler)
         {
-            if (_possibleToRenamePlayers)
-            {
-                _textBoxTextChangedEventHandler = handler;
-                TextBox tmpTextBox;
-                foreach (var player in _allPlayers)
-                {
-                    tmpTextBox = ControlsHelper.GetFirstControl<TextBox>(player);
-                    tmpTextBox.TextChanged += handler;
-                }
-            }
-        }
-
-        public void UnsubscribeTextBoxesFromTextChangedEvent()
-        {
-            if (_possibleToRenamePlayers)
-            {
-                TextBox tmpTextBox;
-                foreach (var player in _allPlayers)
-                {
-                    tmpTextBox = ControlsHelper.GetFirstControl<TextBox>(player);
-                    tmpTextBox.TextChanged -= _textBoxTextChangedEventHandler;
-                }
-            }
+            _textBoxTextChangedEventHandler = handler;
         }
         #endregion
 

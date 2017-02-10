@@ -89,6 +89,13 @@ namespace Challange.Forms
             Invoke(OpenBroadcastForm, playerName);
         }
 
+        private void OnCameraNameChanged(object source, EventArgs args)
+        {
+            var textBox = (TextBox)source;
+            var player = (PictureBox)textBox.Parent;
+            Invoke(CameraNameChanged, player.Tag, textBox.Text);
+        }
+
         private void OnTimedEvent(Object source, EventArgs myEventArgs)
         {
             challengeTimeAxis.UpdateTimeAxis();
@@ -128,6 +135,8 @@ namespace Challange.Forms
         public event Action OpenChallengePlayerForLastChallenge;
 
         public event Action<string> OpenBroadcastForm;
+
+        public event Action<string, string> CameraNameChanged; 
         #endregion
 
         public void InitializeTimer()
@@ -173,6 +182,7 @@ namespace Challange.Forms
             }
             _playerPanel.DrawPlayers(numberOfPlayers, settings, initialData);
             _playerPanel.SetBroadcastButtonClickEventHandler(OnBroadcastButtonClick);
+            _playerPanel.SetTextChangedEventHandler(OnCameraNameChanged);
         }
         #endregion
 

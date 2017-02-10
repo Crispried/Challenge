@@ -5,6 +5,8 @@ namespace Challange.Domain.Services.StreamProcess.Abstract
 {
     public interface ICamerasProvider
     {
+        ICamerasContainer CamerasContainer { get; }
+
         void InitializeCameras();
 
         void StopAllCameras();

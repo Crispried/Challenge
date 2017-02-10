@@ -34,7 +34,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         public void ShowDevicesList()
         {
             Controller.Run<CamerasPresenter.CamerasPresenter,
-                ICamerasContainer>(_camerasContainer);
+                ICamerasContainer>(_camerasProvider.CamerasContainer);
         }
 
         /// <summary>
@@ -99,8 +99,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         public void StartStream()
         {
-            InitializeDevices();
-            if (!_camerasContainer.IsEmpty()) // DONT FORGET BACK "!" !!!!!!!
+            if (!_camerasProvider.CamerasContainer.IsEmpty()) // DONT FORGET BACK "!" !!!!!!!
             {
                 InitializeTimeAxisTimer();
                 InitializeFpsContainer();
@@ -125,12 +124,23 @@ namespace Challange.Presenter.Presenters.MainPresenter
         }
 
         /// <summary>
+        /// Changes name of camera
+        /// </summary>
+        /// <param name="cameraFullName"></param>
+        /// <param name="newCameraName"></param>
+        public void CameraNameChanged(string cameraFullName, string newCameraName)
+        {
+            _camerasProvider.CamerasContainer.SetCameraName(cameraFullName, newCameraName);
+        }
+
+        /// <summary>
         /// Writes challenge videos into file system
         /// </summary>
         public void CreateChallange()
         {
             var challengeTime = GetChallengeTime();
             _challenge.Initialize(_gameInformation.DirectoryName, challengeTime);
+            SetChallengeDirectoryPath();
             CreateDirectoryForChallenge();
             ChangeActivityOfEventForPastFrames(false);
             ChangeActivityOfEventForFutureFrames(true);
@@ -175,18 +185,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
             }
         }
 
-        /// <summary>
-        /// Get cameras names from view
-        /// In order to pass them to ChallengeWriter
-        /// </summary>
-        public void PassCamerasNamesToPresenter(string key, string cameraName)
-        {
-            _camerasContainer.SetCameraName(key, cameraName);
-        }
-
         public void OpenBroadcastForm(string cameraFullName)
         {
-            ICamera cameraForBroadcasting = _camerasContainer.GetCameraByKey(cameraFullName);
+            ICamera cameraForBroadcasting = _camerasProvider.CamerasContainer.GetCameraByKey(cameraFullName);
             Controller.Run<BroadcastPresenter.BroadcastPresenter,
                 Tuple<object, BroadcastPresenter.BroadcastType>>(
                 Tuple.Create((object)cameraForBroadcasting,

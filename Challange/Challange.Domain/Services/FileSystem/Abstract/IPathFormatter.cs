@@ -11,5 +11,7 @@ namespace Challange.Domain.Services.FileSystem.Abstract
         string FormatPathToGameInformationFile(string directoryName);
 
         string FilterFolderName(string name);
+
+        string FormatPath(params string[] paths);
     }
 }

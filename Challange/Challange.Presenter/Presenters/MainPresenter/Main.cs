@@ -22,7 +22,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
 
         // video streaming
         private ICamerasProvider _camerasProvider;
-        private ICamerasContainer _camerasContainer;
         private IVideoContainer _videoContainer;
 
         // this is temporary object which will keep fps objects
@@ -40,7 +39,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
                              IMessageParser messageParser,
                              ISettingsContext settingsContext,
                              INullSettingsContainer nullSettingsContainer,
-                             ICamerasContainer camerasContainer,
                              IVideoContainer videoContainer,
                              ICamerasProvider camerasProvider,
                              IChallengeWriter challengeWriter,
@@ -55,7 +53,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
             _messageParser = messageParser;
             _settingsContext = settingsContext;
             _nullSettingsContainer = nullSettingsContainer;
-            _camerasContainer = camerasContainer;
             _videoContainer = videoContainer;
             _camerasProvider = camerasProvider;
             _challengeWriter = challengeWriter;
@@ -86,6 +83,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
             View.OpenChallengePlayer += OpenChallengePlayer;
             View.OpenChallengePlayerForLastChallenge += OpenChallengePlayerForLastChallenge;
             View.OpenBroadcastForm += OpenBroadcastForm;
+            View.CameraNameChanged += CameraNameChanged;
         }
     }
 }

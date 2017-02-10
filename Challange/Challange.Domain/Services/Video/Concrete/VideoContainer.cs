@@ -24,9 +24,8 @@ namespace Challange.Domain.Services.Video.Concrete
             }
         }
 
-        public IVideoContainer ConvertToVideoContainer(IChallengeBuffers challengeBuffers)
+        public IVideoContainer ConvertToVideoContainer(Dictionary<string, List<IFps>> videos)
         {
-            var videos = challengeBuffers.UniteBuffers();
             var videoContainer = new VideoContainer();
             foreach (var video in videos)
             {

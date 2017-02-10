@@ -19,6 +19,14 @@ namespace Challange.Domain.Services.StreamProcess.Concrete.Pylon
             _eventSubscriber = eventSubscriber;
         }
 
+        public ICamerasContainer CamerasContainer
+        {
+            get
+            {
+                return _camerasContainer;
+            }
+        }
+
         public void InitializeCameras()
         {
             var cameras = _devicesProvider.GetConnectedCameras();

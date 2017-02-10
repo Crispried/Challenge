@@ -1,4 +1,5 @@
-﻿using Challange.Domain.Services.Video.Abstract;
+﻿using Challange.Domain.Services.StreamProcess.Abstract;
+using Challange.Domain.Services.Video.Abstract;
 using Challange.Domain.Services.Video.Concrete;
 using NSubstitute;
 using NUnit.Framework;
@@ -10,10 +11,12 @@ namespace Challange.UnitTests.Services.Video
     class VideoContainerTest : TestCase
     {
         private IVideoContainer _videoContainer;
+        private ICamerasContainer _camerasContainer;
 
         [SetUp]
         public void SetUp()
         {
+            _camerasContainer = Substitute.For<ICamerasContainer>();
             _videoContainer = new VideoContainer();
         }
 
@@ -21,15 +24,13 @@ namespace Challange.UnitTests.Services.Video
         public void ConvertToVideoContainerTest()
         {
             // Arrange
-            var buffers = Substitute.For<IChallengeBuffers>();
             var fpses = new Dictionary<string, List<IFps>>();
             fpses.Add("One", Substitute.For<List<IFps>>());
             fpses.Add("Two", Substitute.For<List<IFps>>());
-            buffers.UniteBuffers().Returns(fpses);
             // Act
-            _videoContainer.ConvertToVideoContainer(buffers);
+            var videoContainer  = _videoContainer.ConvertToVideoContainer(fpses);
             // Assert
-            buffers.Received().UniteBuffers();
+            Assert.True(videoContainer.Videos.Count == 2);
         }
 
         [Test]

@@ -10,7 +10,7 @@ namespace Challange.Domain.Services.Video.Abstract
     {
         List<Concrete.Video> Videos { get; }
 
-        IVideoContainer ConvertToVideoContainer(IChallengeBuffers challengeBuffers);
+        IVideoContainer ConvertToVideoContainer(Dictionary<string, List<IFps>> videos);
 
         void AddVideo(Concrete.Video video);
 

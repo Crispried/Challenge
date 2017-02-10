@@ -9,34 +9,94 @@ namespace Challange.UnitTests.Services.Video
 {
     class ChallengeBuffersTest : TestCase
     {
-        private IFpsContainer fpsContainer;
-        private ICamerasContainer camerasContainer;
-        private IChallengeBuffers buffers;
+        private IFpsContainer _fpsContainer;
+        private IChallengeBuffers _buffers;
 
         [SetUp]
         public void SetUp()
         {
-            
-            camerasContainer = Substitute.For<ICamerasContainer>();
-            camerasContainer.GetCamerasKeys().Returns(new List<string> { "One", "Two" });
-            buffers = new ChallengeBuffers(camerasContainer);
+            _buffers = new ChallengeBuffers();
 
-            fpsContainer = Substitute.For<IFpsContainer>();
+            _fpsContainer = Substitute.For<IFpsContainer>();
             var fpses = new Dictionary<string, IFps>();
             fpses.Add("One", Substitute.For<IFps>());
             fpses.Add("Two", Substitute.For<IFps>());
+            _fpsContainer.Fpses.Returns(fpses);
+
+            _buffers.AddFutureFpses(_fpsContainer);
+            _buffers.AddPastFpses(_fpsContainer);
+        }
+
+        [Test]
+        public void AddPastFpsesIfKeyExistsTest()
+        {
+            // Arrange
+            var fpsContainer = Substitute.For<IFpsContainer>();
+            var fpses = new Dictionary<string, IFps>();
+            var fps = Substitute.For<IFps>();
+            fpses.Add("One", fps);
             fpsContainer.Fpses.Returns(fpses);
+            // Act
+            _buffers.AddPastFpses(fpsContainer);
+            // Assert
+            Assert.True(_buffers.PastCameraRecords["One"].Contains(fps));
+        }
+
+        [Test]
+        public void AddPastFpsesIfKeyNotExistsTest()
+        {
+            // Arrange
+            var fpsContainer = Substitute.For<IFpsContainer>();
+            var fpses = new Dictionary<string, IFps>();
+            var fps = Substitute.For<IFps>();
+            fpses.Add("Three", fps);
+            fpsContainer.Fpses.Returns(fpses);
+            // Act
+            _buffers.AddPastFpses(fpsContainer);
+            // Assert
+            Assert.True(_buffers.PastCameraRecords.ContainsKey("Three"));
+            Assert.True(_buffers.PastCameraRecords["Three"].Contains(fps));
+        }
+
+        [Test]
+        public void AddFutureFpsesIfKeyExistsTest()
+        {
+            // Arrange
+            var fpsContainer = Substitute.For<IFpsContainer>();
+            var fpses = new Dictionary<string, IFps>();
+            var fps = Substitute.For<IFps>();
+            fpses.Add("One", fps);
+            fpsContainer.Fpses.Returns(fpses);
+            // Act
+            _buffers.AddFutureFpses(fpsContainer);
+            // Assert
+            Assert.True(_buffers.FutureCameraRecords["One"].Contains(fps));
+        }
+
+        [Test]
+        public void AddFutureFpsesIfKeyNotExistsTest()
+        {
+            // Arrange
+            var fpsContainer = Substitute.For<IFpsContainer>();
+            var fpses = new Dictionary<string, IFps>();
+            var fps = Substitute.For<IFps>();
+            fpses.Add("Three", fps);
+            fpsContainer.Fpses.Returns(fpses);
+            // Act
+            _buffers.AddFutureFpses(fpsContainer);
+            // Assert
+            Assert.True(_buffers.FutureCameraRecords.ContainsKey("Three"));
+            Assert.True(_buffers.FutureCameraRecords["Three"].Contains(fps));
         }
 
         [Test]
         public void RemoveFirstFpsFromPastBufferTest()
         {
             // Arrange
-            buffers.AddPastFpses(fpsContainer);
             // Act
-            buffers.RemoveFirstFpsFromPastBuffer();
+            _buffers.RemoveFirstFpsFromPastBuffer();
             // Assert
-            foreach (var pastCameraRecordValue in buffers.PastCameraRecords.Values)
+            foreach (var pastCameraRecordValue in _buffers.PastCameraRecords.Values)
             {
                 Assert.IsTrue(pastCameraRecordValue.Count == 0);
             }
@@ -47,8 +107,7 @@ namespace Challange.UnitTests.Services.Video
         {
             // Arrange
             // Act
-            bool result = buffers.HaveToAddFutureFps(2);
-
+            bool result = _buffers.HaveToAddFutureFps(2);
             // Assert
             Assert.True(result);
         }
@@ -57,9 +116,8 @@ namespace Challange.UnitTests.Services.Video
         public void HaveToAddFutureFpsReturnsFalseTest()
         {
             // Arrange
-            buffers.AddFutureFpses(fpsContainer);
             // Act
-            bool result = buffers.HaveToAddFutureFps(1);
+            bool result = _buffers.HaveToAddFutureFps(1);
 
             // Assert
             Assert.False(result);
@@ -69,9 +127,9 @@ namespace Challange.UnitTests.Services.Video
         public void HaveToAddFutureFpsReturnsFalseOnNullTest()
         {
             // Arrange
-            buffers.ClearBuffers();
+            _buffers.ClearBuffers();
             // Act
-            bool result = buffers.HaveToAddFutureFps(1);
+            bool result = _buffers.HaveToAddFutureFps(1);
 
             // Assert
             Assert.False(result);
@@ -81,9 +139,8 @@ namespace Challange.UnitTests.Services.Video
         public void HaveToRemovePastFpsReturnsTrueTest()
         {
             // Arrange
-            buffers.AddPastFpses(fpsContainer);
             // Act
-            bool result = buffers.HaveToRemovePastFps(1);
+            bool result = _buffers.HaveToRemovePastFps(1);
 
             // Assert
             Assert.True(result);
@@ -94,7 +151,7 @@ namespace Challange.UnitTests.Services.Video
         {
             // Arrange
             // Act
-            bool result = buffers.HaveToRemovePastFps(2);
+            bool result = _buffers.HaveToRemovePastFps(2);
             // Assert
             Assert.False(result);
         }
@@ -103,9 +160,9 @@ namespace Challange.UnitTests.Services.Video
         public void HaveToRemovePastFpsReturnsFalseOnNullTest()
         {
             // Arrange
-            buffers.ClearBuffers();
+            _buffers.ClearBuffers();
             // Act
-            bool result = buffers.HaveToRemovePastFps(2);
+            bool result = _buffers.HaveToRemovePastFps(2);
             // Assert
             Assert.False(result);
         }
@@ -115,71 +172,25 @@ namespace Challange.UnitTests.Services.Video
         {
             // Arrange
             // Act
-            buffers.ClearBuffers();
+            _buffers.ClearBuffers();
             // Assert
-            Assert.IsEmpty(buffers.PastCameraRecords);
-            Assert.IsEmpty(buffers.FutureCameraRecords);
-        }
-
-        [Test]
-        public void AddPastFpsesIfValueWasFoundTest()
-        {
-            // Arrange
-            // Act
-            buffers.AddPastFpses(fpsContainer);
-            // Assert
-            Assert.IsTrue(buffers.PastCameraRecords.ContainsKey("One"));
-            Assert.IsTrue(buffers.PastCameraRecords.ContainsKey("Two"));
-        }
-
-        [Test]
-        public void AddPastFpsesIfValueWasNotFoundTest()
-        {
-            // Arrange
-            var fpses = new Dictionary<string, IFps>();
-            fpses.Add("Three", Substitute.For<IFps>());
-            fpsContainer.Fpses.Returns(fpses);
-            // Act
-            buffers.AddPastFpses(fpsContainer);
-            // Assert
-            Assert.IsFalse(buffers.PastCameraRecords.ContainsKey("Three"));
-        }
-
-        [Test]
-        public void AddFutureFpsesIfValueWasFoundTest()
-        {
-            // Arrange
-            // Act
-            buffers.AddFutureFpses(fpsContainer);
-            // Assert
-            Assert.IsTrue(buffers.FutureCameraRecords.ContainsKey("One"));
-            Assert.IsTrue(buffers.FutureCameraRecords.ContainsKey("Two"));
-        }
-
-        [Test]
-        public void AddFutureFpsesIfValueWasNotFoundTest()
-        {
-            // Arrange
-            var fpses = new Dictionary<string, IFps>();
-            fpses.Add("Three", Substitute.For<IFps>());
-            fpsContainer.Fpses.Returns(fpses);
-            // Act
-            buffers.AddPastFpses(fpsContainer);
-            // Assert
-            Assert.IsFalse(buffers.FutureCameraRecords.ContainsKey("Three"));
-        }
+            Assert.IsEmpty(_buffers.PastCameraRecords);
+            Assert.IsEmpty(_buffers.FutureCameraRecords);
+        }       
 
         [Test]
         public void UniteBuffersNotEmptyBuffersTest()
         {
             // Arrange
+            var camerasContainer = Substitute.For<ICamerasContainer>();
+            camerasContainer.GetCamerasKeys().Returns(new List<string> { "One", "Two" });
             var camera1 = Substitute.For<ICamera>();
             camera1.Name = "lol";
             var camera2 = Substitute.For<ICamera>();
             camera2.Name = "gol";
             camerasContainer.GetCameraByKey(default(string)).ReturnsForAnyArgs(camera1, camera2);
             // Act
-            var unitedBuffers = buffers.UniteBuffers();
+            var unitedBuffers = _buffers.UniteBuffers(camerasContainer);
             // Assert
             camerasContainer.ReceivedWithAnyArgs().GetCameraByKey(default(string));
             var cameraName1 = camera1.Received().Name;
@@ -193,9 +204,11 @@ namespace Challange.UnitTests.Services.Video
         public void UniteBuffersEmptyBuffersTest()
         {
             // Arrange
-            buffers.ClearBuffers();
+            var camerasContainer = Substitute.For<ICamerasContainer>();
+            camerasContainer.GetCamerasKeys().Returns(new List<string> { "One", "Two" });
+            _buffers.ClearBuffers();
             // Act
-            var unitedBuffers = buffers.UniteBuffers();
+            var unitedBuffers = _buffers.UniteBuffers(camerasContainer);
             // Assert
             Assert.IsTrue(unitedBuffers.Count == 0);
         }

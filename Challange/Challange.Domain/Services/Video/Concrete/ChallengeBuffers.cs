@@ -9,12 +9,11 @@ namespace Challange.Domain.Services.Video.Concrete
     {
         private Dictionary<string, List<IFps>> pastCameraRecords;
         private Dictionary<string, List<IFps>> futureCameraRecords;
-        private ICamerasContainer camerasContainer;
 
-        public ChallengeBuffers(ICamerasContainer camerasContainer)
+        public ChallengeBuffers()
         {
-            this.camerasContainer = camerasContainer;
-            InitializeBuffers(camerasContainer);
+            pastCameraRecords = new Dictionary<string, List<IFps>>();
+            futureCameraRecords = new Dictionary<string, List<IFps>>();
         }
 
         public Dictionary<string, List<IFps>> PastCameraRecords
@@ -39,7 +38,7 @@ namespace Challange.Domain.Services.Video.Concrete
             futureCameraRecords.Clear();
         }
 
-        public Dictionary<string, List<IFps>> UniteBuffers()
+        public Dictionary<string, List<IFps>> UniteBuffers(ICamerasContainer camerasContainer)
         {
             var unitedBuffers = new Dictionary<string, List<IFps>>();
             List<IFps> tempUnitedFpsList;
@@ -111,11 +110,8 @@ namespace Challange.Domain.Services.Video.Concrete
         {
             foreach (var fps in fpsContainer.Fpses)
             {
-                var temp = GetPastCameraRecordsValueByKey(fps.Key);
-                if(temp != null)
-                {
-                    temp.Add(fps.Value);
-                }
+                var temp = GetPastRecordValueByKey(fps.Key);
+                temp.Add(fps.Value);
             }
         }
 
@@ -126,22 +122,9 @@ namespace Challange.Domain.Services.Video.Concrete
         {
             foreach (var fps in fpsContainer.Fpses)
             {
-                var temp = GetFutureCameraRecordsValueByKey(fps.Key);
-                if (temp != null)
-                {
-                    temp.Add(fps.Value);
-                }
+                var temp = GetFutureRecordValueByKey(fps.Key);
+                temp.Add(fps.Value);
             }
-        }
-
-        private List<IFps> GetPastCameraRecordsValueByKey(string key)
-        {
-            return GetValueByKey(key, pastCameraRecords);
-        }
-
-        private List<IFps> GetFutureCameraRecordsValueByKey(string key)
-        {
-            return GetValueByKey(key, futureCameraRecords);
         }
 
         private List<IFps> GetFirstPastValue()
@@ -154,24 +137,31 @@ namespace Challange.Domain.Services.Video.Concrete
             return futureCameraRecords.Values.FirstOrDefault();
         }
 
-        private List<IFps> GetValueByKey(string key,
-                        Dictionary<string, List<IFps>> dictionary)
+        private List<IFps> GetPastRecordValueByKey(string key)
         {
-            List<IFps> value;
-            return dictionary.TryGetValue(key, out value) ? value : null;
+            if (pastCameraRecords.ContainsKey(key))
+            {
+                return pastCameraRecords[key];
+            }
+            else
+            {
+                var fpsList = new List<IFps>();
+                pastCameraRecords.Add(key, fpsList);
+                return fpsList;
+            }
         }
 
-        /// <summary>
-        /// Initialize 2 buffers for past and future frames
-        /// </summary>
-        private void InitializeBuffers(ICamerasContainer camerasContainer)
+        private List<IFps> GetFutureRecordValueByKey(string key)
         {
-            pastCameraRecords = new Dictionary<string, List<IFps>>();
-            futureCameraRecords = new Dictionary<string, List<IFps>>();
-            foreach (string key in camerasContainer.GetCamerasKeys())
+            if (futureCameraRecords.ContainsKey(key))
             {
-                pastCameraRecords.Add(key, new List<IFps>());
-                futureCameraRecords.Add(key, new List<IFps>());
+                return futureCameraRecords[key];
+            }
+            else
+            {
+                var fpsList = new List<IFps>();
+                futureCameraRecords.Add(key, fpsList);
+                return fpsList;               
             }
         }
     }

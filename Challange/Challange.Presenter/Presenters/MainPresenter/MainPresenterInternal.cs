@@ -1,20 +1,17 @@
 ﻿using Challange.Domain.Services.Message;
 using Challange.Domain.Services.StreamProcess.Concrete.Pylon;
-using Challange.Domain.Services.Video.Concrete;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Challange.Presenter.Presenters.MainPresenter
 {
     public partial class MainPresenter
     {
-        [ExcludeFromCodeCoverage]
         /// <summary>
         /// event which adds and supply concrete number of FPS object
         /// in buffer for past frames
         /// </summary>
-        private void InternalTimerEventForPastFrames()
+        public void InternalTimerEventForPastFrames()
         {
             if (_challengeBuffers.HaveToRemovePastFps(_settingsContext.ChallengeSetting.NumberOfPastFPS))
             {
@@ -24,28 +21,25 @@ namespace Challange.Presenter.Presenters.MainPresenter
             InitializeFpsContainer();
         }
 
-        [ExcludeFromCodeCoverage]
         /// <summary>
         /// Process frames for future collection
         /// </summary>
-        private void InternalTimerEventForFutureFrames()
+        public void InternalTimerEventForFutureFrames()
         {
             if (_challengeBuffers.HaveToAddFutureFps(_settingsContext.ChallengeSetting.NumberOfFutureFPS))
             {
                 _challengeBuffers.AddFutureFpses(_fpsContainer);
-                _fpsContainer.InitializeFpses(_camerasContainer.GetCamerasNames());
             }
             else
             {
                 ChangeActivityOfEventForFutureFrames(false);
                 WriteChallangeAsVideo();
-                InitializeFpsContainer();
                 _challengeBuffers.ClearBuffers();
                 ChangeActivityOfEventForPastFrames(true);
             }
+            InitializeFpsContainer();
         }       
 
-        [ExcludeFromCodeCoverage]
         /// <summary>
         /// subscribe if isActive true
         /// unsubscribe if isActive false
@@ -63,7 +57,6 @@ namespace Challange.Presenter.Presenters.MainPresenter
             }
         }
 
-        [ExcludeFromCodeCoverage]
         /// <summary>
         /// subscribe if isActive true
         /// unsubscribe if isActive false
@@ -86,8 +79,9 @@ namespace Challange.Presenter.Presenters.MainPresenter
         /// </summary>
         private void DrawPlayers()
         {
-            var camerasNames = _camerasContainer.GetCamerasKeys();
-            View.DrawPlayers(_settingsContext.PlayerPanelSetting, _camerasContainer.CamerasNumber, camerasNames);
+            var camerasNames = _camerasProvider.CamerasContainer.GetCamerasKeys();
+            View.DrawPlayers(_settingsContext.PlayerPanelSetting,
+                _camerasProvider.CamerasContainer.CamerasNumber, camerasNames);
         }
         #region settings
         /// <summary>
@@ -250,24 +244,22 @@ namespace Challange.Presenter.Presenters.MainPresenter
             return View.GetElapsedTime;
         }
 
-        [ExcludeFromCodeCoverage] // TODO include in test
         /// <summary>
         /// Writes challenge videos in file system
         /// </summary>
         private void WriteChallangeAsVideo()
         {
-            SetChallengeDirectoryPath();
-            _challengeWriter.WriteChallenge(_videoContainer.ConvertToVideoContainer(_challengeBuffers),
+            var unitedBuffers = _challengeBuffers.UniteBuffers(_camerasProvider.CamerasContainer);
+            _challengeWriter.WriteChallenge(_videoContainer.ConvertToVideoContainer(unitedBuffers),
                                            _challenge.PathToChallengeDirectory);
         }
 
-        [ExcludeFromCodeCoverage]
-        private void SetChallengeDirectoryPath() // TODO include in test
+        private void SetChallengeDirectoryPath() 
         {
             var pathToRootDirectory = _challenge.PathToRootDirectory;
             var challengeFolderName = _challenge.ChallengeFolderName;
-            _challenge.PathToChallengeDirectory = pathToRootDirectory + @"\" +
-                _pathFormatter.FilterFolderName(challengeFolderName) + @"\";
+            _challenge.PathToChallengeDirectory = 
+                _pathFormatter.FormatPath(pathToRootDirectory, challengeFolderName);
         }
 
         /// <summary>
@@ -291,7 +283,7 @@ namespace Challange.Presenter.Presenters.MainPresenter
 
         private void InitializeFpsContainer()
         {
-            _fpsContainer.InitializeFpses(_camerasContainer.GetCamerasNames());
+            _fpsContainer.InitializeFpses(_camerasProvider.CamerasContainer.GetCamerasNames());
         }
 
         private void EnableTimerEvent(Action action)
